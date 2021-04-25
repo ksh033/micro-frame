@@ -15,7 +15,7 @@ _roadhog-api-doc
 .DS_Store
 npm-debug.log*
 yarn-error.log
-
+yarn-lock.log
 /coverage
 .idea
 package-lock.json
