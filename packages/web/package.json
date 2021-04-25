@@ -46,12 +46,9 @@
   "authors": [],
   "dependencies": {
     "@ant-design/colors": "^3.1.0",
-    "@scboson/sc-schema":"^1.0.0",
-
+    "@scboson/sc-schema":"^1.0.1",
     "@ant-design/icons": "^4.0.0",
-    "@types/node": "^14.0.23",
     "ahooks": "^2.2.0",
-    "braft-editor": "^2.3.9",
     "classnames": "^2.2.6",
     "es6-promise": "^4.2.8",
     "global": "^4.4.0",
@@ -59,18 +56,16 @@
     "path-to-regexp": "2.4.0",
     "qs": "^6.9.0",
     "react-helmet": "^5.2.1",
-    "slash2": "^2.0.0",
     "umi": "^3.2.10",
     "umi-request": "^1.2.7",
     "use-media-antd-query": "^1.0.1",
-    "jsencrypt": "2.3.1",
-    "qrcode.react": "^1.0.1",
-    "@umijs/plugin-qiankun":"^2.24.1"
+    "jsencrypt": "2.3.1"
   },
   "devDependencies": {
-    "@umijs/preset-ui": "^2.2.7",
     "@umijs/plugin-esbuild": "^1.0.1",
-    "@umijs/plugin-antd": "^0.9.1"
+    "@umijs/plugin-qiankun":"^2.24.1",
+    "@umijs/plugin-antd": "^0.9.0",
+    "@umijs/plugin-model":"^2.5.7"
   },
   "license": "MIT",
   "peerDependencies": {

@@ -68,7 +68,7 @@ const services = {
       },
 
       /** 新增用户(响应userId)--已完成 */
-      add: { url: "/user/api/user/add", method: "post", sysCode: "user" },
+      formSubmit: { url: "/user/api/user/add", method: "post", sysCode: "user" },
 
       /** 删除用户(响应userId)--已完成 */
       delete: { url: "/user/api/user/delete", method: "post", sysCode: "user" },
@@ -91,7 +91,7 @@ const services = {
       },
 
       /** 修改用户(响应userId)--已完成 */
-      update: { url: "/user/api/user/update", method: "post", sysCode: "user" },
+      formUpdate: { url: "/user/api/user/update", method: "post", sysCode: "user" },
   
   },
 };

@@ -265,6 +265,9 @@
        error.data = resData;
        error.info = errorInfo;
        throw error;
+     }else{
+      ctx.res=resData.data
+      // Promise.resolve(resData.data)
      }
    });
    return requestMethodInstance
@@ -329,7 +332,6 @@
    function useRequest(service: any, options: any = {}) {
     // const defaultOptions= {manual:true}
      return useUmiRequest(service, {
-       /* FRS */ formatResult: res => res?.data /* FRE */,
        requestMethod: (requestOptions: any) => {
          if (typeof requestOptions === 'string') {
            return request(requestOptions);

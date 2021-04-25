@@ -3,25 +3,23 @@ import React from 'react';
 import {getService} from '@/utils/api';
 import type { PageConfig } from '@scboson/sc-schema';
 import {useListPageContext,ListPage} from '@scboson/sc-schema'
-import { PageContainer } from '@scboson/sc-layout';
-import {BsSearch,BsTable} from '@micro-frame/sc-runtime';
+import {BsSearch,BsTable,PageContainer} from '@micro-frame/sc-runtime';
 import list from './components/list'
-
+import EditPage from './editpage'
 
 const { Operation } = BsTable;
 
 const services=getService("deptUser","queryPage")
 const pagaConfig: PageConfig = {
-  path: '/user/',
+  path: '/system/user/',
   service:services,
   ...list,
 };
-const EmployManager: React.FC<any> = (props) => {
+const UserManager: React.FC<any> = (props) => {
   // console.log("pageload")
   const page = useListPageContext();
   const search = page.getSearch({});
   const searchConfig = search
-    .addSearchItem({ name: 'test', label: 'test', component: 'Input' })
     .toConfig();
   const pageInfo = page
     .getTable()
@@ -41,7 +39,7 @@ const EmployManager: React.FC<any> = (props) => {
 
         return <Operation key={index} max={5} record={_record} buttons={newButtons} />;
       },
-    })   
+    }).addButton('add', { options: { content: EditPage, width: 800 } })  
     .toConfig();
 
   return (
@@ -51,4 +49,4 @@ const EmployManager: React.FC<any> = (props) => {
     </PageContainer>
   );
 };
-export default ListPage(EmployManager, pagaConfig);
+export default ListPage(UserManager, pagaConfig);

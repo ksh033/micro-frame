@@ -20,7 +20,9 @@
     "strict": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@@/*": ["src/.umi/*"],
+      "@micro-frame/sc-runtime": ["../packages/runtime/src/index.ts"],
+
     }
   },
   "exclude": [

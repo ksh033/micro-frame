@@ -7,10 +7,11 @@ console.log(Auth)
 const {getUser}=Auth
 console.log(getUser)
 
-export const qiankun = getServiceApi('system', 'getApplist')().then(({ data }:any) => {
+export const qiankun = getServiceApi('system', 'getApplist')().then((data:any) => {
   const apps: any[] = [];
 const routes: any[] = [];
-  data.forEach((item: { systemCode: any; systemName: any }) => {
+console.log(data)
+data.forEach((item: { systemCode: any; systemName: any }) => {
     const { systemCode } = item;
     apps.push({ name: systemCode, to: `/${systemCode}`, entry: 'http://localhost:8000/' });
     routes.push({
@@ -32,6 +33,7 @@ export function onRouteChange({ location }:any) {
   // if (matchedRoutes.length) {
     // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
+  console.log("onRouteChange")
 if (location.pathname !== '/selectDept') {
   const currentUser = getUser();
   if (currentUser) {
@@ -47,10 +49,11 @@ if (location.pathname !== '/selectDept') {
 export function render(oldRender:any) {
   const currentUser = getUser();
   if (currentUser) {
-    if (currentUser && currentUser.userAppInfo.currentDept) {
+    //if (currentUser && currentUser.userAppInfo.currentDept) {
       // currentUser.currentSystem.
-      history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
-    }
+      //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
+   // }
+   //console.log(getRoutes().)
     oldRender();
   } else {
     history.push('/login');
