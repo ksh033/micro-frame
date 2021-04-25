@@ -1,0 +1,104 @@
+.login-account {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 1200px;
+  min-height: 680px;
+  overflow: auto;
+  background: #f2f3f5 none no-repeat center center;
+  background-image: url('../../assets/login/bg.jpg');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login-container {
+  width: 980px;
+  height: 580px;
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.3);
+  display: flex;
+}
+.login-container-left {
+  width: 480px;
+  background: rgba(245, 162, 29, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .logo {
+    width: 144px;
+    height: 172px;
+  }
+}
+.login-container-right {
+  position: relative;
+  width: 500px;
+  padding: 50px 25px;
+  background: #fff;
+}
+.login-title {
+  text-align: center;
+  font-size: 30px;
+}
+.login-container-content {
+  position: relative;
+  height: 520px;
+  padding: 20px 60px 50px;
+  box-sizing: border-box;
+  input:focus + .ant-checkbox-inner {
+    border-color: #f5a21d;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background: #f5a21d;
+    border-color: #f5a21d;
+  }
+  .base-btn {
+    background: #f5a21d;
+    border-color: #e6e6e6;
+  }
+  .base-line-form .base-btn:hover {
+    background: #f5a21d;
+  }
+  .base-line-form .base-btn:focus {
+    background: #f5a21d;
+  }
+}
+
+.login-container-btn {
+  color: #323232;
+  padding-top: 40px;
+}
+
+.login-container-links-actions {
+  float: right;
+  a {
+    color: #155bd4;
+  }
+}
+.login-container-header {
+  display: flex;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  margin-bottom: 50px;
+  font-size: 20px;
+  color: #000;
+  border-bottom: 1px solid #e6e6e6;
+  text-align: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  span:first-child {
+    margin-right: 48px;
+  }
+  span {
+    cursor: pointer;
+  }
+  .bold {
+    font-weight: 500;
+    font-size: 24px;
+    color: #f5a21d;
+    border-bottom: 3px solid #f5a21d;
+    cursor: default;
+    margin-bottom: -1px;
+  }
+}

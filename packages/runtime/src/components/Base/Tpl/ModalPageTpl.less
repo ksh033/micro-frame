@@ -1,0 +1,65 @@
+.modal-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &-header {
+    width: 100%;
+    background-color: #fff;
+
+    z-index: 9;
+    padding: 15px 20px;
+    box-shadow: 0 0 5px #b5c5ef;
+    &-title {
+      color: #36c;
+      font-size: 18px;
+      line-height: 32px;
+      text-shadow: 0 0 0 #36c;
+    }
+    &-toolbar {
+      text-align: right;
+      button {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  &-content {
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+    max-height: 500px;
+  }
+  &-footer {
+    &-bill {
+      padding: 10px;
+      // background: -webkit-linear-gradient(@header-background-gradient); /* Safari 5.1 - 6.0 */
+      // background: -o-linear-gradient(@header-background-gradient); /* Opera 11.1 - 12.0 */
+      // background: -moz-linear-gradient(@header-background-gradient); /* Firefox 3.6 - 15 */
+      // background: linear-gradient(@header-background-gradient); /* 标准的语法 */
+      box-shadow: 0 0 3px #1b6dfd;
+      color: #fff;
+      font-size: 16px;
+      &-content {
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+
+        > li {
+          float: right;
+          width: 200px;
+
+          > label {
+            width: 80px;
+            display: inline-block;
+            text-align: right;
+          }
+        }
+
+        > li:first-child {
+          float: left;
+        }
+      }
+    }
+  }
+}

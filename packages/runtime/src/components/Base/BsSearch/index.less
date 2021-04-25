@@ -1,0 +1,108 @@
+// @import '../../style/themes/default.less';
+@search-background:"#fff";
+.bs-supplier-search {
+  position: relative;
+  width: 100%;
+  color: #323232;
+  margin-bottom: 16px;
+  margin: 0;
+  background-color: @search-background;
+
+  .sc-searchbar .ant-form-item > .ant-form-item-label {
+    text-align: right;
+  }
+
+  .ant-card {
+    background-color: @search-background;
+  }
+
+  .ant-card-body {
+    padding: 0;
+  }
+
+  .sc-searchbar-option {
+    text-align: end;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 90px !important;
+  }
+
+  .sc-searchbar-buttons {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .ant-form {
+    padding: 20px 20px 0 20px;
+    max-width: 1000px;
+  }
+
+  @media (max-width: 575px) {
+    .ant-form-item .ant-form-item-label {
+      margin: 0;
+      padding: 0;
+      line-height: 1.5715;
+      white-space: normal;
+      white-space: initial;
+    }
+
+    .ant-form-item .ant-form-item-label > label {
+      margin: 0;
+    }
+
+    .ant-form-item .ant-form-item-label > label::after {
+      content: ':' !important;
+      position: relative;
+      top: -0.5px;
+      margin: 0;
+    }
+
+    .ant-form-rtl.ant-form-item .ant-form-item-label {
+      text-align: right;
+    }
+
+    .ant-form .ant-form-item {
+      flex-wrap: wrap;
+    }
+
+    .ant-form .ant-form-item .ant-form-item-label {
+      flex: 0 0 100%;
+      max-width: 80px;
+      text-align: right;
+    }
+
+    .ant-form .ant-form-item .ant-form-item-control {
+      flex: 1 1;
+      max-width: 100%;
+    }
+
+    .ant-col-xs-24.ant-form-item-label {
+      margin: 0;
+      padding: 0;
+      line-height: 1.5715;
+      white-space: normal;
+      white-space: initial;
+    }
+
+    .ant-col-xs-24.ant-form-item-label > label {
+      margin: 0;
+    }
+
+    .ant-col-xs-24.ant-form-item-label > label::after {
+      content: ':';
+      position: relative;
+      top: -0.5px;
+      margin: 0 8px 0 2px;
+    }
+
+    .ant-form-rtl.ant-col-xs-24.ant-form-item-label {
+      text-align: right;
+    }
+  }
+}
+
+.bs-search-toolbar {
+  margin-bottom: 10px;
+}

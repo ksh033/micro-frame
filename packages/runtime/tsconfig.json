@@ -1,0 +1,42 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "esnext",
+    "moduleResolution": "Node",
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@@/*": ["src/.umi/*"]
+    }
+  },
+  "typings": "./src/typings.d.ts",
+
+
+  "exclude": [
+    "src/global",
+    "src/pages/**",
+    "src/layout/**",
+    "node_modules",
+    "build",
+    "dist",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts",
+    "tslint:latest",
+    "tslint-config-prettier"
+  ],
+ 
+}

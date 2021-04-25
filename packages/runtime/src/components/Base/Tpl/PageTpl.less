@@ -1,0 +1,64 @@
+.tpl-page {
+  .ant-card-body.ant-card-body {
+    padding: 24px 24px 53px 24px;
+  }
+
+  .sc-form-group-title {
+    margin-top: 0px;
+    font-weight: 700;
+  }
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: -24px;
+
+  &-header {
+    width: 100%;
+    background-color: #fff;
+
+    z-index: 9;
+    padding: 15px 20px;
+    box-shadow: 0 0 5px #b5c5ef;
+
+    &-title {
+      color: #36c;
+      font-size: 18px;
+      line-height: 32px;
+      text-shadow: 0 0 0 #36c;
+    }
+
+    &-toolbar {
+      text-align: right;
+
+      button {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  &-content {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+
+    div {
+      word-wrap: break-word;
+    }
+  }
+}
+
+.tpl-page-footer {
+  position: fixed;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  text-align: center;
+  left: 244px;
+  right: 12px;
+  box-shadow: rgb(240, 240, 240) 1px -2px 8px;
+  z-index: 1;
+}

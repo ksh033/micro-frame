@@ -1,0 +1,119 @@
+
+.select-wrapper {
+    height: 100%;
+    background-color: #fff;
+    .info-bar {
+      position: relative;
+      // height: 45px;
+      padding: 15px 20px;
+      line-height: 20px;
+      background: #f8f8f8;
+  
+      p {
+        font-size: 12px;
+        color: #666;
+        margin: 0px;
+      }
+  
+      h3 {
+        font-size: 14px;
+        color: #111;
+        font-weight: 700;
+        padding-top: 3px;
+        margin: 0px;
+      }
+  
+      .info-setting {
+        margin-left: 15px;
+        color: #666;
+      }
+  
+      .ant-avatar {
+        float: left;
+        margin-right: 10px;
+      }
+    }
+  
+    .inner-wrapper {
+      min-height: 560px;
+
+      border: 5px solid #f8f8f8;
+      border-top: 1px solid #f8f8f8;
+      padding: 0 20px 10px;
+    }
+  
+    .inner-title {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 8px 0;
+    }
+  
+    .inner-userInfo {
+      word-break: break-all;
+      background-color: #fff;
+      border: 1px solid #e5e5e5;
+      padding: 40px 20px;
+      font-size: 14px;
+      min-height: 400px;
+  
+      .account {
+        a.ant-btn {
+          padding: 0px 20px;
+          line-height: inherit;
+        }
+      }
+  
+      .pwd-form {
+        width: 700px;
+        margin: 80px auto;
+      }
+    }
+  }
+  
+  .org-list {
+    &-item {
+      padding-left: 20px;
+      padding-right: 20px;
+      width: 226px;
+      height: 117px;
+      display: inline-flex;
+      margin: 10px;
+      flex-direction: column;
+      vertical-align: top;
+      cursor: pointer;
+      border: 1px solid #e5e5e5;
+      border-top: 3px solid #e5e5e5;
+  
+      border-radius: 2px;
+  
+      &.action,
+      &:hover {
+        border-top-color: #ff6e6e;
+      }
+  
+      .name {
+        font-size: 14px;
+        height: 16px;
+        margin-top: 16px;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+  
+      .desc-item {
+        color: #999;
+        margin-top: 4px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+  
+      :nth-child(3n + 1) {
+        margin-left: 0;
+      }
+    }
+  }
+  
+  .margin_left {
+    margin-left: 20px;
+  }
+  

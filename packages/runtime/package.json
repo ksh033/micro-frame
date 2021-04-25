@@ -1,0 +1,36 @@
+{
+  "name": "@micro-frame/sc-runtime",
+  "version": "1.0.0-beta.1",
+  "description": "@micro-frame/sc-runtime",
+  "module": "es/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "es"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ant-design/pro-components"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "dependencies": {
+
+  },
+  "keywords": [],
+  "authors": [],
+  "license": "MIT",
+  "peerDependencies": {
+    "umi": "3.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

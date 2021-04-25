@@ -1,0 +1,82 @@
+{
+  "name": "@micro-frame/sc-web",
+  "version": "1.0.0-beta.1",
+  "description": "@micro-frame/sc-web",
+  "module": "es/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "es"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ant-design/pro-components"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "scripts": {
+    "build-runtime":"father-build",
+    "analyze": "cross-env ANALYZE=1 umi build",
+    "build": "cross-env baseUrl=/api BUILD_ENV=pro umi build",
+    "build:test": "cross-env baseUrl=./api BUILD_ENV=test umi build",
+    "build:mock": "cross-env baseUrl=/api BUILD_ENV=mock umi build",
+    "build:dev": "cross-env baseUrl=/api BUILD_ENV=dev umi build",
+    "link": "yarn link sc-element",
+    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:prettier": "check-prettier lint",
+    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
+    "prettier": "prettier -c --write \"**/*\"",
+    "start": "umi dev MOCK=none FRIENDLY_ERROR=none PORT=9999 ",
+    "start:mock": "cross-env MOCK=none umi dev",
+    "start:no-ui": "cross-env UMI_UI=none umi dev",
+    "ui": "umi ui"
+  },
+  "keywords": [],
+  "authors": [],
+  "dependencies": {
+    "@ant-design/colors": "^3.1.0",
+    "@scboson/sc-schema":"^1.0.0",
+
+    "@ant-design/icons": "^4.0.0",
+    "@types/node": "^14.0.23",
+    "ahooks": "^2.2.0",
+    "braft-editor": "^2.3.9",
+    "classnames": "^2.2.6",
+    "es6-promise": "^4.2.8",
+    "global": "^4.4.0",
+    "lodash": "^4.17.11",
+    "path-to-regexp": "2.4.0",
+    "qs": "^6.9.0",
+    "react-helmet": "^5.2.1",
+    "slash2": "^2.0.0",
+    "umi": "^3.2.10",
+    "umi-request": "^1.2.7",
+    "use-media-antd-query": "^1.0.1",
+    "jsencrypt": "2.3.1",
+    "qrcode.react": "^1.0.1",
+    "@umijs/plugin-qiankun":"^2.24.1"
+  },
+  "devDependencies": {
+    "@umijs/preset-ui": "^2.2.7",
+    "@umijs/plugin-esbuild": "^1.0.1",
+    "@umijs/plugin-antd": "^0.9.1"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "umi": "3.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
