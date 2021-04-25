@@ -1,5 +1,7 @@
 import { PageConfig } from "@scboson/sc-schema";
 
+
+
 const pageConfig: PageConfig = {
   queryConfig: [
     {
