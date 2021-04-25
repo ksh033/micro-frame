@@ -1,128 +1,124 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
-import { MoneyUtils } from '@scboson/sc-utils';
-import { Badge } from 'antd';
-import { Status, SupplierStatus, IntroType } from './constant';
+import React from 'react'
+import { MoneyUtils } from '@scboson/sc-utils'
+import { Badge } from 'antd'
+import { SupplierStatus, IntroType } from './constant'
 // import { DictDataItem } from '@/models/userDictModel';
-import moment from 'moment';
+import moment from 'moment'
 
-const { formatMoneyQuery } = MoneyUtils;
+const { formatMoneyQuery } = MoneyUtils
 
-const status = (text: string | number | React.ReactText[]) => {
-  let result: any = text;
-  switch (text) {
-    case Status.ENABLE.value:
-      result = <Badge color="#73D13D" text={Status.ENABLE.name} />;
-      break;
-    case Status.DISABLE.value:
-      result = <Badge color="#FFA940" text={Status.DISABLE.name} />;
-      break;
-    default:
-      result = '--';
-      break;
+const status = (text: any) => {
+  console.log(text)
+  let result: any = '--'
+  if (text === true) {
+    result = <Badge color="#73D13D" text="启用" />
   }
-  return result;
-};
+  if (text === false) {
+    result = <Badge color="#FFA940" text="停用" />
+  }
+  return result
+}
 
 const supplierStatus = (text: string | number | React.ReactText[]) => {
-  let result = text;
+  let result = text
   switch (text) {
     case SupplierStatus.ENABLE.value:
-      result = SupplierStatus.ENABLE.name;
-      break;
+      result = SupplierStatus.ENABLE.name
+      break
     case SupplierStatus.DISABLE.value:
-      result = SupplierStatus.DISABLE.name;
-      break;
+      result = SupplierStatus.DISABLE.name
+      break
     default:
-      result = '--';
-      break;
+      result = '--'
+      break
   }
-  return result;
-};
+  return result
+}
 
 const introType = (text: string | number | React.ReactText[]) => {
-  let result = text;
+  let result = text
   switch (text) {
     case IntroType.MASTER.value:
-      result = IntroType.MASTER.name;
-      break;
+      result = IntroType.MASTER.name
+      break
     case IntroType.SLIDESHOW.value:
-      result = IntroType.SLIDESHOW.name;
-      break;
+      result = IntroType.SLIDESHOW.name
+      break
     case IntroType.DETAIL.value:
-      result = IntroType.DETAIL.name;
-      break;
+      result = IntroType.DETAIL.name
+      break
     case IntroType.VIDEO.value:
-      result = IntroType.VIDEO.name;
-      break;
+      result = IntroType.VIDEO.name
+      break
 
     case IntroType.ARTICLES.value:
-      result = IntroType.ARTICLES.name;
-      break;
+      result = IntroType.ARTICLES.name
+      break
     default:
-      result = '--';
-      break;
+      result = '--'
+      break
   }
-  return result;
-};
+  return result
+}
 
 /**
  * 根据不同的类型来转化数值
+ *
  * @param text
  * @param valueType
  */
 const defaultRenderText = <T, U>(
   text: string | number | React.ReactText[],
   valueType: string,
-  record: any = {},
+  record: any = {}
 ): React.ReactNode => {
   if (valueType === 'defaultNumber') {
-    return text === -1 || text === '-1' ? '不限' : text;
+    return text === -1 || text === '-1' ? '不限' : text
   }
   if (valueType === 'price') {
-    const price = formatMoneyQuery(text, '¥ ');
+    const price = formatMoneyQuery(text, '¥ ')
     if (price !== '--') {
-      return `${price}`;
-    } 
-      return `${price}`;
-    
+      return `${price}`
+    }
+    return `${price}`
   }
   if (valueType === 'money') {
-    const money = formatMoneyQuery(text);
-    return money !== '' ? money : money;
+    const money = formatMoneyQuery(text)
+    return money !== '' ? money : money
   }
   if (valueType === 'dataTime') {
-    const timeMoment = moment(text).format('YYYY-MM-DD');
-    return timeMoment;
+    const timeMoment = moment(text).format('YYYY-MM-DD')
+    return timeMoment
   }
   if (valueType === 'status') {
-    return status(text);
+    return status(text)
   }
 
   if (valueType === 'supplierStatus') {
-    return supplierStatus(text);
+    return supplierStatus(text)
   }
   if (valueType === 'introType') {
-    return introType(text);
+    return introType(text)
   }
 
-  return text;
-};
+  return text
+}
 
 export const cacheRender = (
   text: string | number | React.ReactText[],
-  list: any[],
+  list: any[]
 ): React.ReactNode => {
   if (Array.isArray(list)) {
     const index = list.findIndex((item: any) => {
-      return item.value === `${text}`;
-    });
+      return item.value === `${text}`
+    })
     if (index > -1) {
-      return list[index].name;
+      return list[index].name
     }
   }
 
-  return text;
-};
+  return text
+}
 
-export default defaultRenderText;
+export default defaultRenderText

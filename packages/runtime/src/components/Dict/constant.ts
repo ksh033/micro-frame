@@ -1,15 +1,3 @@
-// 状态
-export const Status = {
-  ENABLE: {
-    value: '0',
-    name: '启用',
-  }, // 启用
-  DISABLE: {
-    value: '1',
-    name: '停用',
-  },
-};
-
 // 供应商状态
 export const SupplierStatus = {
   ENABLE: {
@@ -20,7 +8,7 @@ export const SupplierStatus = {
     value: '0',
     name: '有效',
   },
-};
+}
 // 商品状态
 export const GoodStatus = {
   SUPPLY: {
@@ -31,7 +19,7 @@ export const GoodStatus = {
     value: '1',
     name: '未供应',
   },
-};
+}
 // 备货状态，调整单状态
 export const StockStatus = {
   TOEXAMINE: {
@@ -50,7 +38,7 @@ export const StockStatus = {
     value: '4',
     name: '已完成',
   },
-};
+}
 // 订单状态
 export const DeliverOrderStatus = {
   FINISH: {
@@ -61,7 +49,7 @@ export const DeliverOrderStatus = {
     value: '2',
     name: '已收货',
   },
-};
+}
 // 流转方式
 export const ModeType = {
   CONFIRM: {
@@ -72,7 +60,7 @@ export const ModeType = {
     value: '2',
     name: '提交录入',
   },
-};
+}
 // 发起方来源
 export const BornType = {
   PURCHASE: {
@@ -83,7 +71,7 @@ export const BornType = {
     value: '2',
     name: '供应商',
   },
-};
+}
 // 属性类型
 export const SpecType = {
   SPU: {
@@ -102,7 +90,7 @@ export const SpecType = {
     value: '3',
     name: '非关键属性',
   },
-};
+}
 // 选择类型
 export const SpecSelectType = {
   ONLY: {
@@ -117,7 +105,7 @@ export const SpecSelectType = {
     value: '2',
     name: '多选',
   },
-};
+}
 
 // 输入方式
 export const InputType = {
@@ -129,7 +117,7 @@ export const InputType = {
     value: '1',
     name: '手工输入',
   },
-};
+}
 
 // 产品介绍类型
 export const IntroType = {
@@ -153,7 +141,7 @@ export const IntroType = {
     value: '4',
     name: '文章',
   },
-};
+}
 
 // 开通状态
 export const OpenState = {
@@ -169,7 +157,7 @@ export const OpenState = {
     value: '3',
     name: '失败',
   },
-};
+}
 // 待操作主体类型
 export const PendingSubject = {
   THREE: {
@@ -184,7 +172,7 @@ export const PendingSubject = {
     value: '3',
     name: '平台',
   },
-};
+}
 // 申请状态（节点名称）
 export const NodeName = {
   CHECKING: {
@@ -215,7 +203,7 @@ export const NodeName = {
     value: 'FROZEN',
     name: '已冻结',
   },
-};
+}
 
 // 供应商账户类型
 export const SupplierUserType = {
@@ -231,7 +219,7 @@ export const SupplierUserType = {
     value: '3',
     name: '普通用户',
   },
-};
+}
 
 // 优惠券状态
 export const CouponStatus = {
@@ -247,7 +235,7 @@ export const CouponStatus = {
     value: '3',
     name: '已结束',
   },
-};
+}
 
 // 退款状态
 export const RefundStatus = {
@@ -267,7 +255,7 @@ export const RefundStatus = {
     value: '3',
     name: '退款成功',
   },
-};
+}
 // 退款状态
 export const AftersaleStatus = {
   WAIT: {
@@ -286,7 +274,7 @@ export const AftersaleStatus = {
     value: '3',
     name: '已拒绝',
   },
-};
+}
 // 规则类型relateRuleType
 export const RelateRuleType = {
   WAIT: {
@@ -305,7 +293,7 @@ export const RelateRuleType = {
     value: '3',
     name: '标准品目',
   },
-};
+}
 // 订单状态
 export const OrderStatus = {
   WAIT: {
@@ -332,7 +320,7 @@ export const OrderStatus = {
     value: '5',
     name: '已取消',
   },
-};
+}
 // 订单处理状态
 export const TransitOrderStatus = {
   WAIT: {
@@ -375,7 +363,7 @@ export const TransitOrderStatus = {
     value: '99',
     name: '已取消',
   },
-};
+}
 // 异常订单状态 ErrorHandleResult
 export const ErrorHandleResult = {
   WAIT: {
@@ -386,7 +374,7 @@ export const ErrorHandleResult = {
     value: '2',
     name: '已处理',
   },
-};
+}
 // 货位状态
 export const TransitLocationStatus = {
   WAIT: {
@@ -397,4 +385,4 @@ export const TransitLocationStatus = {
     value: '2',
     name: '占用',
   },
-};
+}
