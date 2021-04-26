@@ -91,9 +91,13 @@ const services = {
       },
 
       /** 修改用户(响应userId)--已完成 */
-      formUpdate: { url: "/user/api/user/update", method: "post", sysCode: "user" },
+      update: { url: "/user/api/user/update", method: "post", sysCode: "user" },
   
   },
+  "role":{
+    listDeptRole: { url: "/user/api/role/listDeptRole", method: "get", sysCode: "user" }
+    
+  }
 };
 
 // services { ...services.system, ...services.user };

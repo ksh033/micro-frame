@@ -2,15 +2,15 @@ import type { PageConfig } from "@scboson/sc-schema";
 
 const pageConfig: PageConfig = {
   formConfig: [
-    {
+ {
       col: 2,
       fieldset: "basic",
-      fieldsetTitle: "sdfsdf",
+      fieldsetTitle: "",
       items: [
         {
           label: "所属应用",
           name: "systemCode",
-          component: "Input",
+          component: "ScSelect",
           formItemProps: {
             required: true,
             rules: [
@@ -21,12 +21,14 @@ const pageConfig: PageConfig = {
           },
           props: {
             placeholder: "请输所属应用",
+            textField:'systemName',
+            valueField:'systemCode'
           },
         },
         {
           label: "所属机构",
           name: "bizDeptId",
-          component: "Input",
+          component: "ScSelect",
           formItemProps: {
             required: true,
             rules: [
@@ -37,23 +39,8 @@ const pageConfig: PageConfig = {
           },
           props: {
             placeholder: "请输所属机构",
-          },
-        },
-        {
-          label: "用户姓名",
-          name: "realName",
-          component: "Input",
-          required: true,
-          formItemProps: {
-            required: true,
-            rules: [
-              {
-                required: true,
-              },
-            ],
-          },
-          props: {
-            placeholder: "请输所属应用",
+            textField:'bizDeptName',
+            valueField:'bizDeptId'
           },
         },
         {
@@ -72,6 +59,24 @@ const pageConfig: PageConfig = {
             placeholder: "请输手机",
           },
         },
+        {
+          label: "用户姓名",
+          name: "realName",
+          component: "Input",
+          
+          formItemProps: {
+            required: true,
+            rules: [
+              {
+                required: true,
+              },
+            ],
+          },
+          props: {
+            placeholder: "请输所属应用",
+          },
+        },
+       
         {
           label: "角色授权",
           name: "sysRoleList",

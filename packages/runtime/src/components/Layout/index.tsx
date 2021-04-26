@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { ProSettings, MasterLayout } from '@scboson/sc-layout'
-import userDictModel from '../Dict/userDictModel'
-import { Link } from 'umi'
-import { getUser, changeApp } from '../Auth'
-import { uesRequest } from '../../utils/api'
-import RightContent from './GlobalHeader/RightContent'
+import { ProSettings, MasterLayout } from "@scboson/sc-layout";
+// @ts-ignore
+import { Link, history } from "umi";
+import { getUser, changeApp } from "../Auth";
+import { uesRequest } from "../../utils/api";
+import RightContent from "./GlobalHeader/RightContent";
 // import menuData from './menuData';
 import logo from '../../assets/logo.svg'
 
@@ -22,6 +22,7 @@ export default (props: any) => {
   const apps = user?.systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
+    isApp:true,
     path: `/${sys.systemCode}`,
   }))
   const menuData = user?.userAppInfo.menuTreeNodeList
@@ -51,7 +52,8 @@ export default (props: any) => {
                 const data = await req.run({ systemCode: keys[0] })
                 changeApp(keys[0], data)
               }
-              setAppCode(keys[0])
+              history.push("/"+keys[0]);
+              //setAppCode(keys[0])
               // console.log(data)
             }
           },
@@ -63,9 +65,14 @@ export default (props: any) => {
           return menus
         }}
         menuFooterRender={(_props: any) => {}}
-        menuItemRender={(item: { path: any }, dom) => (
-          <Link to={`${item.path}`}>{dom}</Link>
-        )}
+        menuItemRender={(item: any, dom) => {
+          if (item.isApp){
+            return <a>{dom}</a>
+          }
+          return <Link to={`${item.path}`}>{dom}</Link>
+        }
+         
+       }
         rightContentRender={() => (
           <RightContent currentUser={user}></RightContent>
         )}
