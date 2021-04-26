@@ -1,63 +1,68 @@
-import { useState } from 'react';
-import { Auth,Login,SelectDept } from '@micro-frame/sc-runtime';
+import { useState } from 'react'
+import { Auth, Login, SelectDept } from '@micro-frame/sc-runtime'
 
-import { history } from 'umi';
-import { getServiceApi } from './utils/api';
+import { history } from 'umi'
+import { getServiceApi } from './utils/api'
 console.log(Auth)
-const {getUser}=Auth
+const { getUser } = Auth
 console.log(getUser)
 
-export const qiankun = getServiceApi('system', 'getApplist')().then((data:any) => {
-  const apps: any[] = [];
-const routes: any[] = [];
-console.log(data)
-data.forEach((item: { systemCode: any; systemName: any }) => {
-    const { systemCode } = item;
-    apps.push({ name: systemCode, to: `/${systemCode}`, entry: 'http://localhost:8000/' });
-    routes.push({
-      path: `/${systemCode}`,
-      microApp: systemCode,
-    });
-  });
-  return {
-    apps,
-    routes,
-    lifeCycles: {
-      afterMount: (props: any) => {
-        // console.log(props);
+export const qiankun = getServiceApi('system', 'getApplist')()
+  .then((data: any) => {
+    const apps: any[] = []
+    const routes: any[] = []
+    console.log(data)
+    data.forEach((item: { systemCode: any; systemName: any }) => {
+      const { systemCode } = item
+      apps.push({
+        name: systemCode,
+        to: `/${systemCode}`,
+        entry: 'http://localhost:8000/',
+      })
+      routes.push({
+        path: `/${systemCode}`,
+        microApp: systemCode,
+      })
+    })
+    return {
+      apps,
+      routes,
+      lifeCycles: {
+        afterMount: (props: any) => {
+          // console.log(props);
+        },
       },
-    },
-  };
-}).catch(() => {})
-export function onRouteChange({ location }:any) {
+    }
+  })
+  .catch(() => {})
+export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
-    // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
+  // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  console.log("onRouteChange")
-if (location.pathname !== '/selectDept') {
-  const currentUser = getUser();
-  if (currentUser) {
-    const { currentDept, needChooseDept } = currentUser.userAppInfo;
-    if (!currentDept && needChooseDept) {
-       history.push('/selectDept');
+  console.log('onRouteChange')
+  if (location.pathname !== '/selectDept') {
+    const currentUser = getUser()
+    if (currentUser) {
+      const { currentDept, needChooseDept } = currentUser.userAppInfo
+      if (!currentDept && needChooseDept) {
+        history.push('/selectDept')
+      }
     }
   }
 }
-}
 
-
-export function render(oldRender:any) {
-  const currentUser = getUser();
+export function render(oldRender: any) {
+  const currentUser = getUser()
   if (currentUser) {
     //if (currentUser && currentUser.userAppInfo.currentDept) {
-      // currentUser.currentSystem.
-      //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
-   // }
-   //console.log(getRoutes().)
-    oldRender();
+    // currentUser.currentSystem.
+    //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
+    // }
+    //console.log(getRoutes().)
+    oldRender()
   } else {
-    history.push('/login');
-    oldRender();
+    history.push('/login')
+    oldRender()
   }
 }
 // export const qiankun = {
@@ -89,14 +94,13 @@ export function render(oldRender:any) {
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
     slogan: 'Hello MicroFrontend',
-  });
+  })
 
   return {
     globalState,
     setQiankunGlobalState,
-  };
-};
-
+  }
+}
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
@@ -104,10 +108,10 @@ export function patchRoutes({ routes }: any) {
     path: '/selectDept',
     exact: true,
     component: SelectDept,
-  });
+  })
   routes.unshift({
     path: '/login',
     exact: true,
     component: Login,
-  });
+  })
 }

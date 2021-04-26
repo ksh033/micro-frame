@@ -71,20 +71,25 @@ export function getService<T extends keyof typeof services>(mcode: T): any
 export function getService<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
->(mcode: T, url: P): any
+>(mcode: T, ...funName: P[]): any
 export function getService<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
->(mcode: T, funName?: P): any {
+>(mcode: T, ...funName: P[]): any {
+  let mservices = {}
   if (funName) {
-    const serviceItem: any = services[mcode][funName]
-    return createRequest(serviceItem, `${funName}`)
+    funName.forEach((item) => {
+      const serviceItem: any = services[mcode][item]
+      const itemReq = createRequest(serviceItem, `${item}`)
+      mservices = { ...mservices, ...itemReq }
+    })
+    return mservices
   } else {
     const serviceItems = services[mcode]
-    let mservices = {}
+
     Object.keys(serviceItems).forEach((key) => {
       const item = services[mcode][key]
-      const itemReq = createRequest(item, `${funName}`)
+      const itemReq = createRequest(item, `${key}`)
       mservices = { ...mservices, ...itemReq }
     })
     return mservices
