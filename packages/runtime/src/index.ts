@@ -11,8 +11,10 @@ export { default as BsTable } from './components/Base/BsTable'
 export { default as DictSelect } from './components/Base/DictSelect'
 export { default as BsSearch } from './components/Base/BsSearch'
 export { default as ModalPageContainer } from './components/Base/Tpl/ModalPageTpl'
+
+import {  render,patchRoutes,onRouteChange } from './components/AppStart'
 export { PageContainer } from '@scboson/sc-layout'
 import { request, useRequest } from './utils/request'
 import {getService,getServiceApi,uesRequest as useServiceRequest}  from './utils/service'
-
-export { Layout, Auth, SelectDept, Login, request, useRequest,useServiceRequest,getService,getServiceApi }
+const AppStart={onRouteChange,render,patchRoutes}
+export { Layout, Auth, SelectDept, Login, request, useRequest,useServiceRequest,getService,getServiceApi,AppStart }
