@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import React, { useLayoutEffect, FC, useState } from 'react'
+import React, { useLayoutEffect, FC, useState, useMemo } from 'react'
 import { CForm } from '@scboson/sc-element'
 import { EditPage, useEditPageContext } from '@scboson/sc-schema'
 import { ModalPageContainer, getService } from '@micro-frame/sc-runtime'
@@ -11,9 +11,10 @@ const services = getService(
   'deptUser',
   'formSubmit',
   'detail',
-  'formSubmit',
+  'formUpdate',
   'querySysList',
-  'queryDeptList'
+  'queryDeptList',
+  'queryById'
 )
 
 const roleServices = getService('role', 'listsys', 'listDept', 'listDeptRole')
@@ -34,17 +35,32 @@ const Page: FC<any> = (props) => {
   const action = scope.getAction()
 
   const [systemCode, setSystemCode] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentSystem.systemCode
+    Auth.getUser()?.userAppInfo.currentSystem.systemCode + ''
   )
   const [bizDeptId, setBizDeptId] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentDept.bizDeptId
+    Auth.getUser()?.userAppInfo.currentDept.bizDeptId + ''
   )
-  const pageLoad = async () => {
-    const record = {
-      systemCode,
-      bizDeptId,
+  const initialValues = useMemo(() => {
+    return {
+      systemCode: systemCode,
+      bizDeptId: bizDeptId,
     }
-    scope.toInitialValues({ defaultValues: record })
+  }, [systemCode, bizDeptId])
+
+  const pageLoad = async () => {
+    scope.toInitialValues({
+      defaultValues: initialValues,
+      key: 'bizDeptUserId',
+      callback: (res: any) => {
+        setSystemCode(res['systemCode'])
+        return {
+          ...res,
+          sysRoleList: res.sysRoleList.map((item: any) => {
+            return { value: item.roleId, name: item.roleName, key: item.roleId }
+          }),
+        }
+      },
+    })
   }
 
   const formConfig = scope
@@ -56,14 +72,19 @@ const Page: FC<any> = (props) => {
     })
     .changeFormItem('sysRoleList', {
       props: {
-        params: {
-          systemCode: systemCode,
-          bizDeptId: bizDeptId,
-        },
+        params: initialValues,
       },
     })
     .toConfig()
-  const modalButtons = scope.getModalBtns(action, true)
+  const modalButtons = scope.getModalBtns(action, {
+    preHandle: (values: any) => {
+      console.log(values)
+      return {
+        ...values,
+        sysRoleList: values.sysRoleList.map((item: any) => item.value),
+      }
+    },
+  })
   const title = scope.getTitle(action)
 
   useLayoutEffect(() => {
@@ -71,18 +92,22 @@ const Page: FC<any> = (props) => {
   }, [])
 
   const onValuesChange = (changedValues: any, values: any) => {
-    if (values['systemCode'] !== systemCode) {
+    if (!Object.is(values['systemCode'], systemCode)) {
       formConfig.form.current.setFieldsValue({
-        bizDeptId: null,
+        bizDeptId: '',
+        sysRoleList: [],
       })
-      setBizDeptId(null)
+      setBizDeptId('')
       setSystemCode(values['systemCode'])
     }
-    if (values['bizDeptId'] !== bizDeptId) {
+    if (!Object.is(values['bizDeptId'], bizDeptId)) {
+      formConfig.form.current.setFieldsValue({
+        sysRoleList: [],
+      })
       setBizDeptId(values['bizDeptId'])
     }
   }
-
+  console.log(formConfig)
   return (
     <ModalPageContainer title={title} toolbar={modalButtons}>
       <CForm

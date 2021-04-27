@@ -67,12 +67,12 @@ export default {
     remove: { url: '/user/api/user/delete', method: 'get', sysCode: 'user' },
 
     /** 启用禁用用户(响应userId)--已完成 */
-    disabled: { url: '/user/api/user/enable', method: 'post', sysCode: 'user' },
+    disabled: { url: '/user/api/user/enable', method: 'get', sysCode: 'user' },
 
     /** 根据用户id查询用户--已完成 */
-    getUserById: {
+    queryById: {
       url: '/user/api/user/getuserbyid',
-      method: 'post',
+      method: 'get',
       sysCode: 'user',
     },
 
@@ -84,7 +84,11 @@ export default {
     },
 
     /** 修改用户(响应userId)--已完成 */
-    update: { url: '/user/api/user/update', method: 'post', sysCode: 'user' },
+    formUpdate: {
+      url: '/user/api/user/update',
+      method: 'post',
+      sysCode: 'user',
+    },
 
     querySysList: {
       url: '/user/api/deptuser/listsys',

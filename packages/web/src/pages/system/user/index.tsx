@@ -37,7 +37,7 @@ const UserManager: React.FC<any> = (props) => {
             options: {
               callBack: callback,
               params: {
-                userId: _record.userId,
+                bizDeptUserId: _record.bizDeptUserId,
                 status: _record.enabled ? '0' : '1',
               },
             },
@@ -47,7 +47,7 @@ const UserManager: React.FC<any> = (props) => {
             options: {
               callBack: callback,
               params: {
-                userId: _record.userId,
+                bizDeptUserId: _record.bizDeptUserId,
               },
             },
           },
@@ -57,7 +57,9 @@ const UserManager: React.FC<any> = (props) => {
               content: EditPage,
               width: 800,
               pageProps: {
-                userId: _record.userId,
+                params: {
+                  bizDeptUserId: _record.bizDeptUserId,
+                },
               },
             },
           },
@@ -78,10 +80,13 @@ const UserManager: React.FC<any> = (props) => {
       },
     })
     .addButton('add', {
-      options: { content: EditPage, width: 800, callBack: callback },
+      options: {
+        content: EditPage,
+        width: 800,
+        pageProps: { callBack: callback },
+      },
     })
     .toConfig()
-
   return (
     <PageContainer title={'用户管理'}>
       <BsSearch {...searchConfig}></BsSearch>

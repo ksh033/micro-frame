@@ -1,100 +1,88 @@
 /* eslint-disable global-require */
-import React, { FC, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useLayoutEffect, FC, useState, useMemo } from 'react'
 import { CForm } from '@scboson/sc-element'
 import { EditPage, useEditPageContext } from '@scboson/sc-schema'
-import { PageContainer, getService } from '@micro-frame/sc-runtime'
+import { ModalPageContainer, getService } from '@micro-frame/sc-runtime'
 import { Auth } from '@micro-frame/sc-runtime'
-import SysPermList from './components/SysPermList'
+
 import formData from './components/form'
 
-const services = getService(
-  'role',
-  'listsys',
-  'listDept',
-  'formSubmit',
-  'queryById',
-  'formUpdate'
-)
+const services = getService('user')
+
 const pagaConfig = {
   service: services,
-  pageType: 'page',
+  pageType: 'modalpage',
   ...formData,
 }
+interface CurrentUserState {}
 
 const Page: FC<any> = (props) => {
-  const scope = useEditPageContext()
-  // scope.setData({ list: [] })
+  const scope = useEditPageContext<CurrentUserState>()
   const action = scope.getAction()
 
   const [systemCode, setSystemCode] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentSystem.systemCode
+    Auth.getUser()?.userAppInfo.currentSystem.systemCode + ''
   )
   const [bizDeptId, setBizDeptId] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentDept.bizDeptId
+    Auth.getUser()?.userAppInfo.currentDept.bizDeptId + ''
   )
-  const superAdminFlag = Auth.getUser()?.superAdminFlag
-
   const initialValues = useMemo(() => {
     return {
       systemCode: systemCode,
       bizDeptId: bizDeptId,
-      roleType: 'COMMON',
     }
-  }, [systemCode, bizDeptId, superAdminFlag])
+  }, [systemCode, bizDeptId])
 
-  useLayoutEffect(() => {
+  const pageLoad = async () => {
     scope.toInitialValues({
-      key: 'roleId',
       defaultValues: initialValues,
+      key: 'bizDeptUserId',
       callback: (res: any) => {
         setSystemCode(res['systemCode'])
         return res
       },
     })
-  }, [])
-
-  const bizDeptIdParam = useMemo(() => {
-    return { systemCode: systemCode }
-  }, [systemCode])
+  }
 
   const formConfig = scope
     .getFormInfo()
-    .changeFormItem('roleType', {
-      props: {
-        disabled: true,
-      },
-    })
-    .changeFormItem('sysPermList', {
-      component: SysPermList,
-      props: {
-        systemCode: systemCode,
-        bizDeptId: bizDeptId,
-      },
-    })
     .changeFormItem('bizDeptId', {
       props: {
-        params: bizDeptIdParam,
+        params: { systemCode: systemCode },
+      },
+    })
+    .changeFormItem('sysRoleList', {
+      props: {
+        params: initialValues,
       },
     })
     .toConfig()
   const modalButtons = scope.getModalBtns(action, true)
   const title = scope.getTitle(action)
 
+  useLayoutEffect(() => {
+    pageLoad()
+  }, [])
+
   const onValuesChange = (changedValues: any, values: any) => {
-    if (values['systemCode'] !== systemCode) {
+    if (!Object.is(values['systemCode'], systemCode)) {
       formConfig.form.current.setFieldsValue({
-        bizDeptId: null,
+        bizDeptId: '',
+        sysRoleList: [],
       })
-      setBizDeptId(null)
+      setBizDeptId('')
       setSystemCode(values['systemCode'])
     }
-    if (values['bizDeptId'] !== bizDeptId) {
+    if (!Object.is(values['bizDeptId'], bizDeptId)) {
+      formConfig.form.current.setFieldsValue({
+        sysRoleList: [],
+      })
       setBizDeptId(values['bizDeptId'])
     }
   }
-
+  console.log(formConfig)
   return (
-    <PageContainer title={`角色${title}`} footer={modalButtons}>
+    <ModalPageContainer title={title} toolbar={modalButtons}>
       <CForm
         {...formConfig}
         layout="vertical"
@@ -102,7 +90,8 @@ const Page: FC<any> = (props) => {
         anchor={false}
         onValuesChange={onValuesChange}
       />
-    </PageContainer>
+    </ModalPageContainer>
   )
 }
+
 export default EditPage(Page, pagaConfig)
