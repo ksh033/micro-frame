@@ -9,7 +9,6 @@ import moment from 'moment'
 const { formatMoneyQuery } = MoneyUtils
 
 const status = (text: any) => {
-  console.log(text)
   let result: any = '--'
   if (text === true) {
     result = <Badge color="#73D13D" text="启用" />

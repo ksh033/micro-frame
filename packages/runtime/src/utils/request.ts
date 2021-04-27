@@ -189,9 +189,9 @@ const getRequestMethod = () => {
       const headers: any = { version: '1.0', ...options.headers }
       if (user) {
         headers.token = user.token
-        headers.sysCode = user.userAppInfo.currentSystem.systemCode
+        headers['sys-code'] = user.userAppInfo.currentSystem.systemCode
       } else {
-        headers.sysCode = 'common'
+        headers['sys-code'] = 'common'
       }
 
       const newOptions = { ...options, headers }

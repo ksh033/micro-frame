@@ -78,7 +78,6 @@ export default function useDictModel() {
             }
           }
         })
-        console.log(dictMapData)
         setdDict(dictMapData)
       }
     }

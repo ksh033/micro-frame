@@ -3,43 +3,39 @@ import { PageConfig } from '@scboson/sc-schema'
 const pageConfig: PageConfig = {
   queryConfig: [
     {
-      label: '用户手机号',
-      name: 'phone',
+      label: '角色名称',
+      name: 'roleName',
       component: 'Input',
       props: {
-        placeholder: '请输入用户姓名',
+        placeholder: '请输入角色名称',
       },
     },
     {
       label: '所属应用',
       name: 'systemCode',
-      component: 'DictSelect',
-      props: {
-        dictType: 'RoleTypeEnum',
-        placeholder: '请输入所属应用',
-      },
-    },
-    {
-      label: '所属机构',
-      name: 'bizDeptId',
       component: 'ScSelect',
       props: {
-        placeholder: '请输入所属机构',
+        autoload: true,
+        request: 'listsys',
+        allowClear: true,
+        placeholder: '请选择所属应用',
+        textField: 'systemName',
+        valueField: 'systemCode',
       },
     },
   ],
   tableConfig: [
     {
-      title: '手机号',
-      dataIndex: 'name',
+      title: '角色名称',
+      dataIndex: 'roleName',
     },
     {
-      title: '姓名',
-      dataIndex: 'desc',
+      title: '角色描述',
+      dataIndex: 'roleDesc',
     },
     {
       title: '所属应用',
-      dataIndex: 'callNo',
+      dataIndex: 'systemName',
     },
     {
       title: '角色类型',
@@ -47,13 +43,13 @@ const pageConfig: PageConfig = {
       dataType: 'RoleTypeEnum',
     },
     {
-      title: '邮箱',
-      dataIndex: 'updatedAt',
-    },
-    {
       title: '状态',
       dataIndex: 'enabled',
       dataType: 'status',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
     },
   ],
 }

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
-import { ProSettings, MasterLayout } from "@scboson/sc-layout";
+import { ProSettings, MasterLayout } from '@scboson/sc-layout'
 // @ts-ignore
-import { Link, history } from "umi";
-import { getUser, changeApp } from "../Auth";
-import { uesRequest } from "../../utils/api";
-import RightContent from "./GlobalHeader/RightContent";
-// import menuData from './menuData';
+import { Link, history } from 'umi'
+import { getUser, changeApp } from '../Auth'
+import { uesRequest } from '../../utils/api'
+import RightContent from './GlobalHeader/RightContent'
+import userDictModel from '../Dict/userDictModel'
 import logo from '../../assets/logo.svg'
-
 import menuFormat from './menuFormat'
 
 export default (props: any) => {
@@ -22,7 +21,7 @@ export default (props: any) => {
   const apps = user?.systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
-    isApp:true,
+    isApp: true,
     path: `/${sys.systemCode}`,
   }))
   const menuData = user?.userAppInfo.menuTreeNodeList
@@ -31,9 +30,9 @@ export default (props: any) => {
   // const [pathname, setPathname] = useState('/welcome');
 
   useEffect(() => {
+    // 加载枚举
     loadDict()
   }, [])
-  console.log(dict)
 
   return (
     <div
@@ -52,7 +51,7 @@ export default (props: any) => {
                 const data = await req.run({ systemCode: keys[0] })
                 changeApp(keys[0], data)
               }
-              history.push("/"+keys[0]);
+              history.push('/' + keys[0])
               //setAppCode(keys[0])
               // console.log(data)
             }
@@ -66,13 +65,11 @@ export default (props: any) => {
         }}
         menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
-          if (item.isApp){
+          if (item.isApp) {
             return <a>{dom}</a>
           }
           return <Link to={`${item.path}`}>{dom}</Link>
-        }
-         
-       }
+        }}
         rightContentRender={() => (
           <RightContent currentUser={user}></RightContent>
         )}
