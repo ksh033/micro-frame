@@ -1,43 +1,43 @@
-import React from "react";
-import { PageContainer } from "@scboson/sc-layout";
-import { getUser, updateUser } from "../Auth";
+import React from 'react'
+import { PageContainer } from '@scboson/sc-layout'
+import { getUser, updateUser } from '../Auth'
 
-import { uesRequest } from "@/utils/api";
+import { uesRequest } from '../../utils/api'
 // @ts-ignore
-import { history } from "umi";
-import "./index.less";
+import { history } from 'umi'
+import './index.less'
 
 const SelectDept: React.FC<any> = (props) => {
-  const user = getUser();
-  const { run } = uesRequest("user", "chooseDept");
+  const user = getUser()
+  const { run } = uesRequest('user', 'chooseDept')
   const selectOrg = async (deptId: any) => {
     if (user) {
-      const currentSys = user.userAppInfo.currentSystem;
-      const data = await run({ deptId, systemCode: currentSys.systemCode });
-      updateUser(data);
-      history.push(`/${currentSys.systemCode}`);
+      const currentSys = user.userAppInfo.currentSystem
+      const data = await run({ deptId, systemCode: currentSys.systemCode })
+      updateUser(data)
+      history.push(`/${currentSys.systemCode}`)
     }
-  };
+  }
 
   const renderDept = () => {
     if (user) {
-      const depList = user.userAppInfo.deptList;
+      const depList = user.userAppInfo.deptList
       const itemsList = depList.map((val) => {
-        const { bizDeptId, bizDeptName } = val;
+        const { bizDeptId, bizDeptName } = val
         return (
           <div
             className="org-list-item"
             key={bizDeptId}
             title={bizDeptName}
             onClick={() => {
-              selectOrg(bizDeptId);
+              selectOrg(bizDeptId)
             }}
           >
             <div className="name">{bizDeptName}</div>
             <div className="desc-item">机构类型:</div>
           </div>
-        );
-      });
+        )
+      })
       return (
         <div className="inner-wrapper">
           <div>
@@ -45,16 +45,16 @@ const SelectDept: React.FC<any> = (props) => {
             {itemsList}
           </div>
         </div>
-      );
+      )
     }
-    return <div className="inner-wrapper"></div>;
-  };
+    return <div className="inner-wrapper"></div>
+  }
 
   return (
     <PageContainer title="选择机构">
       <div className="select-wrapper">{renderDept()}</div>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default SelectDept;
+export default SelectDept

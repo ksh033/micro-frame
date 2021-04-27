@@ -8,7 +8,6 @@ export default {
       sysCode: 'common',
     },
   },
-  "sss":{},
   user: {
     loginByPhone: {
       url: '/user/api/anony/user/login/dev',
@@ -26,7 +25,6 @@ export default {
       sysCode: 'common',
     },
   },
-
   role: roleApi,
   deptUser: {
     /** 用户机构服务接口 */
@@ -66,10 +64,10 @@ export default {
     formSubmit: { url: '/user/api/user/add', method: 'post', sysCode: 'user' },
 
     /** 删除用户(响应userId)--已完成 */
-    delete: { url: '/user/api/user/delete', method: 'post', sysCode: 'user' },
+    remove: { url: '/user/api/user/delete', method: 'get', sysCode: 'user' },
 
     /** 启用禁用用户(响应userId)--已完成 */
-    enable: { url: '/user/api/user/enable', method: 'post', sysCode: 'user' },
+    disabled: { url: '/user/api/user/enable', method: 'post', sysCode: 'user' },
 
     /** 根据用户id查询用户--已完成 */
     getUserById: {

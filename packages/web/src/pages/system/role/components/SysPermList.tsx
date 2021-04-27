@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { ScTree } from '@scboson/sc-element'
-import { uesRequest } from '@/utils/api'
+import { useServiceRequest } from '@micro-frame/sc-runtime'
 import { Key } from 'antd/lib/table/interface'
 
 type SysPermListProps = {
@@ -11,7 +11,7 @@ type SysPermListProps = {
 }
 
 const SysPermList: React.FC<SysPermListProps> = (props) => {
-  const { run } = uesRequest('role', 'getPermTree')
+  const { run } = useServiceRequest('role', 'getPermTree')
   const { systemCode, bizDeptId, value, onChange } = props
   const show = useMemo(() => {
     return systemCode && bizDeptId

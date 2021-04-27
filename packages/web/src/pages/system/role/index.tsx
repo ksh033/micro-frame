@@ -1,9 +1,12 @@
 import React from 'react'
-// import { query } from './components/service';
-import { getService } from '@/utils/api'
 import type { PageConfig } from '@scboson/sc-schema'
 import { useListPageContext, ListPage, ToolButtons } from '@scboson/sc-schema'
-import { BsSearch, BsTable, PageContainer } from '@micro-frame/sc-runtime'
+import {
+  BsSearch,
+  BsTable,
+  getService,
+  PageContainer,
+} from '@micro-frame/sc-runtime'
 import list from './components/list'
 
 const { Operation } = BsTable

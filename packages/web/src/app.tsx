@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { Auth, Login, SelectDept } from '@micro-frame/sc-runtime'
-
+import { Auth, Login, SelectDept, getServiceApi } from '@micro-frame/sc-runtime'
 import { history } from 'umi'
-import { getServiceApi } from './utils/api'
 console.log(Auth)
 const { getUser } = Auth
 console.log(getUser)

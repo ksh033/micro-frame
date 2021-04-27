@@ -1,80 +1,99 @@
 /* eslint-disable global-require */
-import React, { useLayoutEffect, FC } from "react";
-import { CForm } from "@scboson/sc-element";
-import { EditPage, useEditPageContext } from "@scboson/sc-schema";
-import { ModalPageContainer } from "@micro-frame/sc-runtime";
-import { getService, uesRequest } from "@/utils/api";
-import { Auth } from "@micro-frame/sc-runtime";
+import React, { useLayoutEffect, FC, useState } from 'react'
+import { CForm } from '@scboson/sc-element'
+import { EditPage, useEditPageContext } from '@scboson/sc-schema'
+import { ModalPageContainer, getService } from '@micro-frame/sc-runtime'
+import { Auth } from '@micro-frame/sc-runtime'
 
-import formData from "./components/form";
+import formData from './components/form'
 
 const services = getService(
-  "deptUser",
-  "formSubmit",
-  "detail",
-  "formSubmit",
-  "querySysList",
-  "queryDeptList"
-);
+  'deptUser',
+  'formSubmit',
+  'detail',
+  'formSubmit',
+  'querySysList',
+  'queryDeptList'
+)
 
-const roleServices = getService("role", "listDeptRole");
+const roleServices = getService('role', 'listsys', 'listDept', 'listDeptRole')
 
 const pagaConfig = {
   service: { ...services, ...roleServices },
-  pageType: "modalpage",
+  pageType: 'modalpage',
   ...formData,
-};
+}
 interface UserEditState {
-  systemCode: string;
+  systemCode: string
 
-  bizDeptId: string;
+  bizDeptId: string
 }
 
 const Page: FC<any> = (props) => {
-  const scope = useEditPageContext<UserEditState>();
-  const action = scope.getAction();
+  const scope = useEditPageContext<UserEditState>()
+  const action = scope.getAction()
 
+  const [systemCode, setSystemCode] = useState<string | null | undefined>(
+    Auth.getUser()?.userAppInfo.currentSystem.systemCode
+  )
+  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>(
+    Auth.getUser()?.userAppInfo.currentDept.bizDeptId
+  )
   const pageLoad = async () => {
-    const systemCode = Auth.getUser()?.userAppInfo.currentSystem.systemCode;
-
-    const bizDeptId = Auth.getUser()?.userAppInfo.currentDept.bizDeptId;
-
     const record = {
       systemCode,
       bizDeptId,
-    };
-    scope.setData({ systemCode: systemCode, bizDeptId: bizDeptId });
-    scope.toInitialValues({ defaultValues: record });
-  };
+    }
+    scope.toInitialValues({ defaultValues: record })
+  }
 
   const formConfig = scope
     .getFormInfo()
-    .changeFormItem("systemCode", {})
-    .changeFormItem("bizDeptId", {
-      props: { params: { sysCode: scope.data.systemCode } },
-    })
-    .changeFormItem("sysRoleList", {
+    .changeFormItem('bizDeptId', {
       props: {
-        params: {
-          sysCode: scope.data.systemCode,
-          bizDeptId: scope.data.bizDeptId,
-        },
-        
+        params: { systemCode: systemCode },
       },
     })
-    .toConfig();
-  const modalButtons = scope.getModalBtns(action, true);
-  const title = scope.getTitle(action);
+    .changeFormItem('sysRoleList', {
+      props: {
+        params: {
+          systemCode: systemCode,
+          bizDeptId: bizDeptId,
+        },
+      },
+    })
+    .toConfig()
+  const modalButtons = scope.getModalBtns(action, true)
+  const title = scope.getTitle(action)
 
   useLayoutEffect(() => {
-    pageLoad();
-  }, []);
+    pageLoad()
+  }, [])
+
+  const onValuesChange = (changedValues: any, values: any) => {
+    if (values['systemCode'] !== systemCode) {
+      formConfig.form.current.setFieldsValue({
+        bizDeptId: null,
+      })
+      setBizDeptId(null)
+      setSystemCode(values['systemCode'])
+    }
+    if (values['bizDeptId'] !== bizDeptId) {
+      setBizDeptId(values['bizDeptId'])
+    }
+  }
 
   return (
     <ModalPageContainer title={title} toolbar={modalButtons}>
-      <CForm {...formConfig} layout="vertical" action={action} anchor={false} />
+      <CForm
+        {...formConfig}
+        layout="vertical"
+        action={action}
+        anchor={false}
+        onValuesChange={onValuesChange}
+      />
     </ModalPageContainer>
-  );
-};
+  )
+}
 
-export default EditPage(Page, pagaConfig);
+export default EditPage(Page, pagaConfig)

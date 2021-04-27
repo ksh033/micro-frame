@@ -31,24 +31,24 @@ const pageConfig: PageConfig = {
   tableConfig: [
     {
       title: '手机号',
-      dataIndex: 'name',
+      dataIndex: 'phoneShow',
     },
     {
       title: '姓名',
-      dataIndex: 'desc',
+      dataIndex: 'realName',
     },
     {
       title: '所属应用',
-      dataIndex: 'callNo',
+      dataIndex: 'systemName',
     },
     {
       title: '角色类型',
       dataIndex: 'roleType',
-      dataType: 'RoleTypeEnum',
+      dataType: 'roleType',
     },
     {
       title: '邮箱',
-      dataIndex: 'updatedAt',
+      dataIndex: 'email',
     },
     {
       title: '状态',

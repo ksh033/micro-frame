@@ -21,7 +21,7 @@ export default {
   },
   listDeptRole: {
     url: '/user/api/role/listdeptrole',
-    method: 'get',
+    method: 'post',
     sysCode: 'usersys',
   },
   listsys: {
