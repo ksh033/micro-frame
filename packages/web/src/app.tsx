@@ -39,7 +39,6 @@ export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  console.log('onRouteChange')
   if (location.pathname !== '/selectDept') {
     const currentUser = getUser()
     if (currentUser) {

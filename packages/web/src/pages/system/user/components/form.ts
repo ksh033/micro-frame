@@ -20,6 +20,7 @@ const pageConfig: PageConfig = {
             ],
           },
           props: {
+            request:'',
             placeholder: "请输所属应用",
             textField:'systemName',
             valueField:'systemCode'
@@ -117,7 +118,6 @@ const pageConfig: PageConfig = {
           title:'',
           label: "备注",
           name: "sysRoleList1",
-     
           component: "Input",
           colProps:{
             span:24,

@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-runtime",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.2",
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ant-design/pro-components"
+    "url": ""
   },
   "browserslist": [
     "last 2 versions",
@@ -31,6 +31,9 @@
     "umi": "3.x"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "http://172.18.169.70:8081/repository/bsnpm/"
+
   }
+   
 }

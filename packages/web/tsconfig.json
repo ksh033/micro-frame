@@ -21,6 +21,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
+      "@@service": ["src/services/index.ts"],
+ 
       "@micro-frame/sc-runtime": ["../packages/runtime/src/index.ts"],
 
     }

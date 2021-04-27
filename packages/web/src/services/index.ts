@@ -8,6 +8,7 @@ export default {
       sysCode: 'common',
     },
   },
+  "sss":{},
   user: {
     loginByPhone: {
       url: '/user/api/anony/user/login/dev',

@@ -13,5 +13,6 @@ export { default as BsSearch } from './components/Base/BsSearch'
 export { default as ModalPageContainer } from './components/Base/Tpl/ModalPageTpl'
 export { PageContainer } from '@scboson/sc-layout'
 import { request, useRequest } from './utils/request'
+import {getService,getServiceApi,uesRequest as useServiceRequest}  from './utils/service'
 
-export { Layout, Auth, SelectDept, Login, request, useRequest }
+export { Layout, Auth, SelectDept, Login, request, useRequest,useServiceRequest,getService,getServiceApi }

@@ -1,13 +1,13 @@
-import { request, useRequest as umiUesRequest } from '@micro-frame/sc-runtime'
-import Api from './api/index'
+import { request, useRequest as umiUesRequest } from './request'
 interface MethodProps {
   url: string
   method: 'get' | 'post'
   sysCode: string
 }
-
+// @ts-ignore
+import services from '@@service'
 // '/api/anony/sys/list': { methodName: 'getApplist', method: 'GET' },
-const services = Api
+
 // services { ...services.system, ...services.user };
 // function getService<T extends keyof typeof services>(syscode:T):any
 

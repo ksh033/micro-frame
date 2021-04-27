@@ -9,7 +9,7 @@ import EditPage from './editpage'
 
 const { Operation } = BsTable;
 
-const services=getService("deptUser","queryPage")
+const services=getService("deptUser","queryPage",)
 const pagaConfig: PageConfig = {
   path: '/system/user/',
   service:services,
@@ -36,10 +36,9 @@ const UserManager: React.FC<any> = (props) => {
           },
         ];
         const newButtons = page.bindEvents(buttons);
-
         return <Operation key={index} max={5} record={_record} buttons={newButtons} />;
       },
-    }).addButton('add', { options: { content: EditPage, width: 800 } })  
+    }).addButton('add', { options: { content: EditPage, width: 800 },  })  
     .toConfig();
 
   return (
