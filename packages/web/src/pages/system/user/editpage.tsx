@@ -8,42 +8,66 @@ import { Auth } from "@micro-frame/sc-runtime";
 
 import formData from "./components/form";
 
-const services = getService("deptUser", "formSubmit", "detail", "formSubmit");
+const services = getService(
+  "deptUser",
+  "formSubmit",
+  "detail",
+  "formSubmit",
+  "querySysList",
+  "queryDeptList"
+);
+
+const roleServices = getService("role", "listDeptRole");
 
 const pagaConfig = {
-  service: services,
+  service: { ...services, ...roleServices },
   pageType: "modalpage",
   ...formData,
 };
+interface UserEditState {
+  systemCode: string;
+
+  bizDeptId: string;
+}
 
 const Page: FC<any> = (props) => {
-  const scope = useEditPageContext();
-  scope.setData({list:[]})
+  const scope = useEditPageContext<UserEditState>();
   const action = scope.getAction();
-  // const pageParam = scope.getPageParam();
-  const roleReq=uesRequest('role','listDeptRole');
+
+  const pageLoad = async () => {
+    const systemCode = Auth.getUser()?.userAppInfo.currentSystem.systemCode;
+
+    const bizDeptId = Auth.getUser()?.userAppInfo.currentDept.bizDeptId;
+
+    const record = {
+      systemCode,
+      bizDeptId,
+    };
+    scope.setData({ systemCode: systemCode, bizDeptId: bizDeptId });
+    scope.toInitialValues({ defaultValues: record });
+  };
+
   const formConfig = scope
     .getFormInfo()
-    .changeFormItem("systemCode", {
-      
-      props: { data: Auth.getUser()?.systemList },
-    }).changeFormItem("bizDeptId",{
-      props: { data: Auth.getUser()?.userAppInfo.deptList,onSelect:async()=>{
-
-
-      } },
-
+    .changeFormItem("systemCode", {})
+    .changeFormItem("bizDeptId", {
+      props: { params: { sysCode: scope.data.systemCode } },
+    })
+    .changeFormItem("sysRoleList", {
+      props: {
+        params: {
+          sysCode: scope.data.systemCode,
+          bizDeptId: scope.data.bizDeptId,
+        },
+        
+      },
     })
     .toConfig();
   const modalButtons = scope.getModalBtns(action, true);
   const title = scope.getTitle(action);
 
   useLayoutEffect(() => {
-    const record = {
-      systemCode: Auth.getUser()?.userAppInfo.currentSystem.systemCode,
-      bizDeptId: Auth.getUser()?.userAppInfo.currentDept.bizDeptId,
-    };
-    scope.toInitialValues({ defaultValues: record });
+    pageLoad();
   }, []);
 
   return (
@@ -52,9 +76,5 @@ const Page: FC<any> = (props) => {
     </ModalPageContainer>
   );
 };
-interface Person{
-  list:any[]
-}
-
 
 export default EditPage(Page, pagaConfig);

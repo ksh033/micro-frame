@@ -37,7 +37,7 @@ const services = {
     /** 用户机构服务接口 */
 
       /** 新增或更换管理员--已完成 */
-      set: { url: "/user/api/adminUser/set", method: "post", sysCode: "user" },
+      set: { url: "/user/api/adminuser/set", method: "post", sysCode: "user" },
 
       /** 查询当前登陆用户信息--已完成 */
       detail: {
@@ -55,14 +55,14 @@ const services = {
 
       /** 查询用户管理机构下拉列表（角色管理）--已完成 */
       listRoleDept: {
-        url: "/user/api/deptRole/listDept",
+        url: "/user/api/deptrole/listdept",
         method: "get",
         sysCode: "user",
       },
 
       /** 查询用户管理机构下拉列表（用户管理）--已完成 */
       listUserDept: {
-        url: "/user/api/deptUser/listDept",
+        url: "/user/api/deptUser/listdept",
         method: "get",
         sysCode: "user",
       },
@@ -78,24 +78,28 @@ const services = {
 
       /** 根据用户id查询用户--已完成 */
       getUserById: {
-        url: "/user/api/user/getUserById",
+        url: "/user/api/user/getuserbyid",
         method: "post",
         sysCode: "user",
       },
 
       /** 分页-查询用户--已完成 */
       queryPage: {
-        url: "/user/api/user/queryPage",
+        url: "/user/api/user/page",
         method: "post",
         sysCode: "user",
       },
 
       /** 修改用户(响应userId)--已完成 */
       update: { url: "/user/api/user/update", method: "post", sysCode: "user" },
-  
+
+      querySysList: { url: "/user/api/deptuser/listsys", method: "get", sysCode: "user" },
+
+      queryDeptList: { url: "/user/api/deptuser/listdept", method: "get", sysCode: "user" },
+
   },
   "role":{
-    listDeptRole: { url: "/user/api/role/listDeptRole", method: "get", sysCode: "user" }
+    listDeptRole: { url: "/user/api/role/listdeptrole", method: "post", sysCode: "user" }
     
   }
 };
@@ -141,7 +145,7 @@ export function getService<
   if (funName) {
     funName.forEach(item=>{
       const serviceItem: any = services[mcode][item];
-      const itemReq=createRequest(serviceItem, `${funName}`);
+      const itemReq=createRequest(serviceItem, `${item}`);
       mservices = { ...mservices, ...itemReq };
     })
     return mservices;
@@ -150,7 +154,7 @@ export function getService<
    
     Object.keys(serviceItems).forEach((key) => {
       const item = services[mcode][key];
-      const itemReq = createRequest(item, `${funName}`);
+      const itemReq = createRequest(item, `${key}`);
       mservices = { ...mservices, ...itemReq };
     });
     return mservices;

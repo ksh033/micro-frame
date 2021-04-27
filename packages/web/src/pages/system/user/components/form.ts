@@ -80,7 +80,7 @@ const pageConfig: PageConfig = {
         {
           label: "角色授权",
           name: "sysRoleList",
-          component: "Input",
+          component: "ScSelect",
           formItemProps: {
             required: true,
             rules: [
@@ -90,25 +90,13 @@ const pageConfig: PageConfig = {
             ],
           },
           props: {
-            placeholder: "请输手机",
+            placeholder: "角色授权",
+            textField:'roleName',
+            valueField:'roleId',
+            data:[]
           },
         },
-        {
-          label: "用户账号",
-          name: "userName",
-          component: "Input",
-          formItemProps: {
-            required: true,
-            rules: [
-              {
-                required: true,
-              },
-            ],
-          },
-          props: {
-            placeholder: "请输手机",
-          },
-        },
+        
         {
           label: "邮箱",
           name: "email",
@@ -126,19 +114,17 @@ const pageConfig: PageConfig = {
           },
         },
         {
+          title:'',
           label: "备注",
           name: "sysRoleList1",
+     
           component: "Input",
-          formItemProps: {
-            required: true,
-            rules: [
-              {
-                required: true,
-              },
-            ],
+          colProps:{
+            span:24,
           },
+        
           props: {
-            placeholder: "请输手机",
+            placeholder: "备注",
           },
         },
       ],
