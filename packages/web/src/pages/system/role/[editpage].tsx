@@ -44,7 +44,6 @@ const Page: FC<any> = (props) => {
 
   useLayoutEffect(() => {
     scope.toInitialValues({
-      key: 'roleId',
       defaultValues: initialValues,
       callback: (res: any) => {
         setSystemCode(res['systemCode'])

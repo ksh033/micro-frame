@@ -1,10 +1,12 @@
 import React from 'react'
 import { PageConfig, ToolButtons } from '@scboson/sc-schema'
 import { useListPageContext, ListPage } from '@scboson/sc-schema'
+import { CModal } from '@scboson/sc-element'
 import {
   BsSearch,
   BsTable,
   getService,
+  useServiceRequest,
   PageContainer,
 } from '@micro-frame/sc-runtime'
 import list from './components/list'
@@ -12,20 +14,40 @@ import EditPage from './editpage'
 
 const { Operation } = BsTable
 
-const services = getService('deptUser', 'queryPage', 'disabled', 'remove')
+const services = getService(
+  'deptUser',
+  'queryPage',
+  'disabled',
+  'remove',
+  'resetPassword'
+)
 const pagaConfig: PageConfig = {
   path: '/system/user/',
   service: services,
   ...list,
 }
 const UserManager: React.FC<any> = (props) => {
-  // console.log("pageload")
+  const { run } = useServiceRequest('deptUser', 'resetPassword')
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
   const callback = () => {
     page.reload()
   }
+
+  const resetPassword = (userId: string) => {
+    CModal.confirm({
+      title: '您是否确定重置密码',
+      okText: '确定',
+      cancelText: '取消',
+      onOk: async () => {
+        const data = await run({ userId: userId })
+        return data
+      },
+      onCancel() {},
+    })
+  }
+
   const pageInfo = page
     .getTable()
     .addOpCol({
@@ -35,7 +57,6 @@ const UserManager: React.FC<any> = (props) => {
             ...ToolButtons.disabled,
             text: _record.enabled ? '停用' : '启用',
             options: {
-              callBack: callback,
               params: {
                 bizDeptUserId: _record.bizDeptUserId,
                 status: _record.enabled ? '0' : '1',
@@ -45,7 +66,6 @@ const UserManager: React.FC<any> = (props) => {
           {
             ...ToolButtons.remove,
             options: {
-              callBack: callback,
               params: {
                 bizDeptUserId: _record.bizDeptUserId,
               },
@@ -65,6 +85,9 @@ const UserManager: React.FC<any> = (props) => {
           },
           {
             text: '重置密码',
+            onClick: () => {
+              resetPassword(_record.userId)
+            },
           },
         ]
         const newButtons = page.bindEvents(buttons)

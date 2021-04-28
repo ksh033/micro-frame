@@ -29,9 +29,6 @@ const UserManager: React.FC<any> = (props) => {
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
 
-  const callback = () => {
-    page.reload()
-  }
   const pageInfo = page
     .getTable()
     .addOpCol({
@@ -41,7 +38,6 @@ const UserManager: React.FC<any> = (props) => {
             ...ToolButtons.disabled,
             text: _record.enabled ? '停用' : '启用',
             options: {
-              callBack: callback,
               params: {
                 roleId: _record.roleId,
                 status: _record.enabled ? '0' : '1',
@@ -51,7 +47,6 @@ const UserManager: React.FC<any> = (props) => {
           {
             ...ToolButtons.remove,
             options: {
-              callBack: callback,
               params: {
                 roleId: _record.roleId,
               },

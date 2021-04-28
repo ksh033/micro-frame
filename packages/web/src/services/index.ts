@@ -36,70 +36,83 @@ export default {
     detail: {
       url: '/user/api/currentUser/detail',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 修改当前用户信息用户(响应userId)--已完成 */
     updateCurrentUser: {
       url: '/user/api/currentUser/update',
       method: 'post',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 查询用户管理机构下拉列表（角色管理）--已完成 */
     listRoleDept: {
       url: '/user/api/deptrole/listdept',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 查询用户管理机构下拉列表（用户管理）--已完成 */
     listUserDept: {
       url: '/user/api/deptUser/listdept',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 新增用户(响应userId)--已完成 */
-    formSubmit: { url: '/user/api/user/add', method: 'post', sysCode: 'user' },
+    formSubmit: {
+      url: '/user/api/user/add',
+      method: 'post',
+      sysCode: 'usersys',
+    },
 
     /** 删除用户(响应userId)--已完成 */
-    remove: { url: '/user/api/user/delete', method: 'get', sysCode: 'user' },
+    remove: { url: '/user/api/user/delete', method: 'get', sysCode: 'usersys' },
 
     /** 启用禁用用户(响应userId)--已完成 */
-    disabled: { url: '/user/api/user/enable', method: 'get', sysCode: 'user' },
+    disabled: {
+      url: '/user/api/user/enable',
+      method: 'get',
+      sysCode: 'usersys',
+    },
 
     /** 根据用户id查询用户--已完成 */
     queryById: {
       url: '/user/api/user/getuserbyid',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 分页-查询用户--已完成 */
     queryPage: {
       url: '/user/api/user/page',
       method: 'post',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     /** 修改用户(响应userId)--已完成 */
     formUpdate: {
       url: '/user/api/user/update',
       method: 'post',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     querySysList: {
       url: '/user/api/deptuser/listsys',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
     },
 
     queryDeptList: {
       url: '/user/api/deptuser/listdept',
       method: 'get',
-      sysCode: 'user',
+      sysCode: 'usersys',
+    },
+    resetPassword: {
+      url: '/user/api/user/password/reset',
+      method: 'get',
+      sysCode: 'usersys',
     },
   },
 }

@@ -50,12 +50,11 @@ const Page: FC<any> = (props) => {
   const pageLoad = async () => {
     scope.toInitialValues({
       defaultValues: initialValues,
-      key: 'bizDeptUserId',
       callback: (res: any) => {
         setSystemCode(res['systemCode'])
         return {
           ...res,
-          sysRoleList: res.sysRoleList.map((item: any) => {
+          sysRoleList: res.sysRoleList?.map((item: any) => {
             return { value: item.roleId, name: item.roleName, key: item.roleId }
           }),
         }
@@ -81,7 +80,7 @@ const Page: FC<any> = (props) => {
       console.log(values)
       return {
         ...values,
-        sysRoleList: values.sysRoleList.map((item: any) => item.value),
+        sysRoleList: values.sysRoleList?.map((item: any) => item.value),
       }
     },
   })
@@ -107,7 +106,6 @@ const Page: FC<any> = (props) => {
       setBizDeptId(values['bizDeptId'])
     }
   }
-  console.log(formConfig)
   return (
     <ModalPageContainer title={title} toolbar={modalButtons}>
       <CForm
