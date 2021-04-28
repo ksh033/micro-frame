@@ -7,6 +7,11 @@ export default {
       method: 'get',
       sysCode: 'common',
     },
+    getPublicKey: {
+      url: '/user/api/publickey/get',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
   user: {
     loginByPhone: {
@@ -23,6 +28,16 @@ export default {
       url: '/user/api/sys/choose',
       method: 'get',
       sysCode: 'common',
+    },
+    update: {
+      url: '/user/api/currentuser/update',
+      method: 'post',
+      sysCode: 'usersys',
+    },
+    changePwd: {
+      url: '/user/api/user/mypassword/update',
+      method: 'post',
+      sysCode: 'usersys',
     },
   },
   role: roleApi,

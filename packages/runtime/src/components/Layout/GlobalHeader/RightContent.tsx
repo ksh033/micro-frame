@@ -1,31 +1,35 @@
-
 /* eslint-disable import/no-duplicates */
 /// <reference path="../../../typings.d.ts" />
-import React from 'react';
+import React from 'react'
 import type { GlobalHeaderRightProps } from './AvatarDropdown'
+import { uesRequest } from '../../../utils/api'
+import { clearUser } from '../../Auth'
+import Avatar from './AvatarDropdown'
+import styles from './index.less'
+// @ts-ignore
+import { history } from 'umi'
+export type SiderTheme = 'light' | 'dark'
 
-import Avatar from './AvatarDropdown';
-import styles from './index.less';
-
-export type SiderTheme = 'light' | 'dark';
-
-
-const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = props => {
-  const { theme, layout, currentUser, menu } = props;
-  let className = styles.right;
+const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
+  const { theme, layout, currentUser, menu } = props
+  const { run } = uesRequest('user', 'logout')
+  let className = styles.right
 
   if (theme === 'dark' && layout === 'topmenu') {
-    className = `${styles.right}  ${styles.dark}`;
+    className = `${styles.right}  ${styles.dark}`
+  }
+  const layoutFn = () => {
+    run().then(() => {
+      clearUser()
+      history.push('/login')
+    })
   }
 
   return (
     <div className={className}>
-
-
-      <Avatar currentUser={currentUser} menu={menu}/>
-
+      <Avatar currentUser={currentUser} menu={menu} layoutFn={layoutFn} />
     </div>
-  );
-};
+  )
+}
 
 export default GlobalHeaderRight

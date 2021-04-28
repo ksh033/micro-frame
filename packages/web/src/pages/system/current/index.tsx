@@ -1,97 +1,78 @@
 /* eslint-disable global-require */
-import React, { useLayoutEffect, FC, useState, useMemo } from 'react'
-import { CForm } from '@scboson/sc-element'
-import { EditPage, useEditPageContext } from '@scboson/sc-schema'
-import { ModalPageContainer, getService } from '@micro-frame/sc-runtime'
-import { Auth } from '@micro-frame/sc-runtime'
+import React, { FC } from 'react'
+import { PageContainer } from '@micro-frame/sc-runtime'
+import { useSetState } from 'ahooks'
+import BaseView from './base'
+import Password from './password'
+import styles from './style.less'
+import { Menu } from 'antd'
 
-import formData from './components/form'
-
-const services = getService('user')
-
-const pagaConfig = {
-  service: services,
-  pageType: 'modalpage',
-  ...formData,
+type SettingsStateKeys = 'base' | 'password'
+interface SettingsState {
+  mode: 'inline' | 'horizontal'
+  menuMap: {
+    [key: string]: React.ReactNode
+  }
+  selectKey: SettingsStateKeys
 }
-interface CurrentUserState {}
 
 const Page: FC<any> = (props) => {
-  const scope = useEditPageContext<CurrentUserState>()
-  const action = scope.getAction()
+  const menuMap = {
+    base: '基础信息',
+    password: '修改密码',
+  }
 
-  const [systemCode, setSystemCode] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentSystem.systemCode + ''
-  )
-  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentDept.bizDeptId + ''
-  )
-  const initialValues = useMemo(() => {
-    return {
-      systemCode: systemCode,
-      bizDeptId: bizDeptId,
-    }
-  }, [systemCode, bizDeptId])
+  const [state, setState] = useSetState<SettingsState>({
+    mode: 'inline',
+    menuMap: menuMap,
+    selectKey: 'base',
+  })
 
-  const pageLoad = async () => {
-    scope.toInitialValues({
-      defaultValues: initialValues,
-      key: 'bizDeptUserId',
-      callback: (res: any) => {
-        setSystemCode(res['systemCode'])
-        return res
-      },
+  const selectKey = (key: SettingsStateKeys) => {
+    setState({
+      selectKey: key,
     })
   }
 
-  const formConfig = scope
-    .getFormInfo()
-    .changeFormItem('bizDeptId', {
-      props: {
-        params: { systemCode: systemCode },
-      },
-    })
-    .changeFormItem('sysRoleList', {
-      props: {
-        params: initialValues,
-      },
-    })
-    .toConfig()
-  const modalButtons = scope.getModalBtns(action, true)
-  const title = scope.getTitle(action)
-
-  useLayoutEffect(() => {
-    pageLoad()
-  }, [])
-
-  const onValuesChange = (changedValues: any, values: any) => {
-    if (!Object.is(values['systemCode'], systemCode)) {
-      formConfig.form.current.setFieldsValue({
-        bizDeptId: '',
-        sysRoleList: [],
-      })
-      setBizDeptId('')
-      setSystemCode(values['systemCode'])
-    }
-    if (!Object.is(values['bizDeptId'], bizDeptId)) {
-      formConfig.form.current.setFieldsValue({
-        sysRoleList: [],
-      })
-      setBizDeptId(values['bizDeptId'])
-    }
+  const getRightTitle = () => {
+    const { selectKey, menuMap } = state
+    return menuMap[selectKey]
   }
-  console.log(formConfig)
+
+  const renderChildren = () => {
+    const { selectKey } = state
+    switch (selectKey) {
+      case 'base':
+        return <BaseView />
+      case 'password':
+        return <Password />
+      default:
+        break
+    }
+
+    return null
+  }
+
   return (
-    <ModalPageContainer title={title} toolbar={modalButtons}>
-      <CForm
-        {...formConfig}
-        layout="vertical"
-        action={action}
-        anchor={false}
-        onValuesChange={onValuesChange}
-      />
-    </ModalPageContainer>
+    <PageContainer title={'个人设置'}>
+      <div className={styles.main}>
+        <div className={styles.leftMenu}>
+          <Menu
+            mode={'inline'}
+            selectedKeys={[state.selectKey]}
+            onClick={({ key }) => selectKey(key as SettingsStateKeys)}
+          >
+            <Menu.Item key="base">基础信息</Menu.Item>
+            <Menu.Item key="password">修改密码</Menu.Item>
+          </Menu>
+        </div>
+        <div className={styles.right}>
+          <div className={styles.title}>{getRightTitle()}</div>
+          {renderChildren()}
+        </div>
+      </div>
+    </PageContainer>
   )
 }
 
-export default EditPage(Page, pagaConfig)
+export default Page

@@ -25,11 +25,14 @@ export interface UserAppInfo {
 }
 export interface User {
   systemList: SysInfoProps[]
-  lastLoginTime: string
-  realName: string
-  token: string
+  lastLoginTime: string // 最后一次登陆时间
+  realName: string // 用户昵称
+  needModifyPwd: boolean // 是否需要修改密码
+  token: string // token
+  phone: string // 手机号
   userName: string
   userAppInfo: UserAppInfo
+  email: string // 邮箱地址
   superAdminFlag: boolean // 是否是超级管理员
 }
 
@@ -164,4 +167,8 @@ const updateUser = (userAppInfo: UserAppInfo) => {
   // setUser(currentUser);
   // }
 }
-export { updateUser, getUser, changeApp, setUser }
+const clearUser = () => {
+  localStorage.removeItem(User_Key)
+  localStorage.removeItem(AppsUser_Key)
+}
+export { updateUser, getUser, changeApp, setUser, clearUser }

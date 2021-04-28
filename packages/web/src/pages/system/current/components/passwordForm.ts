@@ -8,8 +8,8 @@ const pageConfig: PageConfig = {
       fieldsetTitle: '',
       items: [
         {
-          label: '操作员姓名',
-          name: 'realName',
+          label: '旧密码',
+          name: 'oldPwd',
           component: 'Input',
           fieldProps: {
             required: true,
@@ -20,12 +20,13 @@ const pageConfig: PageConfig = {
             ],
           },
           props: {
-            placeholder: '请输入操作员姓名',
+            type: 'password',
+            placeholder: '请输入旧密码',
           },
         },
         {
-          label: '手机',
-          name: 'phone',
+          label: '新密码',
+          name: 'newPwd',
           component: 'Input',
           fieldProps: {
             required: true,
@@ -36,24 +37,25 @@ const pageConfig: PageConfig = {
             ],
           },
           props: {
-            disabled: true,
-            placeholder: '请输入手机',
+            type: 'password',
+            placeholder: '请输入新密码',
           },
         },
         {
-          label: '邮箱',
-          name: 'email',
+          label: '确认密码',
+          name: 'confirmPwd',
           component: 'Input',
           fieldProps: {
+            required: true,
             rules: [
               {
-                type: 'email',
-                message: '请输正确的邮箱地址',
+                required: true,
               },
             ],
           },
           props: {
-            placeholder: '请输邮箱',
+            type: 'password',
+            placeholder: '请输入确认密码',
           },
         },
       ],
