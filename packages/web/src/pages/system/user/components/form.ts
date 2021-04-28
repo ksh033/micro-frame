@@ -8,6 +8,12 @@ const pageConfig: PageConfig = {
       fieldsetTitle: '',
       items: [
         {
+          label: '品目id',
+          name: 'bizDeptUserId',
+          component: 'Input',
+          hidden: true,
+        },
+        {
           label: '所属应用',
           name: 'systemCode',
           component: 'ScSelect',
@@ -25,6 +31,11 @@ const pageConfig: PageConfig = {
             placeholder: '请选择所属应用',
             textField: 'systemName',
             valueField: 'systemCode',
+          },
+          edit: {
+            props: {
+              disabled: true,
+            },
           },
         },
         {
@@ -46,6 +57,11 @@ const pageConfig: PageConfig = {
             textField: 'bizDeptName',
             valueField: 'bizDeptId',
           },
+          edit: {
+            props: {
+              disabled: true,
+            },
+          },
         },
         {
           label: '手机',
@@ -62,12 +78,16 @@ const pageConfig: PageConfig = {
           props: {
             placeholder: '请输手机',
           },
+          edit: {
+            props: {
+              disabled: true,
+            },
+          },
         },
         {
           label: '用户姓名',
           name: 'realName',
           component: 'Input',
-
           formItemProps: {
             required: true,
             rules: [
@@ -79,8 +99,12 @@ const pageConfig: PageConfig = {
           props: {
             placeholder: '请输所属应用',
           },
+          edit: {
+            props: {
+              disabled: true,
+            },
+          },
         },
-
         {
           label: '角色授权',
           name: 'sysRoleList',
@@ -99,10 +123,10 @@ const pageConfig: PageConfig = {
             valueField: 'roleId',
             mode: 'multiple',
             request: 'listDeptRole',
+            labelInValue: true,
             autoload: true,
           },
         },
-
         {
           label: '邮箱',
           name: 'email',
@@ -118,18 +142,10 @@ const pageConfig: PageConfig = {
           props: {
             placeholder: '请输邮箱',
           },
-        },
-        {
-          title: '',
-          label: '备注',
-          name: 'remark',
-          component: 'Input',
-          colProps: {
-            span: 24,
-          },
-
-          props: {
-            placeholder: '备注',
+          edit: {
+            props: {
+              disabled: true,
+            },
           },
         },
       ],

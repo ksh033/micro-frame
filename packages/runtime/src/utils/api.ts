@@ -37,6 +37,11 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    logout: {
+      url: '/user/api/user/logout',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
 }
 

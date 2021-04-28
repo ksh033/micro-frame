@@ -26,12 +26,8 @@ const Page: FC<any> = (props) => {
   // scope.setData({ list: [] })
   const action = scope.getAction()
 
-  const [systemCode, setSystemCode] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentSystem.systemCode
-  )
-  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>(
-    Auth.getUser()?.userAppInfo.currentDept.bizDeptId
-  )
+  const [systemCode, setSystemCode] = useState<string | null | undefined>()
+  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>()
   const superAdminFlag = Auth.getUser()?.superAdminFlag
 
   const initialValues = useMemo(() => {
@@ -43,7 +39,13 @@ const Page: FC<any> = (props) => {
   }, [systemCode, bizDeptId, superAdminFlag])
 
   useLayoutEffect(() => {
-    scope.toInitialValues({ key: 'roleId', defaultValues: initialValues })
+    scope.toInitialValues({
+      defaultValues: initialValues,
+      callback: (res: any) => {
+        setSystemCode(res['systemCode'])
+        return res
+      },
+    })
   }, [])
 
   const bizDeptIdParam = useMemo(() => {
