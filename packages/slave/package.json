@@ -10,6 +10,7 @@
     "umi": "^3.4.11",
     "@scboson/sc-schema":"1.0.2",
     "@micro-frame/sc-runtime":"^1.0.2",
+    "@micro-frame/plugin-microlayout":"^1.0.0",
     "@umijs/plugin-qiankun":"^2.23.0",
     "slash2":"^2.0.0",
     "babel-plugin-import":"^1.13.3",
