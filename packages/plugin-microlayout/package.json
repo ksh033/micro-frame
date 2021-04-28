@@ -1,0 +1,39 @@
+{
+  "name": "@micro-frame/plugin-microlayout",
+  "version": "1.0.0",
+  "description": "子应用Layout插件",
+  "module": "es/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "es"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "dependencies": {
+
+  },
+  "keywords": [],
+  "authors": [],
+  "license": "MIT",
+  "peerDependencies": {
+    "umi": "3.x"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://172.18.169.70:8081/repository/bsnpm/"
+
+  }
+   
+}
