@@ -22,7 +22,7 @@
     "ie >= 11"
   ],
   "dependencies": {
-
+    "@scboson/sc-layout": "^1.0.0"
   },
   "keywords": [],
   "authors": [],
@@ -33,7 +33,5 @@
   "publishConfig": {
     "access": "public",
     "registry": "http://172.18.169.70:8081/repository/bsnpm/"
-
   }
-   
 }
