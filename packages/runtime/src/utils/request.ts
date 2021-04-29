@@ -36,7 +36,7 @@ import {
 } from '@ahooksjs/use-request/lib/types'
 
 type ResultWithData<T = any> = { data?: T; [key: string]: any }
-export const baseApi = '/devapi'
+import { baseApi} from './common';
 
 /**
  * 文件下载
