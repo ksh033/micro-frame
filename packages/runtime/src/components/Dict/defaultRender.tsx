@@ -75,15 +75,9 @@ const defaultRenderText = <T, U>(
   if (valueType === 'defaultNumber') {
     return text === -1 || text === '-1' ? '不限' : text
   }
-  if (valueType === 'price') {
-    const price = formatMoneyQuery(text, '¥ ')
-    if (price !== '--') {
-      return `${price}`
-    }
-    return `${price}`
-  }
   if (valueType === 'money') {
-    const money = formatMoneyQuery(text)
+    const rText = typeof text === 'number' ? text / 10000 : 0
+    const money = formatMoneyQuery(rText)
     return money !== '' ? money : money
   }
   if (valueType === 'dataTime') {

@@ -1,0 +1,41 @@
+.bs-upload-img-list {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+}
+.bs-upload-img {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bs-upload-img:not(:last-child) {
+  margin-right: 10px;
+}
+
+.bs-upload-img img {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.bs-upload-video {
+  max-width: 120px;
+  max-height: 120px;
+}
+
+.bs-upload-view-img {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  overflow: hidden;
+}

@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import { ProSettings, MasterLayout } from '@scboson/sc-layout'
 // @ts-ignore
 import { Link, history } from 'umi'
 import { getUser, changeApp } from '../Auth'
 import { uesRequest } from '../../utils/api'
 import RightContent from './GlobalHeader/RightContent'
-// import menuData from './menuData';
 import logo from '../../assets/logo.svg'
 
 import menuFormat from './menuFormat'
+import userDictModel from '../Dict/userDictModel'
 
 export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
@@ -18,6 +17,7 @@ export default (props: any) => {
   const { children, ...restProps } = props
   const user = getUser()
   const req = uesRequest('user', 'chooseSys')
+  const { loadDict, dict } = userDictModel()
   const apps = user?.systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
@@ -27,6 +27,11 @@ export default (props: any) => {
   const menuData = user?.userAppInfo.menuTreeNodeList
   const [appCode, setAppCode] = useState<any>()
   // const [pathname, setPathname] = useState('/welcome');
+
+  useEffect(() => {
+    // 加载枚举
+    loadDict()
+  }, [])
   return (
     <div
       id="test-pro-layout"

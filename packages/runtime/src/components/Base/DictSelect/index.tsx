@@ -3,6 +3,7 @@ import userDictModel from '../../Dict/userDictModel'
 import { ScSelect } from '@scboson/sc-element'
 import { getUser } from '../../Auth'
 import { ScSelectProps } from '@scboson/sc-element/lib/sc-select/index'
+
 import {
   FormComponent,
   FormComponentProps,
@@ -68,4 +69,5 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
   }
 }
 DictSelect.customView = true
+
 export default DictSelect

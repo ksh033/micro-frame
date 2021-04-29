@@ -46,7 +46,7 @@ export function getService<
   P extends keyof typeof services[T]
 >(mcode: T, ...funName: P[]): any {
   let mservices = {}
-  if (funName) {
+  if (funName && funName.length > 0) {
     funName.forEach((item) => {
       const serviceItem: any = services[mcode][item]
       const itemReq = createRequest(serviceItem, `${item}`)
