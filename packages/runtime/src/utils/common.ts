@@ -1,8 +1,8 @@
 // @ts-ignore
-export const baseUrl = bogengkeji_imgUrl || 'https://testepay.bstj.com/bg/img'
+export const baseUrl = SC_GLOBAL_IMG_URL || 'https://testepay.bstj.com/bg/img'
 
 // @ts-ignore
-export const baseApi = bogengkeji || '/api'
+export const baseApi = SC_GLOBAL_API_URL || '/api'
 
 export function imageUrl(url: string) {
   const str = RegExp('http')
