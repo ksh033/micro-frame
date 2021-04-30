@@ -34,7 +34,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     mode = 'single',
     disabled = false,
     maxSize = 3 * 1024 * 1024,
-    action = `${baseApi}/file/upload`,
+    action = `${baseApi}file/api/file/upload`,
     uploadImmediately = true,
     accept = 'image/*',
     warnContent,

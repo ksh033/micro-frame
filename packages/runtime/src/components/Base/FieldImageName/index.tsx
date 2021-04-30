@@ -6,6 +6,7 @@ type FieldImageNameProps = {
 }
 
 const FieldImageName: React.FC<any> = (pros: any) => {
+  console.log(pros)
   return <div>123</div>
 }
 

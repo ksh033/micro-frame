@@ -30,7 +30,6 @@ export function getCenterOfGravityPoint(mPoints: LatLng[]): LatLngOut {
     longitude: Gy,
   }
 }
-Map
 
 interface SelectItem {
   text: string
