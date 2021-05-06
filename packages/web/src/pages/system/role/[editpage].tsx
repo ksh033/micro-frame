@@ -77,7 +77,7 @@ const Page: FC<any> = (props) => {
 
   const onValuesChange = (changedValues: any, values: any) => {
     if (values['systemCode'] !== systemCode) {
-      formConfig.form.current.setFieldsValue({
+      formConfig.form.current?.setFieldsValue({
         bizDeptId: null,
       })
       setBizDeptId(null)

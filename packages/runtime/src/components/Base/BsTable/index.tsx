@@ -48,7 +48,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           <ToolBar buttons={toolbar}></ToolBar>
         </div>
       ) : null}
-      <div className={!hasToolBar ? styles['bs-table-list'] : ''}>
+      <div className={!hasToolBar ? styles['bs-table-list'] : 'bs-table'}>
         <ScTable {...restProps} data={data} columns={columns} />
       </div>
     </>
