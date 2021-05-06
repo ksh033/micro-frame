@@ -38,6 +38,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
           return {
             uid: index,
             url: imageUrl(item),
+            fileUrl: item,
             status: 'done',
           }
         } else {
