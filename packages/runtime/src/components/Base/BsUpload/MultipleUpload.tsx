@@ -4,6 +4,7 @@ import { UploadFile } from 'antd/lib/upload/interface'
 import { ScUpload } from '@scboson/sc-element'
 import { PlusOutlined } from '@ant-design/icons'
 import { imageUrl } from '../../../utils/common'
+import { useUpdateEffect } from 'ahooks'
 
 interface MultipleUpload {
   action?: string
@@ -15,6 +16,7 @@ interface MultipleUpload {
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: any
+  dataFormat?: (data: any) => string | null
 }
 
 const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
@@ -25,23 +27,44 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     beforeUpload,
     accept,
     headers,
+    dataFormat,
     ...restProps
   } = props
   const formatList = (_fileList: any) => {
     let newfileList = JSON.parse(JSON.stringify(_fileList))
     if (Array.isArray(newfileList)) {
-      newfileList = newfileList.map((item) => {
-        item.url = imageUrl(item.url)
-        return item
+      newfileList = newfileList.map((item, index) => {
+        if (typeof item === 'string') {
+          return {
+            uid: index,
+            url: imageUrl(item),
+            status: 'done',
+          }
+        } else {
+          let result = item
+          if (item.response && item.response.success) {
+            result = item.response.data
+          }
+          if (dataFormat) {
+            result = dataFormat(result)
+          }
+          item.url = imageUrl(result)
+          return item
+        }
       })
     } else {
       newfileList = []
     }
     return newfileList
   }
-  const [fileList, setFileList] = useState<UploadFile[]>(() => {
-    return formatList(value)
-  })
+
+  useUpdateEffect(() => {
+    if (Array.isArray(fileList) && fileList.length === 0) {
+      setFileList(formatList(value))
+    }
+  }, [JSON.stringify(value)])
+
+  const [fileList, setFileList] = useState<UploadFile[]>([])
 
   const uploadButton = (
     <div>
@@ -55,8 +78,22 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   }: {
     fileList: UploadFile[]
   }) => {
-    setFileList(formatList(_fileList))
-    onChange && onChange(_fileList)
+    const rfileList = formatList(_fileList)
+    setFileList(rfileList)
+    const outList = rfileList.map((file: any) => {
+      if (file.status === 'done') {
+        let result = file
+        if (file.response && file.response.success) {
+          result = file.response.data
+        }
+        if (dataFormat) {
+          result = dataFormat(result)
+        }
+        return result
+      }
+      return file
+    })
+    onChange && onChange(outList)
   }
 
   return (

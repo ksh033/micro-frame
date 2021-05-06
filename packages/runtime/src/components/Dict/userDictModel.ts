@@ -68,13 +68,22 @@ export default function useDictModel() {
               },
             ]
           } else {
-            dictMapData[item.systemCode] = {
-              [item.dictTypeCode]: [
+            if (sysMap) {
+              dictMapData[item.systemCode][item.dictTypeCode] = [
                 {
                   name: item.valueName,
                   value: item.valueCode,
                 },
-              ],
+              ]
+            } else {
+              dictMapData[item.systemCode] = {
+                [item.dictTypeCode]: [
+                  {
+                    name: item.valueName,
+                    value: item.valueCode,
+                  },
+                ],
+              }
             }
           }
         })
