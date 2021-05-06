@@ -121,6 +121,9 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     if (result && result.fileUrl) {
       fileUrl = result.fileUrl
     }
+    if (fileUrl === null) {
+      fileUrl = result.url
+    }
     return fileUrl
   }
 
