@@ -36,7 +36,8 @@ export default (props: any) => {
     <div
       id="test-pro-layout"
       style={{
-        height: '100vh',
+        height: '100%',
+        minHeight: '100vh',
       }}
     >
       <MasterLayout

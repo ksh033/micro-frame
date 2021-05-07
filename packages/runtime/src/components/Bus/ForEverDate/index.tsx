@@ -30,7 +30,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
   // }
 
   return (
-    <div>
+    <>
       <ScDatePicker.ScDatePicker
         format="YYYY-MM-DD"
         disabled={disabled}
@@ -38,7 +38,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
         {...restProps}
       ></ScDatePicker.ScDatePicker>
       <Checkbox onChange={onChange}>永久有效</Checkbox>
-    </div>
+    </>
   )
 }
 
