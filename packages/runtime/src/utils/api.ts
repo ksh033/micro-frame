@@ -20,6 +20,11 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    areaList: {
+      url: '/base/api/area/children',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
   user: {
     loginByPhone: {
