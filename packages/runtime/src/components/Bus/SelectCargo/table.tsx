@@ -1,5 +1,4 @@
 import React, { Key, useMemo, useState } from 'react'
-import styles from './index.less'
 import { ScTree } from '@scboson/sc-element'
 import { uesRequest } from '../../../utils/api'
 import BsTable from '../../Base/BsTable'
@@ -8,6 +7,8 @@ import list from './list'
 import BsSearch from '../../Base/BsSearch'
 import { ProColumn } from '@scboson/sc-schema/lib/interface'
 import { RowSelectionType } from 'antd/lib/table/interface'
+
+import styles from './index.less'
 
 const pagaConfig: PageConfig = {
   service: {},
@@ -33,27 +34,18 @@ const SelectCargoTable: React.FC<any> = (props: SelectCargoTableProps) => {
     selectedRowKeys,
   } = props
   const { run } = uesRequest('catalog', 'treeData')
-  const [catalogCode, setCatalogCode] = useState('0')
+  const [catalogId, setCatalogId] = useState<string | null>()
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
-  const pageInfo = useMemo(() => {
-    const pageTable = page.getTable()
-    if (Array.isArray(extraColumns) && extraColumns.length > 0) {
-      extraColumns.forEach((item: ProColumn) => {
-        pageTable.addCol(item)
-      })
-    }
-    const rPageInfo = pageTable.toConfig()
-    return {
-      ...rPageInfo,
-      params: {
-        ...rPageInfo.params,
-        ...params,
-      },
-      request,
-    }
-  }, [extraColumns, params, request])
+
+  const pageTable = page.getTable()
+  if (Array.isArray(extraColumns) && extraColumns.length > 0) {
+    extraColumns.forEach((item: ProColumn) => {
+      pageTable.addCol(item)
+    })
+  }
+  const pageInfo = pageTable.toConfig()
 
   const loadDataPramsFormat = (item: any) => {
     return {
@@ -71,14 +63,15 @@ const SelectCargoTable: React.FC<any> = (props: SelectCargoTableProps) => {
   }
 
   const handleSelect = (selectedKeys: Key[]) => {
-    setCatalogCode(selectedKeys[0] ? String(selectedKeys[0]) : '0')
+    setCatalogId(selectedKeys[0] ? String(selectedKeys[0]) : null)
   }
   const tableParams = useMemo(() => {
     return {
       ...pageInfo.params,
-      catalogCode,
+      ...params,
+      catalogId,
     }
-  }, [JSON.stringify(pageInfo.params), catalogCode])
+  }, [JSON.stringify(pageInfo.params), params, catalogId])
 
   return (
     <div className={styles.cell}>
@@ -113,6 +106,7 @@ const SelectCargoTable: React.FC<any> = (props: SelectCargoTableProps) => {
           onSelectRow={onSelectRow}
           selectedRowKeys={selectedRowKeys}
           params={tableParams}
+          request={request}
         ></BsTable>
       </div>
     </div>

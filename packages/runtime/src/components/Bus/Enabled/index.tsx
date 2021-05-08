@@ -35,7 +35,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
         },
       })
     } else {
-      return run({
+      run({
         [rowKeyName]: rowData[rowKeyName],
       }).then(() => {
         setState(checked)
