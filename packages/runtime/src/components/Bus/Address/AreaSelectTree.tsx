@@ -91,16 +91,16 @@ const AareSelect: FormComponent<AreaSelecthProps> = (
         } else {
           const { areaCode } = element
           if (province) {
-            areaName = element['province']
+            areaName = element['provinceName']
           }
           if (city) {
-            areaName = element['city']
+            areaName = element['cityName']
           }
           if (district) {
-            areaName = element['district']
+            areaName = element['districtName']
           }
           if (county) {
-            areaName = element['county']
+            areaName = element['countyName']
           }
 
           return { label: areaName, key: areaCode, value: areaCode }

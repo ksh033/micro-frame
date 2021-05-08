@@ -63,7 +63,7 @@ const AareSelect: React.FC<AreaSelecthProps> = (
   if (selectVal.length === 0 && value) {
     if (value) {
       for (let i = 0; i <= areaLevel; i++) {
-        const text = form?.getFieldValue(fields[i])
+        const text = form?.getFieldValue(fields[i] + 'Name')
         selectVal.push({
           areaCode: value.substr(0, (i + 1) * 2),
           areaName: text,
@@ -72,15 +72,11 @@ const AareSelect: React.FC<AreaSelecthProps> = (
     }
   }
   const valueChange = (v: any[], selectOptions: any[]) => {
-    const selectTexts = selectOptions.map((item: any) => {
-      return item['areaName']
-    })
-
     setSelectVal(v)
     const areaCode = v[v.length - 1]
     // const val = {};
     if (onChange) {
-      onChange(areaCode, selectTexts)
+      onChange(areaCode, selectOptions)
     }
   }
   const params = useMemo(() => {

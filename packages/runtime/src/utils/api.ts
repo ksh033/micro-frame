@@ -48,6 +48,13 @@ const services = {
       sysCode: 'common',
     },
   },
+  catalog: {
+    treeData: {
+      url: '/base/api/catalog/downlist',
+      method: 'get',
+      sysCode: 'base',
+    },
+  },
 }
 
 // services { ...services.system, ...services.user };

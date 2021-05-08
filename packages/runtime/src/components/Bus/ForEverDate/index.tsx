@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ScDatePicker } from '@scboson/sc-element'
 import { Checkbox } from 'antd'
-import { ValidateUtil } from '@scboson/sc-utils'
 import { FormComponent } from '@scboson/sc-element/es/c-form'
 
 /**
@@ -22,12 +21,17 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
   }
 
   useEffect(() => {
-    onChange({ target: { checked: false } })
-  }, [])
+    if (restProps.value === '2199-12-31') {
+      setDisabled(true)
+    }
+  }, [restProps.value])
 
-  // if (readonly) {
-  //   return <div>{initialValues[dateName] || '--'}</div>
-  // }
+  if (readonly) {
+    if (restProps.value === '2199-12-31') {
+      return <div>永久有效</div>
+    }
+    return <div>{restProps.value}</div>
+  }
 
   return (
     <>
@@ -37,7 +41,9 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
         style={{ width: '300px', marginRight: '8px' }}
         {...restProps}
       ></ScDatePicker.ScDatePicker>
-      <Checkbox onChange={onChange}>永久有效</Checkbox>
+      <Checkbox onChange={onChange} checked={disabled}>
+        永久有效
+      </Checkbox>
     </>
   )
 }

@@ -62,11 +62,13 @@ const Address: FormComponent<any> = (props: AddressProp) => {
       const addressValue = initialValues[addressField]
 
       return (
-        <>{`${initialValues.province ? `${initialValues.province}` : ''}${
-          initialValues.city ? `${initialValues.city}` : ''
-        }${initialValues.district ? `${initialValues.district}` : ''}${
-          initialValues.county ? `${initialValues.county}` : ''
-        }-${addressValue || ''}`}</>
+        <>{`${
+          initialValues.provinceName ? `${initialValues.provinceName}` : ''
+        }${initialValues.cityName ? `${initialValues.cityName}` : ''}${
+          initialValues.districtName ? `${initialValues.districtName}` : ''
+        }${initialValues.countyName ? `${initialValues.countyName}` : ''}-${
+          addressValue || ''
+        }`}</>
       )
     } else {
       return (
@@ -87,49 +89,94 @@ const Address: FormComponent<any> = (props: AddressProp) => {
                 county={county}
                 onChange={(value, items) => {
                   const formData = {}
-                  items.forEach((v: string, i: number) => {
-                    formData[fields[i]] = v
+                  items.forEach((v: any, i: number) => {
+                    formData[fields[i] + 'Name'] = v.areaName || ''
+                    formData[fields[i] + 'Id'] = v.areaCode || ''
                   })
-
                   form?.setFieldsValue(formData)
                   // setVal(formData);
                 }}
               ></AreaSelect>
             </Form.Item>
             {province ? (
-              <Form.Item
-                hidden
-                noStyle
-                name="province"
-                style={{ display: 'none' }}
-              >
-                <Input></Input>
-              </Form.Item>
+              <>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="provinceName"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="provinceId"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+              </>
             ) : null}
             {city ? (
-              <Form.Item hidden noStyle name="city" style={{ display: 'none' }}>
-                <Input></Input>
-              </Form.Item>
+              <>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="cityName"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="cityId"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+              </>
             ) : null}
             {district ? (
-              <Form.Item
-                hidden
-                noStyle
-                name="district"
-                style={{ display: 'none' }}
-              >
-                <Input></Input>
-              </Form.Item>
+              <>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="districtName"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="districtId"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+              </>
             ) : null}
             {county ? (
-              <Form.Item
-                hidden
-                noStyle
-                name="county"
-                style={{ display: 'none' }}
-              >
-                <Input></Input>
-              </Form.Item>
+              <>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="countyName"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+                <Form.Item
+                  hidden
+                  noStyle
+                  name="countyId"
+                  style={{ display: 'none' }}
+                >
+                  <Input></Input>
+                </Form.Item>
+              </>
             ) : null}
             {addressDetail ? (
               <Form.Item
