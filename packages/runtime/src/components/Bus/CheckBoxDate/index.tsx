@@ -24,7 +24,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
   function onChange(e: { target: { checked: React.SetStateAction<boolean> } }) {
     setDisabled(e.target.checked)
     const _v = {}
-    _v[checkBoxName] = e.target.checked ? '0' : '1'
+    _v[checkBoxName] = e.target.checked
 
     form.setFieldsValue(_v)
   }
@@ -37,7 +37,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
 
     if (field === dateName) {
       const boxVal = form.getFieldValue(checkBoxName)
-      if (boxVal === '1' && (!v || ValidateUtil.isEmpty(v))) {
+      if (boxVal === false && (!v || ValidateUtil.isEmpty(v))) {
         // eslint-disable-next-line prefer-promise-reject-errors
         return Promise.reject('请输入日期')
       }
@@ -54,10 +54,10 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
       <Input.Group compact>
         <Form.Item name={dateName} rules={[{ validator: checkVal }]}>
           <ScDatePicker.ScDatePicker
-            {...pros}
             showTime
             format="YYYY-MM-DD HH:mm:ss"
             disabled={disabled}
+            {...pros}
           ></ScDatePicker.ScDatePicker>
         </Form.Item>
         <Form.Item name={checkBoxName} style={{ marginLeft: '5px' }}>
