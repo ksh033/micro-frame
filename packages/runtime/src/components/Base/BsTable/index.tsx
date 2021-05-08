@@ -15,6 +15,10 @@ const { Operation } = ScTable
 export interface BsTableProps extends ScTableProps<any> {
   toolbar?: any[]
 }
+export interface BsTableComponentProps {
+  dataIndex?: string
+  rowData?: any
+}
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const { toolbar = [], columns = [], data, ...restProps } = props
@@ -36,6 +40,23 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     } else if (col.dataType && !col.render) {
       col.render = (text: string, record: any) => {
         return defaultRenderText(text, col.dataType || col.dataIndex, record)
+      }
+    } else if (col.component && !col.render) {
+      const comProps = col.props || {}
+      col.render = (text: string, record: any) => {
+        const component =
+          typeof col.component === 'function'
+            ? React.createElement(col.component, {
+                rowData: record,
+                dataIndex: col.dataIndex,
+                ...comProps,
+              })
+            : React.cloneElement(col.component, {
+                rowData: record,
+                dataIndex: col.dataIndex,
+                ...comProps,
+              })
+        return component
       }
     }
   })
