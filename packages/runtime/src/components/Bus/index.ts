@@ -7,6 +7,8 @@ import AreaSelectTree from './Address/AreaSelectTree'
 import SelectCargoTable from './SelectCargo/table'
 import SelectCargo from './SelectCargo/index'
 import Enabled from './Enabled'
+import LocationSearch from './LocationSearch'
+import RailMap from './RailMap'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -15,6 +17,8 @@ regeditCmp('ForEverDate', ForEverDate)
 regeditCmp('AreaSelect', AreaSelect)
 regeditCmp('AreaSelectTree', AreaSelectTree)
 regeditCmp('Enabled', Enabled)
+regeditCmp('LocationSearch', LocationSearch)
+regeditCmp('RailMap', RailMap)
 
 export {
   CheckBoxDate,
@@ -24,4 +28,6 @@ export {
   AreaSelectTree,
   SelectCargo,
   SelectCargoTable,
+  RailMap,
+  LocationSearch,
 }

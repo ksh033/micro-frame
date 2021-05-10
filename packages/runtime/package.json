@@ -22,6 +22,7 @@
     "ie >= 11"
   ],
   "dependencies": {
+    "react-amap": "^1.2.8",
     "@scboson/sc-layout": "^1.0.0"
   },
   "keywords": [],
