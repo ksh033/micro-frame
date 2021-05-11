@@ -15,6 +15,7 @@ export interface DictSelectProp extends ScSelectProps, FormComponentProps {
   dictType: string
   /** 系统 */
   sysCode?: string
+  fieldProps?: any
 }
 /**
  * 字典控件
@@ -30,6 +31,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     form,
     initialValues,
     formItemProps,
+    fieldProps,
     ...restProps
   } = pros
   const { dict, getBySysCode } = userDictModel()
