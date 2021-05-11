@@ -4,7 +4,7 @@ import ToolBar from '../ToolBar';
 import styles from './index.less';
 
 const BsSearch = (props: any) => {
-  const { colNumber = 3, toolbar, ...resProps } = props;
+  const { toolbar, ...resProps } = props;
 
   const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0;
 
@@ -16,7 +16,7 @@ const BsSearch = (props: any) => {
         </div>
       ) : null}
       <div className={styles['bs-supplier-search']}>
-        <ScSearchBar colNumber={colNumber} {...resProps}></ScSearchBar>
+        <ScSearchBar  {...resProps}></ScSearchBar>
       </div>
     </>
   );

@@ -5,6 +5,9 @@ import Login from './components/Login'
 import SelectDept from './components/SelectDept'
 import * as Auth from './components/Auth'
 export * from './components/Base/index'
+export * from './components/Bus/index'
+import * as Utils from './utils/common'
+import FormRules from './utils/formRules'
 export { default as Authority } from './components/Base/Authority'
 export { default as ToolBar } from './components/Base/ToolBar'
 export { default as BsTable } from './components/Base/BsTable'
@@ -23,6 +26,7 @@ const AppStart = { onRouteChange, render, patchRoutes }
 export {
   Layout,
   Auth,
+  Utils,
   SelectDept,
   Login,
   request,
@@ -31,4 +35,5 @@ export {
   getService,
   getServiceApi,
   AppStart,
+  FormRules,
 }

@@ -170,5 +170,6 @@ const updateUser = (userAppInfo: UserAppInfo) => {
 const clearUser = () => {
   localStorage.removeItem(User_Key)
   localStorage.removeItem(AppsUser_Key)
+  sessionStorage.removeItem('CG-CURRENT-DICT')
 }
 export { updateUser, getUser, changeApp, setUser, clearUser }

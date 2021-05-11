@@ -10,6 +10,14 @@
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
+"@ahooksjs/use-request@^2.8.5":
+  version "2.8.5"
+  resolved "http://172.18.169.70:8081/repository/npm/@ahooksjs/use-request/-/use-request-2.8.5.tgz#efc342b532d97d756b5e4a8b59153baee7baecaf"
+  integrity sha1-78NCtTLZfXVrXkqLWRU7rue67K8=
+  dependencies:
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.1.1"
+
 "@ant-design/colors@^3.1.0":
   version "3.2.2"
   resolved "http://172.18.169.70:8081/repository/npm/@ant-design/colors/-/colors-3.2.2.tgz#5ad43d619e911f3488ebac303d606e66a8423903"
@@ -40,7 +48,7 @@
     insert-css "^2.0.0"
     rc-util "^4.9.0"
 
-"@ant-design/icons@^4.0.0", "@ant-design/icons@^4.6.2":
+"@ant-design/icons@^4.0.0", "@ant-design/icons@^4.3.0", "@ant-design/icons@^4.6.2":
   version "4.6.2"
   resolved "http://172.18.169.70:8081/repository/npm/@ant-design/icons/-/icons-4.6.2.tgz#290f2e8cde505ab081fda63e511e82d3c48be982"
   integrity sha1-KQ8ujN5QWrCB/aY+UR6C08SL6YI=
@@ -50,6 +58,46 @@
     "@babel/runtime" "^7.11.2"
     classnames "^2.2.6"
     rc-util "^5.9.4"
+
+"@ant-design/pro-layout@^6.15.2":
+  version "6.17.1"
+  resolved "http://172.18.169.70:8081/repository/npm/@ant-design/pro-layout/-/pro-layout-6.17.1.tgz#7db76cd0183938e6d018f1e9fd784a45fc4273d5"
+  integrity sha1-fbds0Bg5OObQGPHp/XhKRfxCc9U=
+  dependencies:
+    "@ant-design/icons" "^4.0.0"
+    "@ant-design/pro-provider" "1.4.12"
+    "@ant-design/pro-utils" "1.16.4"
+    "@umijs/route-utils" "^1.0.35"
+    "@umijs/use-params" "^1.0.2"
+    classnames "^2.2.6"
+    omit.js "^2.0.2"
+    path-to-regexp "2.4.0"
+    rc-resize-observer "^0.2.1"
+    rc-util "^5.0.6"
+    swr "^0.5.4"
+    unstated-next "^1.1.0"
+    use-json-comparison "^1.0.3"
+    use-media-antd-query "^1.0.6"
+    warning "^4.0.3"
+
+"@ant-design/pro-provider@1.4.12", "@ant-design/pro-provider@^1.4.8":
+  version "1.4.12"
+  resolved "http://172.18.169.70:8081/repository/npm/@ant-design/pro-provider/-/pro-provider-1.4.12.tgz#392aab9253ee805a33c9b3eb3d078bc5bcabfb7d"
+  integrity sha1-OSqrklPugFozybPrPQeLxbyr+30=
+  dependencies:
+    rc-util "^5.0.1"
+
+"@ant-design/pro-utils@1.16.4", "@ant-design/pro-utils@^1.14.2":
+  version "1.16.4"
+  resolved "http://172.18.169.70:8081/repository/npm/@ant-design/pro-utils/-/pro-utils-1.16.4.tgz#e18b960a5672828592a99cbc968de1ae6e5e9b13"
+  integrity sha1-4YuWClZygoWSqZy8lo3hrm5emxM=
+  dependencies:
+    "@ant-design/icons" "^4.3.0"
+    "@ant-design/pro-provider" "1.4.12"
+    classnames "^2.2.6"
+    fast-deep-equal "^3.1.3"
+    moment "^2.27.0"
+    rc-util "^5.0.6"
 
 "@ant-design/react-slick@~0.28.1":
   version "0.28.3"
@@ -1486,7 +1534,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.4", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.4", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.2.0", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.13.17"
   resolved "http://172.18.169.70:8081/repository/npm/@babel/runtime/-/runtime-7.13.17.tgz#8966d1fc9593bf848602f0662d6b4d0069e3a7ec"
   integrity sha1-iWbR/JWTv4SGAvBmLWtNAGnjp+w=
@@ -2907,6 +2955,11 @@
   resolved "http://172.18.169.70:8081/repository/npm/@polka/url/-/url-1.0.0-next.12.tgz#431ec342a7195622f86688bbda82e3166ce8cb28"
   integrity sha1-Qx7DQqcZViL4Zoi72oLjFmzoyyg=
 
+"@qixian.cs/path-to-regexp@^6.1.0":
+  version "6.1.0"
+  resolved "http://172.18.169.70:8081/repository/npm/@qixian.cs/path-to-regexp/-/path-to-regexp-6.1.0.tgz#6b84ad01596332aba95fa29d2e70104698cd5c45"
+  integrity sha1-a4StAVljMqupX6KdLnAQRpjNXEU=
+
 "@react-dnd/asap@^4.0.0":
   version "4.0.0"
   resolved "http://172.18.169.70:8081/repository/npm/@react-dnd/asap/-/asap-4.0.0.tgz#b300eeed83e9801f51bd66b0337c9a6f04548651"
@@ -3016,12 +3069,65 @@
     react-resizable "^1.10.1"
     use-media-antd-query "^1.0.1"
 
+"@scboson/sc-element@^1.0.2", "@scboson/sc-element@^1.0.4":
+  version "1.0.4"
+  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-element/-/sc-element-1.0.4.tgz#73819da3eb692c70ea9e08d606e4d18631c41811"
+  integrity sha512-yDytStSu7VUNOZ6z/2OlWzy6jteqs/2D/2OUelHUXpfV0AjZ3hv57DhNo1x9Tde+hizNUgIGcOYc5FnTkt2njw==
+  dependencies:
+    "@ant-design/icons" "^4.0.0"
+    antd "^4.13.1"
+    immutability-helper "^3.1.1"
+    moment "^2.24.0"
+    rc-util "^5.0.1"
+    react-dnd "^10.0.2"
+    react-dnd-html5-backend "^10.0.2"
+    react-resizable "^1.10.1"
+    react-sortable-hoc "^1.11.0"
+    use-media-antd-query "^1.0.1"
+
+"@scboson/sc-layout@^1.0.0":
+  version "1.0.1"
+  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-layout/-/sc-layout-1.0.1.tgz#35834a820b0db4271868037ef55d0523006d9d0c"
+  integrity sha512-ZrVsgeOLJSzp7cLd5dMBj76St8CrYu8Al5UuGrD9Sxj/sZsgSHfoeYSsYldYbYZ98zc6c0253tJJnd8f4nXhIw==
+  dependencies:
+    "@ant-design/icons" "^4.0.0"
+    "@ant-design/pro-layout" "^6.15.2"
+    "@ant-design/pro-provider" "^1.4.8"
+    "@ant-design/pro-utils" "^1.14.2"
+    "@umijs/route-utils" "^1.0.35"
+    "@umijs/use-params" "^1.0.2"
+    classnames "^2.2.6"
+    omit.js "^2.0.2"
+    path-to-regexp "2.4.0"
+    rc-util "^5.0.6"
+    unstated-next "^1.1.0"
+    use-json-comparison "^1.0.3"
+    use-media-antd-query "^1.0.6"
+    warning "^4.0.3"
+
+"@scboson/sc-schema@1.0.2":
+  version "1.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-schema/-/sc-schema-1.0.2.tgz#38517d9a971e6ed0d6ba1dd32e63d854c0c12a95"
+  integrity sha512-PC8zNLVFt3j5i0ikTariYgSxIx0xV9SOPE+1saBx7RkC5s4oVPBb03sWrVpZh4p2jbVYYcnl6G5tTuAPxxqd3g==
+  dependencies:
+    "@scboson/sc-element" "^1.0.2"
+
 "@scboson/sc-schema@^1.0.1":
   version "1.0.1"
   resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-schema/-/sc-schema-1.0.1.tgz#f3e710ed14bf7173734fbc7b3524a4bbc17f69c6"
   integrity sha512-HX/uTmbv3L5hVLDD2AP0A2winiPWj2Kga0ajYjEQr96XjScrmVuwBz8airKq3E0VmIspXRxvIdCNRbW/XJndpg==
   dependencies:
     "@scboson/sc-element" "^1.0.0"
+
+"@scboson/sc-utils@^1.0.0":
+  version "1.0.0"
+  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-utils/-/sc-utils-1.0.0.tgz#0414dd26217b9fc79c9903618204d2264bf88a49"
+  integrity sha512-+/iTgaCRZ4tJL3HtUxcPu5OzcZlWiFWiwJWuYje70wEOa+0ke9VlszV0ZoQtmL61KDKe8IUOugoyQNAaQfzJMQ==
+  dependencies:
+    crypto-js "^3.1.9-1"
+    md5 "^2.2.1"
+    sockjs-client "^1.3.0"
+    stompjs "^2.3.3"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -3371,7 +3477,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/history@*", "@types/history@^4.7.7":
+"@types/history@*", "@types/history@^4.7.2", "@types/history@^4.7.7":
   version "4.7.8"
   resolved "http://172.18.169.70:8081/repository/npm/@types/history/-/history-4.7.8.tgz#49348387983075705fe8f4e02fb67f7daaec4934"
   integrity sha1-STSDh5gwdXBf6PTgL7Z/farsSTQ=
@@ -3446,7 +3552,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.136":
+"@types/lodash@^4.14.136", "@types/lodash@^4.14.144":
   version "4.14.168"
   resolved "http://172.18.169.70:8081/repository/npm/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha1-/iRjLnm3rePxMoka//hsql5c4Ag=
@@ -3519,7 +3625,14 @@
   dependencies:
     "@types/react" "^16"
 
-"@types/react-helmet@^6.0.0":
+"@types/react-dom@^17.0.0":
+  version "17.0.3"
+  resolved "http://172.18.169.70:8081/repository/npm/@types/react-dom/-/react-dom-17.0.3.tgz#7fdf37b8af9d6d40127137865bb3fff8871d7ee1"
+  integrity sha1-f983uK+dbUAScTeGW7P/+IcdfuE=
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-helmet@^6.0.0", "@types/react-helmet@^6.1.0":
   version "6.1.1"
   resolved "http://172.18.169.70:8081/repository/npm/@types/react-helmet/-/react-helmet-6.1.1.tgz#4fde22cbcaa1b461642e1d719cc6162d95acb110"
   integrity sha1-T94iy8qhtGFkLh1xnMYWLZWssRA=
@@ -3611,6 +3724,15 @@
   version "16.14.5"
   resolved "http://172.18.169.70:8081/repository/npm/@types/react/-/react-16.14.5.tgz#2c39b5cadefaf4829818f9219e5e093325979f4d"
   integrity sha1-LDm1yt769IKYGPkhnl4JMyWXn00=
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17.0.0":
+  version "17.0.4"
+  resolved "http://172.18.169.70:8081/repository/npm/@types/react/-/react-17.0.4.tgz#a67c6f7a460d2660e950d9ccc1c2f18525c28220"
+  integrity sha1-pnxvekYNJmDpUNnMwcLxhSXCgiA=
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3847,10 +3969,22 @@
   dependencies:
     "@umijs/utils" "3.4.11"
 
+"@umijs/ast@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/ast/-/ast-3.4.13.tgz#df8971af7e5e1e62ca575debfc575f0531327175"
+  integrity sha1-34lxr35eHmLKV13r/FdfBTEycXU=
+  dependencies:
+    "@umijs/utils" "3.4.13"
+
 "@umijs/babel-plugin-auto-css-modules@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-auto-css-modules/-/babel-plugin-auto-css-modules-3.4.11.tgz#254869b1de4a8a81673ad558156834cd6959e5d2"
   integrity sha1-JUhpsd5KioFnOtVYFWg0zWlZ5dI=
+
+"@umijs/babel-plugin-auto-css-modules@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-auto-css-modules/-/babel-plugin-auto-css-modules-3.4.13.tgz#7bbfd5bef99438aab9bf2570af8548aa7f51dab6"
+  integrity sha1-e7/VvvmUOKq5vyVwr4VIqn9R2rY=
 
 "@umijs/babel-plugin-import-to-await-require@3.4.11":
   version "3.4.11"
@@ -3858,6 +3992,13 @@
   integrity sha1-l1spb+abJSKhJyPP16SCZ2tFCfY=
   dependencies:
     "@umijs/utils" "3.4.11"
+
+"@umijs/babel-plugin-import-to-await-require@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-import-to-await-require/-/babel-plugin-import-to-await-require-3.4.13.tgz#887fb541295c1f82b1d9bcc1c37e50a1d5f7962e"
+  integrity sha1-iH+1QSlcH4Kx2bzBw35QodX3li4=
+  dependencies:
+    "@umijs/utils" "3.4.13"
 
 "@umijs/babel-plugin-lock-core-js-3@3.4.11":
   version "3.4.11"
@@ -3867,12 +4008,27 @@
     "@umijs/utils" "3.4.11"
     core-js "3.6.5"
 
+"@umijs/babel-plugin-lock-core-js-3@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-lock-core-js-3/-/babel-plugin-lock-core-js-3-3.4.13.tgz#d2a480e5bd4b8b4355db251176611b339492893d"
+  integrity sha1-0qSA5b1Li0NV2yURdmEbM5SSiT0=
+  dependencies:
+    "@umijs/utils" "3.4.13"
+    core-js "3.6.5"
+
 "@umijs/babel-plugin-no-anonymous-default-export@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-no-anonymous-default-export/-/babel-plugin-no-anonymous-default-export-3.4.11.tgz#3748924699b15bd5ce5fc7e0efbd21c263c20972"
   integrity sha1-N0iSRpmxW9XOX8fg770hwmPCCXI=
   dependencies:
     "@umijs/utils" "3.4.11"
+
+"@umijs/babel-plugin-no-anonymous-default-export@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-plugin-no-anonymous-default-export/-/babel-plugin-no-anonymous-default-export-3.4.13.tgz#a81f356317c19ee49d9f3aa3a95105cc78775e13"
+  integrity sha1-qB81YxfBnuSdnzqjqVEFzHh3XhM=
+  dependencies:
+    "@umijs/utils" "3.4.13"
 
 "@umijs/babel-preset-umi@3.4.11", "@umijs/babel-preset-umi@^3.0.14":
   version "3.4.11"
@@ -3885,6 +4041,17 @@
     "@umijs/babel-plugin-lock-core-js-3" "3.4.11"
     "@umijs/babel-plugin-no-anonymous-default-export" "3.4.11"
 
+"@umijs/babel-preset-umi@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/babel-preset-umi/-/babel-preset-umi-3.4.13.tgz#c6c4f26f528dfd44114c46212cff90c03a93b446"
+  integrity sha1-xsTyb1KN/UQRTEYhLP+QwDqTtEY=
+  dependencies:
+    "@babel/runtime" "7.12.5"
+    "@umijs/babel-plugin-auto-css-modules" "3.4.13"
+    "@umijs/babel-plugin-import-to-await-require" "3.4.13"
+    "@umijs/babel-plugin-lock-core-js-3" "3.4.13"
+    "@umijs/babel-plugin-no-anonymous-default-export" "3.4.13"
+
 "@umijs/bundler-utils@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/bundler-utils/-/bundler-utils-3.4.11.tgz#93ff67421ae324fc52903f4e00b6e19601d421fa"
@@ -3893,6 +4060,15 @@
     "@umijs/babel-preset-umi" "3.4.11"
     "@umijs/types" "3.4.11"
     "@umijs/utils" "3.4.11"
+
+"@umijs/bundler-utils@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/bundler-utils/-/bundler-utils-3.4.13.tgz#87b391509be5936a56827d07bdf490e72704d042"
+  integrity sha1-h7ORUJvlk2pWgn0HvfSQ5ycE0EI=
+  dependencies:
+    "@umijs/babel-preset-umi" "3.4.13"
+    "@umijs/types" "3.4.13"
+    "@umijs/utils" "3.4.13"
 
 "@umijs/bundler-webpack@3.4.11":
   version "3.4.11"
@@ -3914,6 +4090,26 @@
     terser "5.6.0"
     webpack-chain "6.5.1"
 
+"@umijs/bundler-webpack@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/bundler-webpack/-/bundler-webpack-3.4.13.tgz#31f5b54873408bdd28f7f748988f5d0945870428"
+  integrity sha1-MfW1SHNAi90o9/dImI9dCUWHBCg=
+  dependencies:
+    "@umijs/bundler-utils" "3.4.13"
+    "@umijs/deps" "3.4.13"
+    "@umijs/types" "3.4.13"
+    "@umijs/utils" "3.4.13"
+    jest-worker "26.6.2"
+    node-libs-browser "2.2.1"
+    normalize-url "1.9.1"
+    postcss "7.0.32"
+    postcss-flexbugs-fixes "4.2.1"
+    postcss-loader "3.0.0"
+    postcss-preset-env "6.7.0"
+    postcss-safe-parser "4.0.2"
+    terser "5.6.0"
+    webpack-chain "6.5.1"
+
 "@umijs/core@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/core/-/core-3.4.11.tgz#c6fb5d28fc655e994b6b9f5de18121953d956474"
@@ -3923,6 +4119,16 @@
     "@umijs/babel-preset-umi" "3.4.11"
     "@umijs/deps" "3.4.11"
     "@umijs/utils" "3.4.11"
+
+"@umijs/core@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/core/-/core-3.4.13.tgz#4c5cc908dd6d00b561270230e50c62f7475332c0"
+  integrity sha1-TFzJCN1tALVhJwIw5Qxi90dTMsA=
+  dependencies:
+    "@umijs/ast" "3.4.13"
+    "@umijs/babel-preset-umi" "3.4.13"
+    "@umijs/deps" "3.4.13"
+    "@umijs/utils" "3.4.13"
 
 "@umijs/deps@3.4.11":
   version "3.4.11"
@@ -3935,7 +4141,18 @@
     jest-worker "24.9.0"
     prettier "2.2.1"
 
-"@umijs/fabric@^2.0.0":
+"@umijs/deps@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/deps/-/deps-3.4.13.tgz#97de148578bbcba0d224a6597f9d339b35a89b66"
+  integrity sha1-l94UhXi7y6DSJKZZf50zmzWom2Y=
+  dependencies:
+    "@bloomberg/record-tuple-polyfill" "0.0.3"
+    chokidar "3.5.1"
+    clipboardy "2.3.0"
+    jest-worker "24.9.0"
+    prettier "2.2.1"
+
+"@umijs/fabric@^2.0.0", "@umijs/fabric@^2.5.2":
   version "2.5.7"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/fabric/-/fabric-2.5.7.tgz#5d73b6110d240147669dea78789185ddcf81271b"
   integrity sha1-XXO2EQ0kAUdmnep4eJGF3c+BJxs=
@@ -3992,7 +4209,7 @@
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/plugin-analytics/-/plugin-analytics-0.2.2.tgz#575fd231d4327ea13413217aa1b5fc6bdd89465e"
   integrity sha1-V1/SMdQyfqE0EyF6obX8a92JRl4=
 
-"@umijs/plugin-antd@^0.9.0":
+"@umijs/plugin-antd@^0.9.0", "@umijs/plugin-antd@^0.9.1":
   version "0.9.1"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/plugin-antd/-/plugin-antd-0.9.1.tgz#a5a146a80879565b59cc2dd33d7b158685cf2bb2"
   integrity sha1-paFGqAh5VltZzC3TPXsVhoXPK7I=
@@ -4007,14 +4224,14 @@
   dependencies:
     esbuild-loader "~2.9.2"
 
-"@umijs/plugin-model@^2.5.7":
+"@umijs/plugin-model@^2.5.6", "@umijs/plugin-model@^2.5.7":
   version "2.5.7"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/plugin-model/-/plugin-model-2.5.7.tgz#1472dde968603a56e2b8c1d2d88540f3e0bcfd61"
   integrity sha1-FHLd6WhgOlbiuMHS2IVA8+C8/WE=
   dependencies:
     fast-deep-equal "3.1.1"
 
-"@umijs/plugin-qiankun@^2.24.1":
+"@umijs/plugin-qiankun@^2.23.0", "@umijs/plugin-qiankun@^2.24.1":
   version "2.24.1"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/plugin-qiankun/-/plugin-qiankun-2.24.1.tgz#d938b719236fcc6c7a7cf937391939fa2da070f1"
   integrity sha1-2Ti3GSNvzGx6fPk3ORk5+i2gcPE=
@@ -4048,6 +4265,29 @@
     react-router-dom "5.2.0"
     regenerator-runtime "0.13.5"
 
+"@umijs/preset-built-in@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/preset-built-in/-/preset-built-in-3.4.13.tgz#3793b17d5c82ab5db4721471e3eb009cb1a516b3"
+  integrity sha1-N5OxfVyCq120chRx4+sAnLGlFrM=
+  dependencies:
+    "@types/react-router-config" "5.0.2"
+    "@umijs/babel-preset-umi" "3.4.13"
+    "@umijs/bundler-webpack" "3.4.13"
+    "@umijs/deps" "3.4.13"
+    "@umijs/renderer-mpa" "3.4.13"
+    "@umijs/renderer-react" "3.4.13"
+    "@umijs/runtime" "3.4.13"
+    "@umijs/server" "3.4.13"
+    "@umijs/types" "3.4.13"
+    "@umijs/utils" "3.4.13"
+    es5-imcompatible-versions "^0.1.62"
+    history-with-query "4.10.4"
+    react-refresh "0.9.0"
+    react-router "5.2.0"
+    react-router-config "5.1.1"
+    react-router-dom "5.2.0"
+    regenerator-runtime "0.13.5"
+
 "@umijs/renderer-mpa@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/renderer-mpa/-/renderer-mpa-3.4.11.tgz#d37e8640425271f18871bc814b2e418ff7cb024a"
@@ -4056,6 +4296,15 @@
     "@types/react" "^16.9.43"
     "@types/react-dom" "^16.9.8"
     "@umijs/runtime" "3.4.11"
+
+"@umijs/renderer-mpa@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/renderer-mpa/-/renderer-mpa-3.4.13.tgz#f938532c37e97d0ee01e9854a0d41b86c6c347e7"
+  integrity sha1-+ThTLDfpfQ7gHphUoNQbhsbDR+c=
+  dependencies:
+    "@types/react" "^16.9.43"
+    "@types/react-dom" "^16.9.8"
+    "@umijs/runtime" "3.4.13"
 
 "@umijs/renderer-react@3.4.11":
   version "3.4.11"
@@ -4068,10 +4317,43 @@
     "@umijs/runtime" "3.4.11"
     react-router-config "5.1.1"
 
+"@umijs/renderer-react@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/renderer-react/-/renderer-react-3.4.13.tgz#1f0c56965ee62590341c41dc2b3718aa76b569a5"
+  integrity sha1-HwxWll7mJZA0HEHcKzcYqna1aaU=
+  dependencies:
+    "@types/react" "^16.9.43"
+    "@types/react-dom" "^16.9.8"
+    "@types/react-router-config" "^5.0.2"
+    "@umijs/runtime" "3.4.13"
+    react-router-config "5.1.1"
+
+"@umijs/route-utils@^1.0.35":
+  version "1.0.37"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/route-utils/-/route-utils-1.0.37.tgz#1ceb516980d4754ce2d5959878fe72259091a990"
+  integrity sha1-HOtRaYDUdUzi1ZWYeP5yJZCRqZA=
+  dependencies:
+    "@qixian.cs/path-to-regexp" "^6.1.0"
+    fast-deep-equal "^3.1.3"
+    lodash.isequal "^4.5.0"
+    memoize-one "^5.1.1"
+
 "@umijs/runtime@3.4.11":
   version "3.4.11"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/runtime/-/runtime-3.4.11.tgz#ca7ddb939cf9f218c831e9b12f42c0f3e115e0a3"
   integrity sha1-yn3bk5z58hjIMemxL0LA8+EV4KM=
+  dependencies:
+    "@types/react-router" "5.1.12"
+    "@types/react-router-dom" "5.1.7"
+    history-with-query "4.10.4"
+    react-router "5.2.0"
+    react-router-dom "5.2.0"
+    use-subscription "1.5.1"
+
+"@umijs/runtime@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/runtime/-/runtime-3.4.13.tgz#f570a6374e8eac1e85aa1d50bd0a32b7cef2d246"
+  integrity sha1-9XCmN06OrB6Fqh1QvQoyt87y0kY=
   dependencies:
     "@types/react-router" "5.1.12"
     "@types/react-router-dom" "5.1.7"
@@ -4087,6 +4369,14 @@
   dependencies:
     "@umijs/deps" "3.4.11"
     "@umijs/utils" "3.4.11"
+
+"@umijs/server@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/server/-/server-3.4.13.tgz#1987667d87c300523a1f0083014778a2936d1ab4"
+  integrity sha1-GYdmfYfDAFI6HwCDAUd4opNtGrQ=
+  dependencies:
+    "@umijs/deps" "3.4.13"
+    "@umijs/utils" "3.4.13"
 
 "@umijs/test-utils@^3.2.10":
   version "3.4.11"
@@ -4123,6 +4413,23 @@
     "@umijs/utils" "3.4.11"
     webpack-chain "6.5.1"
 
+"@umijs/types@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/types/-/types-3.4.13.tgz#3420ef0ea90562313de212412d04bfc4446b8d95"
+  integrity sha1-NCDvDqkFYjE94hJBLQS/xERrjZU=
+  dependencies:
+    "@umijs/babel-preset-umi" "3.4.13"
+    "@umijs/core" "3.4.13"
+    "@umijs/deps" "3.4.13"
+    "@umijs/server" "3.4.13"
+    "@umijs/utils" "3.4.13"
+    webpack-chain "6.5.1"
+
+"@umijs/use-params@^1.0.2":
+  version "1.0.3"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/use-params/-/use-params-1.0.3.tgz#d91d6be6846dc8765dfd81c53cee3953b33f1eb2"
+  integrity sha1-2R1r5oRtyHZd/YHFPO45U7M/HrI=
+
 "@umijs/use-request@^1.4.3":
   version "1.4.3"
   resolved "http://172.18.169.70:8081/repository/npm/@umijs/use-request/-/use-request-1.4.3.tgz#bc5fadc4cb07d796eb35f09838d6a15cb12802f7"
@@ -4138,6 +4445,13 @@
   integrity sha1-QeeK2kmq8r8iR/D3aGb7b1+SuDc=
   dependencies:
     "@umijs/deps" "3.4.11"
+
+"@umijs/utils@3.4.13":
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/@umijs/utils/-/utils-3.4.13.tgz#2ddd83b749a6ddcad497a05d701dd8d60581ce76"
+  integrity sha1-Ld2Dt0mm3crUl6BdcB3Y1gWBznY=
+  dependencies:
+    "@umijs/deps" "3.4.13"
 
 "@webassemblyjs/ast@1.11.0":
   version "1.11.0"
@@ -4603,6 +4917,22 @@ ahooks@^2.10.1, ahooks@^2.2.0:
   integrity sha1-c15b/wIBMy/0kwsJKZLmCYGmLr4=
   dependencies:
     "@ahooksjs/use-request" "^2.8.4"
+    "@types/js-cookie" "^2.2.6"
+    dayjs "^1.9.1"
+    intersection-observer "^0.7.0"
+    js-cookie "^2.2.1"
+    lodash.debounce "^4.0.8"
+    lodash.isequal "^4.5.0"
+    lodash.throttle "^4.1.1"
+    resize-observer-polyfill "^1.5.1"
+    screenfull "^5.0.0"
+
+ahooks@^2.9.6:
+  version "2.10.2"
+  resolved "http://172.18.169.70:8081/repository/npm/ahooks/-/ahooks-2.10.2.tgz#43b79f10a61141ad9659ae581d7ad7a7c46ea665"
+  integrity sha1-Q7efEKYRQa2WWa5YHXrXp8RupmU=
+  dependencies:
+    "@ahooksjs/use-request" "^2.8.5"
     "@types/js-cookie" "^2.2.6"
     dayjs "^1.9.1"
     intersection-observer "^0.7.0"
@@ -5274,7 +5604,7 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-import@^1.12.2:
+babel-plugin-import@^1.12.2, babel-plugin-import@^1.13.3:
   version "1.13.3"
   resolved "http://172.18.169.70:8081/repository/npm/babel-plugin-import/-/babel-plugin-import-1.13.3.tgz#9dbbba7d1ac72bd412917a830d445e00941d26d7"
   integrity sha1-nbu6fRrHK9QSkXqDDUReAJQdJtc=
@@ -5763,6 +6093,13 @@ buffer@^5.2.1, buffer@^5.5.0:
     base64-js "^1.3.1"
     ieee754 "^1.1.13"
 
+bufferutil@^4.0.1:
+  version "4.0.3"
+  resolved "http://172.18.169.70:8081/repository/npm/bufferutil/-/bufferutil-4.0.3.tgz#66724b756bed23cd7c28c4d306d7994f9943cc6b"
+  integrity sha1-ZnJLdWvtI818KMTTBteZT5lDzGs=
+  dependencies:
+    node-gyp-build "^4.2.0"
+
 builtin-modules@^3.1.0:
   version "3.2.0"
   resolved "http://172.18.169.70:8081/repository/npm/builtin-modules/-/builtin-modules-3.2.0.tgz#45d5db99e7ee5e6bc4f362e008bf917ab5049887"
@@ -6109,6 +6446,11 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "http://172.18.169.70:8081/repository/npm/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha1-kAlISfCTfy7twkJdDSip5fDLrZ4=
+
+charenc@0.0.2:
+  version "0.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+  integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
 
 cheerio-select@^1.3.0:
   version "1.4.0"
@@ -6918,7 +7260,7 @@ create-react-class@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-cross-env@^7.0.2:
+cross-env@^7.0.0, cross-env@^7.0.2:
   version "7.0.3"
   resolved "http://172.18.169.70:8081/repository/npm/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
   integrity sha1-hlJkspZ33AFbqEGJGJZd0jL8VM8=
@@ -6954,6 +7296,11 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crypt@0.0.2:
+  version "0.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  integrity sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
+
 crypto-browserify@^3.11.0:
   version "3.12.0"
   resolved "http://172.18.169.70:8081/repository/npm/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
@@ -6970,6 +7317,11 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^3.1.9-1:
+  version "3.3.0"
+  resolved "http://172.18.169.70:8081/repository/npm/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha1-hG3RzOL2iqz6FWyFePkmpgm3l2s=
 
 crypto-random-string@^1.0.0:
   version "1.0.0"
@@ -7277,6 +7629,14 @@ cyclist@^1.0.1:
   resolved "http://172.18.169.70:8081/repository/npm/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
+d@1, d@^1.0.1:
+  version "1.0.1"
+  resolved "http://172.18.169.70:8081/repository/npm/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
+  integrity sha1-hpgJU3LVjb7jRv/Qxwk/mfj561o=
+  dependencies:
+    es5-ext "^0.10.50"
+    type "^1.0.1"
+
 damerau-levenshtein@^1.0.6:
   version "1.0.6"
   resolved "http://172.18.169.70:8081/repository/npm/damerau-levenshtein/-/damerau-levenshtein-1.0.6.tgz#143c1641cb3d85c60c32329e26899adea8701791"
@@ -7377,7 +7737,7 @@ debug@4.1.1:
   dependencies:
     ms "^2.1.1"
 
-debug@^3.1.0:
+debug@^3.1.0, debug@^3.2.6:
   version "3.2.7"
   resolved "http://172.18.169.70:8081/repository/npm/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
   integrity sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=
@@ -7529,6 +7889,11 @@ deprecation@^2.0.0, deprecation@^2.3.1:
   version "2.3.1"
   resolved "http://172.18.169.70:8081/repository/npm/deprecation/-/deprecation-2.3.1.tgz#6368cbdb40abf3373b525ac87e4a260c3a700919"
   integrity sha1-Y2jL20Cr8zc7UlrIfkomDDpwCRk=
+
+dequal@2.0.2:
+  version "2.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  integrity sha1-hcoiAl46h+Ze91p6Q3s1KEp+MZ0=
 
 des.js@^1.0.0:
   version "1.0.1"
@@ -8043,10 +8408,28 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es5-ext@^0.10.35, es5-ext@^0.10.50:
+  version "0.10.53"
+  resolved "http://172.18.169.70:8081/repository/npm/es5-ext/-/es5-ext-0.10.53.tgz#93c5a3acfdbef275220ad72644ad02ee18368de1"
+  integrity sha1-k8WjrP2+8nUiCtcmRK0C7hg2jeE=
+  dependencies:
+    es6-iterator "~2.0.3"
+    es6-symbol "~3.1.3"
+    next-tick "~1.0.0"
+
 es5-imcompatible-versions@^0.1.62:
   version "0.1.67"
   resolved "http://172.18.169.70:8081/repository/npm/es5-imcompatible-versions/-/es5-imcompatible-versions-0.1.67.tgz#ce7de397dbdb62b926be683282455ac415e06c39"
   integrity sha1-zn3jl9vbYrkmvmgygkVaxBXgbDk=
+
+es6-iterator@~2.0.3:
+  version "2.0.3"
+  resolved "http://172.18.169.70:8081/repository/npm/es6-iterator/-/es6-iterator-2.0.3.tgz#a7de889141a05a94b0854403b2d0a0fbfa98f3b7"
+  integrity sha1-p96IkUGgWpSwhUQDstCg+/qY87c=
+  dependencies:
+    d "1"
+    es5-ext "^0.10.35"
+    es6-symbol "^3.1.1"
 
 es6-promise@^4.0.3, es6-promise@^4.2.8:
   version "4.2.8"
@@ -8059,6 +8442,14 @@ es6-promisify@^5.0.0:
   integrity sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=
   dependencies:
     es6-promise "^4.0.3"
+
+es6-symbol@^3.1.1, es6-symbol@~3.1.3:
+  version "3.1.3"
+  resolved "http://172.18.169.70:8081/repository/npm/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
+  integrity sha1-utXTwbzawoJp9MszHkMceKxwXRg=
+  dependencies:
+    d "^1.0.1"
+    ext "^1.1.2"
 
 esbuild-loader@~2.9.2:
   version "2.9.2"
@@ -8492,6 +8883,13 @@ events@^3.0.0, events@^3.2.0:
   resolved "http://172.18.169.70:8081/repository/npm/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha1-Mala0Kkk4tLEGagTrrLE6HjqdAA=
 
+eventsource@^1.0.7:
+  version "1.1.0"
+  resolved "http://172.18.169.70:8081/repository/npm/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
+  integrity sha1-AOjKfJIQnpSw3fMtrGd9hBAoz68=
+  dependencies:
+    original "^1.0.0"
+
 evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
   resolved "http://172.18.169.70:8081/repository/npm/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
@@ -8635,6 +9033,13 @@ expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
+ext@^1.1.2:
+  version "1.4.0"
+  resolved "http://172.18.169.70:8081/repository/npm/ext/-/ext-1.4.0.tgz#89ae7a07158f79d35517882904324077e4379244"
+  integrity sha1-ia56BxWPedNVF4gpBDJAd+Q3kkQ=
+  dependencies:
+    type "^2.0.0"
+
 extend-shallow@^1.1.2:
   version "1.1.4"
   resolved "http://172.18.169.70:8081/repository/npm/extend-shallow/-/extend-shallow-1.1.4.tgz#19d6bf94dfc09d76ba711f39b872d21ff4dd9071"
@@ -8726,7 +9131,7 @@ fast-deep-equal@^2.0.1:
   resolved "http://172.18.169.70:8081/repository/npm/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
   integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
 
-fast-deep-equal@^3.1.1:
+fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "http://172.18.169.70:8081/repository/npm/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha1-On1WtVnWy8PrUSMlJE5hmmXGxSU=
@@ -8844,6 +9249,13 @@ father-build@^1.18.1:
     update-notifier "3.0.0"
     vinyl-fs "3.0.3"
     yargs-parser "13.1.2"
+
+faye-websocket@^0.11.3:
+  version "0.11.3"
+  resolved "http://172.18.169.70:8081/repository/npm/faye-websocket/-/faye-websocket-0.11.3.tgz#5c0e9a8968e8912c286639fde977a8b209f2508e"
+  integrity sha1-XA6aiWjokSwoZjn96XeosgnyUI4=
+  dependencies:
+    websocket-driver ">=0.5.1"
 
 fb-watchman@^2.0.0:
   version "2.0.1"
@@ -10013,6 +10425,11 @@ http-errors@1.7.2:
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
 
+http-parser-js@>=0.5.1:
+  version "0.5.3"
+  resolved "http://172.18.169.70:8081/repository/npm/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
+  integrity sha1-AdJwnHnUFpi7AdTezF6dpOSgM9k=
+
 http-proxy-agent@^2.1.0:
   version "2.1.0"
   resolved "http://172.18.169.70:8081/repository/npm/http-proxy-agent/-/http-proxy-agent-2.1.0.tgz#e4821beef5b2142a2026bd73926fe537631c5405"
@@ -10506,7 +10923,7 @@ is-boolean-object@^1.0.1, is-boolean-object@^1.1.0:
   dependencies:
     call-bind "^1.0.0"
 
-is-buffer@^1.1.4, is-buffer@^1.1.5:
+is-buffer@^1.1.4, is-buffer@^1.1.5, is-buffer@~1.1.6:
   version "1.1.6"
   resolved "http://172.18.169.70:8081/repository/npm/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha1-76ouqdqg16suoTqXsritUf776L4=
@@ -12055,6 +12472,11 @@ json2mq@^0.2.0:
   dependencies:
     string-convert "^0.2.0"
 
+json3@^3.3.3:
+  version "3.3.3"
+  resolved "http://172.18.169.70:8081/repository/npm/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
+  integrity sha1-f8EON1/FrkLEcFpcwKpvYr4wW4E=
+
 json5@^0.5.1:
   version "0.5.1"
   resolved "http://172.18.169.70:8081/repository/npm/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
@@ -13011,6 +13433,15 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
+md5@^2.2.1:
+  version "2.3.0"
+  resolved "http://172.18.169.70:8081/repository/npm/md5/-/md5-2.3.0.tgz#c3da9a6aae3a30b46b7b0c349b87b110dc3bda4f"
+  integrity sha1-w9qaaq46MLRreww0m4exENw72k8=
+  dependencies:
+    charenc "0.0.2"
+    crypt "0.0.2"
+    is-buffer "~1.1.6"
+
 mdast-add-list-metadata@1.0.1:
   version "1.0.1"
   resolved "http://172.18.169.70:8081/repository/npm/mdast-add-list-metadata/-/mdast-add-list-metadata-1.0.1.tgz#95e73640ce2fc1fa2dcb7ec443d09e2bfe7db4cf"
@@ -13077,7 +13508,7 @@ mem@^4.3.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
-memoize-one@*:
+memoize-one@*, memoize-one@^5.1.1:
   version "5.2.1"
   resolved "http://172.18.169.70:8081/repository/npm/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha1-gzeqPEM1WBg57AHD1ZQJDOvo8A4=
@@ -13672,6 +14103,11 @@ new-github-release-url@^1.0.0:
   dependencies:
     type-fest "^0.4.1"
 
+next-tick@~1.0.0:
+  version "1.0.0"
+  resolved "http://172.18.169.70:8081/repository/npm/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
+  integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "http://172.18.169.70:8081/repository/npm/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -13703,6 +14139,11 @@ node-fetch@^2.5.0, node-fetch@^2.6.1:
   version "2.6.1"
   resolved "http://172.18.169.70:8081/repository/npm/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha1-BFvTI2Mfdu0uK1VXM5RBa2OaAFI=
+
+node-gyp-build@^4.2.0:
+  version "4.2.3"
+  resolved "http://172.18.169.70:8081/repository/npm/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
+  integrity sha1-zmJ3+FODX3GIKe+0fbIPPk2cRzk=
 
 node-gyp@^5.0.2:
   version "5.1.1"
@@ -14153,6 +14594,11 @@ octokit-pagination-methods@^1.1.0:
   resolved "http://172.18.169.70:8081/repository/npm/octokit-pagination-methods/-/octokit-pagination-methods-1.1.0.tgz#cf472edc9d551055f9ef73f6e42b4dbb4c80bea4"
   integrity sha1-z0cu3J1VEFX573P25CtNu0yAvqQ=
 
+omit.js@^2.0.2:
+  version "2.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/omit.js/-/omit.js-2.0.2.tgz#dd9b8436fab947a5f3ff214cb2538631e313ec2f"
+  integrity sha1-3ZuENvq5R6Xz/yFMslOGMeMT7C8=
+
 on-finished@~2.3.0:
   version "2.3.0"
   resolved "http://172.18.169.70:8081/repository/npm/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
@@ -14252,6 +14698,13 @@ org-regex@^1.0.0:
   version "1.0.0"
   resolved "http://172.18.169.70:8081/repository/npm/org-regex/-/org-regex-1.0.0.tgz#67ebb9ab3cb124fea5841289d60b59434f041a59"
   integrity sha1-Z+u5qzyxJP6lhBKJ1gtZQ08EGlk=
+
+original@^1.0.0:
+  version "1.0.2"
+  resolved "http://172.18.169.70:8081/repository/npm/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
+  integrity sha1-5EKmHP/hxf0gpl8yYcJmY7MD8l8=
+  dependencies:
+    url-parse "^1.4.3"
 
 os-browserify@^0.3.0:
   version "0.3.0"
@@ -15701,7 +16154,7 @@ prettier@1.15.3:
   resolved "http://172.18.169.70:8081/repository/npm/prettier/-/prettier-1.15.3.tgz#1feaac5bdd181237b54dbe65d874e02a1472786a"
   integrity sha1-H+qsW90YEje1Tb5l2HTgKhRyeGo=
 
-prettier@2.2.1, prettier@^2.2.1:
+prettier@2.2.1, prettier@^2.0.1, prettier@^2.2.1:
   version "2.2.1"
   resolved "http://172.18.169.70:8081/repository/npm/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
   integrity sha1-eVoaeN1S8HPaDNQrIfnJE4GSP/U=
@@ -15830,7 +16283,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.x, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.x, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "http://172.18.169.70:8081/repository/npm/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -16013,6 +16466,11 @@ querystring@0.2.0:
   version "0.2.0"
   resolved "http://172.18.169.70:8081/repository/npm/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
+
+querystringify@^2.1.1:
+  version "2.2.0"
+  resolved "http://172.18.169.70:8081/repository/npm/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
+  integrity sha1-M0WUG0FTy50ILY7uTNogFqmu9/Y=
 
 queue-microtask@^1.2.2:
   version "1.2.3"
@@ -16318,6 +16776,16 @@ rc-rate@~2.9.0:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.5"
     rc-util "^5.0.1"
+
+rc-resize-observer@^0.2.1:
+  version "0.2.6"
+  resolved "http://172.18.169.70:8081/repository/npm/rc-resize-observer/-/rc-resize-observer-0.2.6.tgz#c1b642f6d1293e34c4e3715f47f69443a167b825"
+  integrity sha1-wbZC9tEpPjTE43FfR/aUQ6FnuCU=
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    rc-util "^5.0.0"
+    resize-observer-polyfill "^1.5.1"
 
 rc-resize-observer@^1.0.0:
   version "1.0.0"
@@ -16709,6 +17177,15 @@ react-side-effect@^1.1.0:
   integrity sha1-DpQMePq6DHO5sOupzT3ajft+fa4=
   dependencies:
     shallowequal "^1.0.1"
+
+react-sortable-hoc@^1.11.0:
+  version "1.11.0"
+  resolved "http://172.18.169.70:8081/repository/npm/react-sortable-hoc/-/react-sortable-hoc-1.11.0.tgz#fe4022362bbafc4b836f5104b9676608a40a278f"
+  integrity sha1-/kAiNiu6/EuDb1EEuWdmCKQKJ48=
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    invariant "^2.2.4"
+    prop-types "^15.5.7"
 
 react-switch@^6.0.0:
   version "6.0.0"
@@ -17289,6 +17766,11 @@ require-main-filename@^2.0.0:
   resolved "http://172.18.169.70:8081/repository/npm/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha1-0LMp7MfMD2Fkn2IhW+aa9UqomJs=
 
+requires-port@^1.0.0:
+  version "1.0.0"
+  resolved "http://172.18.169.70:8081/repository/npm/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+  integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
 reselect@^3.0.1:
   version "3.0.1"
   resolved "http://172.18.169.70:8081/repository/npm/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
@@ -17715,7 +18197,7 @@ rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.3, rxjs@^6.5.4, rxjs@^6.6.0, rxjs@^6.6.7:
   dependencies:
     tslib "^1.9.0"
 
-safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@~5.2.0:
+safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "http://172.18.169.70:8081/repository/npm/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY=
@@ -18129,6 +18611,18 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+sockjs-client@^1.3.0:
+  version "1.5.1"
+  resolved "http://172.18.169.70:8081/repository/npm/sockjs-client/-/sockjs-client-1.5.1.tgz#256908f6d5adfb94dabbdbd02c66362cca0f9ea6"
+  integrity sha1-JWkI9tWt+5Tau9vQLGY2LMoPnqY=
+  dependencies:
+    debug "^3.2.6"
+    eventsource "^1.0.7"
+    faye-websocket "^0.11.3"
+    inherits "^2.0.4"
+    json3 "^3.3.3"
+    url-parse "^1.5.1"
+
 socks-proxy-agent@^4.0.0:
   version "4.0.2"
   resolved "http://172.18.169.70:8081/repository/npm/socks-proxy-agent/-/socks-proxy-agent-4.0.2.tgz#3c8991f3145b2799e70e11bd5fbc8b1963116386"
@@ -18367,6 +18861,13 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "http://172.18.169.70:8081/repository/npm/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
+stompjs@^2.3.3:
+  version "2.3.3"
+  resolved "http://172.18.169.70:8081/repository/npm/stompjs/-/stompjs-2.3.3.tgz#34178ac7bb8ee294cc5d554ad8b50f7f5459fd8e"
+  integrity sha1-NBeKx7uO4pTMXVVK2LUPf1RZ/Y4=
+  optionalDependencies:
+    websocket latest
 
 stream-browserify@^2.0.1:
   version "2.0.2"
@@ -18919,6 +19420,13 @@ svgo@^1.0.0, svgo@^1.2.2:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swr@^0.5.4:
+  version "0.5.5"
+  resolved "http://172.18.169.70:8081/repository/npm/swr/-/swr-0.5.5.tgz#c72c1615765f33570a16bbb13699e3ac87eaaa3a"
+  integrity sha1-xywWFXZfM1cKFruxNpnjrIfqqjo=
+  dependencies:
+    dequal "2.0.2"
 
 symbol-observable@^1.1.0, symbol-observable@^1.2.0:
   version "1.2.0"
@@ -19560,6 +20068,16 @@ type-is@~1.6.17:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
+type@^1.0.1:
+  version "1.2.0"
+  resolved "http://172.18.169.70:8081/repository/npm/type/-/type-1.2.0.tgz#848dd7698dafa3e54a6c479e759c4bc3f18847a0"
+  integrity sha1-hI3XaY2vo+VKbEeedZxLw/GIR6A=
+
+type@^2.0.0:
+  version "2.5.0"
+  resolved "http://172.18.169.70:8081/repository/npm/type/-/type-2.5.0.tgz#0a2e78c2e77907b252abe5f298c1b01c63f0db3d"
+  integrity sha1-Ci54wud5B7JSq+XymMGwHGPw2z0=
+
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
   resolved "http://172.18.169.70:8081/repository/npm/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
@@ -19577,7 +20095,7 @@ typescript@^3.7.2:
   resolved "http://172.18.169.70:8081/repository/npm/typescript/-/typescript-3.9.9.tgz#e69905c54bc0681d0518bd4d587cc6f2d0b1a674"
   integrity sha1-5pkFxUvAaB0FGL1NWHzG8tCxpnQ=
 
-typescript@^4.0.2, typescript@^4.0.5, typescript@^4.1.2:
+typescript@^4.0.2, typescript@^4.0.5, typescript@^4.1.2, typescript@^4.2.2:
   version "4.2.4"
   resolved "http://172.18.169.70:8081/repository/npm/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
   integrity sha1-hhC1l0feAo/aiYqK7w4QPxVtCWE=
@@ -19708,6 +20226,22 @@ umi@^3.2.10:
     "@umijs/runtime" "3.4.11"
     "@umijs/types" "3.4.11"
     "@umijs/utils" "3.4.11"
+    react "16.x"
+    react-dom "16.x"
+    v8-compile-cache "2.3.0"
+
+umi@^3.4.11:
+  version "3.4.13"
+  resolved "http://172.18.169.70:8081/repository/npm/umi/-/umi-3.4.13.tgz#62b56ee9b1f18ac9b48bd561c786c2cbba035a3d"
+  integrity sha1-YrVu6bHxism0i9Vhx4bCy7oDWj0=
+  dependencies:
+    "@umijs/bundler-webpack" "3.4.13"
+    "@umijs/core" "3.4.13"
+    "@umijs/deps" "3.4.13"
+    "@umijs/preset-built-in" "3.4.13"
+    "@umijs/runtime" "3.4.13"
+    "@umijs/types" "3.4.13"
+    "@umijs/utils" "3.4.13"
     react "16.x"
     react-dom "16.x"
     v8-compile-cache "2.3.0"
@@ -19957,6 +20491,11 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
+unstated-next@^1.1.0:
+  version "1.1.0"
+  resolved "http://172.18.169.70:8081/repository/npm/unstated-next/-/unstated-next-1.1.0.tgz#7bb4911a12fdf3cc8ad3eb11a0b315e4a8685ea8"
+  integrity sha1-e7SRGhL988yK0+sRoLMV5KhoXqg=
+
 upath@^1.1.1, upath@^1.2.0:
   version "1.2.0"
   resolved "http://172.18.169.70:8081/repository/npm/upath/-/upath-1.2.0.tgz#8f66dbcd55a883acdae4408af8b035a5044c1894"
@@ -20018,6 +20557,14 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
+url-parse@^1.4.3, url-parse@^1.5.1:
+  version "1.5.1"
+  resolved "http://172.18.169.70:8081/repository/npm/url-parse/-/url-parse-1.5.1.tgz#d5fa9890af8a5e1f274a2c98376510f6425f6e3b"
+  integrity sha1-1fqYkK+KXh8nSiyYN2UQ9kJfbjs=
+  dependencies:
+    querystringify "^2.1.1"
+    requires-port "^1.0.0"
+
 url@^0.11.0:
   version "0.11.0"
   resolved "http://172.18.169.70:8081/repository/npm/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
@@ -20026,7 +20573,12 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-media-antd-query@^1.0.1:
+use-json-comparison@^1.0.3:
+  version "1.0.5"
+  resolved "http://172.18.169.70:8081/repository/npm/use-json-comparison/-/use-json-comparison-1.0.5.tgz#d41a72d65fcf4cf72acc85c8f3980e2173809d63"
+  integrity sha1-1Bpy1l/PTPcqzIXI85gOIXOAnWM=
+
+use-media-antd-query@^1.0.1, use-media-antd-query@^1.0.6:
   version "1.0.6"
   resolved "http://172.18.169.70:8081/repository/npm/use-media-antd-query/-/use-media-antd-query-1.0.6.tgz#2395fc52a9bc810fa7360bff43eb84609eee1b2f"
   integrity sha1-I5X8Uqm8gQ+nNgv/Q+uEYJ7uGy8=
@@ -20042,6 +20594,13 @@ use@^3.1.0:
   version "3.1.1"
   resolved "http://172.18.169.70:8081/repository/npm/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha1-1QyMrHmhn7wg8pEfVuuXP04QBw8=
+
+utf-8-validate@^5.0.2:
+  version "5.0.4"
+  resolved "http://172.18.169.70:8081/repository/npm/utf-8-validate/-/utf-8-validate-5.0.4.tgz#72a1735983ddf7a05a43a9c6b67c5ce1c910f9b8"
+  integrity sha1-cqFzWYPd96BaQ6nGtnxc4ckQ+bg=
+  dependencies:
+    node-gyp-build "^4.2.0"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
@@ -20497,6 +21056,32 @@ webpack@^5.24.2:
     watchpack "^2.0.0"
     webpack-sources "^2.1.1"
 
+websocket-driver@>=0.5.1:
+  version "0.7.4"
+  resolved "http://172.18.169.70:8081/repository/npm/websocket-driver/-/websocket-driver-0.7.4.tgz#89ad5295bbf64b480abcba31e4953aca706f5760"
+  integrity sha1-ia1Slbv2S0gKvLox5JU6ynBvV2A=
+  dependencies:
+    http-parser-js ">=0.5.1"
+    safe-buffer ">=5.1.0"
+    websocket-extensions ">=0.1.1"
+
+websocket-extensions@>=0.1.1:
+  version "0.1.4"
+  resolved "http://172.18.169.70:8081/repository/npm/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha1-f4RzvIOd/YdgituV1+sHUhFXikI=
+
+websocket@latest:
+  version "1.0.34"
+  resolved "http://172.18.169.70:8081/repository/npm/websocket/-/websocket-1.0.34.tgz#2bdc2602c08bf2c82253b730655c0ef7dcab3111"
+  integrity sha1-K9wmAsCL8sgiU7cwZVwO99yrMRE=
+  dependencies:
+    bufferutil "^4.0.1"
+    debug "^2.2.0"
+    es5-ext "^0.10.50"
+    typedarray-to-buffer "^3.1.5"
+    utf-8-validate "^5.0.2"
+    yaeti "^0.0.6"
+
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   version "1.0.5"
   resolved "http://172.18.169.70:8081/repository/npm/whatwg-encoding/-/whatwg-encoding-1.0.5.tgz#5abacf777c32166a51d085d6b4f3e7d27113ddb0"
@@ -20823,6 +21408,11 @@ y18n@^5.0.5:
   version "5.0.8"
   resolved "http://172.18.169.70:8081/repository/npm/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
   integrity sha1-f0k00PfKjFb5UxSTndzS3ZHOHVU=
+
+yaeti@^0.0.6:
+  version "0.0.6"
+  resolved "http://172.18.169.70:8081/repository/npm/yaeti/-/yaeti-0.0.6.tgz#f26f484d72684cf42bedfb76970aa1608fbf9577"
+  integrity sha1-8m9ITXJoTPQr7ft2lwqhYI+/lXc=
 
 yallist@^2.1.2:
   version "2.1.2"

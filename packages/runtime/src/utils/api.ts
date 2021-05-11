@@ -20,6 +20,11 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    areaList: {
+      url: '/base/api/area/children',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
   user: {
     loginByPhone: {
@@ -41,6 +46,13 @@ const services = {
       url: '/user/api/user/logout',
       method: 'get',
       sysCode: 'common',
+    },
+  },
+  catalog: {
+    treeData: {
+      url: '/base/api/catalog/downlist',
+      method: 'get',
+      sysCode: 'base',
     },
   },
 }

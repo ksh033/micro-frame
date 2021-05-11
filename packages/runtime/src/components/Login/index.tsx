@@ -23,8 +23,8 @@ const Login: React.FC<any> = () => {
     userInfo.userAppInfo = chooseSysVO
      setUser(userInfo);
     const user = getUser()
-    const { systemCode } = user?.userAppInfo.currentSystem || {};
-     history.push(`/${systemCode}/`);
+    // const { systemCode } = user?.userAppInfo.currentSystem || {};
+     history.push(`/`);
   };
 
   const onFinishFailed = (errorInfo: any) => {

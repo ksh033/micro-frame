@@ -26,6 +26,7 @@ interface SingleUploadProps {
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: object
+  dataFormat?: (data: any) => string | null
 }
 const isImageFileType = (type: string): boolean => type.indexOf('image/') === 0
 
@@ -41,6 +42,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     accept,
     uploadImmediately = true,
     headers,
+    dataFormat,
   } = props
 
   const [previewImage, setPreviewImage] = useState<any>(null)
@@ -78,6 +80,9 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         let result = file
         if (file.response && file.response.success) {
           result = file.response.data
+        }
+        if (dataFormat) {
+          result = dataFormat(result)
         }
         onChange && onChange(result)
       }

@@ -1,12 +1,23 @@
 import React from 'react'
+import styles from './index.less'
+import BsImg from '../BsImg'
+import { BsTableComponentProps } from '../BsTable'
 
-type FieldImageNameProps = {
+type FieldImageNameProps = BsTableComponentProps & {
   fieldName: string
   fieldImage: string
 }
 
-const FieldImageName: React.FC<any> = (pros: any) => {
-  return <div>123</div>
+const FieldImageName: React.FC<FieldImageNameProps> = (props) => {
+  const { fieldImage, fieldName, rowData } = props
+  return (
+    <div className={styles['bg-field-line']}>
+      <div className={styles['bg-field-image']}>
+        <BsImg src={rowData[fieldImage]}></BsImg>
+      </div>
+      <div>{rowData[fieldName]}</div>
+    </div>
+  )
 }
 
 export default FieldImageName

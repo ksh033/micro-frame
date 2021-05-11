@@ -1,4 +1,5 @@
 import { IApi, utils } from 'umi';
+import getPkg from "umi/lib/utils/getPkg";
 import { join } from 'path';
 // import * as allIcons from '@ant-design/icons';
 import { readFileSync, copyFileSync, statSync } from 'fs';
@@ -15,7 +16,6 @@ function toHump(name: string) {
     return letter.toUpperCase();
   });
 }
-
 
 
 export default (api: IApi) => {
@@ -41,10 +41,14 @@ export default (api: IApi) => {
    
     ];
   });
+ 
   let generatedOnce = false;
   api.onGenerateFiles(() => {
     if (generatedOnce) return;
     generatedOnce = true;
+    const pkg =getPkg("");
+    const appCode=pkg.name.replace("micor-","");
+    
     const cwd = join(__dirname, '../src');
     const files = utils.glob.sync('**/*', {
       cwd,
@@ -61,11 +65,15 @@ export default (api: IApi) => {
         copyFileSync(source, target);
       }
     });
+    console.log(appCode)
+    var obj = {
+      appCode:'ssss'
+  }
     api.writeTmpFile({
       path: 'plugin-microlayout/runtime.tsx',
       content: utils.Mustache.render(
         readFileSync(join(__dirname, 'runtime.tsx.tpl'), 'utf-8'),
-        {},
+        obj
       ),
     });
   });

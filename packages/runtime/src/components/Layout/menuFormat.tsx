@@ -73,7 +73,7 @@ function getBreadcrumb(code: any, menuMap: Map<string, any>) {
   return routes;
 }
 const menuMap = {};
-const formatMenu = (menus: any[], parnetKeys:string[]) => {
+const formatMenu = (menus: any[], parnetKeys:string[],appCode:string) => {
   // const {routersMap, menuMap }=getMenuMap(menus,[]);
 
   return menus.map<MenuDataItem>((item: any) => {
@@ -89,7 +89,7 @@ const formatMenu = (menus: any[], parnetKeys:string[]) => {
     let newChildren: MenuDataItem[] = [];
     if (children && children.length > 0) {
       const pKeys = [...parnetKeys, id]
-      newChildren = formatMenu(children, pKeys);
+      newChildren = formatMenu(children, pKeys,appCode);
     }
       if (parnetKeys.length > 0 && pageUrl) {
         const paths = pageUrl.split('/')
@@ -115,7 +115,7 @@ const formatMenu = (menus: any[], parnetKeys:string[]) => {
      // defaultPath,
       key: `${id}`,
       pkey: parentId,
-      path: pageUrl || menuMap[id],
+      path: appCode + pageUrl || menuMap[id],
       permCode,
       icon: iconUrl || (<AppstoreFilled/>),
       parentKeys: parnetKeys,

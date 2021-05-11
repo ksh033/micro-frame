@@ -88,7 +88,7 @@ const Page: FC<any> = (props) => {
 
   const onValuesChange = (changedValues: any, values: any) => {
     if (!Object.is(values['systemCode'], systemCode)) {
-      formConfig.form.current.setFieldsValue({
+      formConfig.form.current?.setFieldsValue({
         bizDeptId: '',
         sysRoleList: [],
       })
@@ -96,7 +96,7 @@ const Page: FC<any> = (props) => {
       setSystemCode(values['systemCode'])
     }
     if (!Object.is(values['bizDeptId'], bizDeptId)) {
-      formConfig.form.current.setFieldsValue({
+      formConfig.form.current?.setFieldsValue({
         sysRoleList: [],
       })
       setBizDeptId(values['bizDeptId'])

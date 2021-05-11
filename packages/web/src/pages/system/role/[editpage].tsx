@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
-import React, { FC, useLayoutEffect, useMemo, useState } from 'react'
+import type { FC} from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { CForm } from '@scboson/sc-element'
 import { EditPage, useEditPageContext } from '@scboson/sc-schema'
 import { PageContainer, getService } from '@micro-frame/sc-runtime'
@@ -32,8 +33,8 @@ const Page: FC<any> = (props) => {
 
   const initialValues = useMemo(() => {
     return {
-      systemCode: systemCode,
-      bizDeptId: bizDeptId,
+      systemCode,
+      bizDeptId,
       roleType: 'COMMON',
     }
   }, [systemCode, bizDeptId, superAdminFlag])
@@ -42,14 +43,14 @@ const Page: FC<any> = (props) => {
     scope.toInitialValues({
       defaultValues: initialValues,
       callback: (res: any) => {
-        setSystemCode(res['systemCode'])
+        setSystemCode(res.systemCode)
         return res
       },
     })
   }, [])
 
   const bizDeptIdParam = useMemo(() => {
-    return { systemCode: systemCode }
+    return { systemCode }
   }, [systemCode])
 
   const formConfig = scope
@@ -62,8 +63,8 @@ const Page: FC<any> = (props) => {
     .changeFormItem('sysPermList', {
       component: SysPermList,
       props: {
-        systemCode: systemCode,
-        bizDeptId: bizDeptId,
+        systemCode,
+        bizDeptId,
       },
     })
     .changeFormItem('bizDeptId', {
@@ -76,15 +77,15 @@ const Page: FC<any> = (props) => {
   const title = scope.getTitle(action)
 
   const onValuesChange = (changedValues: any, values: any) => {
-    if (values['systemCode'] !== systemCode) {
+    if (values.systemCode !== systemCode) {
       formConfig.form.current.setFieldsValue({
         bizDeptId: null,
       })
       setBizDeptId(null)
-      setSystemCode(values['systemCode'])
+      setSystemCode(values.systemCode)
     }
-    if (values['bizDeptId'] !== bizDeptId) {
-      setBizDeptId(values['bizDeptId'])
+    if (values.bizDeptId !== bizDeptId) {
+      setBizDeptId(values.bizDeptId)
     }
   }
 

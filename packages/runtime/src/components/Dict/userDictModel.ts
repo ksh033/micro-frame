@@ -4,7 +4,7 @@ import { useSessionStorageState } from 'ahooks'
 
 export interface DictDataItem {
   name: string
-  value: string
+  value: any
 }
 export interface DictData {
   dictTypeCode: string
@@ -68,20 +68,43 @@ export default function useDictModel() {
               },
             ]
           } else {
-            dictMapData[item.systemCode] = {
-              [item.dictTypeCode]: [
+            if (sysMap) {
+              dictMapData[item.systemCode][item.dictTypeCode] = [
                 {
                   name: item.valueName,
                   value: item.valueCode,
                 },
-              ],
+              ]
+            } else {
+              dictMapData[item.systemCode] = {
+                [item.dictTypeCode]: [
+                  {
+                    name: item.valueName,
+                    value: item.valueCode,
+                  },
+                ],
+              }
             }
           }
         })
         setdDict(dictMapData)
       }
+      if (localDict == null || JSON.stringify(localDict) === '{}') {
+        setdLocalDict({
+          enabled: [
+            {
+              name: '启用',
+              value: true,
+            },
+            {
+              name: '禁用',
+              value: false,
+            },
+          ],
+        })
+      }
     }
-  }, [dict])
+  }, [dict, localDict])
 
   const setLocal = (type: string, list: Array<DictDataItem>) => {
     let localDictMap: LocalDictMapData = {}

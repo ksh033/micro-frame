@@ -34,7 +34,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     mode = 'single',
     disabled = false,
     maxSize = 3 * 1024 * 1024,
-    action = `${baseApi}/file/upload`,
+    action = `${baseApi}/file/api/file/upload`,
     uploadImmediately = true,
     accept = 'image/*',
     warnContent,
@@ -116,6 +116,17 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     }
   }
 
+  const dataFormat = (result: any): string | null => {
+    let fileUrl = null
+    if (result && result.fileUrl) {
+      fileUrl = result.fileUrl
+    }
+    if (fileUrl === null) {
+      fileUrl = result.url
+    }
+    return fileUrl
+  }
+
   return (
     <div>
       {mode === 'single' ? (
@@ -127,6 +138,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           beforeUpload={beforeUpload}
           accept={accept}
           headers={headers}
+          dataFormat={dataFormat}
           {...restProps}
         ></SingleUpload>
       ) : (
@@ -137,6 +149,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           beforeUpload={beforeUpload}
           accept={accept}
           headers={headers}
+          dataFormat={dataFormat}
           {...restProps}
         ></MultipleUpload>
       )}

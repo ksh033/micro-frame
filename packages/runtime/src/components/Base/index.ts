@@ -6,12 +6,14 @@ import BsImg from './BsImg'
 import BsVideo from './BsVideo'
 import BsViewImage from './BsViewImage'
 import FieldImageName from './FieldImageName'
+import Volume from './Volume'
 
 const { regeditCmp } = PageSchema
 regeditCmp('DictSelect', DictSelect)
 regeditCmp('BsUpload', BsUpload)
 regeditCmp('FieldImageName', FieldImageName)
 regeditCmp('BsPriceInput', BsPriceInput)
+regeditCmp('Volume', Volume)
 
 export {
   DictSelect,
@@ -21,4 +23,5 @@ export {
   BsViewImage,
   FieldImageName,
   BsPriceInput,
+  Volume,
 }
