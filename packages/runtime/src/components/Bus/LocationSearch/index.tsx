@@ -39,8 +39,8 @@ const LocationSearch: React.FC<LocationSearchProps> = (
       const newName = cityName + adname + address + name
       return {
         name: newName,
-        px: currentData.location['lng'],
-        py: currentData.location['lat'],
+        px: currentData['px'],
+        py: currentData['py'],
         cityCode: currentData.adcode,
       }
     } else {
