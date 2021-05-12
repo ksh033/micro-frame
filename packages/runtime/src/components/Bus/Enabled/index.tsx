@@ -9,10 +9,18 @@ type EnabledProps = BsTableComponentProps & {
   request: (params: any) => Promise<any> // 请求数据的远程方法
   rowKeyName?: string
   warning?: string
+  enabledName?: string
 }
 
 const Enabled: React.FC<EnabledProps> = (props) => {
-  const { request, rowKeyName = 'id', value, rowData, warning = '' } = props
+  const {
+    request,
+    rowKeyName = 'id',
+    value,
+    rowData,
+    warning = '',
+    enabledName = 'enabled',
+  } = props
   const { loading, run } = useRequest(request, {
     manual: true,
   })
@@ -28,6 +36,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
         onOk: () => {
           return run({
             [rowKeyName]: rowData[rowKeyName],
+            [enabledName]: checked,
           }).then((data) => {
             setState(checked)
             return data
@@ -37,6 +46,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     } else {
       run({
         [rowKeyName]: rowData[rowKeyName],
+        [enabledName]: checked,
       }).then(() => {
         setState(checked)
       })
