@@ -21,9 +21,9 @@ export interface BsTableProps extends Omit<ScTableProps<any>, 'columns'> {
   }
 }
 export interface BsTableComponentProps {
-  dataIndex?: string
-  rowData?: any
-  value?: any
+  dataIndex?: string;
+  rowData?: any;
+  value?: any;
 }
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
@@ -47,13 +47,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
     } else if (col.dataType && !col.render) {
       col.render = (text: string, record: any) => {
-        return defaultRenderText(text, col.dataType || col.dataIndex, record)
-      }
+        return defaultRenderText(text, col.dataType || col.dataIndex, record);
+      };
     } else if (col.component && !col.render) {
-      const comProps = col.props || {}
+      const comProps = col.props || {};
       col.render = (text: any, record: any) => {
         const component =
-          typeof col.component === 'function'
+          typeof col.component === "function"
             ? React.createElement(col.component, {
                 rowData: record,
                 dataIndex: col.dataIndex,
@@ -65,9 +65,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
                 dataIndex: col.dataIndex,
                 value: text,
                 ...comProps,
-              })
-        return component
-      }
+              });
+        return component;
+      };
     }
     delete col.sysCode
   })

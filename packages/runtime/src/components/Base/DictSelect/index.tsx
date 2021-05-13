@@ -16,6 +16,7 @@ export interface DictSelectProp extends ScSelectProps, FormComponentProps {
   /** 系统 */
   sysCode?: string
   fieldProps?: any
+  filterData?:(dictData:any[])=> any[]
 }
 /**
  * 字典控件
@@ -32,6 +33,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     initialValues,
     formItemProps,
     fieldProps,
+    filterData,
     ...restProps
   } = pros
   const { dict, getBySysCode } = userDictModel()
@@ -40,12 +42,16 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
 
   const sysMap = getBySysCode(sysCode || systemCode)
 
-  const data = useMemo(() => {
+  let data = useMemo(() => {
     if (dictType && sysMap && sysMap[dictType]) {
       return sysMap[dictType]
     }
     return []
   }, [dictType])
+
+  if (filterData){
+    data=filterData(data)
+  }
   if (readonly) {
     const formData: any = form?.getFieldsValue()
     let val = deepGet(formData, name)

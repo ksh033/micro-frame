@@ -3069,7 +3069,7 @@
     react-resizable "^1.10.1"
     use-media-antd-query "^1.0.1"
 
-"@scboson/sc-element@^1.0.2", "@scboson/sc-element@^1.0.4":
+"@scboson/sc-element@^1.0.4":
   version "1.0.4"
   resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-element/-/sc-element-1.0.4.tgz#73819da3eb692c70ea9e08d606e4d18631c41811"
   integrity sha512-yDytStSu7VUNOZ6z/2OlWzy6jteqs/2D/2OUelHUXpfV0AjZ3hv57DhNo1x9Tde+hizNUgIGcOYc5FnTkt2njw==
@@ -3105,12 +3105,12 @@
     use-media-antd-query "^1.0.6"
     warning "^4.0.3"
 
-"@scboson/sc-schema@1.0.2":
-  version "1.0.2"
-  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-schema/-/sc-schema-1.0.2.tgz#38517d9a971e6ed0d6ba1dd32e63d854c0c12a95"
-  integrity sha512-PC8zNLVFt3j5i0ikTariYgSxIx0xV9SOPE+1saBx7RkC5s4oVPBb03sWrVpZh4p2jbVYYcnl6G5tTuAPxxqd3g==
+"@scboson/sc-schema@1.0.3":
+  version "1.0.3"
+  resolved "http://172.18.169.70:8081/repository/npm/@scboson/sc-schema/-/sc-schema-1.0.3.tgz#aca27ab53baadeb409b33d844a50c4ec1d8035f8"
+  integrity sha512-DKzZVVm1Nq+/KPOdrYE5A7gUdXvb3SdhWO53Rk72hMfgT4RxTkFa43sacV9p9mKkS/uc/nwyD6L2+FZPB2pAfg==
   dependencies:
-    "@scboson/sc-element" "^1.0.2"
+    "@scboson/sc-element" "^1.0.4"
 
 "@scboson/sc-schema@^1.0.1":
   version "1.0.1"
@@ -17005,6 +17005,11 @@ rc@^1.2.8:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-amap@^1.2.8:
+  version "1.2.8"
+  resolved "http://172.18.169.70:8081/repository/npm/react-amap/-/react-amap-1.2.8.tgz#cb5a6441c5e83acb0d7b2e8a1b20dc539b759d9b"
+  integrity sha1-y1pkQcXoOssNey6KGyDcU5t1nZs=
 
 react-darkreader@^1.3.3:
   version "1.5.5"
