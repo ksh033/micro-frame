@@ -3,6 +3,7 @@ import React from 'react'
 import { ScTable } from '@scboson/sc-element'
 import type { ScTableProps } from '@scboson/sc-element/lib/sc-table/ScTable'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
+import type { ColumnsType } from 'antd/lib/table/Table'
 import { getUser } from '../../Auth'
 import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
@@ -12,9 +13,12 @@ import styles from './index.less'
 
 const { Operation } = ScTable
 
-export interface BsTableProps extends ScTableProps<any> {
+export interface BsTableProps extends Omit<ScTableProps<any>, 'columns'> {
   toolbar?: any[]
   sysCode?: string
+  columns?: ColumnsType<any> & {
+    sysCode?: string
+  }
 }
 export interface BsTableComponentProps {
   dataIndex?: string
@@ -23,15 +27,16 @@ export interface BsTableComponentProps {
 }
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
-  const { toolbar = [], columns = [], data, sysCode, ...restProps } = props
+  const { toolbar = [], columns = [], data, ...restProps } = props
 
   const { dict, getBySysCode } = userDictModel()
   const user = getUser()
-  const systemCode = sysCode || user?.userAppInfo.currentSystem.systemCode || ''
+  const systemCode = user?.userAppInfo.currentSystem.systemCode || ''
   const sysMap = getBySysCode(systemCode)
 
   columns.forEach((col: any, index: number) => {
-    const list: any = sysMap[`${col.dataType || col.dataIndex}`]
+    const cSysMap = col.sysCode ? getBySysCode(col.sysCode) : sysMap
+    const list: any = cSysMap[`${col.dataType || col.dataIndex}`]
     if (!col.width) {
       col.width = 180
     }
@@ -64,6 +69,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         return component
       }
     }
+    delete col.sysCode
   })
 
   return (
