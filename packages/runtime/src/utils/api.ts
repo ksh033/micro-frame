@@ -55,6 +55,13 @@ const services = {
       sysCode: 'base',
     },
   },
+  cargo: {
+    list: {
+      url: '/base/api/cargo/list/bysize',
+      method: 'get',
+      sysCode: 'common',
+    },
+  },
 }
 
 // services { ...services.system, ...services.user };
