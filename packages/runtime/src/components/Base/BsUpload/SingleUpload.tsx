@@ -28,7 +28,7 @@ interface SingleUploadProps {
   headers?: object
   dataFormat?: (data: any) => string | null
 }
-const isImageFileType = (type: string): boolean => type.indexOf('image/') === 0
+const isImageFileType = (type?: string): boolean => type?.indexOf('image/') === 0
 
 const SingleUpload: React.FC<SingleUploadProps> = (
   props: SingleUploadProps
