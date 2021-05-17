@@ -36,7 +36,7 @@ import {
 } from '@ahooksjs/use-request/lib/types'
 
 type ResultWithData<T = any> = { data?: T; [key: string]: any }
-import { baseApi} from './common';
+import { baseApi } from './common'
 
 /**
  * 文件下载
@@ -240,7 +240,11 @@ const getRequestMethod = () => {
       if (url && url.charAt(0) === '/') {
         sp = ''
       }
-      const newUrl = baseApi + sp + url
+      let newUrl = sp + url
+      if (url.indexOf(baseApi) === -1) {
+        newUrl = baseApi + newUrl
+      }
+
       // console.log(baseApi);
       return {
         url: newUrl,
