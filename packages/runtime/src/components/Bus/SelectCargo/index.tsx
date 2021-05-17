@@ -1,8 +1,7 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import SelectCargoTable, { SelectCargoTableProps } from './table'
-import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl'
 import { CModal } from '@scboson/sc-element'
-import { DialogOptions, ToolButtons } from '@scboson/sc-schema/lib/interface'
+import { DialogOptions } from '@scboson/sc-schema/lib/interface'
 import { useSetState } from 'ahooks'
 
 type SelectCargoProps = {

@@ -4,10 +4,10 @@ const pageConfig: PageConfig = {
   queryConfig: [
     {
       label: '货品查询',
-      name: 'keyword',
+      name: 'cargoCodeName',
       component: 'Input',
       props: {
-        placeholder: '请输入货品名称/编码/upc编码',
+        placeholder: '请输入货品名称/编码',
       },
     },
   ],
