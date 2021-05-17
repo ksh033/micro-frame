@@ -100,10 +100,8 @@
     "write-pkg": "^4.0.0",
     "xhr-mock": "^2.5.1",
     "yorkie": "^2.0.0",
-    "copy-webpack-plugin":"5.1.1",
-    "@scboson/sc-schema":"^1.0.1",
-    "@micro-frame/sc-runtime":"^1.0.4",
-    "@scboson/sc-element":"^1.0.4"
+    "copy-webpack-plugin":"5.1.1"
+
   },
   "name": "sc-boson"
 }
