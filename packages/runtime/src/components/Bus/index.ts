@@ -6,6 +6,7 @@ import AreaSelect from './Address/AreaSelect'
 import AreaSelectTree from './Address/AreaSelectTree'
 import SelectCargoTable from './SelectCargo/table'
 import SelectCargo from './SelectCargo/index'
+import CargoSelect from './SelectCargo/select'
 import Enabled from './Enabled'
 import LocationSearch from './LocationSearch'
 import RailMap from './RailMap'
@@ -19,6 +20,7 @@ regeditCmp('AreaSelectTree', AreaSelectTree)
 regeditCmp('Enabled', Enabled)
 regeditCmp('LocationSearch', LocationSearch)
 regeditCmp('RailMap', RailMap)
+regeditCmp('CargoSelect', CargoSelect)
 
 export {
   CheckBoxDate,
@@ -30,4 +32,5 @@ export {
   SelectCargoTable,
   RailMap,
   LocationSearch,
+  CargoSelect,
 }

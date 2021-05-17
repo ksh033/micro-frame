@@ -1,6 +1,7 @@
 import { uesRequest } from '../../utils/api'
 import { useCallback, useMemo } from 'react'
 import { useSessionStorageState } from 'ahooks'
+import { getUser } from '../Auth'
 
 export interface DictDataItem {
   name: string
@@ -120,5 +121,14 @@ export default function useDictModel() {
     return newDict[syscode] ? newDict[syscode] : {}
   }
 
-  return { dict: newDict, loadDict, setLocal, getBySysCode }
+  const getDistList = (config: { syscode?: string; dictTypeCode: string }) => {
+    const user = getUser()
+    const systemCode =
+      config.syscode || user?.userAppInfo.currentSystem.systemCode || ''
+    const sysMap = getBySysCode(systemCode)
+
+    return sysMap[config.dictTypeCode]
+  }
+
+  return { dict: newDict, loadDict, setLocal, getBySysCode, getDistList }
 }
