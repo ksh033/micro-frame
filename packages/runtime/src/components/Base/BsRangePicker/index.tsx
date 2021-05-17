@@ -42,7 +42,7 @@ const ScRangePicker: FormComponent<ScRangePickerProps> = (props) => {
     const endTime = form?.getFieldValue(endTimeFiled)
     if (startTime && endTime) {
       form?.setFieldsValue({
-        bsRangePickerTime: [
+        [`${startTimeFiled}_${endTimeFiled}`]: [
           moment.utc(startTime, cformat),
           moment.utc(endTime, cformat),
         ],
@@ -53,7 +53,7 @@ const ScRangePicker: FormComponent<ScRangePickerProps> = (props) => {
       ])
     } else {
       form?.setFieldsValue({
-        bsRangePickerTime: [],
+        [`${startTimeFiled}_${endTimeFiled}`]: [],
       })
       setCurrentValue([])
     }
