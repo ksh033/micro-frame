@@ -1,17 +1,20 @@
 /* eslint-disable no-restricted-globals */
-import { FormComponent } from '@scboson/sc-element/es/c-form'
+import {
+  FormComponent,
+  FormComponentProps,
+} from '@scboson/sc-element/es/c-form'
 import { useSetState, useUpdateEffect } from 'ahooks'
 import React from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 
-type BsPriceInputProps = BsNumberInputProps
+type BsPriceInputProps = BsNumberInputProps & FormComponentProps
 
 type BsPriceInputState = {
   value: any
 }
 
 const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
-  const { value, onChange, readOnly, ...restProps } = props
+  const { value, onChange, readonly, ...restProps } = props
 
   const formatValue = (rVal: any) => {
     const reg = /^-?\d*(\.\d*)?$/
@@ -49,8 +52,8 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     }
   }
 
-  if (readOnly) {
-    return formatValue(value)
+  if (readonly) {
+    return <div>{formatValue(value)}</div>
   }
 
   return (
