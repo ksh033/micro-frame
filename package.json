@@ -6,6 +6,7 @@
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
     "build": "father-build --watch",
+    "build:web":"cross-env APP_ROOT=packages/web umi build",
     "start": "cross-env APP_ROOT=packages/web umi dev",
     "update:deps": "yarn upgrade-interactive --latest"
 
