@@ -9,7 +9,8 @@ export type BsNumberInputProps = {
   min?: number | false // 最小值
   max?: number | false // 最大值
   complement?: number // 小数点后几位
-} & InputProps
+  onBlur?: (value: any) => void
+} & Omit<InputProps, 'onBlur'>
 
 const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   // complement 为补0位数
@@ -19,6 +20,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
     min = false,
     max = false,
     complement = 2,
+    onBlur,
     ...restProps
   } = props
 
@@ -58,6 +60,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
         str = max + ''
       }
       onChange && onChange(str)
+      onBlur && onBlur(str)
     }
   }
 
