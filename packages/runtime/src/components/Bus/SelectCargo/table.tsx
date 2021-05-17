@@ -24,7 +24,9 @@ export type SelectCargoTableProps = {
   selectedRowKeys?: string[]
 }
 
-const SelectCargoTable: React.FC<any> = (props: SelectCargoTableProps) => {
+const SelectCargoTable: React.FC<SelectCargoTableProps> = (
+  props: SelectCargoTableProps
+) => {
   const {
     extraColumns,
     request,
