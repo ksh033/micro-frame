@@ -1,14 +1,14 @@
 /* eslint-disable no-restricted-globals */
+import { FormComponent } from '@scboson/sc-element/es/c-form'
 import React from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 
 type BsPriceInputProps = BsNumberInputProps
 
-const BsPriceInput: React.FC<BsPriceInputProps> = (props) => {
-  const { value, onChange, ...restProps } = props
+const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
+  const { value, onChange, readOnly, ...restProps } = props
 
-  const handleChange = (e: any) => {
-    const _value = e.target.value
+  const handleChange = (_value: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     if (!isNaN(_value) && reg.test(_value)) {
       onChange && onChange(_value * 10000)
@@ -17,8 +17,17 @@ const BsPriceInput: React.FC<BsPriceInputProps> = (props) => {
     }
   }
 
-  const formatValue = (rVal: number) => {
-    return rVal / 10000
+  const formatValue = (rVal: any) => {
+    const reg = /^-?\d*(\.\d*)?$/
+    if (!isNaN(rVal) && reg.test(rVal)) {
+      return rVal / 10000
+    } else {
+      return rVal
+    }
+  }
+
+  if (readOnly) {
+    return formatValue(value)
   }
 
   return (
@@ -28,5 +37,7 @@ const BsPriceInput: React.FC<BsPriceInputProps> = (props) => {
     ></BsNumberInput>
   )
 }
+
+BsPriceInput.customView = true
 
 export default BsPriceInput
