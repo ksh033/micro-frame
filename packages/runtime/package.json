@@ -23,6 +23,7 @@
   ],
   "dependencies": {
     "react-amap": "^1.2.8",
+    "@scboson/sc-element":"beta1",
     "@scboson/sc-layout": "^1.0.0"
   },
   "keywords": [],
