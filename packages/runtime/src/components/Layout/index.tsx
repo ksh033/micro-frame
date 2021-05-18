@@ -16,7 +16,7 @@ export default (props: any) => {
   });
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
-  const { menuData, appData, appSelected } = userConfig;
+  const { menuData, appData, appSelected } = userConfig||{};
   const user = getUser();
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
