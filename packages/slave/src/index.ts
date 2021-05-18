@@ -56,7 +56,7 @@ if (packageName.indexOf("micro-") > -1) {
 export default defineConfig({
   hash: true,
   antd: {},
-
+  devtool:REACT_APP_ENV=="test"?false:'cheap-module-source-map',
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
