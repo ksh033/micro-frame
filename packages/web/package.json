@@ -48,7 +48,6 @@
     "@ant-design/colors": "^3.1.0",
     "@scboson/sc-schema": "1.0.3-beta1",
     "@micro-frame/sc-runtime": "^1.0.4-beta1",
-    "@scboson/sc-element": "^1.0.4",
     "@ant-design/icons": "^4.0.0",
     "ahooks": "^2.2.0",
     "classnames": "^2.2.6",
