@@ -22,7 +22,7 @@
     "ie >= 11"
   ],
   "scripts": {
-    "build-runtime":"father-build",
+    "build-runtime": "father-build",
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "cross-env REACT_APP_ENV=pro umi build",
     "build:test": "cross-env  REACT_APP_ENV=test umi build",
@@ -46,9 +46,9 @@
   "authors": [],
   "dependencies": {
     "@ant-design/colors": "^3.1.0",
-    "@scboson/sc-schema":"^1.0.1",
-    "@micro-frame/sc-runtime":"^1.0.4",
-    "@scboson/sc-element":"^1.0.4",
+    "@scboson/sc-schema": "1.0.3-beta1",
+    "@micro-frame/sc-runtime": "^1.0.4-beta1",
+    "@scboson/sc-element": "^1.0.4",
     "@ant-design/icons": "^4.0.0",
     "ahooks": "^2.2.0",
     "classnames": "^2.2.6",
@@ -64,10 +64,11 @@
     "jsencrypt": "2.3.1"
   },
   "devDependencies": {
-    "@umijs/plugin-esbuild": "^1.0.1",
-    "@umijs/plugin-qiankun":"^2.24.1",
+    "@types/copy-webpack-plugin": "^8.0.0",
     "@umijs/plugin-antd": "^0.9.0",
-    "@umijs/plugin-model":"^2.5.7"
+    "@umijs/plugin-esbuild": "^1.0.1",
+    "@umijs/plugin-model": "^2.5.7",
+    "@umijs/plugin-qiankun": "^2.24.1"
   },
   "license": "MIT",
   "peerDependencies": {

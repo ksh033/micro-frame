@@ -28,7 +28,7 @@ export const EVN_CONFIG = {
     apiUrl: "/webapi-test",
   },
 };
-const externalCSS = ['xterm/css/xterm.css', 'antd/dist/antd.css']
+const externalCSS = ['antd/dist/antd.css']
 const externalJS = [
   `react/umd/react.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
@@ -41,7 +41,7 @@ const externalJS = [
 ]
 const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : '/'
 const outputPath = NODE_ENV === 'development' ? './public' : './dist'
-console.log('sdfsdf')
+
 export default defineConfig({
   hash: true,
   // antd: {},
@@ -54,6 +54,7 @@ export default defineConfig({
   // dynamicImport: {
   // loading: '@ant-design/pro-layout/es/PageLoading',
   // },
+  devtool: REACT_APP_ENV == "test" ? false : "cheap-module-source-map",
 
   targets: {
     ie: 11,
