@@ -1,21 +1,20 @@
 import { useState } from 'react'
 import { Auth, Login, SelectDept, getServiceApi } from '@micro-frame/sc-runtime'
 import { history } from 'umi'
-console.log(Auth)
-const { getUser } = Auth
-console.log(getUser)
 
+const { getUser } = Auth
+
+const  masterUrl= SC_MASTER_URL || ""
 export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
     const apps: any[] = []
     const routes: any[] = []
-    console.log(data)
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: 'http://localhost:8000/',
+        entry: masterUrl,
       })
       routes.push({
         path: `/${systemCode}`,

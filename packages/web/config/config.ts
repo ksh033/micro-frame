@@ -18,14 +18,18 @@ export const EVN_CONFIG = {
   dev: {
     imgUrl: "http://test.bogengkeji.com/images",
     apiUrl: "/webapi-dev",
+    masterUrl:'http://localhost:9000/'
+    
   },
   pro: {
     imgUrl: "https://images.bogengkeji.com/",
     apiUrl: "/webapi",
+    masterUrl:'http://www.bogengkeji.com/'
   },
   test: {
     imgUrl: "http://test.bogengkeji.com/images",
     apiUrl: "/webapi-test",
+    masterUrl:'http://172.18.164.54/'
   },
 };
 const externalCSS = ['antd/dist/antd.css']
@@ -48,6 +52,7 @@ export default defineConfig({
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
+    SC_MASTER_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
   },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: false,
