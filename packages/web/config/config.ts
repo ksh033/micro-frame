@@ -11,7 +11,23 @@ const packageName = require('../package.json').name
 // import routes from './routes';
 
 const { REACT_APP_ENV, NODE_ENV } = process.env
-console.log(REACT_APP_ENV)
+
+
+
+export const EVN_CONFIG = {
+  dev: {
+    imgUrl: "http://test.bogengkeji.com/images",
+    apiUrl: "/webapi-dev",
+  },
+  pro: {
+    imgUrl: "https://images.bogengkeji.com/",
+    apiUrl: "/webapi",
+  },
+  test: {
+    imgUrl: "http://test.bogengkeji.com/images",
+    apiUrl: "/webapi-test",
+  },
+};
 const externalCSS = ['xterm/css/xterm.css', 'antd/dist/antd.css']
 const externalJS = [
   `react/umd/react.${
@@ -29,7 +45,10 @@ console.log('sdfsdf')
 export default defineConfig({
   hash: true,
   // antd: {},
-
+  define: {
+    SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
+    SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
+  },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: false,
   // dynamicImport: {
