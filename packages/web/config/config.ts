@@ -59,7 +59,7 @@ export default defineConfig({
   // dynamicImport: {
   // loading: '@ant-design/pro-layout/es/PageLoading',
   // },
-  devtool: REACT_APP_ENV === "pro" ? false : "cheap-module-source-map",
+  devtool: REACT_APP_ENV === "pro" ? false : "source-map",
 
   targets: {
     ie: 11,
