@@ -24,7 +24,7 @@
   "dependencies": {
     "react-amap": "^1.2.8",
     "@scboson/sc-element":"1.0.4-beta1",
-    "@scboson/sc-layout": "^1.0.0"
+    "@scboson/sc-layout": "1.0.1-beta1"
   },
   "keywords": [],
   "authors": [],
