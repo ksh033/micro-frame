@@ -81,7 +81,7 @@ export default defineConfig({
   externals: {
     react: 'window.React',
     'react-dom': 'window.ReactDOM',
-    // antd: 'window.antd',
+    antd: 'window.antd',
     //xterm: 'window.Terminal',
     moment: 'moment',
   },
