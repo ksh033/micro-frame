@@ -14,7 +14,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: `${masterUrl}/${systemCode}`,
+        entry: `${masterUrl}${systemCode}`,
       })
       routes.push({
         path: `/${systemCode}`,
@@ -26,7 +26,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       routes,
       lifeCycles: {
         afterMount: (props: any) => {
-          // console.log(props);
+          console.log('afterMount');
         },
       },
     }
