@@ -32,7 +32,8 @@ export const EVN_CONFIG = {
     masterUrl:'http://172.18.164.54/'
   },
 };
-const externalCSS = ['antd/dist/antd.css']
+const externalCSS:any[] = []
+
 const externalJS = [
   `react/umd/react.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
@@ -40,8 +41,11 @@ const externalJS = [
   `react-dom/umd/react-dom.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
   }.js`,
-  'moment/min/moment.min.js',
-  'antd/dist/antd.min.js',
+  //'moment/min/moment.min.js',
+ // 'antd/dist/antd.min.js',
+ // '@ant-design/pro-provider/dist/provider.min.js',
+ // '@ant-design/pro-utils/dist/utils.min.js',
+ // '@ant-design/pro-layout/dist/layout.min.js',
 ]
 const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : '/'
 const outputPath = NODE_ENV === 'development' ? './public' : './dist'
@@ -81,9 +85,13 @@ export default defineConfig({
   externals: {
     react: 'window.React',
     'react-dom': 'window.ReactDOM',
-    antd: 'window.antd',
+  
+  // antd: 'window.antd',
     //xterm: 'window.Terminal',
-    moment: 'moment',
+   //moment: 'moment',
+   //'@ant-design/pro-provider':'window.ProProvider',
+   //'@ant-design/pro-utils':'window.ProUtils',
+  // '@ant-design/pro-layout':'window.ProLayout',
   },
   devServer: {
     // dev write assets into public

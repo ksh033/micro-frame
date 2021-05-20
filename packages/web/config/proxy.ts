@@ -7,10 +7,10 @@
  */
 export default {
   dev: {
-    '/devapi/': {
+    '/webapi-dev/': {
       target: 'http://172.18.164.54:8031/',
       changeOrigin: true,
-      pathRewrite: { '/devapi': '' },
+      pathRewrite: { '/webapi-dev': '' },
     },
   },
   test: {
