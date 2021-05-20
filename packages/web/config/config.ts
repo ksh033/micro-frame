@@ -56,7 +56,7 @@ export default defineConfig({
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
-    SC_MASTER_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
+    SC_MASTER_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].masterUrl,
   },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: false,
