@@ -10,6 +10,8 @@ import logo from "../../assets/logo.svg";
 import menuFormat from "./menuFormat";
 import userDictModel from "../Dict/userDictModel";
 
+import './index.less'
+
 export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
