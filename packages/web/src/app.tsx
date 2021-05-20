@@ -14,7 +14,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: masterUrl,
+        entry: `${masterUrl}/${systemCode}`,
       })
       routes.push({
         path: `/${systemCode}`,
@@ -50,11 +50,11 @@ export function onRouteChange({ location }: any) {
 export function render(oldRender: any) {
   const currentUser = getUser()
   if (currentUser) {
-    //if (currentUser && currentUser.userAppInfo.currentDept) {
+    // if (currentUser && currentUser.userAppInfo.currentDept) {
     // currentUser.currentSystem.
-    //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
+    // history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
     // }
-    //console.log(getRoutes().)
+    // console.log(getRoutes().)
     oldRender()
   } else {
     history.push('/login')
