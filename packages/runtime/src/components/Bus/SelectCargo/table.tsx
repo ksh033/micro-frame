@@ -74,6 +74,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       catalogId,
     }
   }, [JSON.stringify(pageInfo.params), params, catalogId])
+  const tableInfo:any=pageInfo
 
   return (
     <div className={styles.cell}>
@@ -100,7 +101,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
         <BsTable
           checkbox
           autoload={true}
-          {...pageInfo}
+          {...tableInfo}
           rowSelection={{
             type: selectionType,
           }}

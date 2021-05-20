@@ -11,8 +11,29 @@ const packageName = require('../package.json').name
 // import routes from './routes';
 
 const { REACT_APP_ENV, NODE_ENV } = process.env
-console.log(REACT_APP_ENV)
-const externalCSS = ['xterm/css/xterm.css', 'antd/dist/antd.css']
+
+
+
+export const EVN_CONFIG = {
+  dev: {
+    imgUrl: "http://test.bogengkeji.com/images",
+    apiUrl: "/webapi-dev",
+    masterUrl:'http://localhost:9000/'
+    
+  },
+  pro: {
+    imgUrl: "https://images.bogengkeji.com/",
+    apiUrl: "/webapi",
+    masterUrl:'http://www.bogengkeji.com/'
+  },
+  test: {
+    imgUrl: "http://test.bogengkeji.com/images",
+    apiUrl: "/webapi-test",
+    masterUrl:'http://172.18.164.54:3000/'
+  },
+};
+const externalCSS:any[] = []
+
 const externalJS = [
   `react/umd/react.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
@@ -20,21 +41,29 @@ const externalJS = [
   `react-dom/umd/react-dom.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
   }.js`,
-  'moment/min/moment.min.js',
-  'antd/dist/antd.min.js',
+  //'moment/min/moment.min.js',
+ // 'antd/dist/antd.min.js',
+ // '@ant-design/pro-provider/dist/provider.min.js',
+ // '@ant-design/pro-utils/dist/utils.min.js',
+ // '@ant-design/pro-layout/dist/layout.min.js',
 ]
 const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : '/'
 const outputPath = NODE_ENV === 'development' ? './public' : './dist'
-console.log('sdfsdf')
+
 export default defineConfig({
   hash: true,
   // antd: {},
-
+  define: {
+    SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
+    SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
+    SC_MASTER_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].masterUrl,
+  },
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: false,
   // dynamicImport: {
   // loading: '@ant-design/pro-layout/es/PageLoading',
   // },
+  devtool: REACT_APP_ENV === "pro" ? false : "source-map",
 
   targets: {
     ie: 11,
@@ -56,9 +85,13 @@ export default defineConfig({
   externals: {
     react: 'window.React',
     'react-dom': 'window.ReactDOM',
-    // antd: 'window.antd',
+  
+  // antd: 'window.antd',
     //xterm: 'window.Terminal',
-    moment: 'moment',
+   //moment: 'moment',
+   //'@ant-design/pro-provider':'window.ProProvider',
+   //'@ant-design/pro-utils':'window.ProUtils',
+  // '@ant-design/pro-layout':'window.ProLayout',
   },
   devServer: {
     // dev write assets into public

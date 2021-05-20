@@ -39,3 +39,5 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
   | undefined
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false
+
+declare const SC_MASTER_URL: string;

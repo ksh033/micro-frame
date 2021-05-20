@@ -10,7 +10,6 @@ const headPkgs: string[] = [
 const tailPkgs = readdirSync(join(__dirname, 'packages')).filter(
   (pkg) => pkg.charAt(0) !== '.' && !headPkgs.includes(pkg),
 );
-console.log(tailPkgs)
 export default {
   cjs: { type: 'babel', lazy: true },
   esm: {

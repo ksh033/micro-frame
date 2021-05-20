@@ -1,21 +1,20 @@
 import { useState } from 'react'
 import { Auth, Login, SelectDept, getServiceApi } from '@micro-frame/sc-runtime'
 import { history } from 'umi'
-console.log(Auth)
-const { getUser } = Auth
-console.log(getUser)
 
+const { getUser } = Auth
+
+const  masterUrl= SC_MASTER_URL || ""
 export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
     const apps: any[] = []
     const routes: any[] = []
-    console.log(data)
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: 'http://localhost:8000/',
+        entry: `${masterUrl}${systemCode}`,
       })
       routes.push({
         path: `/${systemCode}`,
@@ -27,7 +26,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       routes,
       lifeCycles: {
         afterMount: (props: any) => {
-          // console.log(props);
+          console.log('afterMount');
         },
       },
     }
@@ -51,11 +50,11 @@ export function onRouteChange({ location }: any) {
 export function render(oldRender: any) {
   const currentUser = getUser()
   if (currentUser) {
-    //if (currentUser && currentUser.userAppInfo.currentDept) {
+    // if (currentUser && currentUser.userAppInfo.currentDept) {
     // currentUser.currentSystem.
-    //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
+    // history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
     // }
-    //console.log(getRoutes().)
+    // console.log(getRoutes().)
     oldRender()
   } else {
     history.push('/login')

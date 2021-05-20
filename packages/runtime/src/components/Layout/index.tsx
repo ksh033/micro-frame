@@ -10,13 +10,15 @@ import logo from "../../assets/logo.svg";
 import menuFormat from "./menuFormat";
 import userDictModel from "../Dict/userDictModel";
 
+import './index.less'
+
 export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
   });
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
-  const { menuData, appData, appSelected } = userConfig;
+  const { menuData, appData, appSelected } = userConfig||{};
   const user = getUser();
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
