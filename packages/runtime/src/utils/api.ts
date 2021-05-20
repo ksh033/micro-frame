@@ -16,12 +16,12 @@ const services = {
       sysCode: 'common',
     },
     getDictTypeList: {
-      url: '/base/api/dict/value/list',
+      url: '/base/api/anony/dict/value/list',
       method: 'get',
       sysCode: 'common',
     },
     areaList: {
-      url: '/base/api/area/children',
+      url: '/base/api/anony/area/children',
       method: 'get',
       sysCode: 'common',
     },
