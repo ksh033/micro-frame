@@ -79,10 +79,10 @@ export default defineConfig({
   externals:
     NODE_ENV === "production"
       ? {
-          react: "React",
-          "react-dom": "ReactDOM",
-          antd: "antd",
-          moment: "moment",
+          react: "Window.React",
+          "react-dom": "Window.ReactDOM",
+          //antd: "antd",
+         // moment: "moment",
         }
       : false,
   microlayout: NODE_ENV === "production" ? false : {},
