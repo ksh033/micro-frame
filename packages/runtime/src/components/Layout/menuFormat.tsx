@@ -77,7 +77,7 @@ const formatMenu = (menus: any[], parnetKeys:string[],appCode:string) => {
   // const {routersMap, menuMap }=getMenuMap(menus,[]);
 
   return menus.map<MenuDataItem>((item: any) => {
-    const { iconUrl, id, parentId, pageUrl, permCode, functionName, functionType,
+    const { iconUrl, id, parentId, pageUrl, permCode, functionName, functionType,dataType,
        children } = item;
    // functionName: "用户管理"
     // functionType: "ENUM"
@@ -122,7 +122,7 @@ const formatMenu = (menus: any[], parnetKeys:string[],appCode:string) => {
      // id,
       children: newChildren,
       hideChildrenInMenu: hiddenChild,
-      hideInMenu: functionType === 'BUTTON',
+      hideInMenu: dataType === 'FUNC',
     };
   });
 };

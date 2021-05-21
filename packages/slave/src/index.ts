@@ -56,13 +56,13 @@ if (packageName.indexOf("micro-") > -1) {
 export default defineConfig({
   hash: true,
   antd: {},
-  devtool:REACT_APP_ENV=="test"?false:'cheap-module-source-map',
+  devtool:REACT_APP_ENV=="pro"?false:'source-map',
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
   },
-  base: NODE_ENV === "development" ? base : '/',
-  publicPath: NODE_ENV === "development" ? base :"/" ,
+  base: base,
+  publicPath:base,
   locale: false,
   alias: {
     "@@service": "@/services",
@@ -76,16 +76,15 @@ export default defineConfig({
   esbuild: {},
   ignoreMomentLocale: true,
   mock: {},
-  externals:
-    NODE_ENV === "production"
+
+
+  externals:NODE_ENV === "production"
       ? {
-          react: "Window.React",
-          "react-dom": "Window.ReactDOM",
-          //antd: "antd",
-         // moment: "moment",
-        }
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      }
       : false,
-  microlayout: NODE_ENV === "production" ? false : {},
+  microlayout:{},
   extraBabelPlugins: [
     [
       require.resolve("babel-plugin-import"),
