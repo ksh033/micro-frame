@@ -8,7 +8,7 @@ export default class extends React.PureComponent<any> {
     // const { name, apps } = base;
     // const selectKey = '/' + location.pathname.split('/')[1];
     return (
-      <Layout {...this.props} isMasert={true}>
+      <Layout {...this.props} isMaster={true}>
       </Layout>
     );
   }
