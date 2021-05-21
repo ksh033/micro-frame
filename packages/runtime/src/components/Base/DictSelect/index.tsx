@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import userDictModel from '../../Dict/userDictModel'
 import { ScSelect } from '@scboson/sc-element'
-import { getUser } from '../../Auth'
 import { ScSelectProps } from '@scboson/sc-element/lib/sc-select/index'
 
 import {
@@ -16,7 +15,7 @@ export interface DictSelectProp extends ScSelectProps, FormComponentProps {
   /** 系统 */
   sysCode?: string
   fieldProps?: any
-  filterData?:(dictData:any[])=> any[]
+  filterData?: (dictData: any[]) => any[]
 }
 /**
  * 字典控件
@@ -36,21 +35,22 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     filterData,
     ...restProps
   } = pros
-  const { dict, getBySysCode } = userDictModel()
-  const user = getUser()
-  const systemCode = user?.userAppInfo.currentSystem.systemCode || ''
-
-  const sysMap = getBySysCode(sysCode || systemCode)
+  const { getDistList } = userDictModel()
 
   let data = useMemo(() => {
-    if (dictType && sysMap && sysMap[dictType]) {
-      return sysMap[dictType]
+    const list = getDistList({
+      syscode: sysCode,
+      dictTypeCode: dictType,
+    })
+
+    if (list) {
+      return list
     }
     return []
-  }, [dictType])
+  }, [dictType, sysCode])
 
-  if (filterData){
-    data=filterData(data)
+  if (filterData) {
+    data = filterData(data)
   }
   if (readonly) {
     const formData: any = form?.getFieldsValue()
