@@ -115,7 +115,7 @@ const formatMenu = (menus: any[], parnetKeys:string[],appCode:string) => {
      // defaultPath,
       key: `${id}`,
       pkey: parentId,
-      path: '/'+appCode + pageUrl || menuMap[id],
+      path: appCode?'/':""+appCode + pageUrl || menuMap[id],
       permCode,
       icon: iconUrl || (<AppstoreFilled/>),
       parentKeys: parnetKeys,
