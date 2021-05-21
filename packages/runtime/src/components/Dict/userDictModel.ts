@@ -102,6 +102,16 @@ export default function useDictModel() {
               value: false,
             },
           ],
+          yesNo: [
+            {
+              name: '是',
+              value: true,
+            },
+            {
+              name: '否',
+              value: false,
+            },
+          ],
         })
       }
     }
