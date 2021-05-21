@@ -127,7 +127,7 @@ export default function useDictModel() {
       config.syscode || user?.userAppInfo.currentSystem.systemCode || 'common'
     let sysMap = getBySysCode(systemCode)
     if (sysMap === null) {
-      sysMap = getBySysCode('common')
+      sysMap = getBySysCode('common') || {}
     }
 
     return sysMap[config.dictTypeCode]
