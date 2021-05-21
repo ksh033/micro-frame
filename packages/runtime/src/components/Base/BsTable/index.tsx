@@ -4,7 +4,6 @@ import { ScTable } from '@scboson/sc-element'
 import type { ScTableProps } from '@scboson/sc-element/lib/sc-table/ScTable'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
 import type { ColumnsType } from 'antd/lib/table/Table'
-import { getUser } from '../../Auth'
 import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
 import Authority from '../Authority'
@@ -21,22 +20,21 @@ export interface BsTableProps extends Omit<ScTableProps<any>, 'columns'> {
   }
 }
 export interface BsTableComponentProps {
-  dataIndex?: string;
-  rowData?: any;
-  value?: any;
+  dataIndex?: string
+  rowData?: any
+  value?: any
 }
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const { toolbar = [], columns = [], data, ...restProps } = props
 
-  const { dict, getBySysCode } = userDictModel()
-  const user = getUser()
-  const systemCode = user?.userAppInfo.currentSystem.systemCode || ''
-  const sysMap = getBySysCode(systemCode)
+  const { getDistList } = userDictModel()
 
   columns.forEach((col: any, index: number) => {
-    const cSysMap = col.sysCode ? getBySysCode(col.sysCode) : sysMap
-    const list: any = cSysMap[`${col.dataType || col.dataIndex}`]
+    const list: any = getDistList({
+      syscode: col.sysCode,
+      dictTypeCode: `${col.dataType || col.dataIndex}`,
+    })
     if (!col.width) {
       col.width = 180
     }
@@ -47,13 +45,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
     } else if (col.dataType && !col.render) {
       col.render = (text: string, record: any) => {
-        return defaultRenderText(text, col.dataType || col.dataIndex, record);
-      };
+        return defaultRenderText(text, col.dataType || col.dataIndex, record)
+      }
     } else if (col.component && !col.render) {
-      const comProps = col.props || {};
+      const comProps = col.props || {}
       col.render = (text: any, record: any) => {
         const component =
-          typeof col.component === "function"
+          typeof col.component === 'function'
             ? React.createElement(col.component, {
                 rowData: record,
                 dataIndex: col.dataIndex,
@@ -65,9 +63,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
                 dataIndex: col.dataIndex,
                 value: text,
                 ...comProps,
-              });
-        return component;
-      };
+              })
+        return component
+      }
     }
     delete col.sysCode
   })

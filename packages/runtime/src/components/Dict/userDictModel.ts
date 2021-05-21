@@ -118,14 +118,17 @@ export default function useDictModel() {
   }
 
   const getBySysCode = (syscode: string) => {
-    return newDict[syscode] ? newDict[syscode] : {}
+    return newDict[syscode] ? newDict[syscode] : null
   }
 
   const getDistList = (config: { syscode?: string; dictTypeCode: string }) => {
     const user = getUser()
     const systemCode =
-      config.syscode || user?.userAppInfo.currentSystem.systemCode || ''
-    const sysMap = getBySysCode(systemCode)
+      config.syscode || user?.userAppInfo.currentSystem.systemCode || 'common'
+    let sysMap = getBySysCode(systemCode)
+    if (sysMap === null) {
+      sysMap = getBySysCode('common')
+    }
 
     return sysMap[config.dictTypeCode]
   }
