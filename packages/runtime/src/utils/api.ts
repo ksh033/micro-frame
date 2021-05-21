@@ -25,6 +25,11 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    queryPage: {
+      url: '/base/api/supplier/page',
+      method: 'post',
+      sysCode: 'base',
+    },
   },
   user: {
     loginByPhone: {
