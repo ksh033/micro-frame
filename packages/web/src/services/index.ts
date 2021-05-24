@@ -9,7 +9,7 @@ export default {
       sysCode: 'common',
     },
     getPublicKey: {
-      url: '/user/api/publickey/get',
+      url: '/user/api/anony/publickey/get',
       method: 'get',
       sysCode: 'common',
     },
