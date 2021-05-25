@@ -1,54 +1,68 @@
 // https://umijs.org/config/
 //import { layout } from '@/app';
-import { defineConfig } from 'umi'
-import { join, parse } from 'path'
-import copyWebpackPlugin from 'copy-webpack-plugin'
-import proxy from './proxy'
-const packageName = require('../package.json').name
+import { defineConfig } from "umi";
+import { join, parse } from "path";
+import copyWebpackPlugin from "copy-webpack-plugin";
+import proxy from "./proxy";
+const packageName = require("../package.json").name;
 
 // import defaultSettings from './defaultSettings';
 // import proxy from './proxy';
 // import routes from './routes';
 
-const { REACT_APP_ENV, NODE_ENV } = process.env
-
-
+const { REACT_APP_ENV, NODE_ENV } = process.env;
 
 export const EVN_CONFIG = {
   dev: {
     imgUrl: "http://test.bogengkeji.com/images",
     apiUrl: "/webapi-dev",
-    masterUrl:'http://localhost:9000/'
-    
+    masterUrl: "http://172.18.164.54:3000/",
   },
   pro: {
     imgUrl: "https://images.bogengkeji.com/",
     apiUrl: "/webapi",
-    masterUrl:'http://www.bogengkeji.com/'
+    masterUrl: "http://www.bogengkeji.com/",
   },
   test: {
     imgUrl: "http://test.bogengkeji.com/images",
     apiUrl: "/webapi-test",
-    masterUrl:'http://172.18.164.54:3000/'
+    masterUrl: "http://172.18.164.54:3000/",
   },
 };
-const externalCSS:any[] = []
+const externalCSS: any[] = [
+  //"antd/dist/antd.min.css",
+  // "@ant-design/pro-layout/dist/layout.min.css",
+];
 
 const externalJS = [
   `react/umd/react.${
-    NODE_ENV === 'production' ? 'production.min' : 'development'
+    NODE_ENV === "production" ? "production.min" : "development"
   }.js`,
   `react-dom/umd/react-dom.${
-    NODE_ENV === 'production' ? 'production.min' : 'development'
+    NODE_ENV === "production" ? "production.min" : "development"
   }.js`,
-  //'moment/min/moment.min.js',
- // 'antd/dist/antd.min.js',
- // '@ant-design/pro-provider/dist/provider.min.js',
- // '@ant-design/pro-utils/dist/utils.min.js',
- // '@ant-design/pro-layout/dist/layout.min.js',
-]
-const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : '/'
-const outputPath = NODE_ENV === 'development' ? './public' : './dist'
+
+  // `react-router/umd/react-router.${
+  //   NODE_ENV === "production" ? "min.js" : "js"
+  // }`,
+  // `react-router-dom/umd/react-router-dom.${
+  //   NODE_ENV === "production" ? "min.js" : "js"
+  // }`,
+  "moment/min/moment.min.js",
+  `lodash/lodash${NODE_ENV === "production" ? ".min" : ""}.js`,
+  // `antd/dist/antd${NODE_ENV === "production" ? ".min" : ""}.js`,
+  `@ant-design/icons/dist/index.umd${
+    NODE_ENV === "production" ? ".min" : ""
+  }.js`,
+  // `@ant-design/pro-layout/dist/layout${
+  // NODE_ENV === "production" ? ".min" : ""
+  // }.js`,
+  // '@ant-design/pro-provider/dist/provider.min.js',
+  // '@ant-design/pro-utils/dist/utils.min.js',
+  // '@ant-design/pro-layout/dist/layout.min.js',
+];
+const publicPath = NODE_ENV === "development" ? "http://localhost:9000/" : "/";
+const outputPath = NODE_ENV === "development" ? "./public" : "./dist";
 
 export default defineConfig({
   hash: true,
@@ -73,26 +87,15 @@ export default defineConfig({
   ignoreMomentLocale: true,
   // proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
-    basePath: '/',
+    basePath: "/",
   },
   qiankun: {
     master: { apps: [] },
   },
   alias: {
-    '@@service': '@/services',
+    "@@service": "@/services",
   },
   outputPath,
-  externals: {
-    react: 'window.React',
-    'react-dom': 'window.ReactDOM',
-  
-  // antd: 'window.antd',
-    //xterm: 'window.Terminal',
-   //moment: 'moment',
-   //'@ant-design/pro-provider':'window.ProProvider',
-   //'@ant-design/pro-utils':'window.ProUtils',
-  // '@ant-design/pro-layout':'window.ProLayout',
-  },
   devServer: {
     // dev write assets into public
     writeToDisk: (filePath: string) =>
@@ -102,36 +105,49 @@ export default defineConfig({
   },
   links: [
     ...externalCSS.map((external) => ({
-      rel: 'stylesheet',
+      rel: "stylesheet",
       href: `${publicPath}${parse(external).base}`,
     })),
   ],
-  antd: {},
+  antd: false,
   scripts: [
     // polyfill
     ...externalJS.map((external) => ({
       src: `${publicPath}${parse(external).base}`,
-      crossOrigin: 'anonymous',
+      crossOrigin: "anonymous",
     })),
   ],
+  extraBabelPlugins: ["babel-plugin-lodash"],
 
   chainWebpack(memo, { env, webpack, createCSSRule }) {
-    // config.plugin('webpack-less-theme').use(
-    //   new LessThemePlugin({
-    //     theme: join(__dirname, './src/styles/parameters.less'),
-    //   }),
-    // );
+  
 
-    const output = memo.toConfig().output
-    let absOutputPath = output?.path
+    memo.merge({
+      externals: [
+        {
+          react: "React",
+          "react-dom": "ReactDOM",
+          lodash: "_",
+          moment: "moment",
+          "@ant-design/icons": "icons",
+          //"react-router-dom": "ReactRouterDOM",
+          // "react-router": "ReactRouter",
+
+          // antd: "antd",
+          // "@ant-design/pro-layout": "ProLayout",
+        },
+      ],
+    });
+    const output = memo.toConfig().output;
+    let absOutputPath = output?.path;
 
     const to =
-      NODE_ENV === 'development' ? join(__dirname, '../public') : absOutputPath
+      NODE_ENV === "development" ? join(__dirname, "../public") : absOutputPath;
     // memo.plugins.get("copy")
     //memo.plugins.
 
     memo
-      .plugin('copy')
+      .plugin("copy")
       .use(copyWebpackPlugin)
       .tap(([args]) => [
         [
@@ -144,7 +160,7 @@ export default defineConfig({
             to,
           })),
         ],
-      ])
+      ]);
 
     // memo.plugin('copy').tap(([args]) => [
     //   [
@@ -160,7 +176,7 @@ export default defineConfig({
     //   ],
     // ]);
 
-    return memo
+    return memo;
   },
-  proxy: proxy[REACT_APP_ENV || 'dev'],
-})
+  proxy: proxy[REACT_APP_ENV || "dev"],
+});

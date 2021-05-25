@@ -18,7 +18,7 @@ export default {
   },
   pkgs: ["runtime","slave","plugin-microlayout"],
   extraBabelPlugins: [
-    ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
+    // ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
     [require('./scripts/replaceLib')],
   ],
 };
