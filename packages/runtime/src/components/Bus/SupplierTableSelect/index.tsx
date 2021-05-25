@@ -14,6 +14,7 @@ interface TableSelectProps {
   selectionType?: 'checkbox' | 'radio'
   textField?: any
   valueField?: string
+  isCooperateSupplier?: boolean
 }
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
@@ -25,6 +26,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     value = [],
     textField = 'supplierName',
     valueField = 'supplierId',
+    isCooperateSupplier = false,
     ...resProps
   } = props
 
@@ -62,6 +64,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
       pageProps: {
         onTabelRow,
         selectionType,
+        isCooperateSupplier,
         rowKey: valueField,
         ...stateRef.current,
       },

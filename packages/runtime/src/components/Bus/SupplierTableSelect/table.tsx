@@ -14,8 +14,16 @@ const pagaConfig: PageConfig = {
 
 const Table: React.FC<any> = (props: any) => {
   const { pageProps } = props
-  const { selectionType, onTabelRow, rowKey, selectedRowKeys } = pageProps
-  const { run } = uesRequest('system', 'queryPage')
+  const {
+    selectionType,
+    onTabelRow,
+    rowKey,
+    selectedRowKeys,
+    isCooperateSupplier = false,
+  } = pageProps
+  const { run } = isCooperateSupplier
+    ? uesRequest('system', 'cooperateSupplier')
+    : uesRequest('system', 'supplier')
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()

@@ -25,8 +25,13 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
-    queryPage: {
+    supplier: {
       url: '/base/api/supplier/page',
+      method: 'post',
+      sysCode: 'base',
+    },
+    cooperateSupplier: {
+      url: '/base/api/cooperate/supplier/page',
       method: 'post',
       sysCode: 'base',
     },
