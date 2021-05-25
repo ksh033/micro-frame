@@ -44,7 +44,7 @@ const AppsUser_Key = 'APP-CURRENT-USERS'
 let currentUser: User | null = null
 // let currentAppCode = '';
 // 应用用户信息
-let userAppInfos: Record<string, UserAppInfo> | null
+let userAppInfos: Record<string, UserAppInfo> | null = null
 
 const setStorage = (skey: string, value: any) => {
   localStorage.setItem(skey, JSON.stringify(value))
@@ -171,5 +171,7 @@ const clearUser = () => {
   localStorage.removeItem(User_Key)
   localStorage.removeItem(AppsUser_Key)
   sessionStorage.removeItem('CG-CURRENT-DICT')
+  currentUser = null
+  userAppInfos = null
 }
 export { updateUser, getUser, changeApp, setUser, clearUser }

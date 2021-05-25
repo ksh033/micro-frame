@@ -9,6 +9,7 @@ import { ProColumn } from '@scboson/sc-schema/lib/interface'
 import { RowSelectionType } from 'antd/lib/table/interface'
 
 import styles from './index.less'
+import { CheckboxProps } from 'antd'
 
 const pagaConfig: PageConfig = {
   service: {},
@@ -22,6 +23,10 @@ export type SelectCargoTableProps = {
   selectionType: RowSelectionType
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void
   selectedRowKeys?: string[]
+  isNeedLeft?: boolean
+  getCheckboxProps: (
+    record: any
+  ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
 }
 
 const SelectCargoTable: React.FC<SelectCargoTableProps> = (
@@ -34,6 +39,8 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     selectionType = 'checkbox',
     onTabelRow,
     selectedRowKeys,
+    isNeedLeft = true,
+    getCheckboxProps,
   } = props
   const { run } = uesRequest('catalog', 'treeData')
   const [catalogId, setCatalogId] = useState<string | null>()
@@ -74,36 +81,43 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       catalogId,
     }
   }, [JSON.stringify(pageInfo.params), params, catalogId])
-  const tableInfo:any=pageInfo
+  const tableInfo: any = pageInfo
 
   return (
     <div className={styles.cell}>
-      <div className={styles['cell-left']}>
-        <div>
-          <a>全部货品</a>
+      {isNeedLeft ? (
+        <div className={styles['cell-left']}>
+          <div>
+            <a>全部货品</a>
+          </div>
+          <ScTree
+            canSearch={false}
+            placeholder={'search'}
+            async={true}
+            showLine={true}
+            loadDataPramsFormat={loadDataPramsFormat}
+            autoload={true}
+            request={run}
+            params={treeParams}
+            textField="catalogName"
+            onSelect={handleSelect}
+            valueField="catalogId"
+          />
         </div>
-        <ScTree
-          canSearch={false}
-          placeholder={'search'}
-          async={true}
-          showLine={true}
-          loadDataPramsFormat={loadDataPramsFormat}
-          autoload={true}
-          request={run}
-          params={treeParams}
-          textField="catalogName"
-          onSelect={handleSelect}
-          valueField="catalogId"
-        />
-      </div>
+      ) : null}
       <div className={styles['catalog-table']}>
         <BsSearch {...searchConfig}></BsSearch>
+        <div>
+          已选货品：
+          {Array.isArray(selectedRowKeys) ? selectedRowKeys.length : 0}
+        </div>
         <BsTable
           checkbox
           autoload={true}
           {...tableInfo}
           rowSelection={{
             type: selectionType,
+            getCheckboxProps,
           }}
           rowKey="cargoId"
           onSelectRow={onSelectRow}

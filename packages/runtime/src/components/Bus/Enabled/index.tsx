@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Switch } from 'antd'
 import { BsTableComponentProps } from '../../Base/BsTable'
 import { SwitchChangeEventHandler } from 'antd/lib/switch'
@@ -10,6 +10,7 @@ type EnabledProps = BsTableComponentProps & {
   rowKeyName?: string
   warning?: string
   enabledName?: string
+  disabledCallback?: (rowData: any) => boolean
 }
 
 const Enabled: React.FC<EnabledProps> = (props) => {
@@ -20,6 +21,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     rowData,
     warning = '',
     enabledName = 'enabled',
+    disabledCallback,
   } = props
   const { loading, run } = useRequest(request, {
     manual: true,
@@ -53,6 +55,10 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     }
   }
 
+  const disabled = useMemo(() => {
+    return disabledCallback ? disabledCallback(rowData) : false
+  }, [disabledCallback, JSON.stringify(rowData)])
+
   return (
     <Switch
       checkedChildren="启用"
@@ -60,6 +66,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
       checked={state}
       onChange={handleChange}
       loading={loading}
+      disabled={disabled}
     />
   )
 }

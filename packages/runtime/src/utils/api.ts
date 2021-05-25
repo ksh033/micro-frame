@@ -25,6 +25,16 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    supplier: {
+      url: '/base/api/supplier/page',
+      method: 'post',
+      sysCode: 'base',
+    },
+    cooperateSupplier: {
+      url: '/base/api/cooperate/supplier/page',
+      method: 'post',
+      sysCode: 'base',
+    },
   },
   user: {
     loginByPhone: {
@@ -69,11 +79,11 @@ const services = {
 
 const AllReq = {}
 const createRequest = (methodService: MethodProps, funName: string) => {
-  const { method, url, sysCode } = methodService
+  const { method, url } = methodService
 
   const requestService = (params?: any, options?: any): Promise<any> => {
     const reqUrl = `${url}`
-    const reqOpts = { ...options, headers: { sys_code: sysCode } }
+    const reqOpts = { ...options }
     if (method === 'get') {
       reqOpts['params'] = params
     } else {

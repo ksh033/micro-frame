@@ -102,6 +102,16 @@ export default function useDictModel() {
               value: false,
             },
           ],
+          yesNo: [
+            {
+              name: '是',
+              value: true,
+            },
+            {
+              name: '否',
+              value: false,
+            },
+          ],
         })
       }
     }
@@ -127,7 +137,14 @@ export default function useDictModel() {
       config.syscode || user?.userAppInfo.currentSystem.systemCode || 'common'
     let sysMap = getBySysCode(systemCode)
     if (sysMap === null) {
-      sysMap = getBySysCode('common')
+      sysMap = getBySysCode('common') || {}
+    } else {
+      if (
+        sysMap[config.dictTypeCode] === undefined ||
+        sysMap[config.dictTypeCode] === null
+      ) {
+        sysMap = getBySysCode('common') || {}
+      }
     }
 
     return sysMap[config.dictTypeCode]
