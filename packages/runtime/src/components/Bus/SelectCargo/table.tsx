@@ -1,4 +1,4 @@
-import React, { Key, useMemo, useState } from 'react'
+import React, { Key, useMemo } from 'react'
 import { ScTree } from '@scboson/sc-element'
 import { uesRequest } from '../../../utils/api'
 import BsTable from '../../Base/BsTable'
@@ -43,7 +43,6 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     getCheckboxProps,
   } = props
   const { run } = uesRequest('catalog', 'treeData')
-  const [catalogId, setCatalogId] = useState<string | null>()
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
@@ -72,15 +71,17 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   }
 
   const handleSelect = (selectedKeys: Key[]) => {
-    setCatalogId(selectedKeys[0] ? String(selectedKeys[0]) : null)
+    searchConfig.onSubmit({
+      ...pageInfo.params,
+      catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
+    })
   }
   const tableParams = useMemo(() => {
     return {
       ...pageInfo.params,
       ...params,
-      catalogId,
     }
-  }, [JSON.stringify(pageInfo.params), params, catalogId])
+  }, [JSON.stringify(pageInfo.params), params])
   const tableInfo: any = pageInfo
 
   return (
