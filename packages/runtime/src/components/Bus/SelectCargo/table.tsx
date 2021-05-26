@@ -24,7 +24,7 @@ export type SelectCargoTableProps = {
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void
   selectedRowKeys?: string[]
   isNeedLeft?: boolean
-  getCheckboxProps: (
+  getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
 }
