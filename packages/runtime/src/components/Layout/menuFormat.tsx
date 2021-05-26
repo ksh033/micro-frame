@@ -118,13 +118,19 @@ const formatMenu = (menus: any[], parnetKeys: string[], appCode: string) => {
       console.log(menuMap[id])
     }
     // const defaultPath = defPaths[menuCode];
+    let rpath: string = ''
+    if (appCode && appCode !== '') {
+      rpath = '/' + appCode + pageUrl || menuMap[id]
+    } else {
+      rpath = pageUrl || menuMap[id]
+    }
 
     return {
       name: functionName,
       // defaultPath,
       key: `${id}`,
       pkey: parentId,
-      path: appCode ? '/' : '' + appCode + pageUrl || menuMap[id],
+      path: rpath,
       permCode,
       icon: iconUrl || <AppstoreFilled />,
       parentKeys: parnetKeys,
