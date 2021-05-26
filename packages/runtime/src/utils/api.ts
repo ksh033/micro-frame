@@ -35,6 +35,11 @@ const services = {
       method: 'post',
       sysCode: 'base',
     },
+    shop: {
+      url: '/base/api/shop/page',
+      method: 'post',
+      sysCode: 'base',
+    },
   },
   user: {
     loginByPhone: {
