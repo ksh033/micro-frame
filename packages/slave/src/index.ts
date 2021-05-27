@@ -35,7 +35,7 @@ try {
 }
 export const EVN_CONFIG = {
   dev: {
-    imgUrl: "http://test.bogengkeji.com/images",
+    imgUrl: "https://test.bogengkeji.com/images",
     apiUrl: "/webapi-dev",
   },
   pro: {
@@ -43,7 +43,7 @@ export const EVN_CONFIG = {
     apiUrl: "/webapi",
   },
   test: {
-    imgUrl: "http://test.bogengkeji.com/images",
+    imgUrl: "https://test.bogengkeji.com/images",
     apiUrl: "/webapi-test",
   },
 };
@@ -80,8 +80,10 @@ export default defineConfig({
 
   externals:NODE_ENV === "production"
       ? {
-        react: 'React',
-        'react-dom': 'ReactDOM',
+        react: "React",
+        "react-dom": "ReactDOM",
+        lodash: "_",
+        moment: "moment",
       }
       : false,
   microlayout:{},
