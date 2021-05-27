@@ -24,6 +24,8 @@ export type SelectCargoTableProps = {
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void
   selectedRowKeys?: string[]
   isNeedLeft?: boolean
+  rowKey?: string
+  onLoad?: (data: any) => any
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
@@ -41,6 +43,8 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     selectedRowKeys,
     isNeedLeft = true,
     getCheckboxProps,
+    onLoad,
+    rowKey = 'cargoId',
   } = props
   const { run } = uesRequest('catalog', 'treeData')
   const page = useListPageContext()
@@ -83,6 +87,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       ...params,
     }
   }, [JSON.stringify(pageInfo.params), params])
+
   const tableInfo: any = pageInfo
 
   const handelClick = () => {
@@ -91,6 +96,12 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       catalogId: null,
     })
     setSelectedKeys([])
+  }
+
+  const handleLoad = (data: any) => {
+    let newData = tableInfo.onLoad(data)
+    newData = onLoad ? onLoad(newData) : newData
+    return newData
   }
 
   return (
@@ -123,18 +134,19 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           {Array.isArray(selectedRowKeys) ? selectedRowKeys.length : 0}
         </div>
         <BsTable
+          {...tableInfo}
           checkbox
           autoload={true}
-          {...tableInfo}
           rowSelection={{
             type: selectionType,
             getCheckboxProps,
           }}
-          rowKey="cargoId"
+          rowKey={rowKey}
           onSelectRow={onSelectRow}
           selectedRowKeys={selectedRowKeys}
           params={tableParams}
           request={request}
+          onLoad={handleLoad}
         ></BsTable>
       </div>
     </div>
