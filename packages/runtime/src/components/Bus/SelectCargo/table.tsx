@@ -1,4 +1,4 @@
-import React, { Key, useMemo } from 'react'
+import React, { Key, useMemo, useState } from 'react'
 import { ScTree } from '@scboson/sc-element'
 import { uesRequest } from '../../../utils/api'
 import BsTable from '../../Base/BsTable'
@@ -46,7 +46,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
-
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
   const pageTable = page.getTable()
   if (Array.isArray(extraColumns) && extraColumns.length > 0) {
     extraColumns.forEach((item: ProColumn) => {
@@ -71,6 +71,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   }
 
   const handleSelect = (selectedKeys: Key[]) => {
+    setSelectedKeys(selectedKeys)
     searchConfig.onSubmit({
       ...pageInfo.params,
       catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
@@ -84,14 +85,23 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   }, [JSON.stringify(pageInfo.params), params])
   const tableInfo: any = pageInfo
 
+  const handelClick = () => {
+    searchConfig.onSubmit({
+      ...pageInfo.params,
+      catalogId: null,
+    })
+    setSelectedKeys([])
+  }
+
   return (
     <div className={styles.cell}>
       {isNeedLeft ? (
         <div className={styles['cell-left']}>
           <div>
-            <a>全部货品</a>
+            <a onClick={handelClick}>全部货品</a>
           </div>
           <ScTree
+            selectedKeys={selectedKeys}
             canSearch={false}
             placeholder={'search'}
             async={true}
