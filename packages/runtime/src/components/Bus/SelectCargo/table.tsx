@@ -74,19 +74,21 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows)
   }
 
-  const handleSelect = (selectedKeys: Key[]) => {
-    setSelectedKeys(selectedKeys)
+  const handleSelect = (rselectedKeys: Key[]) => {
+    setSelectedKeys(rselectedKeys)
     searchConfig.onSubmit({
+      ...params,
       ...pageInfo.params,
-      catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
+      catalogId: rselectedKeys[0] ? String(rselectedKeys[0]) : null,
     })
   }
   const tableParams = useMemo(() => {
     return {
-      ...pageInfo.params,
       ...params,
+      ...pageInfo.params,
+      catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
     }
-  }, [JSON.stringify(pageInfo.params), params])
+  }, [JSON.stringify(pageInfo.params), params, JSON.stringify(selectedKeys)])
 
   const tableInfo: any = pageInfo
 
