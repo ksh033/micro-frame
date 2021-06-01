@@ -83,9 +83,10 @@ const setUser = (user: User) => {
     }
   }
   setStorage(User_Key, currentUser);
+  setStorage(CurrentApp_KEY,currentUser.userAppInfo.currentSystem.systemCode)
+
   if (userAppInfosChange) {
     setStorage(AppsUser_Key, userAppInfos);
-    setStorage(CurrentApp_KEY,user.userAppInfo.currentSystem.systemCode)
 
   }
 };
