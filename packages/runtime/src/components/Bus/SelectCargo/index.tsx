@@ -7,7 +7,7 @@ import { useSetState } from 'ahooks'
 type SelectCargoProps = {
   title?: string
   close: () => void
-  pageProps: Omit<SelectCargoTableProps, 'selectedRowKeys'>
+  pageProps: SelectCargoTableProps
 }
 
 const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
@@ -17,7 +17,7 @@ const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
     selectedRowKeys: string[]
     selectedRows: any[]
   }>({
-    selectedRowKeys: [],
+    selectedRowKeys: pageProps.selectedRowKeys || [],
     selectedRows: [],
   })
 
