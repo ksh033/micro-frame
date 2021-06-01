@@ -119,11 +119,11 @@ const formatMenu = (menus: any[], parnetKeys: string[], appCode: string) => {
     }
     // const defaultPath = defPaths[menuCode];
     let rpath: string = ''
-    if (appCode && appCode !== '') {
-      rpath = '/' + appCode + pageUrl || menuMap[id]
-    } else {
+    //if (appCode && appCode !== '') {
+      //rpath = '/' + appCode + pageUrl || menuMap[id]
+   // } else {
       rpath = pageUrl || menuMap[id]
-    }
+   // }
 
     return {
       name: functionName,
