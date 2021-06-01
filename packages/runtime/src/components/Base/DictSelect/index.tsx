@@ -53,10 +53,11 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     data = filterData(data)
   }
   if (readonly) {
-    const formData: any = form?.getFieldsValue()
-    let val = deepGet(formData, name)
-    if (!val) {
-      val = deepGet(initialValues, name)
+    let newName: any = name || ''
+    const formData: any = form?.getFieldsValue() || {}
+    let val = deepGet(formData, newName)
+    if (!val && initialValues) {
+      val = deepGet(initialValues, newName)
     }
     const valItem = data.find((item) => {
       return item.value === val
