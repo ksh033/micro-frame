@@ -29,7 +29,9 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
       textField="cargoName"
       valueField="cargoId"
       params={params}
+      remoteSearch={true}
       allowClear
+      openReloadData
     ></ScSelect>
   )
 }

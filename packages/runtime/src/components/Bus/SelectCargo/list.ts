@@ -21,7 +21,11 @@ const pageConfig: PageConfig = {
     {
       title: '货品名称',
       dataIndex: 'cargoName',
-      key: 'cargoName',
+      component: 'FieldImageName',
+      props: {
+        fieldName: 'cargoName',
+        fieldImage: 'cargoIconUrl',
+      },
       width: 120,
     },
     {

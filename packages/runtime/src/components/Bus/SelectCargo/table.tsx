@@ -24,7 +24,9 @@ export type SelectCargoTableProps = {
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void
   selectedRowKeys?: string[]
   isNeedLeft?: boolean
-  getCheckboxProps: (
+  rowKey?: string
+  onLoad?: (data: any) => any
+  getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
 }
@@ -41,13 +43,14 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     selectedRowKeys,
     isNeedLeft = true,
     getCheckboxProps,
+    onLoad,
+    rowKey = 'cargoId',
   } = props
   const { run } = uesRequest('catalog', 'treeData')
-  const [catalogId, setCatalogId] = useState<string | null>()
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
-
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
   const pageTable = page.getTable()
   if (Array.isArray(extraColumns) && extraColumns.length > 0) {
     extraColumns.forEach((item: ProColumn) => {
@@ -71,26 +74,47 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows)
   }
 
-  const handleSelect = (selectedKeys: Key[]) => {
-    setCatalogId(selectedKeys[0] ? String(selectedKeys[0]) : null)
+  const handleSelect = (rselectedKeys: Key[]) => {
+    setSelectedKeys(rselectedKeys)
+    searchConfig.onSubmit({
+      ...params,
+      ...pageInfo.params,
+      catalogId: rselectedKeys[0] ? String(rselectedKeys[0]) : null,
+    })
   }
   const tableParams = useMemo(() => {
     return {
-      ...pageInfo.params,
       ...params,
-      catalogId,
+      ...pageInfo.params,
+      catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
     }
-  }, [JSON.stringify(pageInfo.params), params, catalogId])
+  }, [JSON.stringify(pageInfo.params), params, JSON.stringify(selectedKeys)])
+
   const tableInfo: any = pageInfo
+
+  const handelClick = () => {
+    searchConfig.onSubmit({
+      ...pageInfo.params,
+      catalogId: null,
+    })
+    setSelectedKeys([])
+  }
+
+  const handleLoad = (data: any) => {
+    let newData = tableInfo.onLoad(data)
+    newData = onLoad ? onLoad(newData) : newData
+    return newData
+  }
 
   return (
     <div className={styles.cell}>
       {isNeedLeft ? (
         <div className={styles['cell-left']}>
           <div>
-            <a>全部货品</a>
+            <a onClick={handelClick}>全部货品</a>
           </div>
           <ScTree
+            selectedKeys={selectedKeys}
             canSearch={false}
             placeholder={'search'}
             async={true}
@@ -112,18 +136,19 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           {Array.isArray(selectedRowKeys) ? selectedRowKeys.length : 0}
         </div>
         <BsTable
+          {...tableInfo}
           checkbox
           autoload={true}
-          {...tableInfo}
           rowSelection={{
             type: selectionType,
             getCheckboxProps,
           }}
-          rowKey="cargoId"
+          rowKey={rowKey}
           onSelectRow={onSelectRow}
           selectedRowKeys={selectedRowKeys}
           params={tableParams}
           request={request}
+          onLoad={handleLoad}
         ></BsTable>
       </div>
     </div>
