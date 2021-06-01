@@ -150,5 +150,16 @@ export default function useDictModel() {
     return sysMap[config.dictTypeCode]
   }
 
-  return { dict: newDict, loadDict, setLocal, getBySysCode, getDistList }
+  const getDictText=(config: { syscode?: string; dictTypeCode: string },dictVal:any)=>{
+    const distList=getDistList(config)||[];
+    const findItem=distList.find((item:any)=>{
+      return item.value===dictVal
+    })
+    if (findItem){
+      return findItem.name
+    }
+    return dictVal
+  }
+
+  return { dict: newDict, loadDict, setLocal, getBySysCode, getDistList,getDictText}
 }

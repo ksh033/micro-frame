@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
 import React from 'react'
 import { ScTable } from '@scboson/sc-element'
-import type { ScTableProps } from '@scboson/sc-element/lib/sc-table/ScTable'
+import type { ScTableProps, ColumnsType } from '@scboson/sc-element/lib/sc-table/ScTable'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
-import type { ColumnsType } from 'antd/lib/table/Table'
 import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
-import Authority from '../Authority'
+import Authority from '../../Auth/Authority'
 
 import styles from './index.less'
 

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Button } from 'antd';
-import Authority from '../Authority';
+import Authority from '../../Auth/Authority';
 
 const AuthButton = Authority(Button);
 const ToolBar: React.FC<any> = props => {

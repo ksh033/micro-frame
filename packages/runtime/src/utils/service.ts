@@ -18,7 +18,7 @@ const createRequest = (methodService: MethodProps, funName: string) => {
   const requestService = (params?: any, options?: any): Promise<any> => {
     const reqUrl = `${url}`
     const reqOpts = { ...options }
-    if (method === 'get') {
+    if (method.toLocaleLowerCase() === 'get') {
       reqOpts['params'] = params
     } else {
       reqOpts['data'] = params

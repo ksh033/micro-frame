@@ -5,11 +5,11 @@
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
-    "build": "father-build",
+    "build": "father-build --watch",
     "build:web":"npm run build && cross-env REACT_APP_ENV=pro APP_ROOT=packages/web umi build",
-    "build:web-test":"npm run build && cross-env REACT_APP_ENV=test APP_ROOT=packages/web umi build",
+    "build:web-test":"cross-env ANALYZE=1 REACT_APP_ENV=test APP_ROOT=packages/web umi build",
 
-    "start": "cross-env APP_ROOT=packages/web umi dev",
+    "start": "cross-env ANALYZE=1 APP_ROOT=packages/web umi dev",
     "update:deps": "yarn upgrade-interactive --latest"
 
   },
@@ -18,6 +18,7 @@
     "react-dom": "16"
   },
   "devDependencies": {
+    "@types/copy-webpack-plugin":"8.0.0",
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
@@ -30,6 +31,7 @@
     "@types/classnames": "^2.2.7",
     "@types/enzyme": "^3.10.3",
     "@types/history": "^4.7.7",
+    "babel-plugin-lodash": "3.3.4",
     "@types/jest": "^26.0.0",
     "@types/memoize-one": "^5.1.2",
     "@types/node": "^14.0.26",
@@ -102,8 +104,8 @@
     "write-pkg": "^4.0.0",
     "xhr-mock": "^2.5.1",
     "yorkie": "^2.0.0",
-    "copy-webpack-plugin":"5.1.1"
-
+    "copy-webpack-plugin":"5.1.1",
+    "lodash":"^4.17.21"
   },
   "name": "micro-frame"
 }

@@ -1,7 +1,10 @@
 /* eslint-disable consistent-return */
 import React, { useState } from 'react'
-import { UploadFile } from 'antd/lib/upload/interface'
 import { ScUpload } from '@scboson/sc-element'
+import { UploadFile } from '@scboson/sc-element/es/sc-upload'
+
+
+
 import { PlusOutlined } from '@ant-design/icons'
 import { imageUrl } from '../../../utils/common'
 import { useUpdateEffect } from 'ahooks'
