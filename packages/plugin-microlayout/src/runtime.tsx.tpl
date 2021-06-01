@@ -5,7 +5,7 @@ import {AppStart} from '@micro-frame/sc-runtime'
 import {BsTable} from '@micro-frame/sc-runtime'
 import {history} from 'umi'
 
-const {onRouteChange,render} = AppStart
+const {render} = AppStart
 
 const { Operation } = BsTable
 
@@ -21,10 +21,18 @@ const { Operation } = BsTable
 let  patchRoutes=()=>{
 
 }
+let  onRouteChange=()=>{
+
+}
  if (process.env.NODE_ENV === 'development') {
     patchRoutes=AppStart.patchRoutes
 }
 
+
+
+ if (process.env.NODE_ENV === 'development') {
+    onRouteChange=AppStart.onRouteChange
+}
 export {
  render,patchRoutes,onRouteChange
 }
