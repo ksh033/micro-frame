@@ -114,9 +114,7 @@ const formatMenu = (menus: any[], parnetKeys: string[], appCode: string) => {
         hiddenChild = false
       }
     })
-    if (id === 309) {
-      console.log(menuMap[id])
-    }
+   
     // const defaultPath = defPaths[menuCode];
     let rpath: string = ''
     //if (appCode && appCode !== '') {
