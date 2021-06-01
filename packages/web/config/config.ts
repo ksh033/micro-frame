@@ -41,25 +41,13 @@ const externalJS = [
   `react-dom/umd/react-dom.${
     NODE_ENV === 'production' ? 'production.min' : 'development'
   }.js`,
-
-  // `react-router/umd/react-router.${
-  //   NODE_ENV === "production" ? "min.js" : "js"
-  // }`,
-  // `react-router-dom/umd/react-router-dom.${
-  //   NODE_ENV === "production" ? "min.js" : "js"
-  // }`,
   'moment/min/moment.min.js',
   `lodash/lodash${NODE_ENV === 'production' ? '.min' : ''}.js`,
   // `antd/dist/antd${NODE_ENV === "production" ? ".min" : ""}.js`,
   `@ant-design/icons/dist/index.umd${
     NODE_ENV === 'production' ? '.min' : ''
   }.js`,
-  // `@ant-design/pro-layout/dist/layout${
-  // NODE_ENV === "production" ? ".min" : ""
-  // }.js`,
-  // '@ant-design/pro-provider/dist/provider.min.js',
-  // '@ant-design/pro-utils/dist/utils.min.js',
-  // '@ant-design/pro-layout/dist/layout.min.js',
+ 
 ]
 const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : '/'
 const outputPath = NODE_ENV === 'development' ? './public' : './dist'
@@ -128,11 +116,7 @@ export default defineConfig({
           lodash: '_',
           moment: 'moment',
           '@ant-design/icons': 'icons',
-          //"react-router-dom": "ReactRouterDOM",
-          // "react-router": "ReactRouter",
-
-          // antd: "antd",
-          // "@ant-design/pro-layout": "ProLayout",
+          
         },
       ],
     })
