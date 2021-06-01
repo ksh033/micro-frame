@@ -1,4 +1,4 @@
-import type { PageConfig } from '@scboson/sc-schema';
+import type { PageConfig } from '@scboson/sc-schema'
 
 const pageConfig: PageConfig = {
   queryConfig: [
@@ -20,8 +20,8 @@ const pageConfig: PageConfig = {
   tableConfig: [
     {
       title: '供应商编号',
-      dataIndex: 'supplierId',
-      key: 'supplierId',
+      dataIndex: 'supplierNo',
+      key: 'supplierNo',
     },
     {
       title: '供应商名称',
@@ -39,5 +39,5 @@ const pageConfig: PageConfig = {
       key: 'socialLicenceNo',
     },
   ],
-};
-export default pageConfig;
+}
+export default pageConfig
