@@ -84,6 +84,7 @@ export default defineConfig({
         "react-dom": "ReactDOM",
         lodash: "_",
         moment: "moment",
+        '@ant-design/icons': 'icons'
       }
       : false,
   microlayout:{},
