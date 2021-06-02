@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Switch } from 'antd'
 import { BsTableComponentProps } from '../../Base/BsTable'
 import { SwitchChangeEventHandler } from 'antd/lib/switch'
@@ -27,6 +27,10 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     manual: true,
   })
   const [state, setState] = useState<boolean>(!!value)
+
+  useEffect(() => {
+    setState(value)
+  }, [value])
 
   const handleChange: SwitchChangeEventHandler = (checked: boolean) => {
     if (checked === false) {

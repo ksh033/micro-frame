@@ -25,12 +25,17 @@ const Table: React.FC<any> = (props: any) => {
     ? uesRequest('system', 'cooperateSupplier')
     : uesRequest('system', 'supplier')
   const page = useListPageContext()
-  const search = page.getSearch({})
+  const search = page.getSearch({
+    tableKey: isCooperateSupplier ? 'cooperateSupplier' : 'supplier',
+  })
   const searchConfig = search.toConfig()
   const pageInfo = page.getTable().toConfig()
 
   const params = useMemo(() => {
-    return pageInfo.params
+    return {
+      ...pageInfo.params,
+      enabled: true,
+    }
   }, [JSON.stringify(pageInfo.params)])
   return (
     <div className={styles['table-page']}>

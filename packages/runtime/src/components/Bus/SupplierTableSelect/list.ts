@@ -1,27 +1,45 @@
 import type { PageConfig } from '@scboson/sc-schema'
 
 const pageConfig: PageConfig = {
-  queryConfig: [
-    {
-      label: '供应商名称',
-      name: 'supplierName',
-      component: 'Input',
-    },
-    {
-      label: '供应商类型',
-      name: 'supplierType',
-      component: 'DictSelect',
-      props: {
-        dictType: 'supplierType',
-        placeholder: '请选择供应商类型',
+  queryConfig: {
+    cooperateSupplier: [
+      {
+        label: '供应商名称',
+        name: 'supplierName',
+        component: 'Input',
       },
-    },
-  ],
+      {
+        label: '供应商类型',
+        name: 'supplierType',
+        component: 'DictSelect',
+        props: {
+          dictType: 'supplierType',
+          placeholder: '请选择供应商类型',
+        },
+      },
+    ],
+    supplier: [
+      {
+        label: '供应商名称',
+        name: 'supplierCodeName',
+        component: 'Input',
+      },
+      {
+        label: '供应商类型',
+        name: 'supplierType',
+        component: 'DictSelect',
+        props: {
+          dictType: 'supplierType',
+          placeholder: '请选择供应商类型',
+        },
+      },
+    ],
+  },
   tableConfig: [
     {
-      title: '供应商编号',
-      dataIndex: 'supplierNo',
-      key: 'supplierNo',
+      title: '供应商编码',
+      dataIndex: 'supplierCode',
+      key: 'supplierCode',
     },
     {
       title: '供应商名称',

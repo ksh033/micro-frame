@@ -15,7 +15,7 @@ const FieldImageName: React.FC<FieldImageNameProps> = (props) => {
       <div className={styles['bg-field-image']}>
         <BsImg src={rowData[fieldImage]}></BsImg>
       </div>
-      <div>{rowData[fieldName]}</div>
+      <div className={styles['bg-field-value']}>{rowData[fieldName]}</div>
     </div>
   )
 }
