@@ -5,7 +5,7 @@ import type { InputProps } from 'antd'
 
 export type BsNumberInputProps = {
   value?: any
-  onChange: (value: any) => any
+  onChange?: (value: any) => any
   min?: number | false // 最小值
   max?: number | false // 最大值
   complement?: number // 小数点后几位

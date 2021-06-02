@@ -23,15 +23,15 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
     <ScSelect
       {...props}
       request={run}
-      showSearch
-      labelInValue
+      remoteSearch={true}
+      showSearch={true}
+      autoload={true}
       searchField="cargoName"
       textField="cargoName"
       valueField="cargoId"
-      params={params}
-      remoteSearch={true}
-      allowClear
-      openReloadData
+      labelInValue
+      filterOption={false}
+      defaultActiveFirstOption={false}
     ></ScSelect>
   )
 }
