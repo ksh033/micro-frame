@@ -43,8 +43,8 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
       const location = currentData['location'] || {}
       return {
         name: newName,
-        px: location['lat'],
-        py: location['lng'],
+        px: location['lng'],
+        py: location['lat'],
         cityCode: currentData.adcode,
       }
     } else {
