@@ -5,7 +5,7 @@ import {
   FormComponent,
 } from '@scboson/sc-element/es/c-form'
 import styles from './index.less'
-import { NamePath } from 'antd/lib/form/interface'
+import { NamePath } from 'antd/es/form/interface'
 
 interface VolumeProps extends FormComponentProps {
   onChange?: (val: any) => {}

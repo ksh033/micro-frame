@@ -33,7 +33,7 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from '@ahooksjs/use-request/lib/types'
+} from '@ahooksjs/use-request/es/types'
 
 type ResultWithData<T = any> = { data?: T; [key: string]: any }
 import { baseApi } from './common'

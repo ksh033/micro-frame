@@ -1,4 +1,4 @@
-import { Rule } from 'antd/lib/form'
+import { Rule } from 'antd/es/form'
 
 type Record<K extends keyof any, T> = {
   [P in K]: T

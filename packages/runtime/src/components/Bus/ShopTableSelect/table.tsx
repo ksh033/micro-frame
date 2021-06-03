@@ -26,7 +26,7 @@ const Table: React.FC<any> = (props: any) => {
     return pageInfo.params
   }, [JSON.stringify(pageInfo.params)])
   return (
-    <div className={styles['table-page']}>
+    <div style={{ padding: '20px' }}>
       <BsSearch {...searchConfig} />
       <BsTable
         {...pageInfo}

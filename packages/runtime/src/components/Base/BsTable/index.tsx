@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 import React from 'react'
 import { ScTable } from '@scboson/sc-element'
-import type { ScTableProps, ColumnsType } from '@scboson/sc-element/lib/sc-table/ScTable'
+import type {
+  ScTableProps,
+  ColumnsType,
+} from '@scboson/sc-element/es/sc-table/ScTable'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
 import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'

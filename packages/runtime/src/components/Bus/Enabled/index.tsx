@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { Switch } from 'antd'
 import { BsTableComponentProps } from '../../Base/BsTable'
-import { SwitchChangeEventHandler } from 'antd/lib/switch'
+import { SwitchChangeEventHandler } from 'antd/es/switch'
 import { useRequest } from 'ahooks'
 import { CModal } from '@scboson/sc-element'
 

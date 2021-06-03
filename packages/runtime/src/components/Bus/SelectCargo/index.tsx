@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import SelectCargoTable, { SelectCargoTableProps } from './table'
 import { CModal } from '@scboson/sc-element'
-import { DialogOptions } from '@scboson/sc-schema/lib/interface'
+import { DialogOptions } from '@scboson/sc-schema/es/interface'
 import { useSetState } from 'ahooks'
 
 type SelectCargoProps = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { ScTree } from '@scboson/sc-element'
 import { useServiceRequest } from '@micro-frame/sc-runtime'
-import { Key } from 'antd/lib/table/interface'
+import { Key } from 'antd/es/table/interface'
 
 type SysPermListProps = {
   systemCode: string

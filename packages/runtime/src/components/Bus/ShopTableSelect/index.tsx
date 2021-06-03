@@ -3,8 +3,8 @@
 import React, { useRef } from 'react'
 import { Input, Select } from 'antd'
 import { CModal } from '@scboson/sc-element'
-
 import TableModal from './table'
+import { useMount } from 'ahooks'
 
 interface TableSelectProps {
   placeholder?: string
@@ -32,6 +32,11 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     selectedRowKeys: [],
     selectedRows: [],
   })
+
+  stateRef.current = {
+    selectedRowKeys: value.map((item) => item[`${valueField}`]),
+    selectedRows: value,
+  }
 
   const onTabelRow = (selectedRowKeys: any[], selectedRows: any[]) => {
     stateRef.current = {

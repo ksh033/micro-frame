@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import userDictModel from '../../Dict/userDictModel'
 import { ScSelect } from '@scboson/sc-element'
-import { ScSelectProps } from '@scboson/sc-element/lib/sc-select/index'
+import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index'
 
 import {
   FormComponent,

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Upload } from 'antd'
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons'
-import { UploadFile } from 'antd/lib/upload/interface'
+import { UploadFile } from 'antd/es/upload/interface'
 import { imageUrl } from '../../../utils/common'
 import styles from './index.less'
 
@@ -28,7 +28,8 @@ interface SingleUploadProps {
   headers?: object
   dataFormat?: (data: any) => string | null
 }
-const isImageFileType = (type?: string): boolean => type?.indexOf('image/') === 0
+const isImageFileType = (type?: string): boolean =>
+  type?.indexOf('image/') === 0
 
 const SingleUpload: React.FC<SingleUploadProps> = (
   props: SingleUploadProps
