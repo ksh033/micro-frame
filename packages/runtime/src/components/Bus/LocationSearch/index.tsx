@@ -37,10 +37,12 @@ const LocationSearch: React.FC<LocationSearchProps> = (
       const address = currentData['address'] || ''
 
       const newName = cityName + adname + address + name
+
+      const location = currentData['location'] || {}
       return {
         name: newName,
-        px: currentData['px'],
-        py: currentData['py'],
+        px: location['lat'],
+        py: location['lng'],
         cityCode: currentData.adcode,
       }
     } else {
