@@ -2,6 +2,10 @@ import React, { useRef } from 'react'
 import { Input } from 'antd'
 import Map from './Map'
 import { CModal } from '@scboson/sc-element'
+import {
+  FormComponent,
+  FormComponentProps,
+} from '@scboson/sc-element/es/c-form'
 
 export interface LocationDataProps {
   name: string // 具体地址
@@ -10,7 +14,7 @@ export interface LocationDataProps {
   cityCode?: string // 城市编码
 }
 
-interface LocationSearchProps {
+interface LocationSearchProps extends FormComponentProps {
   placeholder?: string
   value?: LocationDataProps
   title?: string
@@ -18,10 +22,8 @@ interface LocationSearchProps {
   onChange?: (value: LocationDataProps) => void
 }
 
-const LocationSearch: React.FC<LocationSearchProps> = (
-  props: LocationSearchProps
-) => {
-  const { placeholder, onChange, value, title = '选择', city } = props
+const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
+  const { placeholder, onChange, value, title = '选择', city, readonly } = props
 
   const data = useRef<any>(null)
 
@@ -77,11 +79,17 @@ const LocationSearch: React.FC<LocationSearchProps> = (
     return ''
   }
 
+  if (readonly) {
+    return <div>{valueFormat(value)}</div>
+  }
+
   return (
     <div onClick={handleClick}>
       <Input placeholder={placeholder} readOnly value={valueFormat(value)} />
     </div>
   )
 }
+
+LocationSearch.customView = true
 
 export default LocationSearch
