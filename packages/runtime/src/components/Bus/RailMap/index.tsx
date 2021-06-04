@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useRef, useState, useCallback } from 'react'
 import { Button, Input } from 'antd'
 import { Map, Polygon, PolyEditor, PolygonPath, Marker } from 'react-amap'
@@ -9,8 +10,8 @@ import {
   FullscreenExitOutlined,
   FullscreenOutlined,
 } from '@ant-design/icons'
-import { CModal } from '@scboson/sc-element'
 import styles from './index.less'
+import { CModal } from '@scboson/sc-element'
 
 const colorList = [
   '#096dd9',
@@ -51,11 +52,6 @@ function GenNonDuplicateID(randomLength: number | undefined) {
   return idStr
 }
 
-type overlaysMapState = {
-  path: PolygonPath
-  color: string
-}
-
 export default (props: RailProps) => {
   const {
     initMarker = { px: 119.330221, py: 26.0471254 },
@@ -65,7 +61,13 @@ export default (props: RailProps) => {
   } = props
   const mapPlugins: any[] = ['ToolBar', 'Scale']
   const map = useRef<any>(null)
-  const [overlays, overlaysMap] = useMap<string | number, overlaysMapState>([])
+  const [overlays, overlaysMap] = useMap<
+    string | number,
+    {
+      path: PolygonPath
+      color: string
+    }
+  >([])
   const [editor, editorMap] = useMap<string | number, any>([])
 
   const [titleMap, titleMapFn] = useMap<string | number, string>([])
@@ -213,10 +215,11 @@ export default (props: RailProps) => {
 
   const editorEvents = {
     created: (ins: any) => {
-      if (!editorMap.get(ins.Sc.getExtData())) {
-        editorMap.set(ins.Sc.getExtData(), ins)
+      console.log(ins.Rc.getExtData())
+      if (!editorMap.get(ins.Rc.getExtData())) {
+        editorMap.set(ins.Rc.getExtData(), ins)
       }
-      const center = getCenterOfGravityPoint(ins.Sc.getPath())
+      const center = getCenterOfGravityPoint(ins.Rc.getPath())
       setMapCenter(center)
     },
     adjust: ({ target }: any) => {
@@ -294,49 +297,47 @@ export default (props: RailProps) => {
     const list: React.ReactNode[] = []
     Array.from(titleMap).forEach((item: any, index: number) => {
       const active = state.active === item[0]
-      const oitem: overlaysMapState | undefined = overlaysMap.get(item[0])
-      if (oitem) {
-        const _style = {
-          backgroundColor: colorRgba(oitem.color, 0.4),
-          border: `1px solid ${oitem.color}`,
-        }
-        const mainStyle = active
-          ? {
-              border: '1px solid #155bD4',
-            }
-          : {}
-        list.push(
-          <div
-            className={styles['rail-item']}
-            key={index}
-            style={mainStyle}
+      const oitem: any = overlaysMap.get(item[0])
+      const _style = {
+        backgroundColor: colorRgba(oitem.color, 0.4),
+        border: `1px solid ${oitem.color}`,
+      }
+      const mainStyle = active
+        ? {
+            border: '1px solid #155bD4',
+          }
+        : {}
+      list.push(
+        <div
+          className={styles['rail-item']}
+          key={index}
+          style={mainStyle}
+          onClick={() => {
+            changeActive(item[0])
+          }}
+        >
+          <div className={styles['rail-item-color']} style={_style}></div>
+          <Input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              handleChange({
+                value: e.target.value,
+                key: item[0],
+              })
+            }}
+            value={item[1]}
+          ></Input>
+          <Button
+            className={styles['rail-item-remove']}
+            type="link"
             onClick={() => {
-              changeActive(item[0])
+              removeNode(item[0])
             }}
           >
-            <div className={styles['rail-item-color']} style={_style}></div>
-            <Input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                handleChange({
-                  value: e.target.value,
-                  key: item[0],
-                })
-              }}
-              value={item[1]}
-            ></Input>
-            <Button
-              className={styles['rail-item-remove']}
-              type="link"
-              onClick={() => {
-                removeNode(item[0])
-              }}
-            >
-              <CloseCircleOutlined />
-            </Button>
-            {active ? <div className={styles['rail-item-active']}></div> : null}
-          </div>
-        )
-      }
+            <CloseCircleOutlined />
+          </Button>
+          {active ? <div className={styles['rail-item-active']}></div> : null}
+        </div>
+      )
     })
     return list
   }
