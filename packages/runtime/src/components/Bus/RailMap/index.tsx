@@ -215,7 +215,6 @@ export default (props: RailProps) => {
 
   const editorEvents = {
     created: (ins: any) => {
-      console.log(ins.Rc.getExtData())
       if (!editorMap.get(ins.Rc.getExtData())) {
         editorMap.set(ins.Rc.getExtData(), ins)
       }
