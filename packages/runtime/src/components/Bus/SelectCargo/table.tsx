@@ -5,7 +5,7 @@ import BsTable from '../../Base/BsTable'
 import { ListPage, PageConfig, useListPageContext } from '@scboson/sc-schema'
 import list from './list'
 import BsSearch from '../../Base/BsSearch'
-import { ProColumn } from '@scboson/sc-schema/es/interface'
+import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface'
 import { RowSelectionType } from 'antd/es/table/interface'
 
 import styles from './index.less'
@@ -18,6 +18,7 @@ const pagaConfig: PageConfig = {
 
 export type SelectCargoTableProps = {
   extraColumns?: ProColumn[]
+  extraQueryColumns?: FormSearchItem[]
   request: (params: any) => Promise<any> // 请求数据的远程方法
   params?: any
   selectionType: RowSelectionType
@@ -26,6 +27,7 @@ export type SelectCargoTableProps = {
   isNeedLeft?: boolean
   rowKey?: string
   onLoad?: (data: any) => any
+  formatPrams?: (params: any) => any
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
@@ -36,6 +38,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
 ) => {
   const {
     extraColumns,
+    extraQueryColumns,
     request,
     params,
     selectionType = 'checkbox',
@@ -44,12 +47,20 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     isNeedLeft = true,
     getCheckboxProps,
     onLoad,
+    formatPrams,
     rowKey = 'cargoId',
   } = props
   const { run } = uesRequest('catalog', 'treeData')
   const page = useListPageContext()
   const search = page.getSearch({})
+
+  if (Array.isArray(extraQueryColumns) && extraQueryColumns.length > 0) {
+    extraQueryColumns.forEach((item: FormSearchItem) => {
+      search.addSearchItem(item)
+    })
+  }
   const searchConfig = search.toConfig()
+
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
   const pageTable = page.getTable()
   if (Array.isArray(extraColumns) && extraColumns.length > 0) {
@@ -83,11 +94,15 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     })
   }
   const tableParams = useMemo(() => {
-    return {
+    let newPrams = {
       ...params,
       ...pageInfo.params,
       catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
     }
+    if (typeof formatPrams === 'function') {
+      newPrams = formatPrams(newPrams)
+    }
+    return newPrams
   }, [JSON.stringify(pageInfo.params), params, JSON.stringify(selectedKeys)])
 
   const tableInfo: any = pageInfo
