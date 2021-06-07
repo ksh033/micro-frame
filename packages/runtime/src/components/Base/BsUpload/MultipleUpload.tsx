@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { ScUpload } from '@scboson/sc-element'
 import { UploadFile } from '@scboson/sc-element/es/sc-upload'
 
-
-
 import { PlusOutlined } from '@ant-design/icons'
 import { imageUrl } from '../../../utils/common'
 import { useUpdateEffect } from 'ahooks'
@@ -15,7 +13,8 @@ interface MultipleUpload {
   onChange?: (value: any[]) => void
   maxFiles?: number // 最多上传几个配合 mode 类型为 multiple
   disabled?: boolean // 是否禁用
-  maxSize?: number
+  maxSize?: number // 上传文件大小
+  maxSizeCheck: (file: any) => boolean
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: any
@@ -31,31 +30,39 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     accept,
     headers,
     dataFormat,
+    maxSizeCheck,
     ...restProps
   } = props
   const formatList = (_fileList: any) => {
     let newfileList = JSON.parse(JSON.stringify(_fileList))
     if (Array.isArray(newfileList)) {
-      newfileList = newfileList.map((item, index) => {
-        if (typeof item === 'string') {
-          return {
-            uid: index,
-            url: imageUrl(item),
-            fileUrl: item,
-            status: 'done',
+      newfileList = newfileList
+        .map((item, index) => {
+          if (typeof item === 'string') {
+            return {
+              uid: index,
+              url: imageUrl(item),
+              fileUrl: item,
+              status: 'done',
+            }
+          } else {
+            let result = item
+
+            if (maxSizeCheck(item)) {
+              if (item.response && item.response.success) {
+                result = item.response.data
+              }
+              if (dataFormat) {
+                result = dataFormat(result)
+              }
+              item.url = imageUrl(result)
+              return item
+            } else {
+              return null
+            }
           }
-        } else {
-          let result = item
-          if (item.response && item.response.success) {
-            result = item.response.data
-          }
-          if (dataFormat) {
-            result = dataFormat(result)
-          }
-          item.url = imageUrl(result)
-          return item
-        }
-      })
+        })
+        .filter((item) => item !== null)
     } else {
       newfileList = []
     }

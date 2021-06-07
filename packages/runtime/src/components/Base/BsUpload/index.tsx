@@ -11,6 +11,7 @@ import { getUser } from '../../Auth'
 import SingleUpload from './SingleUpload'
 import MultipleUpload from './MultipleUpload'
 import BsImg from '../BsImg'
+import compute from '../../../utils/compute'
 import styles from './index.less'
 
 interface BsUploadProps extends FormComponentProps {
@@ -21,6 +22,7 @@ interface BsUploadProps extends FormComponentProps {
   mode?: 'multiple' | 'single' // single 上传一个 |  multiple 上传多个配合maxFiles使用
   disabled?: boolean // 是否禁用
   maxSize?: number // 上传文件大小
+  videoMaxSize?: number // 视频的文件大小
   uploadImmediately?: boolean // 是否立即上传
   accept?: string // 图片上传类型
   warnContent?: React.ReactNode | string
@@ -34,6 +36,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     mode = 'single',
     disabled = false,
     maxSize = 3 * 1024 * 1024,
+    videoMaxSize = 8 * 1024 * 1024,
     action = `${baseApi}/file/api/file/upload`,
     uploadImmediately = true,
     accept = 'image/*',
@@ -52,6 +55,23 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     headers['sys-code'] = 'common'
   }
 
+  const maxSizeM = compute.divide(maxSize, 1024 * 1024)
+  const videoMaxSizeM = compute.divide(videoMaxSize, 1024 * 1024)
+
+  const maxSizeCheck = (file: any) => {
+    const isImg = isImageFileType(accept)
+    if (isImg) {
+      return file.size <= maxSize
+    }
+    const isVideo = file.type.indexOf('video') > -1
+
+    if (isVideo) {
+      return file.size <= videoMaxSize
+    }
+
+    return false
+  }
+
   const beforeUpload = (file: any) => {
     if (isImageFileType(accept) && file.type.indexOf('image') > -1) {
       const isJpgOrPng = file.type && file.type.indexOf('image') > -1
@@ -63,7 +83,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
       }
 
       if (!isLt2M) {
-        message.error('图片大小必须小于2M!')
+        message.error(`图片大小必须小于${maxSizeM}M!`)
         return false
       }
       if (uploadImmediately) {
@@ -74,14 +94,14 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     }
     if (!isImageFileType(accept) && file.type.indexOf('video') > -1) {
       const isJpgOrPng = file.type && file.type.indexOf('video') > -1
-      const isLt2M = file.size <= 8 * 1024 * 1024
+      const isLt2M = file.size <= videoMaxSize
       // 判断是否有url 如果有就立即上传，没有就不上传，而是改为手动提交
       if (!isJpgOrPng) {
         message.error('请上传视频')
         return false
       }
       if (!isLt2M) {
-        message.error('图片大小必须小于3M!')
+        message.error(`视频大小必须小于${videoMaxSizeM}M!`)
         return false
       }
       if (uploadImmediately) {
@@ -139,6 +159,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           accept={accept}
           headers={headers}
           dataFormat={dataFormat}
+          maxSizeCheck={maxSizeCheck}
           {...restProps}
         ></SingleUpload>
       ) : (
@@ -150,6 +171,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           accept={accept}
           headers={headers}
           dataFormat={dataFormat}
+          maxSizeCheck={maxSizeCheck}
           {...restProps}
         ></MultipleUpload>
       )}

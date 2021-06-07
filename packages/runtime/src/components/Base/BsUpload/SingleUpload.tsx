@@ -22,7 +22,8 @@ interface SingleUploadProps {
   onChange?: (value: any[]) => void
   disabled?: boolean // 是否禁用
   uploadImmediately?: boolean // 是否立即上传
-  maxSize?: number
+  maxSize?: number // 上传文件大小
+  maxSizeCheck: (file: any) => boolean
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: object
@@ -43,6 +44,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     accept,
     uploadImmediately = true,
     headers,
+    maxSizeCheck,
     dataFormat,
   } = props
 
@@ -69,6 +71,10 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   }, [value])
 
   const handleChange = ({ file }: any) => {
+    if (!maxSizeCheck(file)) {
+      return
+    }
+
     if (uploadImmediately) {
       if (file.status === 'uploading') {
         setPreviewImage(null)
