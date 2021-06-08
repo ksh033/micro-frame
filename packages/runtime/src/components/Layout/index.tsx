@@ -72,6 +72,12 @@ export default (props: any) => {
             }
           },
         }}
+        itemRender={({ breadcrumbName, path }:any)=>{
+          const { routerBase = '/' } =  window ;
+          const url=path.replace(routerBase,"")
+    
+          return <Link href={path} to={url}>{breadcrumbName}</Link>
+        }}
         appSelectedKeys={[appSelectedKeys]}
         {...restProps}
         menuDataRender={() => {
