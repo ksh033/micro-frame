@@ -36,9 +36,11 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     selectedRows: [],
   })
 
-  stateRef.current = {
-    selectedRowKeys: value.map((item) => item[`${valueField}`]),
-    selectedRows: value,
+  if (Array.isArray(value)) {
+    stateRef.current = {
+      selectedRowKeys: value.map((item) => item[`${valueField}`]),
+      selectedRows: value,
+    }
   }
 
   const onTabelRow = (selectedRowKeys: any[], selectedRows: any[]) => {
