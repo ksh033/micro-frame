@@ -17,6 +17,9 @@ export { default as BsTable } from './components/Base/BsTable'
 export { default as BsSearch } from './components/Base/BsSearch'
 export { default as ModalPageContainer } from './components/Base/Tpl/ModalPageTpl'
 export { default as useDictModel } from './components/Dict/userDictModel'
+
+
+export {default as  defaultRenderText } from './components/Dict/defaultRender'
 import { render, patchRoutes, onRouteChange } from './components/AppStart'
 export { PageContainer } from '@scboson/sc-layout'
 import { request, useRequest } from './utils/request'

@@ -29,6 +29,8 @@ interface Window {
   ) => void
   reloadAuthorized: () => void
   AMap: any
+  routerBase:string;
+  
 }
 
 declare let ga: Function

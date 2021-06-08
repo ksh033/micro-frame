@@ -62,6 +62,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
       value={state.value}
       onChange={handleChange}
       onBlur={onBlur}
+      {...restProps}
     ></BsNumberInput>
   )
 }

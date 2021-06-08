@@ -50,7 +50,7 @@ export const EVN_CONFIG = {
 //micro-basic
 let base = "/";
 if (packageName.indexOf("micro-") > -1) {
-  base = "/" + packageName.replace("micro-","") + "/";
+  base = "/" + packageName.replace("micro-","") ;
 }
 
 export default defineConfig({
@@ -62,7 +62,7 @@ export default defineConfig({
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
   },
   base: base,
-  publicPath:base,
+  publicPath:base+"/",
   locale: false,
   alias: {
     "@@service": "@/services",
@@ -103,7 +103,7 @@ export default defineConfig({
     // 这里的 modules 可以接受 getLocalIdent
     modules: {
       getLocalIdent: (
-        context: {
+        context: {gv
           resourcePath: string;
         },
         _: string,

@@ -54,7 +54,7 @@ const outputPath = NODE_ENV === 'development' ? './public' : './dist'
 
 export default defineConfig({
   hash: true,
-  // antd: {},
+  antd: {},
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || 'dev'].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || 'dev'].imgUrl,
@@ -97,7 +97,6 @@ export default defineConfig({
       href: `${publicPath}${parse(external).base}`,
     })),
   ],
-  antd: false,
   scripts: [
     // polyfill
     ...externalJS.map((external) => ({

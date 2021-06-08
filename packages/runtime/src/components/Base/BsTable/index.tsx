@@ -32,6 +32,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   const { getDistList } = userDictModel()
 
+  const lastCol:any= columns[columns.length-1]
   columns.forEach((col: any, index: number) => {
     const list: any = getDistList({
       syscode: col.sysCode,
@@ -40,6 +41,19 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     if (!col.width) {
       col.width = 180
     }
+    if (columns.length>3){
+      if (lastCol.dataIndex!=="_OperateKey"){
+        if (index===columns.length-2){
+          delete col.width
+        }
+      }else{
+        if (index===columns.length-1){
+          delete col.width
+        }
+      }
+      
+    }
+    
 
     if (list && !col.render) {
       col.render = (text: string) => {

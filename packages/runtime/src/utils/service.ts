@@ -78,7 +78,10 @@ function uesRequest<
   P extends keyof typeof services[T]
 >(mcode: T, funName: P, options?: any) {
   const useOptions = { ...options }
-  return umiUesRequest(getServiceApi(mcode, funName), useOptions)
+  let serviceApi=getServiceApi(mcode, funName)
+  return umiUesRequest((params)=>{
+    return serviceApi(params,useOptions)
+  }, useOptions)
 }
 
 export { uesRequest, services, getServiceApi }
