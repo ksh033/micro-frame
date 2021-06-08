@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from 'antd'
 import type { InputProps } from 'antd'
+import { useUpdateEffect } from 'ahooks'
 
 export type BsNumberInputProps = {
   value?: any
@@ -24,41 +25,59 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
     ...restProps
   } = props
 
+  const [newValue, setNewValue] = useState(value)
+
+  useUpdateEffect(() => {
+    if (value) {
+      setNewValue(value)
+    }
+  }, [value])
+
+  const formatValue = (rvalue: any) => {
+    const _val = rvalue
+    const newVal = String(_val)
+    let num = complement
+    if (newVal.indexOf('.') > -1) {
+      num = newVal.substring(newVal.indexOf('.') + 1, newVal.length).length
+    } else {
+      num = complement
+    }
+    if (num <= complement) {
+      num = complement
+    }
+    if (num >= complement) {
+      num = complement
+    }
+    let str = parseFloat(`${_val}`).toFixed(num)
+    // 判断是否配置最大最小值
+    if (min !== false && min > _val) {
+      str = min + ''
+    }
+    if (max !== false && max < _val) {
+      str = max + ''
+    }
+    return str
+  }
+
   const handleChange = (e: any) => {
     const _value = e.target.value
     const reg = /^-?\d*(\.\d*)?$/
     if ((!isNaN(_value) && reg.test(_value)) || _value === '') {
+      setNewValue(_value)
       onChange && onChange(_value)
     } else {
+      setNewValue('')
       onChange && onChange('')
     }
   }
 
   const handleBlur = () => {
-    const _val = value
+    const _val = newValue
     const reg = /^-?\d*(\.\d*)?$/
     const newVal = String(_val)
     if (!isNaN(_val) && reg.test(newVal) && _val !== '') {
-      let num = complement
-      if (newVal.indexOf('.') > -1) {
-        num = newVal.substring(newVal.indexOf('.') + 1, newVal.length).length
-      } else {
-        num = complement
-      }
-      if (num <= complement) {
-        num = complement
-      }
-      if (num >= complement) {
-        num = complement
-      }
-      let str = parseFloat(`${_val}`).toFixed(num)
-      // 判断是否配置最大最小值
-      if (min !== false && min > _val) {
-        str = min + ''
-      }
-      if (max !== false && max < _val) {
-        str = max + ''
-      }
+      const str = formatValue(newVal)
+      setNewValue(str)
       onChange && onChange(str)
       onBlur && onBlur(str)
     }
@@ -66,7 +85,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
 
   return (
     <Input
-      value={value}
+      value={newValue}
       onChange={handleChange}
       onBlur={handleBlur}
       {...restProps}
