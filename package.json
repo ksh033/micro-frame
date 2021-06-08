@@ -5,16 +5,9 @@
   ],
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
-<<<<<<< Updated upstream
     "build": "father-build",
     "build:web": "npm run build && cross-env REACT_APP_ENV=pro APP_ROOT=packages/web umi build",
     "build:web-test": "npm run build && cross-env REACT_APP_ENV=test APP_ROOT=packages/web umi build",
-=======
-    "build": "father-build --watch",
-    "build:web":"npm run build && cross-env REACT_APP_ENV=pro APP_ROOT=packages/web umi build",
-    "build:web-test":"npm run build && cross-env REACT_APP_ENV=test APP_ROOT=packages/web umi build",
-
->>>>>>> Stashed changes
     "start": "cross-env ANALYZE=1 APP_ROOT=packages/web umi dev",
     "update:deps": "yarn upgrade-interactive --latest"
   },
