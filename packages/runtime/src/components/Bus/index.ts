@@ -12,6 +12,7 @@ import LocationSearch from './LocationSearch'
 import SupplierTableSelect from './SupplierTableSelect'
 import ShopTableSelect from './ShopTableSelect'
 import RailMap from './RailMap'
+import PageTitle from './PageTitle'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -40,4 +41,5 @@ export {
   SupplierTableSelect,
   ShopTableSelect,
   Enabled,
+  PageTitle,
 }
