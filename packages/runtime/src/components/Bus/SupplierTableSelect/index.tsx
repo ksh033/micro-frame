@@ -14,7 +14,7 @@ interface TableSelectProps {
   textField?: any
   valueField?: string
   isCooperateSupplier?: boolean
-  supplierEnabled?: boolean
+  supplierEnabled?: boolean | null
 }
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {

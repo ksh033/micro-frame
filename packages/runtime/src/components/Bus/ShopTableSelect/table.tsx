@@ -41,13 +41,16 @@ const Table: React.FC<any> = (props: any) => {
     .changeCol('shopBusiness', {
       render: (text: string, record: any) => {
         const rlist = record.shopBusinessList
-        const str = Array.isArray(rlist)
+        let str = Array.isArray(rlist)
           ? rlist
               .map((item) => {
                 return shopBusinessMap.get(item)
               })
               .join('，')
           : '--'
+        if (str === '') {
+          str = '--'
+        }
         return str
       },
     })
