@@ -4,7 +4,6 @@ import React, { useRef } from 'react'
 import { Input, Select } from 'antd'
 import { CModal } from '@scboson/sc-element'
 import TableModal from './table'
-import { useMount } from 'ahooks'
 
 interface TableSelectProps {
   placeholder?: string

@@ -40,8 +40,8 @@ const pageConfig: PageConfig = {
     },
     {
       title: '经营业务',
-      dataIndex: 'socialLicenceNo',
-      key: 'socialLicenceNo',
+      dataIndex: 'shopBusiness',
+      key: 'shopBusiness',
     },
   ],
 }

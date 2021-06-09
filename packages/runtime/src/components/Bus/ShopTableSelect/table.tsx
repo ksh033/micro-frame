@@ -6,7 +6,7 @@ import list from './list'
 import type { PageConfig } from '@scboson/sc-schema'
 import { useListPageContext } from '@scboson/sc-schema'
 import { ListPage } from '@scboson/sc-schema'
-import styles from './index.less'
+import userDictModel from '../../../components/Dict/userDictModel'
 
 const pagaConfig: PageConfig = {
   ...list,
@@ -20,7 +20,38 @@ const Table: React.FC<any> = (props: any) => {
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
-  const pageInfo = page.getTable().toConfig()
+
+  const { getDistList } = userDictModel()
+
+  const shopBusinessMap = useMemo(() => {
+    const rlist = getDistList({
+      dictTypeCode: 'shopBusiness',
+    })
+    const map = new Map()
+    if (Array.isArray(rlist)) {
+      rlist.forEach((item) => {
+        map.set(item.value, item.name)
+      })
+    }
+    return map
+  }, [getDistList])
+
+  const pageInfo = page
+    .getTable()
+    .changeCol('shopBusiness', {
+      render: (text: string, record: any) => {
+        const rlist = record.shopBusinessList
+        const str = Array.isArray(rlist)
+          ? rlist
+              .map((item) => {
+                return shopBusinessMap.get(item)
+              })
+              .join('，')
+          : '--'
+        return str
+      },
+    })
+    .toConfig()
 
   const params = useMemo(() => {
     return pageInfo.params

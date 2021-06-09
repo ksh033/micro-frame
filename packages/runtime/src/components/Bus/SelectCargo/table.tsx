@@ -7,7 +7,6 @@ import list from './list'
 import BsSearch from '../../Base/BsSearch'
 import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface'
 import { RowSelectionType } from 'antd/es/table/interface'
-
 import styles from './index.less'
 import { CheckboxProps } from 'antd'
 

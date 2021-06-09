@@ -6,7 +6,6 @@ import list from './list'
 import type { PageConfig } from '@scboson/sc-schema'
 import { useListPageContext } from '@scboson/sc-schema'
 import { ListPage } from '@scboson/sc-schema'
-import styles from './index.less'
 
 const pagaConfig: PageConfig = {
   ...list,
