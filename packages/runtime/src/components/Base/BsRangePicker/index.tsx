@@ -37,6 +37,8 @@ const ScRangePicker: FormComponent<ScRangePickerProps> = (props) => {
   const cformat = format || (showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')
   const [currentValue, setCurrentValue] = useState<any>()
 
+  const startTime = initialValues[`${startTimeFiled}`]
+
   const formatValue = (): void => {
     const startTime = form?.getFieldValue(startTimeFiled)
     const endTime = form?.getFieldValue(endTimeFiled)
@@ -61,7 +63,7 @@ const ScRangePicker: FormComponent<ScRangePickerProps> = (props) => {
 
   useEffect(() => {
     formatValue()
-  }, [form?.getFieldValue(startTimeFiled)])
+  }, [startTime])
 
   const handleChange = (
     dates: RangeValue<Moment>,
