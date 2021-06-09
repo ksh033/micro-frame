@@ -19,6 +19,7 @@ const Table: React.FC<any> = (props: any) => {
     rowKey,
     selectedRowKeys,
     isCooperateSupplier = false,
+    supplierEnabled = true,
   } = pageProps
   const { run } = isCooperateSupplier
     ? uesRequest('system', 'cooperateSupplier')
@@ -33,9 +34,9 @@ const Table: React.FC<any> = (props: any) => {
   const params = useMemo(() => {
     return {
       ...pageInfo.params,
-      enabled: true,
+      enabled: supplierEnabled,
     }
-  }, [JSON.stringify(pageInfo.params)])
+  }, [JSON.stringify(pageInfo.params), supplierEnabled])
   return (
     <div style={{ padding: '20px' }}>
       <BsSearch {...searchConfig} />

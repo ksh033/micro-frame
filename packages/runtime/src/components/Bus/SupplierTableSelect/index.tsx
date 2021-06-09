@@ -14,6 +14,7 @@ interface TableSelectProps {
   textField?: any
   valueField?: string
   isCooperateSupplier?: boolean
+  supplierEnabled?: boolean
 }
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
@@ -26,6 +27,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     textField = 'supplierName',
     valueField = 'supplierId',
     isCooperateSupplier = false,
+    supplierEnabled = true,
     ...resProps
   } = props
 
@@ -71,6 +73,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
         onTabelRow,
         selectionType,
         isCooperateSupplier,
+        supplierEnabled,
         rowKey: valueField,
         ...stateRef.current,
       },
