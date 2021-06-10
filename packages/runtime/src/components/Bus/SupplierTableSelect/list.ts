@@ -5,7 +5,7 @@ const pageConfig: PageConfig = {
     cooperateSupplier: [
       {
         label: '供应商名称',
-        name: 'supplierName',
+        name: 'supplierCodeName',
         component: 'Input',
       },
       {
