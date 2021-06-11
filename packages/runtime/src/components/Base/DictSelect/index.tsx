@@ -1,22 +1,23 @@
-import React, { useMemo } from "react";
-import userDictModel from "../../Dict/userDictModel";
-import { ScSelect, ScRadio, ScCheckBox } from "@scboson/sc-element";
-import { ScSelectProps } from "@scboson/sc-element/es/sc-select/index";
+import React, { useMemo } from 'react'
+import userDictModel from '../../Dict/userDictModel'
+import { ScSelect, ScRadio, ScCheckBox } from '@scboson/sc-element'
+import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index'
 
 import {
   FormComponent,
   FormComponentProps,
   deepGet,
-} from "@scboson/sc-element/es/c-form";
+} from '@scboson/sc-element/es/c-form'
 
 export interface DictSelectProp extends ScSelectProps, FormComponentProps {
   /** 字典类型 */
-  dictType: string;
+  dictType: string
   /** 系统 */
-  sysCode?: string;
-  type?: "Select" | "Radio" | "CheckBox";
-  fieldProps?: any;
-  filterData?: (dictData: any[]) => any[];
+  sysCode?: string
+  type?: 'Select' | 'Radio' | 'CheckBox'
+  fieldProps?: any
+  filterData?: (dictData: any[]) => any[]
+  rowData?: any
 }
 /**
  * 字典控件
@@ -27,7 +28,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
   const {
     dictType,
     readonly,
-    type = "Select",
+    type = 'Select',
     sysCode,
     name,
     form,
@@ -35,41 +36,42 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     formItemProps,
     fieldProps,
     filterData,
+    rowData,
     ...restProps
-  } = pros;
-  const { getDistList } = userDictModel();
+  } = pros
+  const { getDistList } = userDictModel()
 
   let data = useMemo(() => {
     const list = getDistList({
       syscode: sysCode,
       dictTypeCode: dictType,
-    });
+    })
 
     if (list) {
-      return list;
+      return list
     }
-    return [];
-  }, [dictType, sysCode]);
+    return []
+  }, [dictType, sysCode])
 
   if (filterData) {
-    data = filterData(data);
+    data = filterData(data)
   }
   if (readonly) {
-    let newName: any = name || "";
-    const formData: any = form?.getFieldsValue() || {};
-    let val = deepGet(formData, newName);
+    let newName: any = name || ''
+    const formData: any = form?.getFieldsValue() || {}
+    let val = deepGet(formData, newName)
     if (!val && initialValues) {
-      val = deepGet(initialValues, newName);
+      val = deepGet(initialValues, newName)
     }
     const valItem = data.find((item) => {
-      return item.value === val;
-    });
-    const text = valItem?.name;
+      return item.value === val
+    })
+    const text = valItem?.name
 
-    return <span>{text}</span>;
+    return <span>{text}</span>
   } else {
-    if (type === "Radio") {
-      const radioProps: any = restProps;
+    if (type === 'Radio') {
+      const radioProps: any = restProps
       return (
         <ScRadio
           textField="name"
@@ -77,10 +79,10 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
           data={data}
           {...radioProps}
         ></ScRadio>
-      );
+      )
     }
-    if (type === "CheckBox") {
-      const checkProps: any = restProps;
+    if (type === 'CheckBox') {
+      const checkProps: any = restProps
       return (
         <ScCheckBox
           textField="name"
@@ -88,7 +90,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
           data={data}
           {...checkProps}
         ></ScCheckBox>
-      );
+      )
     }
     return (
       <ScSelect
@@ -98,9 +100,9 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
         allowClear
         {...restProps}
       ></ScSelect>
-    );
+    )
   }
-};
-DictSelect.customView = true;
+}
+DictSelect.customView = true
 
-export default DictSelect;
+export default DictSelect
