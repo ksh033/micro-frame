@@ -108,7 +108,7 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
           </Form.Item>
         </div>
         <Form.Item
-          name={`${startTimeFiled}_${endTimeFiled}`}
+         
           noStyle
           rules={
             rulesRequire === true

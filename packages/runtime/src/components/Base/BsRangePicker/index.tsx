@@ -1,12 +1,12 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input ,DatePickerProps} from 'antd'
 import moment, { Moment } from 'moment'
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form'
+} from '@scboson/sc-element/lib/c-form'
 import { RangeValue } from 'rc-picker/es/interface'
 
 import RangePicker from './RangePicker'
@@ -16,11 +16,12 @@ export interface ScRangePickerProps extends FormComponentProps {
   returnType?: 'string' | 'date'
   startTimeFiled?: string
   endTimeFiled?: string
-  showTime?: boolean
+  showTime?: Object | boolean	
   rulesRequire?: boolean
+  disabled?:boolean
 }
 
-const ScRangePicker: FormComponent<ScRangePickerProps> = (props) => {
+const ScRangePicker: FormComponent<DatePickerProps&ScRangePickerProps> = (props) => {
   const {
     format,
     returnType = 'string',

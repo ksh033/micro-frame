@@ -13,6 +13,8 @@ import SupplierTableSelect from './SupplierTableSelect'
 import ShopTableSelect from './ShopTableSelect'
 import RailMap from './RailMap'
 import PageTitle from './PageTitle'
+import UserDept from './UserDept'
+
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -26,7 +28,7 @@ regeditCmp('RailMap', RailMap)
 regeditCmp('CargoSelect', CargoSelect)
 regeditCmp('SupplierTableSelect', SupplierTableSelect)
 regeditCmp('ShopTableSelect', ShopTableSelect)
-
+regeditCmp('UserDept', UserDept)
 export {
   CheckBoxDate,
   Address,
@@ -42,4 +44,5 @@ export {
   ShopTableSelect,
   Enabled,
   PageTitle,
+  UserDept
 }

@@ -40,6 +40,13 @@ const services = {
       method: 'post',
       sysCode: 'base',
     },
+    subcompany:{
+      url: '/base/api/subcompany/list',
+      method: 'post',
+      sysCode: 'base',
+    }
+    
+
   },
   user: {
     loginByPhone: {
