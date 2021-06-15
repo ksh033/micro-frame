@@ -28,7 +28,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   const [newValue, setNewValue] = useState(value)
 
   useUpdateEffect(() => {
-    if (value) {
+    if (value !== undefined && value !== null) {
       setNewValue(value)
     }
   }, [value])
