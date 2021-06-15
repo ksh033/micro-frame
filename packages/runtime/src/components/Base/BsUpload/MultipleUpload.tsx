@@ -94,7 +94,20 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   }) => {
     const rfileList = formatList(_fileList)
     setFileList(rfileList)
-    onChange && onChange(rfileList)
+    const outList = rfileList.map((file: any) => {
+      if (file.status === 'done') {
+        let result = file
+        if (file.response && file.response.success) {
+          result = file.response.data
+        }
+        if (dataFormat) {
+          result = dataFormat(result)
+        }
+        return result
+      }
+      return file
+    })
+    onChange && onChange(outList)
   }
 
   return (
