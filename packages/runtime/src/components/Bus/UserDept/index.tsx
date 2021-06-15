@@ -65,7 +65,7 @@ const UserDept: FormComponent<UserDeptProp> = props => {
             }
           });
         } else {
-          deptList.current = [currentDept];
+          deptList.current = [{subcompanyId:currentDept.bizDeptId,subcompanyName:currentDept.bizDeptName}];
           setState({
             disabled: true,
             data: deptList.current,
