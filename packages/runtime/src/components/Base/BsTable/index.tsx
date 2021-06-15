@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ScTable } from '@scboson/sc-element'
 import type {
   ScTableProps,
@@ -11,6 +11,7 @@ import ToolBar from '../ToolBar'
 import Authority from '../../Auth/Authority'
 
 import styles from './index.less'
+import { ToolBarProps } from '@scboson/sc-element/es/sc-table/components/ToolBar'
 
 const { Operation } = ScTable
 
@@ -28,7 +29,13 @@ export interface BsTableComponentProps {
 }
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
-  const { toolbar = [], columns = [], data, ...restProps } = props
+  const {
+    toolbar = [],
+    columns = [],
+    data,
+    toolBarRender,
+    ...restProps
+  } = props
 
   const { getDistList } = userDictModel()
 
@@ -84,6 +91,29 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     delete col.sysCode
   })
 
+  const newToolBarRender: ToolBarProps<any>['toolBarRender'] | false =
+    useMemo(() => {
+      if (toolBarRender === false) {
+        return false
+      }
+      let rtoolBarRender: any = () => {
+        const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0
+        const toolBarRender = hasToolBar
+          ? [
+              <ToolBar
+                buttons={toolbar}
+                className={styles['bs-table-toolbar-btn']}
+              ></ToolBar>,
+            ]
+          : []
+        return toolBarRender
+      }
+      if (toolBarRender) {
+        rtoolBarRender = toolBarRender
+      }
+      return rtoolBarRender
+    }, [toolBarRender])
+
   return (
     <>
       <div className={'bs-table-list'}>
@@ -91,18 +121,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           {...restProps}
           data={data}
           columns={columns}
-          toolBarRender={() => {
-            const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0
-            const toolBarRender = hasToolBar
-              ? [
-                  <ToolBar
-                    buttons={toolbar}
-                    className={styles['bs-table-toolbar-btn']}
-                  ></ToolBar>,
-                ]
-              : []
-            return toolBarRender
-          }}
+          toolBarRender={newToolBarRender}
         />
       </div>
     </>

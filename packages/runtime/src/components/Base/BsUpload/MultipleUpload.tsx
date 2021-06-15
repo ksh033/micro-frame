@@ -47,18 +47,21 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
             }
           } else {
             let result = item
-
-            if (maxSizeCheck(item)) {
-              if (item.response && item.response.success) {
-                result = item.response.data
+            if (item.size && item.type) {
+              if (maxSizeCheck(item)) {
+                if (item.response && item.response.success) {
+                  result = item.response.data
+                }
+                if (dataFormat) {
+                  result = dataFormat(result)
+                }
+                item.url = imageUrl(result)
+                return item
+              } else {
+                return null
               }
-              if (dataFormat) {
-                result = dataFormat(result)
-              }
-              item.url = imageUrl(result)
-              return item
             } else {
-              return null
+              return item
             }
           }
         })
@@ -91,20 +94,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   }) => {
     const rfileList = formatList(_fileList)
     setFileList(rfileList)
-    const outList = rfileList.map((file: any) => {
-      if (file.status === 'done') {
-        let result = file
-        if (file.response && file.response.success) {
-          result = file.response.data
-        }
-        if (dataFormat) {
-          result = dataFormat(result)
-        }
-        return result
-      }
-      return file
-    })
-    onChange && onChange(outList)
+    onChange && onChange(rfileList)
   }
 
   return (
