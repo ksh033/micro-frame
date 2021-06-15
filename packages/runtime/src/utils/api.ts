@@ -42,7 +42,7 @@ const services = {
     },
     subcompany:{
       url: '/base/api/subcompany/list',
-      method: 'post',
+      method: 'get',
       sysCode: 'base',
     }
     
