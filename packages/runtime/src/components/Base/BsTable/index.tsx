@@ -112,7 +112,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         rtoolBarRender = toolBarRender
       }
       return rtoolBarRender
-    }, [toolBarRender])
+    }, [toolBarRender, toolbar])
 
   return (
     <>
