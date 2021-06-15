@@ -45,6 +45,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
             [enabledName]: checked,
           }).then((data) => {
             setState(checked)
+            rowData[enabledName]=checked
             return data
           })
         },
@@ -55,6 +56,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
         [enabledName]: checked,
       }).then(() => {
         setState(checked)
+        rowData[enabledName]=checked
       })
     }
   }
