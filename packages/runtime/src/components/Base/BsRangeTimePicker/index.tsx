@@ -108,7 +108,6 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
           </Form.Item>
         </div>
         <Form.Item
-         
           noStyle
           rules={
             rulesRequire === true
@@ -122,9 +121,9 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
           }
         >
           <RangePicker
+            {...resProps}
             format={format}
             onChange={handleChange}
-            {...resProps}
             value={currentValue}
           />
         </Form.Item>
