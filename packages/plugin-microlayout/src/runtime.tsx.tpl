@@ -4,7 +4,6 @@ import {SchemaContext} from '@scboson/sc-schema'
 import {AppStart} from '@micro-frame/sc-runtime'
 import {BsTable} from '@micro-frame/sc-runtime'
 import {history} from 'umi'
-import 'moment/locale/zh-cn';
 
 const {render} = AppStart
 

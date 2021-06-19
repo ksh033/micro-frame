@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Button } from 'antd';
+import { Button,Space } from 'antd';
 import Authority from '../../Auth/Authority';
 
 const AuthButton = Authority(Button);
@@ -26,7 +26,7 @@ const ToolBar: React.FC<any> = props => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buttons]);
-  return <>{mergedFormButtons()}</>;
+  return <Space size="small">{mergedFormButtons()}</Space>;
 };
 
 export default ToolBar;

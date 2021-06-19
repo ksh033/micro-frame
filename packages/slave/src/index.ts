@@ -55,7 +55,13 @@ if (packageName.indexOf("micro-") > -1) {
 
 export default defineConfig({
   hash: true,
-  antd: {},
+  antd: {
+    
+  },
+  locale:{
+    default: 'zh-CN',
+    antd:true
+  },
   devtool:REACT_APP_ENV=="pro"?false:'source-map',
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
@@ -63,7 +69,6 @@ export default defineConfig({
   },
   base: base,
   publicPath:base+"/",
-  locale: false,
   alias: {
     "@@service": "@/services",
   },
@@ -98,7 +103,8 @@ export default defineConfig({
       },
     ],
   ],
-  plugins: ["@micro-frame/plugin-microlayout"],
+
+  plugins: ["@micro-frame/plugin-microlayout", "@umijs/plugin-esbuild","@umijs/plugin-model","@umijs/plugin-antd","@umijs/plugin-qiankun","@umijs/plugin-locale"],
   cssLoader: {
     // 这里的 modules 可以接受 getLocalIdent
     modules: {
