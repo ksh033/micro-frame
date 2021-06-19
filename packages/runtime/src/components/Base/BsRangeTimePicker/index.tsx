@@ -33,6 +33,7 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
     readonly,
     initialValues,
     rulesRequire = false,
+    onChange,
     ...resProps
   } = props
 

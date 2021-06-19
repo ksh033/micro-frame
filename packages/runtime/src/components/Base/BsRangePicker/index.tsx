@@ -34,6 +34,7 @@ const ScRangePicker: FormComponent<DatePickerProps & ScRangePickerProps> = (
     readonly,
     initialValues,
     rulesRequire = false,
+    onChange,
     ...resProps
   } = props
 
