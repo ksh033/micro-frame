@@ -15,6 +15,7 @@ interface TableSelectProps {
   valueField?: string
   isCooperateSupplier?: boolean
   supplierEnabled?: boolean | null
+  disabled?: boolean
 }
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
@@ -65,6 +66,9 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
   }
 
   const handleClick = () => {
+    if (resProps.disabled) {
+      return
+    }
     CModal.show({
       title,
       width: '1200px',
