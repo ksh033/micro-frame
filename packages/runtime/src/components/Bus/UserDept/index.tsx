@@ -57,6 +57,8 @@ const UserDept: FormComponent<UserDeptProp> = props => {
         if (bizDeptType === 'COMPANY') {
           queryAll().then((_data: any[]) => {
             if (_data) {
+              
+              _data.unshift({subcompanyId:currentDept.bizDeptId,subcompanyName:currentDept.bizDeptName})
               deptList.current = _data;
               setState({
                 disabled: false,
