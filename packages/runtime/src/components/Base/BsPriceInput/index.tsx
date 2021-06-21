@@ -50,6 +50,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   const onBlur = (rValue: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     if (!isNaN(rValue) && reg.test(rValue)) {
+    
       onChange && onChange(compute.multiply(rValue, 10000))
     } else {
       onChange && onChange(rValue)
