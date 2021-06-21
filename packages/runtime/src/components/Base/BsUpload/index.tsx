@@ -73,7 +73,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   }
 
   const beforeUpload = (file: any) => {
-    if (isImageFileType(accept) && file.type.indexOf('image') > -1) {
+    if (file.type.indexOf('image') > -1) {
       const isJpgOrPng = file.type && file.type.indexOf('image') > -1
       const isLt2M = file.size <= maxSize
       // 判断是否有url 如果有就立即上传，没有就不上传，而是改为手动提交
@@ -92,7 +92,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
         return false
       }
     }
-    if (!isImageFileType(accept) && file.type.indexOf('video') > -1) {
+    if (file.type.indexOf('video') > -1) {
       const isJpgOrPng = file.type && file.type.indexOf('video') > -1
       const isLt2M = file.size <= videoMaxSize
       // 判断是否有url 如果有就立即上传，没有就不上传，而是改为手动提交
