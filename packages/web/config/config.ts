@@ -26,7 +26,7 @@ export const EVN_CONFIG = {
   test: {
     imgUrl: 'http://test.bogengkeji.com/images',
     apiUrl: '/webapi-test',
-    masterUrl: 'http://172.18.164.54:3000/',
+    masterUrl: 'http://172.18.164.55:3000/',
   },
 }
 const externalCSS: any[] = [
