@@ -45,20 +45,20 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       syscode: col.sysCode,
       dictTypeCode: `${col.dataType || col.dataIndex}`,
     })
-    // if (!col.width) {
-    //   col.width = 180
-    // }
-    if (columns.length > 3) {
-      if (lastCol.dataIndex !== '_OperateKey') {
-        if (index === columns.length - 2) {
-          delete col.width
-        }
-      } else {
-        if (index === columns.length - 1) {
-          delete col.width
-        }
-      }
+    if (!col.width) {
+      col.width = 180
     }
+    // if (columns.length > 3) {
+    //   if (lastCol.dataIndex !== '_OperateKey') {
+    //     if (index === columns.length - 2) {
+    //        col.width='auto'
+    //     }
+    //   } else {
+    //     if (index === columns.length - 1) {
+    //       delete col.width
+    //     }
+    //   }
+    // }
 
     if (list && !col.render) {
       col.render = (text: string) => {
