@@ -76,6 +76,7 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
     _dateStrings[`${startTimeFiled}`] = dateStrings[0]
     _dateStrings[`${endTimeFiled}`] = dateStrings[1]
     form?.setFieldsValue(_dateStrings)
+    onChange && onChange(dates, dateStrings)
     formatValue()
   }
 

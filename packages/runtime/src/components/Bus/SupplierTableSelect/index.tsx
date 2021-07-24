@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React, { useRef, useEffect } from 'react'
-import { Input, Select } from 'antd'
+import { Input, message, Select } from 'antd'
 import { CModal } from '@scboson/sc-element'
 import TableModal from './table'
 
@@ -81,8 +81,17 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
         rowKey: valueField,
         ...stateRef.current,
       },
-      onOk: async () => {
-        onChange?.(stateRef.current.selectedRows)
+      onOk: () => {
+        if (
+          Array.isArray(stateRef.current.selectedRows) &&
+          stateRef.current.selectedRows.length > 0
+        ) {
+          onChange?.(stateRef.current.selectedRows)
+          return Promise.resolve()
+        } else {
+          message.warning('请最少选择一个供应商')
+          return Promise.reject()
+        }
       },
     })
   }
