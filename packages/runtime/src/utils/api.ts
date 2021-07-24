@@ -77,6 +77,18 @@ const services = {
       sysCode: 'base',
     },
   },
+  mall:{
+    showCatalogList: {
+      url: '/mallsys/api/mall/opera/mallcatalog/list',
+      method: 'POST',
+      sysCode: 'mallsys',
+    },
+    goodsCatalogList: {
+      url: '/mallsys/api/mall/opera/goodscatalog/list',
+      method: 'POST',
+      sysCode: 'mallsys',
+    },
+  },
   cargo: {
     list: {
       url: '/base/api/cargo/list/bysize',

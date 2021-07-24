@@ -34,6 +34,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     columns = [],
     data,
     toolBarRender,
+    onLoad,
     ...restProps
   } = props
 
@@ -113,12 +114,39 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
       return rtoolBarRender
     }, [toolBarRender, toolbar])
+    const dataLoad = (data: any) => {
+      let newData = {};
+      if (data) {
+        let rows = data.records || data.rows || [];
+        const { current = 1, size = 10 } = data;
+        rows = rows.map((item: any, index: number) => {
+          const titem = item;
+          titem.index = index + 1 + (current - 1) * size;
+          return titem;
+        });
+        newData = {
+          rows,
+          total: data.total,
+          current,
+          size,
+        };
+      } else {
+        newData = {
+          total: 0,
+          rows: [],
+        };
+      }
 
+      onLoad&&onLoad(newData);
+   
+     return newData;
+    };
   return (
     <>
       <div className={'bs-table-list'}>
         <ScTable
           {...restProps}
+          onLoad={dataLoad}
           data={data}
           columns={columns}
           toolBarRender={newToolBarRender}
