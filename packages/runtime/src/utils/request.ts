@@ -311,6 +311,12 @@ const getRequestMethod = () => {
           }
           resData.data = resData.data.records;
         }
+        if (formatType === "table") {
+       
+          resData.data = {
+            records: resData.data
+          };
+        }
       }
       ctx.res = resData.data;
       // Promise.resolve(resData.data)

@@ -3,6 +3,7 @@ import React from 'react'
 import { MoneyUtils } from '@scboson/sc-utils'
 import { Badge } from 'antd'
 import { SupplierStatus, IntroType } from './constant'
+import BsImg from '../Base/BsImg'
 // import { DictDataItem } from '@/models/userDictModel';
 import moment from 'moment'
 
@@ -94,7 +95,9 @@ const defaultRenderText = <T, U>(
   if (valueType === 'introType') {
     return introType(text)
   }
-
+  if (valueType === 'media') {
+    return <BsImg src={text}/>
+  }
   return text
 }
 
