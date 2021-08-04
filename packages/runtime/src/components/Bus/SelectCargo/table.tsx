@@ -114,11 +114,11 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     setSelectedKeys([])
   }
 
-  const handleLoad = (data: any) => {
-    let newData = tableInfo.onLoad(data)
-    newData = onLoad ? onLoad(newData) : newData
-    return newData
-  }
+  // const handleLoad = (data: any) => {
+  //   let newData = tableInfo.onLoad(data)
+  //   newData = onLoad ? onLoad(newData) : newData
+  //   return newData
+  // }
 
   return (
     <div className={styles.cell}>
@@ -162,7 +162,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           selectedRowKeys={selectedRowKeys}
           params={tableParams}
           request={request}
-          onLoad={handleLoad}
+          onLoad={onLoad}
         ></BsTable>
       </div>
     </div>

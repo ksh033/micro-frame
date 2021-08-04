@@ -1,50 +1,52 @@
 /* eslint-disable max-len */
 
-import React, { useRef } from 'react'
-import { Input, Select } from 'antd'
-import { CModal } from '@scboson/sc-element'
-import TableModal from './table'
+import React, { useRef } from "react";
+import { Input, Select, Button } from "antd";
+import { CModal } from "@scboson/sc-element";
+import TableModal from "./table";
 
 interface TableSelectProps {
-  placeholder?: string
-  value?: any
-  title?: string
-  onChange?: (value: any) => void
-  selectionType?: 'checkbox' | 'radio'
-  textField?: any
-  valueField?: string
+  placeholder?: string;
+  value?: any;
+  title?: string;
+  onChange?: (value: any) => void;
+  selectionType?: "checkbox" | "radio";
+  textField?: any;
+  disabled:boolean;
+  valueField?: string;
 }
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
   const {
-    placeholder = 'Basic usage',
-    title = '选择',
-    selectionType = 'radio',
+    placeholder = "请选择门店",
+    title = "选择",
+    selectionType = "radio",
     onChange,
     value = [],
-    textField = 'shopName',
-    valueField = 'shopId',
+    disabled=false,
+    textField = "shopName",
+    valueField = "shopId",
     ...resProps
-  } = props
+  } = props;
 
   const stateRef = useRef<any>({
     selectedRowKeys: [],
     selectedRows: [],
-  })
+  });
 
   if (Array.isArray(value)) {
     stateRef.current = {
       selectedRowKeys: value.map((item) => item[`${valueField}`]),
       selectedRows: value,
-    }
+    };
   }
 
   const onTabelRow = (selectedRowKeys: any[], selectedRows: any[]) => {
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-  }
+    };
+  };
 
   const formatSelectValue = (list: any[]) => {
     if (Array.isArray(list) && list.length > 0) {
@@ -53,17 +55,17 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
           value: item[valueField],
           label: item[textField],
           item,
-        }
-      })
-      return values
+        };
+      });
+      return values;
     }
-    return []
-  }
+    return [];
+  };
 
   const handleClick = () => {
     CModal.show({
       title,
-      width: '1200px',
+      width: "1200px",
       content: TableModal,
       pageProps: {
         onTabelRow,
@@ -72,71 +74,79 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
         ...stateRef.current,
       },
       onOk: async () => {
-        onChange?.(stateRef.current.selectedRows)
+        onChange?.(stateRef.current.selectedRows);
       },
-    })
-  }
+    });
+  };
 
   const handleChange = (e: any[]) => {
-    let selectedRowKeys: any[] = []
+    let selectedRowKeys: any[] = [];
     if (Array.isArray(e) && e.length > 0) {
       selectedRowKeys = e.map((item, index) => {
-        return item.value || index
-      })
+        return item.value || index;
+      });
     }
 
-    let selectedRows: any[] = []
+    let selectedRows: any[] = [];
     if (
       Array.isArray(stateRef.current.selectedRows) &&
       stateRef.current.selectedRows.length > 0 &&
       selectedRowKeys.length > 0
     ) {
       selectedRows = stateRef.current.selectedRows.filter((item: any) => {
-        return item[valueField].includes(selectedRowKeys)
-      })
+        return item[valueField].includes(selectedRowKeys);
+      });
     }
 
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-    onChange?.(selectedRows)
-  }
+    };
+    onChange?.(selectedRows);
+  };
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || ''
-      return values
+      const values = list[0][textField] || "";
+      return values;
     }
-    return ''
-  }
+    return "";
+  };
 
-  if (selectionType === 'checkbox') {
+  if (selectionType === "checkbox") {
     return (
-      <div onClick={handleClick}>
+      <Input.Group>
         <Select
           mode="multiple"
           placeholder={placeholder}
           value={formatSelectValue(value)}
-          style={{ width: '100%' }}
+          style={{ width: "70%" }}
           labelInValue
           open={false}
           onChange={handleChange}
           {...resProps}
+          disabled={disabled}
+          
         ></Select>
-      </div>
-    )
+        <Button  disabled={disabled}  onClick={handleClick}>请选择</Button>
+      </Input.Group>
+    );
   }
   return (
-    <div onClick={handleClick}>
+   
+      <Input.Group >
       <Input
         placeholder={placeholder}
         value={formatInputValue(value)}
         readOnly
+        disabled={disabled}
+        addonAfter={(  <Button disabled={disabled} onClick={handleClick}>请选择</Button>)}
         {...resProps}
       />
-    </div>
-  )
-}
 
-export default TabelSelect
+</Input.Group>
+  
+  );
+};
+
+export default TabelSelect;
