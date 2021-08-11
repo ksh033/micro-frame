@@ -18,6 +18,7 @@ import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect'
 import GoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree'
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect'
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree'
+import CooperateSupplierSelect from './CooperateSupplierSelect'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -34,7 +35,7 @@ regeditCmp('ShopTableSelect', ShopTableSelect)
 regeditCmp('UserDept', UserDept)
 regeditCmp('GoodsCatalogSelect', GoodsCatalogSelect)
 regeditCmp('ShowCatalogSelect', ShowCatalogSelect)
-
+regeditCmp('CooperateSupplierSelect', CooperateSupplierSelect)
 
 export {
   CheckBoxDate,
@@ -55,5 +56,5 @@ export {
   GoodsCatalogSelect,
   GoodsCatalogTree,
   ShowCatalogTree,
-  ShowCatalogSelect
+  ShowCatalogSelect,
 }

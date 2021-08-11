@@ -35,18 +35,21 @@ const services = {
       method: 'post',
       sysCode: 'base',
     },
+    cooperateSupplierList: {
+      url: '/base/api/cooperate/supplier/list',
+      method: 'post',
+      sysCode: 'base',
+    },
     shop: {
       url: '/base/api/shop/page',
       method: 'post',
       sysCode: 'base',
     },
-    subcompany:{
+    subcompany: {
       url: '/base/api/subcompany/list',
       method: 'get',
       sysCode: 'base',
-    }
-    
-
+    },
   },
   user: {
     loginByPhone: {
@@ -77,7 +80,7 @@ const services = {
       sysCode: 'base',
     },
   },
-  mall:{
+  mall: {
     showCatalogList: {
       url: '/mallsys/api/mall/opera/mallcatalog/list',
       method: 'POST',

@@ -9,7 +9,7 @@ interface TableSelectProps extends ScSelectProps {
 }
 
 const CargoSelect: React.FC<TableSelectProps> = (props) => {
-  const { run } = uesRequest('cargo', 'list')
+  const { run } = uesRequest('system', 'cooperateSupplierList')
 
   const params = useMemo(
     () => ({
@@ -21,16 +21,16 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
   return (
     <ScSelect
       {...props}
-      request={run}
       params={params}
+      request={run}
       remoteSearch={true}
       showSearch={true}
       autoload={true}
-      searchField="cargoName"
-      textField="cargoName"
-      valueField="cargoId"
-      labelInValue
+      searchField="supplierCodeName"
+      textField="supplierName"
+      valueField="supplierId"
       filterOption={false}
+      allowClear
       defaultActiveFirstOption={false}
     ></ScSelect>
   )
