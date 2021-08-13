@@ -31,6 +31,7 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
       valueField="cargoId"
       labelInValue
       filterOption={false}
+      allowClear
       defaultActiveFirstOption={false}
     ></ScSelect>
   )

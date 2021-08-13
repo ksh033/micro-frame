@@ -5,6 +5,7 @@ import { useUpdateEffect } from 'ahooks'
 import { Image } from 'antd'
 import styles from './index.less'
 import { imageUrl } from '../../../utils/common'
+import defaultImg from '../../../assets/defaultImg.jpg'
 
 const BsImg: React.FC<any> = (props) => {
   const { src, ...restProps } = props
@@ -16,10 +17,17 @@ const BsImg: React.FC<any> = (props) => {
     setCustomSrc(imageUrl(src))
   }, [src])
 
-  return (
+  return customSrc ? (
     <Image
       src={customSrc}
-      fallback={require('./defaultImg.png')}
+      fallback={defaultImg}
+      alt=""
+      {...restProps}
+      className={styles['bs-img']}
+    />
+  ) : (
+    <Image
+      src={defaultImg}
       alt=""
       {...restProps}
       className={styles['bs-img']}

@@ -119,20 +119,20 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
       return (
         <div className={styles['bs-upload-img-list']}>
           {restProps.value.map((item, index: number) => {
-            return (
+            return item ? (
               <div className={styles['bs-upload-img']} key={index}>
                 <BsImg src={item}></BsImg>{' '}
               </div>
-            )
+            ) : null
           })}
         </div>
       )
     } else {
-      return (
+      return restProps.value ? (
         <div className={styles['bs-upload-img']}>
           <BsImg src={restProps.value}></BsImg>
         </div>
-      )
+      ) : null
     }
   }
 
