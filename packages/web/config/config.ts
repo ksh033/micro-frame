@@ -16,7 +16,7 @@ export const EVN_CONFIG = {
   dev: {
     imgUrl: 'http://test.bogengkeji.com/images',
     apiUrl: '/webapi-dev',
-    masterUrl: 'http://192.168.149.193:9002/',
+    masterUrl: 'http://172.18.164.54:3000/',
   },
   pro: {
     imgUrl: 'https://images.bogengkeji.com/',
