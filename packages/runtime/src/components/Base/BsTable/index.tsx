@@ -72,6 +72,10 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     } else if (col.component && !col.render) {
       const comProps = col.props || {};
       col.render = (text: any, record: any) => {
+        if (col.component.displayName&&col.component.displayName==="Enabled"){
+          if (!comProps["funcode"])
+          comProps["funcode"]="ENABLE"
+        }
         const component =
           typeof col.component === "function"
             ? React.createElement(col.component, {

@@ -22,17 +22,18 @@ let  patchRoutes=()=>{
 
 }
 let  onRouteChange=()=>{
-
-}
- if (process.env.NODE_ENV === 'development') {
-    patchRoutes=AppStart.patchRoutes
 }
 
 
 
- if (process.env.NODE_ENV === 'development') {
-    onRouteChange=AppStart.onRouteChange
-}
+{{#localLayout}}
+      patchRoutes=AppStart.patchRoutes
+      onRouteChange=AppStart.onRouteChange
+{{/localLayout}}
+
+
+
+
 export {
  render,patchRoutes,onRouteChange
 }

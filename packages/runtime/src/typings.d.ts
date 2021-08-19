@@ -30,7 +30,7 @@ interface Window {
   reloadAuthorized: () => void
   AMap: any
   routerBase:string;
-  
+  masterHistory:any;
 }
 
 declare let ga: Function

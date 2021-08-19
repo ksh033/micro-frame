@@ -10,8 +10,9 @@ const Authority = <T extends { buttons?: any[];
   callback?:any;
   children?:any;
 
-}>(WrappedComponent: React.ComponentType<T>|React.FunctionComponent<T>|React.ComponentClass<T>|string|any) => {
-  return (props: T, ...rest: any[]) => {
+}>(WrappedComponent: React.ComponentType<T>|React.FunctionComponent<T>|React.ComponentClass<T>|string|any,displayName?:string) => {
+
+  const component=(props: T, ...rest: any[]) => {
     const { globalState } = useModel('@@qiankunStateFromMaster')||{};
 
     const { buttons, children, funcode, ...restProps } = props;
@@ -21,9 +22,17 @@ const Authority = <T extends { buttons?: any[];
         let { funcodes = "" } = currentMenu;
         funcodes = funcodes.split("|");
         if (funcode) {
+          
+         // funcodes.splice(funcodes.indexOf("ENABLE"),1)
           if (funcodes.includes(funcode)) {
+           
             return React.createElement(WrappedComponent, restProps, children);
           }
+          if (displayName&&displayName==="Enabled"){
+            restProps["disabled"]=true
+            return React.createElement(WrappedComponent, restProps, children);
+          }
+          return null;
         }
       
         if (buttons && buttons.length > 0) {
@@ -46,7 +55,11 @@ const Authority = <T extends { buttons?: any[];
       }
 
     return <WrappedComponent {...props} {...rest} />;
-  };
+  }
+   if (displayName)
+   component.displayName=displayName;
+
+  return component;
 };
 export default Authority
 

@@ -39,6 +39,41 @@ export default (api: IApi) => {
   });
 
   let generatedOnce = false;
+  let layoutOpts: LayoutConfig = {};
+
+  const initConfig = (config) => {
+   
+      layoutOpts = {
+        // name,
+        // theme: 'PRO',
+        // locale: false,
+        // showBreadcrumb: true,
+        localMenuData: true,
+        localLayout: true,
+        ...(config.microlayout || {}),
+      };
+      if (NODE_ENV === "production" || layoutOpts.localMenuData === false) {
+        layoutOpts.menuData = undefined;
+        layoutOpts.localMenuData = false;
+      }
+      if (NODE_ENV === "production" || layoutOpts.localLayout === false) {
+        layoutOpts.localLayout = false;
+      }
+  
+  };
+
+  api.onStart(() => {
+    initConfig(api.config);
+    // do something
+  });
+
+  api.modifyConfig((config) => {
+    // @ts-ignore
+    config.title = false;
+    initConfig(config);
+    return config;
+  });
+
   api.onGenerateFiles(() => {
     if (generatedOnce) return;
     generatedOnce = true;
@@ -65,33 +100,14 @@ export default (api: IApi) => {
     var obj = {
       appCode: "",
     };
+
     api.writeTmpFile({
       path: "plugin-microlayout/runtime.tsx",
       content: utils.Mustache.render(
         readFileSync(join(__dirname, "runtime.tsx.tpl"), "utf-8"),
-        obj
+        layoutOpts
       ),
     });
-  });
-
-  api.modifyDefaultConfig((config) => {
-    // @ts-ignore
-    config.title = false;
-    return config;
-  });
-
-  let layoutOpts: LayoutConfig = {};
-
-  api.onGenerateFiles(() => {
-    // apply default options
-    const { name } = api.pkg;
-    layoutOpts = {
-      // name,
-      // theme: 'PRO',
-      // locale: false,
-      // showBreadcrumb: true,
-      ...(api.config.microlayout || {}),
-    };
 
     // allow custom theme
     let layoutComponent = {
@@ -114,9 +130,9 @@ export default (api: IApi) => {
       content: getLayoutContent(layoutOpts, currentLayoutComponentPath),
     });
   });
-  console.log("NODE_ENV:" + NODE_ENV);
-  if (NODE_ENV === "development") {
-    api.modifyRoutes((routes) => {
+
+  api.modifyRoutes((routes) => {
+    if (layoutOpts.localLayout === true) {
       return [
         {
           path: "/",
@@ -126,8 +142,10 @@ export default (api: IApi) => {
           routes,
         },
       ];
-    });
-  }
+    } else {
+      return routes;
+    }
+  });
 
   //api.addRuntimePlugin(() => ['@@/plugin-layout/runtime.tsx']);
 };

@@ -16,6 +16,10 @@ export interface LayoutConfig {
   locale?: any; // same with locale plugin
   showBreadcrumb?: boolean; // TODO 面包屑功能暂不支持
   layoutComponent?: Record<string, string>; // 自定义主题
+  menuData?:any[];
+  localMenuData?:boolean;
+  localLayout?:boolean
+
 }
 
 /**

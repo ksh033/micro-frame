@@ -18,7 +18,7 @@ export default (props: any) => {
   });
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
-  const { menuData, appData, appSelected,localData } = userConfig||{};
+  const { menuData, appData, appSelected,localMenuData } = userConfig||{};
   const user = getUser();
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
@@ -31,7 +31,7 @@ export default (props: any) => {
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
-  const mdata = localData===true?menuData: user?.userAppInfo.menuTreeNodeList;
+  const mdata = menuData? menuData:user?.userAppInfo.menuTreeNodeList;
   const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
   const { setQiankunGlobalState } = useModel('@@qiankunStateForSlave')||{};
@@ -87,7 +87,7 @@ export default (props: any) => {
         appSelectedKeys={[appSelectedKeys]}
         {...restProps}
         menuDataRender={() => {
-          const menus = menuFormat.formatMenu(mdata || [], [],appSelectedKeys,localData);
+          const menus = menuFormat.formatMenu(mdata || [], [],appSelectedKeys,localMenuData);
           return menus;
         }}
         menuFooterRender={(_props: any) => {}}

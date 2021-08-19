@@ -4,12 +4,15 @@ import { BsTableComponentProps } from '../../Base/BsTable'
 import { SwitchChangeEventHandler } from 'antd/es/switch'
 import { useRequest } from 'ahooks'
 import { CModal } from '@scboson/sc-element'
+import Authority from '../../Auth/Authority'
 
 type EnabledProps = BsTableComponentProps & {
   request: (params: any) => Promise<any> // 请求数据的远程方法
   rowKeyName?: string
   warning?: string
-  enabledName?: string
+  enabledName?: string;
+  funcode?:string;
+  disabled?:boolean;
   disabledCallback?: (rowData: any) => boolean
 }
 
@@ -21,6 +24,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     rowData,
     warning = '',
     enabledName = 'enabled',
+    disabled,
     disabledCallback,
   } = props
   const { loading, run } = useRequest(request, {
@@ -61,10 +65,13 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     }
   }
 
-  const disabled = useMemo(() => {
+  let backDisabled:any = useMemo(() => {
     return disabledCallback ? disabledCallback(rowData) : false
   }, [disabledCallback, JSON.stringify(rowData)])
 
+  if (disabled!==undefined||disabled!==null){
+    backDisabled=disabled
+  }
   return (
     <Switch
       checkedChildren="启用"
@@ -77,4 +84,4 @@ const Enabled: React.FC<EnabledProps> = (props) => {
   )
 }
 
-export default Enabled
+export default Authority(Enabled,"Enabled")

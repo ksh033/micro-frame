@@ -140,7 +140,6 @@ const getRequestMethod = () => {
 
       if (errorInfo&&errorInfo.errorCode==="A100002"){
         // window.location="/login";
-        console.log(window.masterHistory)
 
         const his=window.masterHistory||history
         clearUser();

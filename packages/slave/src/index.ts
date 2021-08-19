@@ -92,7 +92,11 @@ export default defineConfig({
         '@ant-design/icons': 'icons'
       }
       : false,
-  microlayout:{},
+  microlayout:{
+    localMenu:true,
+    localLayout:true,
+
+  },
   extraBabelPlugins: [
     [
       require.resolve("babel-plugin-import"),
