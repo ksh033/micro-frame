@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ProSettings, MasterLayout } from "@scboson/sc-layout";
 // @ts-ignore
-import { Link, history } from "umi";
+import { Link, history,useModel } from "umi";
 import { getUser, changeApp } from "../Auth";
 import { uesRequest } from "../../utils/api";
 import RightContent from "./GlobalHeader/RightContent";
@@ -18,7 +18,7 @@ export default (props: any) => {
   });
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
-  const { menuData, appData, appSelected } = userConfig||{};
+  const { menuData, appData, appSelected,localData } = userConfig||{};
   const user = getUser();
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
@@ -31,9 +31,10 @@ export default (props: any) => {
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
-  const mdata = menuData || user?.userAppInfo.menuTreeNodeList;
+  const mdata = localData===true?menuData: user?.userAppInfo.menuTreeNodeList;
   const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
+  const { setQiankunGlobalState } = useModel('@@qiankunStateForSlave')||{};
 
   useEffect(() => {
     // 加载枚举
@@ -59,6 +60,11 @@ export default (props: any) => {
       <MasterLayout
         logo={logo}
         apps={apps}
+        onPageChange={(location,menuItem)=>{
+
+          if (menuItem&&menuItem.key)
+          setQiankunGlobalState&&setQiankunGlobalState({currentMenu:menuItem})
+      }}
         appMenuProps={{
           onSelect: async (keys: any) => {
             if (keys && keys.length > 0) {
@@ -81,7 +87,7 @@ export default (props: any) => {
         appSelectedKeys={[appSelectedKeys]}
         {...restProps}
         menuDataRender={() => {
-          const menus = menuFormat.formatMenu(mdata || [], [],isMaster===true?appSelectedKeys:"");
+          const menus = menuFormat.formatMenu(mdata || [], [],appSelectedKeys,localData);
           return menus;
         }}
         menuFooterRender={(_props: any) => {}}
@@ -89,7 +95,7 @@ export default (props: any) => {
           if (item.isApp) {
             return <a>{dom}</a>;
           }
-          return <Link to={`${item.path}`}>{dom}</Link>;
+          return <Link to={`${item.path}`} >{dom}</Link>;
         }}
         rightContentRender={() => (
           <RightContent currentUser={user} menu></RightContent>

@@ -15,7 +15,7 @@ import {
 import { notification, message } from "antd";
 // @ts-ignore
 import { history } from "umi";
-import { getUser } from "../components/Auth";
+import { getUser,clearUser } from "../components/Auth";
 // import {useRequest as useUmiRequest} from 'ahooks';
 import useUmiRequest from "@ahooksjs/use-request";
 import {
@@ -138,6 +138,17 @@ const getRequestMethod = () => {
       }
       errorInfo = error.info;
 
+      if (errorInfo&&errorInfo.errorCode==="A100002"){
+        // window.location="/login";
+        console.log(window.masterHistory)
+
+        const his=window.masterHistory||history
+        clearUser();
+        his.push({
+          pathname: "/login"
+        });
+        return ;
+      }
       if (errorInfo) {
         const { errorMessage, errorShowTip } = errorInfo;
         const { errorCode } = errorInfo;

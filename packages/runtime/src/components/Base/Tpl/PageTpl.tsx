@@ -32,7 +32,7 @@ const ModalEditPageTpl: React.FC<any> = props => {
         </Card>
         {toolbar ? (
           <div className="ant-modal-footer tpl-page-footer">
-            <ToolBar buttons={toolbar} />
+            <ToolBar buttons={toolbar} className="" />
           </div>
         ) : null}
       </div>

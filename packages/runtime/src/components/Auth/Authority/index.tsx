@@ -1,34 +1,31 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { RouteContext } from "@scboson/sc-layout";
+// @ts-ignore
+import { useModel } from 'umi';
 
-export interface WithAuthorityProps {
-  buttons?: any[];
+
+
+const Authority = <T extends { buttons?: any[];
   funcode?: any;
-}
+  callback?:any;
+  children?:any;
 
-export default function withAuthority<P>(
-  WrappedComponent: React.FunctionComponent | React.ComponentClass | string | any,
-): React.ComponentClass<WithAuthorityProps & P> | React.FunctionComponent<WithAuthorityProps & P> {
-  return class HOC extends React.Component<WithAuthorityProps & P> {
-    getFunCodes = () => {
-      /* const { location: { pathname } } = this.context;
-      const authorityMap = getAuthorityMap();
-      let funCodes= authorityMap[pathname] ? authorityMap[pathname] : []; */
-      const funCodes: any = []; // getAuthorityArray();
-      return funCodes;
-    };
+}>(WrappedComponent: React.ComponentType<T>|React.FunctionComponent<T>|React.ComponentClass<T>|string|any) => {
+  return (props: T, ...rest: any[]) => {
+    const { globalState } = useModel('@@qiankunStateFromMaster')||{};
 
-    render() {
-      const funcodes: any[] = [];
-      // console.log(funcodes);
-      const { buttons, children, funcode, ...restProps } = this.props;
-
-      if (funcode) {
-        if (funcodes.includes(funcode)) {
-          return React.createElement(WrappedComponent, restProps, children);
-        } 
-          return null;
-        
-      } 
+    const { buttons, children, funcode, ...restProps } = props;
+    //const masterProps = (useModel || noop)('@@qiankunStateFromMaster') || {};
+    const { currentMenu } = globalState;
+          if (currentMenu) {
+        let { funcodes = "" } = currentMenu;
+        funcodes = funcodes.split("|");
+        if (funcode) {
+          if (funcodes.includes(funcode)) {
+            return React.createElement(WrappedComponent, restProps, children);
+          }
+        }
+      
         if (buttons && buttons.length > 0) {
           const newButtons: any[] = [];
           buttons.forEach((item: any) => {
@@ -40,14 +37,82 @@ export default function withAuthority<P>(
               newButtons.push(item);
             }
           });
-          // restProps.buttons = newButtons;
-          const props={restProps,buttons:newButtons}
-          return <WrappedComponent {...props}></WrappedComponent>;
-        } 
-          return React.createElement(WrappedComponent, restProps, children);
-        
-      
-      
-    }
+  
+          const newprops = { restProps, buttons: newButtons };
+
+          return <WrappedComponent {...newprops}></WrappedComponent>;
+
+        }
+      }
+
+    return <WrappedComponent {...props} {...rest} />;
   };
-}
+};
+export default Authority
+
+// export default function withAuthority<P>(
+//   WrappedComponent:
+//     | React.FunctionComponent
+//     | React.ComponentClass
+//     | string
+//     | any
+// ):
+//   | React.ComponentClass<WithAuthorityProps & P>
+//   | React.FunctionComponent<WithAuthorityProps & P> {
+
+
+   
+//     return class HOC extends React.Component<WithAuthorityProps & P> {
+//     static contextType = RouteContext;
+//     hidden;
+   
+//     componentDidMount(){
+//       const { callback } = this.props;
+//       if (this.hidden===true)
+//       callback&&callback(this.hidden)
+//     }
+//     render() {
+//       const that = this;
+//       const { buttons, children, funcode, ...restProps } = this.props;
+
+//       let value = this.context;
+
+//       const { currentMenu } = value;
+//       if (currentMenu) {
+//         let { funcodes = "" } = currentMenu;
+//         funcodes = funcodes.split("|");
+
+//         if (funcode) {
+//           if (funcodes.includes(funcode)) {
+//             return React.createElement(WrappedComponent, restProps, children);
+//           }
+//           //@ts-ignore
+//           // this.inputRef.current=false
+//          that.hidden = true;
+
+//           return null;
+//         }
+
+//         // const props = { restProps, buttons: newButtons };
+//         if (buttons && buttons.length > 0) {
+//           const newButtons: any[] = [];
+//           buttons.forEach((item: any) => {
+//             if (item.funcode) {
+//               if (funcodes.includes(item.funcode)) {
+//                 newButtons.push(item);
+//               }
+//             } else {
+//               newButtons.push(item);
+//             }
+//           });
+//           // restProps.buttons = newButtons;
+//           const props = { restProps, buttons: newButtons };
+
+//           return <WrappedComponent {...props}></WrappedComponent>;
+//         }
+//       }
+
+//       return React.createElement(WrappedComponent, restProps, children);
+//     }
+//   };
+// }

@@ -13,7 +13,7 @@ import { history } from 'umi'
 import './index.less'
 
 export interface GlobalHeaderRightProps extends Partial<any> {
-  currentUser: User | null
+  currentUser: User
   menu?: boolean
 }
 class AvatarDropdown extends React.Component<
@@ -27,25 +27,30 @@ class AvatarDropdown extends React.Component<
       this.props.layoutFn()
     } else if (key === 'settings') {
       history.push('/system/current')
+    }else if (key === 'changeDept') {
+      history.push('/selectDept')
     }
   }
 
   render(): React.ReactNode {
     const { currentUser, menu } = this.props
+   
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
+        {menu && 
+           currentUser.userAppInfo.deptList.length>1?
+          (<Menu.Item key="changeDept">
+            <SettingOutlined />
+            切换机构
+          </Menu.Item>):null
+        }
         {menu && (
           <Menu.Item key="settings">
             <SettingOutlined />
             个人设置
           </Menu.Item>
         )}
-        {/* {menu && (
-          <Menu.Item key="settings">
-            <SettingOutlined />
-            个人设置
-          </Menu.Item>
-        )} */}
+        
         {menu && <Menu.Divider />}
 
         <Menu.Item key="logout">

@@ -61,9 +61,9 @@ export default (api: IApi) => {
         copyFileSync(source, target);
       }
     });
-    console.log(appCode);
+
     var obj = {
-      appCode: "ssss",
+      appCode: "",
     };
     api.writeTmpFile({
       path: "plugin-microlayout/runtime.tsx",

@@ -4,6 +4,8 @@ import { history } from 'umi'
 
 const { getUser } = Auth
 
+window.masterHistory=history;
+
 const  masterUrl= SC_MASTER_URL || ""
 export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
@@ -89,7 +91,7 @@ export function render(oldRender: any) {
 
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
-    slogan: 'Hello MicroFrontend',
+    currentMenu: 'null',
   })
 
   return {

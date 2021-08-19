@@ -22,11 +22,16 @@ const SelectDept: React.FC<any> = (props) => {
   const renderDept = () => {
     if (user) {
       const depList = user.userAppInfo.deptList
+      const currentDept=user.userAppInfo.currentDept||{}
       const itemsList = depList.map((val) => {
         const { bizDeptId, bizDeptName } = val
+        let className="org-list-item"
+        if (currentDept.bizDeptId===bizDeptId){
+          className="org-list-item action"
+        }
         return (
           <div
-            className="org-list-item"
+            className={className}
             key={bizDeptId}
             title={bizDeptName}
             onClick={() => {

@@ -1,15 +1,14 @@
-import React, { useCallback } from 'react';
-import { Button,Space } from 'antd';
-import Authority from '../../Auth/Authority';
-
-const AuthButton = Authority(Button);
-const ToolBar: React.FC<any> = props => {
+import React, { useCallback,useMemo } from "react";
+import { Button, Space } from "antd";
+import Authority from "../../Auth/Authority";
+import { useMount } from "ahooks";
+const ToolBar = (props) => {
   const { buttons = [], className } = props;
 
-  /**
-   * 表单顶部合并 以及通用方法引入
-   */
-  const mergedFormButtons = useCallback(() => {
+ 
+  /** 表单顶部合并 以及通用方法引入 */
+  const mergedFormButtons = useMemo(() => {
+ 
     return buttons.map((item: any, index: number) => {
       const buttonProps = item;
       if (React.isValidElement(item)) {
@@ -19,14 +18,27 @@ const ToolBar: React.FC<any> = props => {
       const { buttonType, text, ...resprops } = buttonProps;
       return (
         // eslint-disable-next-line react/no-array-index-key
-        <AuthButton key={`formButton${index}`} className={className} {...resprops}>
+        <Button
+        
+          key={`formButton${index}`}
+          className={className}
+          {...resprops}
+        >
           {text}
-        </AuthButton>
+        </Button>
       );
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buttons]);
-  return <Space size="small">{mergedFormButtons()}</Space>;
+
+
+
+  if (mergedFormButtons.length>0){
+
+    return <Space size="small">{mergedFormButtons}</Space>
+  }
+
+  return null;
 };
 
-export default ToolBar;
+export default Authority<{className?:string,buttons:any}>(ToolBar);
