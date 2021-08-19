@@ -13,7 +13,7 @@ import { history } from 'umi'
 import './index.less'
 
 export interface GlobalHeaderRightProps extends Partial<any> {
-  currentUser: User
+  currentUser?: User
   menu?: boolean
 }
 class AvatarDropdown extends React.Component<
@@ -38,7 +38,7 @@ class AvatarDropdown extends React.Component<
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
         {menu && 
-           currentUser.userAppInfo.deptList.length>1?
+           currentUser&&currentUser.userAppInfo.deptList.length>1?
           (<Menu.Item key="changeDept">
             <SettingOutlined />
             切换机构
