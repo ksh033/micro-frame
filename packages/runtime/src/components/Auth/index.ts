@@ -90,7 +90,7 @@ const getAppCode = () => {
   return getStorage<string>(CurrentApp_KEY)
 }
 
-const getUser = (): User | null => {
+const getUser = (): User | null | undefined => {
   const currentUser: any = getStorage(User_Key)
 
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)

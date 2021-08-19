@@ -13,7 +13,7 @@ import { history } from 'umi'
 import './index.less'
 
 export interface GlobalHeaderRightProps extends Partial<any> {
-  currentUser?: User
+  currentUser?: User|null
   menu?: boolean
 }
 class AvatarDropdown extends React.Component<
