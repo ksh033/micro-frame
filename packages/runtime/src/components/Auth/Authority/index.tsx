@@ -1,66 +1,66 @@
-import React, { useContext } from "react";
-import { RouteContext } from "@scboson/sc-layout";
+import React, { useContext } from 'react'
+import { RouteContext } from '@scboson/sc-layout'
 // @ts-ignore
-import { useModel } from 'umi';
+import { useModel } from 'umi'
 
+const Authority = <
+  T extends { buttons?: any[]; funcode?: any; callback?: any; children?: any }
+>(
+  WrappedComponent:
+    | React.ComponentType<T>
+    | React.FunctionComponent<T>
+    | React.ComponentClass<T>
+    | string
+    | any,
+  displayName?: string
+) => {
+  const component = (props: T, ...rest: any[]) => {
+    const { globalState } = useModel('@@qiankunStateFromMaster') || {
+      globalState: {},
+    }
 
-
-const Authority = <T extends { buttons?: any[];
-  funcode?: any;
-  callback?:any;
-  children?:any;
-
-}>(WrappedComponent: React.ComponentType<T>|React.FunctionComponent<T>|React.ComponentClass<T>|string|any,displayName?:string) => {
-
-  const component=(props: T, ...rest: any[]) => {
-    const { globalState } = useModel('@@qiankunStateFromMaster')||{};
-
-    const { buttons, children, funcode, ...restProps } = props;
+    const { buttons, children, funcode, ...restProps } = props
     //const masterProps = (useModel || noop)('@@qiankunStateFromMaster') || {};
-    const { currentMenu } = globalState;
-          if (currentMenu) {
-        let { funcodes = "" } = currentMenu;
-        funcodes = funcodes.split("|");
-        if (funcode) {
-          
-         // funcodes.splice(funcodes.indexOf("ENABLE"),1)
-          if (funcodes.includes(funcode)) {
-           
-            return React.createElement(WrappedComponent, restProps, children);
-          }
-          if (displayName&&displayName==="Enabled"){
-            restProps["disabled"]=true
-            return React.createElement(WrappedComponent, restProps, children);
-          }
-          return null;
+    const { currentMenu } = globalState
+    if (currentMenu) {
+      let { funcodes = '' } = currentMenu
+      funcodes = funcodes.split('|')
+      if (funcode) {
+        // funcodes.splice(funcodes.indexOf("ENABLE"),1)
+        if (funcodes.includes(funcode)) {
+          return React.createElement(WrappedComponent, restProps, children)
         }
-      
-        if (buttons && buttons.length > 0) {
-          const newButtons: any[] = [];
-          buttons.forEach((item: any) => {
-            if (item.funcode) {
-              if (funcodes.includes(item.funcode)) {
-                newButtons.push(item);
-              }
-            } else {
-              newButtons.push(item);
-            }
-          });
-  
-          const newprops = { restProps, buttons: newButtons };
-
-          return <WrappedComponent {...newprops}></WrappedComponent>;
-
+        if (displayName && displayName === 'Enabled') {
+          restProps['disabled'] = true
+          return React.createElement(WrappedComponent, restProps, children)
         }
+        return null
       }
 
-    return <WrappedComponent {...props} {...rest} />;
-  }
-   if (displayName)
-   component.displayName=displayName;
+      if (buttons && buttons.length > 0) {
+        const newButtons: any[] = []
+        buttons.forEach((item: any) => {
+          if (item.funcode) {
+            if (funcodes.includes(item.funcode)) {
+              newButtons.push(item)
+            }
+          } else {
+            newButtons.push(item)
+          }
+        })
 
-  return component;
-};
+        const newprops = { restProps, buttons: newButtons }
+
+        return <WrappedComponent {...newprops}></WrappedComponent>
+      }
+    }
+
+    return <WrappedComponent {...props} {...rest} />
+  }
+  if (displayName) component.displayName = displayName
+
+  return component
+}
 export default Authority
 
 // export default function withAuthority<P>(
@@ -73,12 +73,10 @@ export default Authority
 //   | React.ComponentClass<WithAuthorityProps & P>
 //   | React.FunctionComponent<WithAuthorityProps & P> {
 
-
-   
 //     return class HOC extends React.Component<WithAuthorityProps & P> {
 //     static contextType = RouteContext;
 //     hidden;
-   
+
 //     componentDidMount(){
 //       const { callback } = this.props;
 //       if (this.hidden===true)
