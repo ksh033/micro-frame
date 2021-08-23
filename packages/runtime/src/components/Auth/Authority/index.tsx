@@ -1,7 +1,7 @@
 import React from 'react'
 // @ts-ignore
 import { useModel } from 'umi'
-type P1 = {
+type AuthorityType = {
   buttons?: any[]
   funcode?: any
   callback?: any
@@ -10,7 +10,7 @@ type P1 = {
 
 type AuthorityResp<T> = React.ComponentClass<T> | React.FunctionComponent<T>
 
-const Authority = function <T extends P1>(
+const Authority = function <T extends AuthorityType>(
   WrappedComponent:
     | React.ComponentType<T>
     | React.FunctionComponent<T>
@@ -18,7 +18,7 @@ const Authority = function <T extends P1>(
     | string
     | any,
   displayName?: string
-): AuthorityResp<T & P1> {
+): AuthorityResp<T & AuthorityType> {
   const component = (props: T, ...rest: any[]) => {
     const { globalState } = useModel('@@qiankunStateFromMaster') || {
       globalState: {},

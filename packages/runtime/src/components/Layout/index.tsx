@@ -34,7 +34,7 @@ export default (props: any) => {
   const mdata = menuData? menuData:user?.userAppInfo.menuTreeNodeList;
   const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
-  const { setQiankunGlobalState } = useModel('@@qiankunStateForSlave')||{};
+  const { setQiankunGlobalState } = useModel('@@qiankunStateForSlave') || useModel('@@qiankunStateFromMaster')||{};
 
   useEffect(() => {
     // 加载枚举
