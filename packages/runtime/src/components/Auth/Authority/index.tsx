@@ -1,11 +1,16 @@
-import React, { useContext } from 'react'
-import { RouteContext } from '@scboson/sc-layout'
+import React from 'react'
 // @ts-ignore
 import { useModel } from 'umi'
+type P1 = {
+  buttons?: any[]
+  funcode?: any
+  callback?: any
+  children?: any
+}
 
-const Authority = <
-  T extends { buttons?: any[]; funcode?: any; callback?: any; children?: any }
->(
+type AuthorityResp<T> = React.ComponentClass<T> | React.FunctionComponent<T>
+
+const Authority = function <T extends P1>(
   WrappedComponent:
     | React.ComponentType<T>
     | React.FunctionComponent<T>
@@ -13,7 +18,7 @@ const Authority = <
     | string
     | any,
   displayName?: string
-) => {
+): AuthorityResp<T & P1> {
   const component = (props: T, ...rest: any[]) => {
     const { globalState } = useModel('@@qiankunStateFromMaster') || {
       globalState: {},
