@@ -113,7 +113,7 @@ export default defineConfig({
     // 这里的 modules 可以接受 getLocalIdent
     modules: {
       getLocalIdent: (
-        context: {gv
+        context: {
           resourcePath: string;
         },
         _: string,
