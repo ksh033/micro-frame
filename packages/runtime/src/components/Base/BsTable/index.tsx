@@ -4,7 +4,7 @@ import { ScTable } from "@scboson/sc-element";
 import type {
   ScTableProps,
   ColumnsType,
-} from "@scboson/sc-element/es/sc-table/ScTable";
+} from "@scboson/sc-element/es/sc-table";
 import defaultRenderText, { cacheRender } from "../../Dict/defaultRender";
 import userDictModel from "../../Dict/userDictModel";
 import ToolBar from "../ToolBar";

@@ -141,6 +141,7 @@ const getRequestMethod = () => {
       if (errorInfo&&errorInfo.errorCode==="A100002"){
         // window.location="/login";
 
+        //@ts-ignore
         const his=window.masterHistory||history
         clearUser();
         his.push({

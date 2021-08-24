@@ -29,7 +29,7 @@ const Table: React.FC<any> = (props: any) => {
     tableKey: isCooperateSupplier ? 'cooperateSupplier' : 'supplier',
   })
   const searchConfig = search.toConfig()
-  const pageInfo = page.getTable().toConfig()
+  const pageInfo:any = page.getTable().toConfig()
 
   const params = useMemo(() => {
     return {
