@@ -65,6 +65,8 @@ export default (api: IApi) => {
   api.onStart(() => {
     initConfig(api.config);
     // do something
+
+   
   });
 
   api.modifyConfig((config) => {
@@ -75,8 +77,8 @@ export default (api: IApi) => {
   });
 
   api.onGenerateFiles(() => {
-    if (generatedOnce) return;
-    generatedOnce = true;
+   // if (generatedOnce) return;
+    //generatedOnce = true;
     const pkg = getPkg("");
     const appCode = pkg.name.replace("micor-", "");
 
@@ -146,6 +148,34 @@ export default (api: IApi) => {
       return routes;
     }
   });
+
+
+  // api.register({
+  //   key: 'addExtraModels',
+  //   fn: () => {
+  //     if (layoutOpts.localLayout === true) {
+  //       return [
+  //         {
+  //           absPath: '@@/plugin-microlayout/layout/layout',
+  //           exportName:"useQiankunStateForSlave",
+  //           namespace: qiankunStateForSlaveModelNamespace,
+  //         },
+  //       ]
+  //     }
+  //     return [];
+    
+  //   },
+  // });
+
+
+  // const appFile = getFile({
+  //   base: api.paths.absSrcPath!,
+  //   fileNameWithoutExt: 'app',
+  //   type: 'javascript',
+  // });
+
+ 
+
 
   //api.addRuntimePlugin(() => ['@@/plugin-layout/runtime.tsx']);
 };

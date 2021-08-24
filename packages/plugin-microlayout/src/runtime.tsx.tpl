@@ -1,8 +1,9 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import {SchemaContext} from '@scboson/sc-schema'
-import {AppStart} from '@micro-frame/sc-runtime'
-import {BsTable} from '@micro-frame/sc-runtime'
+import {AppStart,BsTable} from '@micro-frame/sc-runtime'
+import MasterApp from './layout/layout/MasterApp'
+
 import {history} from 'umi'
 
 const {render} = AppStart
@@ -11,29 +12,41 @@ const { Operation } = BsTable
 
 
 
- export function rootContainer(container: any) {
-  return React.createElement(SchemaContext.Provider, {
-    value:{
-    umi:{history},
-    tableOpColCmp:Operation
-  }}, container);
-}
-let  patchRoutes=()=>{
-
-}
-let  onRouteChange=()=>{
-}
-
-
+export function rootContainer(container: any) {
 
 {{#localLayout}}
-      patchRoutes=AppStart.patchRoutes
-      onRouteChange=AppStart.onRouteChange
+const children=React.createElement(SchemaContext.Provider, {
+ value:{
+   umi:{history},
+    tableOpColCmp:Operation
+  }})
+   return React.createElement(MasterApp,{children},container);
 {{/localLayout}}
 
 
+{{^localLayout}}
+  return React.createElement(SchemaContext.Provider,{value:{
+   umi:{history},
+    tableOpColCmp:Operation
+  }},container);
+{{/localLayout}}
+} 
 
 
-export {
+{{#localLayout}}
+ const patchRoutes=AppStart.patchRoutes
+ const onRouteChange=AppStart.onRouteChange
+ export {
  render,patchRoutes,onRouteChange
 }
+{{/localLayout}}
+
+{{^localLayout}}
+ export {
+ render
+}
+{{/localLayout}}
+
+	
+
+
