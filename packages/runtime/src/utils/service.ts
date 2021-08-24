@@ -20,8 +20,10 @@ const createRequest = (methodService: MethodProps, funName: string) => {
     const reqOpts = { ...options }
     if (method.toLocaleLowerCase() === 'get') {
       reqOpts['params'] = params
-    } else {
+    } else if (method.toLocaleLowerCase() === 'post') {
       reqOpts['data'] = params
+    } else {
+      reqOpts['body'] = params
     }
     reqOpts['method'] = method
     return request(reqUrl, reqOpts)
@@ -78,9 +80,9 @@ function uesRequest<
   P extends keyof typeof services[T]
 >(mcode: T, funName: P, options?: any) {
   const useOptions = { ...options }
-  let serviceApi=getServiceApi(mcode, funName)
-  return umiUesRequest((params)=>{
-    return serviceApi(params,useOptions)
+  let serviceApi = getServiceApi(mcode, funName)
+  return umiUesRequest((params) => {
+    return serviceApi(params, useOptions)
   }, useOptions)
 }
 

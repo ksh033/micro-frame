@@ -58,13 +58,10 @@ const getStorage = <T>(skey: string): T | null => {
 
 const setUser = (user: User) => {
   // let currentUser = null;
-  let userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
+  let userAppInfos = {}
   let userAppInfosChange = false
 
   let currentUser = user
-  if (!userAppInfos) {
-    userAppInfos = {}
-  }
   if (!userAppInfos[currentUser.userAppInfo.currentSystem.systemCode]) {
     userAppInfos[currentUser.userAppInfo.currentSystem.systemCode] =
       user.userAppInfo
