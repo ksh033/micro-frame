@@ -107,7 +107,62 @@ export default defineConfig({
       },
     ],
   ],
+  chainWebpack:(chainConfig)=>{
+    chainConfig.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'async',
+          minSize: 30000,
+          minChunks: 1,
+          maxInitialRequests: 4, // 默认
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendors: {
+              // 基本框架
+              name: 'framework',
+              test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
+              chunks: 'all',
+              priority: 11,
+            },
 
+            antdesign: {
+              name: 'antdesign',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
+              priority: 10,
+            },
+            antd: {
+              name: 'antd',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](antd)[\\/]/,
+              priority: 9,
+            },
+            'async-commons': {
+              // 其余异步加载包
+              chunks: 'async',
+              minChunks: 2,
+              name: 'async-commons',
+              priority: 8,
+            },
+            commons: {
+              // 其余同步加载包
+              chunks: 'all',
+              minChunks: 2,
+              name: 'commons',
+              priority: 7,
+            },
+          },
+        },
+      },
+    });
+    chainConfig
+    .plugin('replace')
+    .use(require('webpack').ContextReplacementPlugin)
+    .tap(() => {
+      return [/moment[/\\]locale$/, /zh-cn/];
+    });
+    },
   plugins: ["@micro-frame/plugin-microlayout", "@umijs/plugin-esbuild","@umijs/plugin-model","@umijs/plugin-antd","@umijs/plugin-qiankun","@umijs/plugin-locale"],
   cssLoader: {
     // 这里的 modules 可以接受 getLocalIdent
