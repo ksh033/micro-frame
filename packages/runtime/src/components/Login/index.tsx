@@ -1,35 +1,43 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-// import { useModel, history } from 'umi';
-
- import SMSCode from '../SMSCode';
- import { uesRequest } from '../../utils/api';
+import React, { useState } from 'react'
+import { Form, Input, Button, Checkbox } from 'antd'
+import { urlSafeBase64Decode, urlSateBase64Encode } from '../../utils/common'
+import SMSCode from '../SMSCode'
+import { uesRequest } from '../../utils/api'
 import { setUser, getUser } from '../Auth'
-
 //@ts-ignore
 import { history } from 'umi'
-
-import styles from './index.less';
-
-import logo from '../../assets/login/logo.png';
+import styles from './index.less'
+import logo from '../../assets/login/logo.png'
+const Encrypt = require('../../assets/jsencrypt.min')
 
 const Login: React.FC<any> = () => {
-  const [state, setstate] = useState(1);
- //  const { signin } = useModel('useAuthModel');
-  const { loading, run } = uesRequest('user', 'loginByPhone');
+  const [state, setstate] = useState(1)
+  //  const { signin } = useModel('useAuthModel');
+  const { loading, run } = uesRequest('user', 'loginByPhone')
+  const getPublicKey = uesRequest('user', 'getPublicKey')
   const onFinish = async (values: any) => {
-    const data = await run(values);
-    const { chooseSysVO, ...userInfo } = data
-    userInfo.userAppInfo = chooseSysVO
-     setUser(userInfo);
-    const user = getUser()
-    // const { systemCode } = user?.userAppInfo.currentSystem || {};
-     history.push(`/`);
-  };
+    const publicKey = await getPublicKey.run()
+    if (publicKey) {
+      let encryptor = new Encrypt.JSEncrypt()
+      encryptor.setPublicKey(urlSafeBase64Decode(publicKey)) // 设置公钥
+      const cipherStr = encryptor.encrypt(JSON.stringify(values)) // 对需要加密的数据进行加密
+
+      //接口参数
+      const params = {
+        cipherStr: urlSateBase64Encode(cipherStr),
+      }
+      const data = await run(params)
+      const { chooseSysVO, ...userInfo } = data
+      userInfo.userAppInfo = chooseSysVO
+      setUser(userInfo)
+      // const { systemCode } = user?.userAppInfo.currentSystem || {};
+      history.push(`/`)
+    }
+  }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+    console.log('Failed:', errorInfo)
+  }
   return (
     <div className={styles['login-account']}>
       <div className={styles['login-container']}>
@@ -45,7 +53,7 @@ const Login: React.FC<any> = () => {
               <span
                 className={state === 1 ? styles['bold'] : ''}
                 onClick={() => {
-                  setstate(1);
+                  setstate(1)
                 }}
               >
                 密码登录
@@ -53,7 +61,7 @@ const Login: React.FC<any> = () => {
               <span
                 className={state === 2 ? styles['bold'] : ''}
                 onClick={() => {
-                  setstate(2);
+                  setstate(2)
                 }}
               >
                 验证码登录
@@ -70,13 +78,19 @@ const Login: React.FC<any> = () => {
                 name="phone"
                 rules={[
                   { required: true, message: '请输入手机号' },
-                  { pattern: /^1[3|4|5|6|7|8][0-9]{9}$/, message: '请输入正确的手机号' },
+                  {
+                    pattern: /^1[3|4|5|6|7|8][0-9]{9}$/,
+                    message: '请输入正确的手机号',
+                  },
                 ]}
               >
                 <Input placeholder="请输入手机号" />
               </Form.Item>
               {state === 1 ? (
-                <Form.Item name="pwd" rules={[{ required: true, message: '请输入密码' }]}>
+                <Form.Item
+                  name="pwd"
+                  rules={[{ required: true, message: '请输入密码' }]}
+                >
                   <Input.Password placeholder="请输入登录密码" />
                 </Form.Item>
               ) : (
@@ -84,12 +98,20 @@ const Login: React.FC<any> = () => {
                   name="code"
                   rules={[{ required: true, message: '短信验证码是 6 位数字' }]}
                 >
-                  <Input placeholder="输入短信验证码" suffix={<SMSCode></SMSCode>} />
+                  <Input
+                    placeholder="输入短信验证码"
+                    suffix={<SMSCode></SMSCode>}
+                  />
                 </Form.Item>
               )}
               <div className={styles['login-container-btn']}>
                 <Checkbox>3天内自动登录</Checkbox>
-                <Button type="primary" htmlType="submit" loading={loading} className={styles['base-btn']}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  className={styles['base-btn']}
+                >
                   登&nbsp;&nbsp;录
                 </Button>
 
@@ -106,7 +128,7 @@ const Login: React.FC<any> = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

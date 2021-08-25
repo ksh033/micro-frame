@@ -52,9 +52,14 @@ const services = {
     },
   },
   user: {
-    loginByPhone: {
-      url: '/user/api/anony/user/login/dev',
+    getPublicKey: {
+      url: '/user/api/anony/publickey/get',
       method: 'get',
+      sysCode: 'common',
+    },
+    loginByPhone: {
+      url: '/user/api/anony/user/login/phonepwd',
+      method: 'post',
       sysCode: 'common',
     },
     chooseDept: {
