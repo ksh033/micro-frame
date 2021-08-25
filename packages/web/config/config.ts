@@ -19,14 +19,14 @@ export const EVN_CONFIG = {
     masterUrl: 'http://172.18.164.54/',
   },
   pro: {
-    imgUrl: 'https://images.bogengkeji.com/',
+    imgUrl: 'https://images.yumcat.com/',
     apiUrl: '/webapi',
-    masterUrl: 'http://www.bogengkeji.com/',
+    masterUrl: 'http://www.yumcat.cn/',
   },
   test: {
     imgUrl: 'http://test.bogengkeji.com/images',
     apiUrl: '/webapi-test',
-    masterUrl: 'http://172.18.164.55:3000/',
+    masterUrl: 'http://172.18.164.55/',
   },
 }
 const externalCSS: any[] = [
@@ -55,6 +55,7 @@ const outputPath = NODE_ENV === 'development' ? './public' : './dist'
 export default defineConfig({
   hash: true,
   antd: {},
+  favicon: '/favicon.png',
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || 'dev'].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || 'dev'].imgUrl,

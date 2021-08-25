@@ -39,7 +39,7 @@ export const EVN_CONFIG = {
     apiUrl: "/webapi-dev",
   },
   pro: {
-    imgUrl: "https://images.bogengkeji.com/",
+    imgUrl: "https://images.yumcat.cn/",
     apiUrl: "/webapi",
   },
   test: {
@@ -50,25 +50,23 @@ export const EVN_CONFIG = {
 //micro-basic
 let base = "/";
 if (packageName.indexOf("micro-") > -1) {
-  base = "/" + packageName.replace("micro-","") ;
+  base = "/" + packageName.replace("micro-", "");
 }
-
+const publicPath= base + "/"
 export default defineConfig({
   hash: true,
-  antd: {
-    
+  antd: {},
+  locale: {
+    default: "zh-CN",
+    antd: true,
   },
-  locale:{
-    default: 'zh-CN',
-    antd:true
-  },
-  devtool:REACT_APP_ENV=="pro"?false:'source-map',
+  devtool: REACT_APP_ENV == "pro" ? false : "source-map",
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
     SC_GLOBAL_IMG_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].imgUrl,
   },
   base: base,
-  publicPath:base+"/",
+  publicPath,
   alias: {
     "@@service": "@/services",
   },
@@ -81,21 +79,19 @@ export default defineConfig({
   esbuild: {},
   ignoreMomentLocale: true,
   mock: {},
-
-
-  externals:NODE_ENV === "production"
+  externals:
+    NODE_ENV === "production"
       ? {
-        react: "React",
-        "react-dom": "ReactDOM",
-        lodash: "_",
-        moment: "moment",
-        '@ant-design/icons': 'icons'
-      }
+          react: "React",
+          "react-dom": "ReactDOM",
+          lodash: "_",
+          moment: "moment",
+          "@ant-design/icons": "icons",
+        }
       : false,
-  microlayout:{
-    localMenu:true,
-    localLayout:true,
-
+  microlayout: {
+    localMenu: true,
+    localLayout: true,
   },
   extraBabelPlugins: [
     [
@@ -107,63 +103,87 @@ export default defineConfig({
       },
     ],
   ],
-  chainWebpack:(chainConfig)=>{
-    chainConfig.merge({
-      optimization: {
-        minimize: true,
-        splitChunks: {
-          chunks: 'async',
-          minSize: 30000,
-          minChunks: 1,
-          maxInitialRequests: 4, // 默认
-          automaticNameDelimiter: '.',
-          cacheGroups: {
-            vendors: {
-              // 基本框架
-              name: 'framework',
-              test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
-              chunks: 'all',
-              priority: 11,
-            },
+  chainWebpack: (chainConfig) => {
 
-            antdesign: {
-              name: 'antdesign',
-              chunks: 'all',
-              test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
-              priority: 10,
-            },
-            antd: {
-              name: 'antd',
-              chunks: 'all',
-              test: /[\\/]node_modules[\\/](antd)[\\/]/,
-              priority: 9,
-            },
-            'async-commons': {
-              // 其余异步加载包
-              chunks: 'async',
-              minChunks: 2,
-              name: 'async-commons',
-              priority: 8,
-            },
-            commons: {
-              // 其余同步加载包
-              chunks: 'all',
-              minChunks: 2,
-              name: 'commons',
-              priority: 7,
-            },
-          },
-        },
-      },
-    });
+
+    //处理静态文件路径
+    chainConfig.module.rule('images').use("url-loader").tap((options)=>{
+      options.fallback.options.publicPath=publicPath;
+      return options
+
+    })
+    chainConfig.module.rule('fonts').use("file-loader").tap((options)=>{
+      options.publicPath=publicPath;
+      return options
+    })
+    chainConfig.module.rule('svg').use("file-loader").tap((options)=>{
+      options.publicPath=publicPath;
+      return options
+
+    })
+    // chainConfig.merge({
+    //   optimization: {
+    //     minimize: true,
+    //     splitChunks: {
+    //       chunks: "async",
+    //       minSize: 30000,
+    //       minChunks: 1,
+    //       maxInitialRequests: 4, // 默认
+    //       automaticNameDelimiter: ".",
+    //       cacheGroups: {
+    //         vendors: {
+    //           // 基本框架
+    //           name: "framework",
+    //           test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
+    //           chunks: "all",
+    //           priority: 11,
+    //         },
+
+    //         antdesign: {
+    //           name: "antdesign",
+    //           chunks: "all",
+    //           test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
+    //           priority: 10,
+    //         },
+    //         antd: {
+    //           name: "antd",
+    //           chunks: "all",
+    //           test: /[\\/]node_modules[\\/](antd)[\\/]/,
+    //           priority: 9,
+    //         },
+    //         "async-commons": {
+    //           // 其余异步加载包
+    //           chunks: "async",
+    //           minChunks: 2,
+    //           name: "async-commons",
+    //           priority: 8,
+    //         },
+    //         commons: {
+    //           // 其余同步加载包
+    //           chunks: "all",
+    //           minChunks: 2,
+    //           name: "commons",
+    //           priority: 7,
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
     chainConfig
-    .plugin('replace')
-    .use(require('webpack').ContextReplacementPlugin)
-    .tap(() => {
-      return [/moment[/\\]locale$/, /zh-cn/];
-    });
-    },
-  plugins: ["@micro-frame/plugin-microlayout", "@umijs/plugin-esbuild","@umijs/plugin-model","@umijs/plugin-antd","@umijs/plugin-qiankun","@umijs/plugin-locale"],
+      .plugin("replace")
+      .use(require("webpack").ContextReplacementPlugin)
+      .tap(() => {
+        return [/moment[/\\]locale$/, /zh-cn/];
+      });
+  },
+  plugins: [
+    "@micro-frame/plugin-microlayout",
+    "@umijs/plugin-esbuild",
+    "@umijs/plugin-model",
+    "@umijs/plugin-antd",
+    "@umijs/plugin-qiankun",
+    "@umijs/plugin-locale",
+  ],
   cssLoader: {
     // 这里的 modules 可以接受 getLocalIdent
     modules: {
