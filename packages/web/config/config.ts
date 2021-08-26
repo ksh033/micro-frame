@@ -19,9 +19,9 @@ export const EVN_CONFIG = {
     masterUrl: 'http://172.18.164.54/',
   },
   pro: {
-    imgUrl: 'https://images.yumcat.com/',
+    imgUrl: 'https://images.bogengkeji.com',
     apiUrl: '/webapi',
-    masterUrl: 'http://www.yumcat.cn/',
+    masterUrl: 'http://cat.bogengkeji.com/',
   },
   test: {
     imgUrl: 'http://test.bogengkeji.com/images',

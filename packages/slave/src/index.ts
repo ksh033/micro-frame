@@ -39,7 +39,7 @@ export const EVN_CONFIG = {
     apiUrl: "/webapi-dev",
   },
   pro: {
-    imgUrl: "https://images.yumcat.cn/",
+    imgUrl: "https://images.bogengkeji.com",
     apiUrl: "/webapi",
   },
   test: {
@@ -106,7 +106,7 @@ export default defineConfig({
   chainWebpack: (chainConfig) => {
 
 
-    //处理静态文件路径
+    //处理静态文件
     chainConfig.module.rule('images').use("url-loader").tap((options)=>{
       options.fallback.options.publicPath=publicPath;
       return options
