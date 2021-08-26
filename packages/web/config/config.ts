@@ -108,6 +108,7 @@ export default defineConfig({
   // extraBabelPlugins: ["babel-plugin-lodash"],
 
   chainWebpack(memo, { env, webpack, createCSSRule }) {
+  
     memo.merge({
       externals: [
         {
@@ -131,18 +132,23 @@ export default defineConfig({
     memo
       .plugin('copy')
       .use(copyWebpackPlugin)
-      .tap(([args]) => [
-        [
-          ...externalCSS.map((external) => ({
-            from: require.resolve(external),
-            to,
-          })),
-          ...externalJS.map((external) => ({
-            from: require.resolve(external),
-            to,
-          })),
-        ],
-      ])
+      .tap(([args]) => {
+
+
+        return [
+          [
+            {from: join(__dirname, '../public'),to},
+            ...externalCSS.map((external) => ({
+              from: require.resolve(external),
+              to,
+            })),
+            ...externalJS.map((external) => ({
+              from: require.resolve(external),
+              to,
+            })),
+          ],
+        ]
+      })
 
     // memo.plugin('copy').tap(([args]) => [
     //   [
