@@ -17,7 +17,12 @@ export const qiankun = getServiceApi('system', 'getApplist')()
         name: systemCode,
         to: `/${systemCode}`,
         entry: `${masterUrl}${systemCode}/`,
-        activeRule: `micro-${systemCode}`
+        activeRule: `micro-${systemCode}`,
+        microAppProps:{
+          autoSetLoading: true
+
+        }
+        
       })
       routes.push({
         path: `/${systemCode}`,
