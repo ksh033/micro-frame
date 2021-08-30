@@ -17,6 +17,12 @@ export const qiankun = getServiceApi('system', 'getApplist')()
         name: systemCode,
         to: `/${systemCode}`,
         entry: `${masterUrl}${systemCode}/`,
+        activeRule: `micro-${systemCode}`,
+        microAppProps:{
+          autoSetLoading: true
+
+        }
+        
       })
       routes.push({
         path: `/${systemCode}`,
@@ -26,12 +32,13 @@ export const qiankun = getServiceApi('system', 'getApplist')()
     return {
       apps,
       routes,
+      
       sandbox:{
         strictStyleIsolation:false
       },
       lifeCycles: {
         afterMount: (props: any) => {
-          console.log('afterMount');
+          // console.log('afterMount');
         },
       },
     }
