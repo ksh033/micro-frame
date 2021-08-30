@@ -2,6 +2,7 @@
 
 import Layout from "./components/Layout";
 import Login from "./components/Login";
+import Loading from "./components/Loading";
 import SelectDept from "./components/SelectDept";
 import * as Auth from "./components/Auth";
 export * from "./components/Base/index";
@@ -66,4 +67,5 @@ export {
   getServiceApi,
   AppStart,
   FormRules,
+  Loading
 };
