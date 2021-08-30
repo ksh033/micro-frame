@@ -79,16 +79,16 @@ export default defineConfig({
   esbuild: {},
   ignoreMomentLocale: true,
   mock: {},
-  externals:
-    NODE_ENV === "production"
-      ? {
-          react: "React",
-          "react-dom": "ReactDOM",
-          lodash: "_",
-          moment: "moment",
-          "@ant-design/icons": "icons",
-        }
-      : false,
+  // externals:
+  //   NODE_ENV === "production"
+  //     ? {
+  //         react: "React",
+  //         "react-dom": "ReactDOM",
+  //         lodash: "_",
+  //         moment: "moment",
+  //         "@ant-design/icons": "icons",
+  //       }
+  //     : false,
   microlayout: {
     localMenu: true,
     localLayout: true,
