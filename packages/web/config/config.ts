@@ -87,68 +87,68 @@ export default defineConfig({
   outputPath,
   devServer: {
     // dev write assets into public
-    writeToDisk: (filePath: string) =>
-      [...externalJS, ...externalCSS].some(
-        (external) => parse(external).base === parse(filePath).base
-      ),
+    // writeToDisk: (filePath: string) =>
+    //   [...externalJS, ...externalCSS].some(
+    //     (external) => parse(external).base === parse(filePath).base
+    //   ),
   },
-  links: [
-    ...externalCSS.map((external) => ({
-      rel: 'stylesheet',
-      href: `${publicPath}${parse(external).base}`,
-    })),
-  ],
-  scripts: [
-    // polyfill
-    ...externalJS.map((external) => ({
-      src: `${publicPath}${parse(external).base}`,
-      crossOrigin: 'anonymous',
-    })),
-  ],
+  // links: [
+  //   ...externalCSS.map((external) => ({
+  //     rel: 'stylesheet',
+  //     href: `${publicPath}${parse(external).base}`,
+  //   })),
+  // ],
+  // scripts: [
+  //   // polyfill
+  //   ...externalJS.map((external) => ({
+  //     src: `${publicPath}${parse(external).base}`,
+  //     crossOrigin: 'anonymous',
+  //   })),
+  // ],
   // extraBabelPlugins: ["babel-plugin-lodash"],
 
   chainWebpack(memo, { env, webpack, createCSSRule }) {
   
-    memo.merge({
-      externals: [
-        {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          lodash: '_',
-          moment: 'moment',
-          '@ant-design/icons': 'icons',
+    // memo.merge({
+    //   externals: [
+    //     {
+    //       react: 'React',
+    //       'react-dom': 'ReactDOM',
+    //       lodash: '_',
+    //       moment: 'moment',
+    //       '@ant-design/icons': 'icons',
           
-        },
-      ],
-    })
-    const output = memo.toConfig().output
-    let absOutputPath = output?.path
+    //     },
+    //   ],
+    // })
+    // const output = memo.toConfig().output
+    // let absOutputPath = output?.path
 
-    const to =
-      NODE_ENV === 'development' ? join(__dirname, '../public') : absOutputPath
-    // memo.plugins.get("copy")
-    //memo.plugins.
+    // const to =
+    //   NODE_ENV === 'development' ? join(__dirname, '../public') : absOutputPath
+    // // memo.plugins.get("copy")
+    // //memo.plugins.
 
-    memo
-      .plugin('copy')
-      .use(copyWebpackPlugin)
-      .tap(([args]) => {
+    // memo
+    //   .plugin('copy')
+    //   .use(copyWebpackPlugin)
+    //   .tap(([args]) => {
 
 
-        return [
-          [
-            {from: join(__dirname, '../public'),to},
-            ...externalCSS.map((external) => ({
-              from: require.resolve(external),
-              to,
-            })),
-            ...externalJS.map((external) => ({
-              from: require.resolve(external),
-              to,
-            })),
-          ],
-        ]
-      })
+    //     return [
+    //       [
+    //         {from: join(__dirname, '../public'),to},
+    //         ...externalCSS.map((external) => ({
+    //           from: require.resolve(external),
+    //           to,
+    //         })),
+    //         ...externalJS.map((external) => ({
+    //           from: require.resolve(external),
+    //           to,
+    //         })),
+    //       ],
+    //     ]
+    //   })
 
     // memo.plugin('copy').tap(([args]) => [
     //   [
