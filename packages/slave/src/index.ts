@@ -52,7 +52,8 @@ let base = "/";
 if (packageName.indexOf("micro-") > -1) {
   base = "/" + packageName.replace("micro-", "");
 }
-const publicPath= packageName + "/"
+const publicPath=  NODE_ENV === "production"?packageName + "/":base+"/"
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -70,6 +71,10 @@ export default defineConfig({
   alias: {
     "@@service": "@/services",
   },
+  dynamicImport:{
+
+    loading:"@micro-frame/sc-runtime/es/components/Loading"
+   },
   qiankun: {
     slave: {},
   },
@@ -103,6 +108,7 @@ export default defineConfig({
       },
     ],
   ],
+  chunks:["antd","antdesign","framework","umi"],
   chainWebpack: (chainConfig) => {
 
 
@@ -121,54 +127,41 @@ export default defineConfig({
       return options
 
     })
-    // chainConfig.merge({
-    //   optimization: {
-    //     minimize: true,
-    //     splitChunks: {
-    //       chunks: "async",
-    //       minSize: 30000,
-    //       minChunks: 1,
-    //       maxInitialRequests: 4, // 默认
-    //       automaticNameDelimiter: ".",
-    //       cacheGroups: {
-    //         vendors: {
-    //           // 基本框架
-    //           name: "framework",
-    //           test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
-    //           chunks: "all",
-    //           priority: 11,
-    //         },
+    chainConfig.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: "async",
+          minSize: 30000,
+          minChunks: 1,
+          maxInitialRequests: 4, // 默认
+          automaticNameDelimiter: ".",
+          cacheGroups: {
+            vendors: {
+              // 基本框架
+              name: "framework",
+              test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
+              chunks: "all",
+              priority: 11,
+            },
 
-    //         antdesign: {
-    //           name: "antdesign",
-    //           chunks: "all",
-    //           test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
-    //           priority: 10,
-    //         },
-    //         antd: {
-    //           name: "antd",
-    //           chunks: "all",
-    //           test: /[\\/]node_modules[\\/](antd)[\\/]/,
-    //           priority: 9,
-    //         },
-    //         "async-commons": {
-    //           // 其余异步加载包
-    //           chunks: "async",
-    //           minChunks: 2,
-    //           name: "async-commons",
-    //           priority: 8,
-    //         },
-    //         commons: {
-    //           // 其余同步加载包
-    //           chunks: "all",
-    //           minChunks: 2,
-    //           name: "commons",
-    //           priority: 7,
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
+            antdesign: {
+              name: "antdesign",
+              chunks: "all",
+              test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
+              priority: 10,
+            },
+            antd: {
+              name: "antd",
+              chunks: "all",
+              test: /[\\/]node_modules[\\/](antd)[\\/]/,
+              priority: 9,
+            },
+          
+          },
+        },
+      },
+    });
     chainConfig
       .plugin("replace")
       .use(require("webpack").ContextReplacementPlugin)
