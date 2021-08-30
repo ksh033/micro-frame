@@ -52,7 +52,7 @@ let base = "/";
 if (packageName.indexOf("micro-") > -1) {
   base = "/" + packageName.replace("micro-", "");
 }
-const publicPath= base + "/"
+const publicPath= packageName + "/"
 export default defineConfig({
   hash: true,
   antd: {},
