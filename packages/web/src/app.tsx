@@ -16,8 +16,8 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: `${masterUrl}${systemCode}/`,
-        activeRule: `micro-${systemCode}`,
+        entry: `${masterUrl}micro-${systemCode}/`,
+        activeRule: `${systemCode}`,
         microAppProps:{
           autoSetLoading: true
 
