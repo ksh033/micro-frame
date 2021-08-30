@@ -17,7 +17,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
         name: systemCode,
         to: `/${systemCode}`,
         entry: `${masterUrl}micro-${systemCode}/`,
-        activeRule: `${systemCode}`,
+        activeRule: `/${systemCode}`,
         microAppProps:{
           autoSetLoading: true
 
