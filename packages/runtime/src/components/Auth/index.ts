@@ -155,4 +155,4 @@ const clearUser = () => {
   localStorage.removeItem(CurrentApp_KEY)
   sessionStorage.removeItem('CG-CURRENT-DICT')
 }
-export { updateUser, getUser, changeApp, setUser, clearUser }
+export { updateUser, getUser, changeApp, setUser, clearUser, getAppCode }

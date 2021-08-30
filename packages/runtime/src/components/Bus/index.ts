@@ -19,6 +19,7 @@ import GoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree'
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect'
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree'
 import CooperateSupplierSelect from './CooperateSupplierSelect'
+import PrintButton from './PrintButton'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -57,4 +58,5 @@ export {
   GoodsCatalogTree,
   ShowCatalogTree,
   ShowCatalogSelect,
+  PrintButton,
 }
