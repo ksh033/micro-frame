@@ -52,7 +52,7 @@ let base = "/";
 if (packageName.indexOf("micro-") > -1) {
   base = "/" + packageName.replace("micro-", "");
 }
-const publicPath= NODE_ENV === "production"? `/${packageName}/`:`${base}/`
+const publicPath = NODE_ENV === "production" ? `/${packageName}/` : `${base}/`;
 
 export default defineConfig({
   hash: true,
@@ -71,10 +71,9 @@ export default defineConfig({
   alias: {
     "@@service": "@/services",
   },
-  dynamicImport:{
-
-    loading:"@micro-frame/sc-runtime/es/components/Loading"
-   },
+  dynamicImport: {
+    loading: "@micro-frame/sc-runtime/es/components/Loading",
+  },
   qiankun: {
     slave: {},
   },
@@ -108,67 +107,75 @@ export default defineConfig({
       },
     ],
   ],
-  chunks:["vendors","antdesign","framework","umi"],
+  chunks:
+    NODE_ENV === "production"
+      ? ["vendors", "antdesign", "framework", "umi"]
+      : undefined,
   chainWebpack: (chainConfig) => {
-
-
     //处理静态文件
-    chainConfig.module.rule('images').use("url-loader").tap((options)=>{
-      options.fallback.options.publicPath=publicPath;
-      return options
+    chainConfig.module
+      .rule("images")
+      .use("url-loader")
+      .tap((options) => {
+        options.fallback.options.publicPath = publicPath;
+        return options;
+      });
+    chainConfig.module
+      .rule("fonts")
+      .use("file-loader")
+      .tap((options) => {
+        options.publicPath = publicPath;
+        return options;
+      });
+    chainConfig.module
+      .rule("svg")
+      .use("file-loader")
+      .tap((options) => {
+        options.publicPath = publicPath;
+        return options;
+      });
+    if (NODE_ENV === "production") {
+      chainConfig.merge({
+        optimization: {
+          minimize: true,
+          splitChunks: {
+            chunks: "async",
+            minSize: 30000,
+            minChunks: 1,
+            maxInitialRequests: 4, // 默认
+            automaticNameDelimiter: ".",
+            cacheGroups: {
+              vendors: {
+                name: "vendors",
+                chunks: "all",
+                test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|lodash|lodash-decorators|redux-saga|re-select|dva|moment)[\\/]/,
+                priority: 11,
+              },
+              framework: {
+                // 基本框架
+                name: "framework",
+                test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
+                chunks: "all",
+                priority: 10,
+              },
 
-    })
-    chainConfig.module.rule('fonts').use("file-loader").tap((options)=>{
-      options.publicPath=publicPath;
-      return options
-    })
-    chainConfig.module.rule('svg').use("file-loader").tap((options)=>{
-      options.publicPath=publicPath;
-      return options
-
-    })
-    chainConfig.merge({
-      optimization: {
-        minimize: true,
-        splitChunks: {
-          chunks: "async",
-          minSize: 30000,
-          minChunks: 1,
-          maxInitialRequests: 4, // 默认
-          automaticNameDelimiter: ".",
-          cacheGroups: {
-
-            vendors: {
-              name: 'vendors',
-              chunks: 'all',
-              test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|lodash|lodash-decorators|redux-saga|re-select|dva|moment)[\\/]/,
-              priority: 11,
-          },
-          framework: {
-              // 基本框架
-              name: "framework",
-              test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
-              chunks: "all",
-              priority: 10,
+              antdesign: {
+                name: "antdesign",
+                chunks: "all",
+                test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
+                priority: 9,
+              },
             },
-            
-            antdesign: {
-              name: "antdesign",
-              chunks: "all",
-              test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
-              priority: 9,
-            },
-          
           },
         },
-      },
-    });
-    chainConfig
-      .plugin("replace")
-      .use(require("webpack").ContextReplacementPlugin)
-      .tap(() => {
-        return [/moment[/\\]locale$/, /zh-cn/];
       });
+      chainConfig
+        .plugin("replace")
+        .use(require("webpack").ContextReplacementPlugin)
+        .tap(() => {
+          return [/moment[/\\]locale$/, /zh-cn/];
+        });
+    }
   },
   plugins: [
     "@micro-frame/plugin-microlayout",

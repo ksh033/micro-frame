@@ -19,7 +19,7 @@ export default {
   extraBabelPlugins: [
     [
       "babel-plugin-import",
-      REACT_APP_ENV == "pro"?{
+      REACT_APP_ENV !== ""?{
         libraryName: "@scboson/sc-element",
         libraryDirectory: "es",
         style: true,
