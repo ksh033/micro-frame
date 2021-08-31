@@ -1,5 +1,6 @@
 import { readdirSync } from "fs";
 import { join } from "path";
+const { REACT_APP_ENV, NODE_ENV } = process.env;
 
 // utils must build before core
 // runtime must build before renderer-react
@@ -18,7 +19,11 @@ export default {
   extraBabelPlugins: [
     [
       "babel-plugin-import",
-      [
+      REACT_APP_ENV == "pro"?{
+        libraryName: "@scboson/sc-element",
+        libraryDirectory: "es",
+        style: true,
+      }:[
         { libraryName: "antd", libraryDirectory: "es", style: true },
         {
           libraryName: "@scboson/sc-element",
