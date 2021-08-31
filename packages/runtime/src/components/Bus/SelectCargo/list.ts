@@ -29,6 +29,11 @@ const pageConfig: PageConfig = {
       width: 120,
     },
     {
+      title: '品牌',
+      dataIndex: 'brandName',
+      key: 'brandName',
+    },
+    {
       title: '规格',
       dataIndex: 'standards',
       key: 'standards',
