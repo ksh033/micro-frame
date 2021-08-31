@@ -1,5 +1,4 @@
 /// <reference path="./typings.d.ts" />
-
 import Layout from "./components/Layout";
 import Login from "./components/Login";
 import Loading from "./components/Loading";
@@ -9,7 +8,6 @@ export * from "./components/Base/index";
 export * from "./components/Bus/index";
 import * as Utils from "./utils/common";
 import FormRules from "./utils/formRules";
-
 export { default as Authority } from "./components/Auth/Authority";
 export { default as AuthButton } from "./components/Auth/AuthButton";
 export { default as ToolBar } from "./components/Base/ToolBar";
@@ -30,7 +28,6 @@ import {
 } from "./utils/service";
 import { setFuncodes } from "@scboson/sc-schema";
 const AppStart = { onRouteChange, render, patchRoutes };
-
 setFuncodes({
   add: {
     funcode: "ADD",

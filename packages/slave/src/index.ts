@@ -52,7 +52,7 @@ let base = "/";
 if (packageName.indexOf("micro-") > -1) {
   base = "/" + packageName.replace("micro-", "");
 }
-const publicPath=  NODE_ENV === "production"?packageName + "/":base+"/"
+const publicPath= NODE_ENV === "production"? `/${packageName}/`:`${base}/`
 
 export default defineConfig({
   hash: true,
@@ -108,7 +108,7 @@ export default defineConfig({
       },
     ],
   ],
-  chunks:["antd","antdesign","framework","umi"],
+  chunks:["vendors","antdesign","framework","umi"],
   chainWebpack: (chainConfig) => {
 
 
@@ -137,24 +137,25 @@ export default defineConfig({
           maxInitialRequests: 4, // 默认
           automaticNameDelimiter: ".",
           cacheGroups: {
+
             vendors: {
+              name: 'vendors',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|lodash|lodash-decorators|redux-saga|re-select|dva|moment)[\\/]/,
+              priority: 11,
+          },
+          framework: {
               // 基本框架
               name: "framework",
               test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
               chunks: "all",
-              priority: 11,
+              priority: 10,
             },
-
+            
             antdesign: {
               name: "antdesign",
               chunks: "all",
-              test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
-              priority: 10,
-            },
-            antd: {
-              name: "antd",
-              chunks: "all",
-              test: /[\\/]node_modules[\\/](antd)[\\/]/,
+              test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
               priority: 9,
             },
           

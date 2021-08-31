@@ -13,6 +13,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
     const routes: any[] = []
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
+      console.log(`${masterUrl}micro-${systemCode}/`)
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
@@ -32,7 +33,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
     return {
       apps,
       routes,
-      
+      prefetch:false,
       sandbox:{
         strictStyleIsolation:false
       },
