@@ -33,6 +33,8 @@ export type PrintCfg = {
 export enum PrintTplType {
   /** 溯源码 */
   traceSource = '00000001',
+  /** 商品价签码 */
+  priceTag = '00000002',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -41,6 +43,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleName: '溯源码',
     tplName: 'traceSourceCode.grf',
     dataUrl: '/code/api/trace/code/print',
+    method: 'post',
+  },
+  '00000002': {
+    moduleId: '00000002',
+    moduleName: '商品价签码',
+    tplName: 'priceTag.grf',
+    dataUrl: '/mallsys/api/mall/opera/pricetag/print',
     method: 'post',
   },
 }
