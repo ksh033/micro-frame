@@ -16,10 +16,10 @@ export { default as BsSearch } from "./components/Base/BsSearch";
 export { default as ModalPageContainer } from "./components/Base/Tpl/ModalPageTpl";
 export { default as useDictModel } from "./components/Dict/userDictModel";
 export { setFuncodes } from "@scboson/sc-schema";
-
+export {default as PageContainer} from "./components/Base/PageContainer";
 export { default as defaultRenderText } from "./components/Dict/defaultRender";
 import { render, patchRoutes, onRouteChange } from "./components/AppStart";
-export { PageContainer, ScCard } from "@scboson/sc-layout";
+export { ScCard } from "@scboson/sc-layout";
 import { request, useRequest } from "./utils/request";
 import {
   getService,

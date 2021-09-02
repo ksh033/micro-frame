@@ -110,7 +110,14 @@ const formatMenu = (
       const paths = pageUrl.split("/");
       parnetKeys.forEach((key, i) => {
         if (!menuMap[key]) {
-          menuMap[key] = paths[i + 1];
+          if (localData === false) {
+            menuMap[key] = paths[i + 2];
+          }else{
+         
+            menuMap[key] = paths[i + 1];
+
+
+          }
         }
       });
     }
@@ -126,7 +133,7 @@ const formatMenu = (
     //if (appCode && appCode !== '') {
     //rpath = '/' + appCode + pageUrl || menuMap[id]
     // } else {
-    rpath = pageUrl; //|| menuMap[id]
+    rpath = pageUrl|| menuMap[id]
     // }
     if (localData === false&&rpath) {
       rpath = rpath.replace("/" + appCode, "");
