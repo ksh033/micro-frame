@@ -59,7 +59,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   const videoMaxSizeM = compute.divide(videoMaxSize, 1024 * 1024)
 
   const maxSizeCheck = (file: any) => {
-    const isImg = isImageFileType(accept)
+    const isImg = isImageFileType(file.type)
     if (isImg) {
       return file.size <= maxSize
     }

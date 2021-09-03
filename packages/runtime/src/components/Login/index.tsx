@@ -40,6 +40,8 @@ const Login: React.FC<any> = () => {
   }
   return (
     <div className={styles['login-account']}>
+      <div className={styles['login-account-left']}></div>
+      <div className={styles['login-account-right']}></div>
       <div className={styles['login-container']}>
         <div className={styles['login-container-left']}>
           <div className={styles['logo']}>
@@ -47,7 +49,7 @@ const Login: React.FC<any> = () => {
           </div>
         </div>
         <div className={styles['login-container-right']}>
-          <div className={styles['login-title']}>运营平台</div>
+          {/* <div className={styles['login-title']}>运营平台</div> */}
           <div className={styles['login-container-content']}>
             <div className={styles['login-container-header']}>
               <span
@@ -72,7 +74,7 @@ const Login: React.FC<any> = () => {
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
-              className="base-line-form"
+              className={styles['base-line-form']}
             >
               <Form.Item
                 name="phone"
@@ -84,14 +86,14 @@ const Login: React.FC<any> = () => {
                   },
                 ]}
               >
-                <Input placeholder="请输入手机号" />
+                <Input placeholder="请输入手机号" size="large" />
               </Form.Item>
               {state === 1 ? (
                 <Form.Item
                   name="pwd"
                   rules={[{ required: true, message: '请输入密码' }]}
                 >
-                  <Input.Password placeholder="请输入登录密码" />
+                  <Input.Password placeholder="请输入登录密码" size="large" />
                 </Form.Item>
               ) : (
                 <Form.Item
@@ -109,8 +111,10 @@ const Login: React.FC<any> = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  size="large"
                   loading={loading}
                   className={styles['base-btn']}
+                  block
                 >
                   登&nbsp;&nbsp;录
                 </Button>
