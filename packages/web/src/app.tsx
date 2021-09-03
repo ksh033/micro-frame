@@ -7,18 +7,22 @@ const { getUser } = Auth
 window.masterHistory=history;
 
 const  masterUrl= SC_MASTER_URL || ""
+//@ts-ignore
+window.masterWindow=window;
+
 export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
     const apps: any[] = []
     const routes: any[] = []
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
-      console.log(`${masterUrl}micro-${systemCode}/`)
+     // console.log(`${masterUrl}micro-${systemCode}/`)
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: `${masterUrl}micro-${systemCode}/`,
-        activeRule: `/${systemCode}`,
+        entry: `${masterUrl}${systemCode}/`,
+        activeRule: `/micro-${systemCode}`,
+        
         microAppProps:{
           autoSetLoading: true
 
@@ -34,8 +38,37 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       apps,
       routes,
       prefetch:false,
-      sandbox:{
-        strictStyleIsolation:false
+      // sandbox:{
+      //   strictStyleIsolation:false,
+      //   fetch:(url: string, ...args: any)=> {
+      //     if (url.indexOf("127.0.0.1")>-1) {
+      //       return window.fetch(url, {
+      //         ...args,
+      //         mode: 'cors',
+      //         credentials: 'include',
+      //       });
+      //     }
+      
+      //     return window.fetch(url, ...args);
+      //   },
+      // },
+      // fetch:(url: string, ...args: any)=> {
+      //   console.log(url)
+      //   if (url.indexOf("127.0.0.1")>-1) {
+      //     return window.fetch(url, {
+      //       ...args,
+      //       mode: 'cors',
+      //       credentials: 'include',
+      //     });
+      //   }
+    
+      //   return window.fetch(url, ...args);
+      // },
+      excludeAssetFilter:(assetUrl: string)=>{
+        if (assetUrl.indexOf("127.0.0.1")>-1){
+          return true;
+        }
+        return false;
       },
       lifeCycles: {
         afterMount: (props: any) => {
