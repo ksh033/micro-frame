@@ -4,11 +4,11 @@ import { history } from 'umi'
 
 const { getUser } = Auth
 
-window.masterHistory=history;
+window.masterHistory = history
 
-const  masterUrl= SC_MASTER_URL || ""
+const masterUrl = SC_MASTER_URL || ''
 //@ts-ignore
-window.masterWindow=window;
+window.masterWindow = window
 
 export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
@@ -16,18 +16,18 @@ export const qiankun = getServiceApi('system', 'getApplist')()
     const routes: any[] = []
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
-     // console.log(`${masterUrl}micro-${systemCode}/`)
+      // console.log(`${masterUrl}micro-${systemCode}/`)
       apps.push({
         name: systemCode,
         to: `/${systemCode}`,
-        entry: `${masterUrl}${systemCode}/`,
-        activeRule: `/micro-${systemCode}`,
-        
-        microAppProps:{
-          autoSetLoading: true
+        entry: `${masterUrl}micro-${systemCode}/`,
+        activeRule: `/${systemCode}`,
+        // entry: `${masterUrl}${systemCode}/`,
+        // activeRule: `/micro-${systemCode}`,
 
-        }
-        
+        microAppProps: {
+          autoSetLoading: true,
+        },
       })
       routes.push({
         path: `/${systemCode}`,
@@ -37,7 +37,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
     return {
       apps,
       routes,
-      prefetch:false,
+      prefetch: false,
       // sandbox:{
       //   strictStyleIsolation:false,
       //   fetch:(url: string, ...args: any)=> {
@@ -48,7 +48,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       //         credentials: 'include',
       //       });
       //     }
-      
+
       //     return window.fetch(url, ...args);
       //   },
       // },
@@ -61,14 +61,14 @@ export const qiankun = getServiceApi('system', 'getApplist')()
       //       credentials: 'include',
       //     });
       //   }
-    
+
       //   return window.fetch(url, ...args);
       // },
-      excludeAssetFilter:(assetUrl: string)=>{
-        if (assetUrl.indexOf("127.0.0.1")>-1){
-          return true;
+      excludeAssetFilter: (assetUrl: string) => {
+        if (assetUrl.indexOf('127.0.0.1') > -1) {
+          return true
         }
-        return false;
+        return false
       },
       lifeCycles: {
         afterMount: (props: any) => {
