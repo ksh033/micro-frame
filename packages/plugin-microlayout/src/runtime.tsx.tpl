@@ -15,12 +15,8 @@ const { Operation } = BsTable
 export function rootContainer(container: any) {
 
 {{#localLayout}}
-const children=React.createElement(SchemaContext.Provider, {
- value:{
-   umi:{history},
-    tableOpColCmp:Operation
-  }})
-   return React.createElement(MasterApp,{children},container);
+
+   return React.createElement(MasterApp,null,container);
 {{/localLayout}}
 
 
