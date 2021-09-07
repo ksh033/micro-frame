@@ -50,6 +50,11 @@ const services = {
       method: 'get',
       sysCode: 'base',
     },
+    warehouse: {
+      url: '/base/api/warehouse/page',
+      method: 'post',
+      sysCode: 'base',
+    },
   },
   user: {
     getPublicKey: {
