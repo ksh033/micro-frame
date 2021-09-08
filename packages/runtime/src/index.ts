@@ -8,6 +8,7 @@ export * from "./components/Base/index";
 export * from "./components/Bus/index";
 import * as Utils from "./utils/common";
 import FormRules from "./utils/formRules";
+import {getFunCodeAuth}  from "./components/Auth/Authority";
 export { default as Authority } from "./components/Auth/Authority";
 export { default as AuthButton } from "./components/Auth/AuthButton";
 export { default as ToolBar } from "./components/Base/ToolBar";
@@ -64,5 +65,6 @@ export {
   getServiceApi,
   AppStart,
   FormRules,
+  getFunCodeAuth,
   Loading
 };

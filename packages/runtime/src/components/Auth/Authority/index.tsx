@@ -10,6 +10,30 @@ type AuthorityType = {
 
 type AuthorityResp<T> = React.ComponentClass<T> | React.FunctionComponent<T>;
 
+
+export const getFunCodeAuth=()=>{
+  let masterState: any = {};
+
+  try {
+    masterState = useModel("@@qiankunStateFromMaster") || {
+      globalState: {},
+    };
+  } catch (ex) {
+    masterState = {
+      globalState: {},
+    };
+  }
+  const { globalState = {} } = masterState;
+  const { currentMenu } = globalState;
+  if (currentMenu) {
+    let { funcodes = "" } = currentMenu;
+    funcodes = funcodes.split("|");
+
+    return funcodes;
+  }
+  return [];
+}
+
 const Authority = function <T extends AuthorityType>(
   WrappedComponent:
     | React.ComponentType<T>
