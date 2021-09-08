@@ -66,11 +66,18 @@ const Enabled: React.FC<EnabledProps> = (props) => {
   }
 
   let backDisabled: any = useMemo(() => {
-    return disabledCallback ? disabledCallback(rowData) : false
-  }, [disabledCallback, JSON.stringify(rowData)])
+    let rbackDisabled = false
+    if (disabled !== undefined && disabled !== null) {
+      rbackDisabled = disabled
+    }
+    if (typeof disabledCallback === 'function') {
+      rbackDisabled = disabledCallback(rowData)
+    }
+
+    return rbackDisabled
+  }, [JSON.stringify(rowData), disabled, disabledCallback])
 
   if (disabled !== undefined || disabled !== null) {
-    backDisabled = disabled
   }
   return (
     <Switch
