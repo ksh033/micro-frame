@@ -10,9 +10,9 @@ type EnabledProps = BsTableComponentProps & {
   request: (params: any) => Promise<any> // 请求数据的远程方法
   rowKeyName?: string
   warning?: string
-  enabledName?: string;
-  funcode?:string;
-  disabled?:boolean;
+  enabledName?: string
+  funcode?: string
+  disabled?: boolean
   disabledCallback?: (rowData: any) => boolean
 }
 
@@ -49,7 +49,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
             [enabledName]: checked,
           }).then((data) => {
             setState(checked)
-            rowData[enabledName]=checked
+            rowData[enabledName] = checked
             return data
           })
         },
@@ -60,17 +60,17 @@ const Enabled: React.FC<EnabledProps> = (props) => {
         [enabledName]: checked,
       }).then(() => {
         setState(checked)
-        rowData[enabledName]=checked
+        rowData[enabledName] = checked
       })
     }
   }
 
-  let backDisabled:any = useMemo(() => {
+  let backDisabled: any = useMemo(() => {
     return disabledCallback ? disabledCallback(rowData) : false
   }, [disabledCallback, JSON.stringify(rowData)])
 
-  if (disabled!==undefined||disabled!==null){
-    backDisabled=disabled
+  if (disabled !== undefined || disabled !== null) {
+    backDisabled = disabled
   }
   return (
     <Switch
@@ -79,9 +79,9 @@ const Enabled: React.FC<EnabledProps> = (props) => {
       checked={state}
       onChange={handleChange}
       loading={loading}
-      disabled={disabled}
+      disabled={backDisabled}
     />
   )
 }
 
-export default Authority(Enabled,"Enabled")
+export default Authority(Enabled, 'Enabled')
