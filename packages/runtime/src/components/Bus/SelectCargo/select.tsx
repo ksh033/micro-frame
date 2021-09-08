@@ -20,7 +20,6 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
 
   return (
     <ScSelect
-      {...props}
       request={run}
       params={params}
       remoteSearch={true}
@@ -33,6 +32,7 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
       filterOption={false}
       allowClear
       defaultActiveFirstOption={false}
+      {...props}
     ></ScSelect>
   )
 }
