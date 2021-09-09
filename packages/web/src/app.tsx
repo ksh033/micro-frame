@@ -71,6 +71,11 @@ export const qiankun = getServiceApi('system', 'getApplist')()
         return false
       },
       lifeCycles: {
+        beforeLoad: (app: any) => {
+          console.log(app)
+          //@ts-ignore
+          window.syscode = app.name
+        },
         afterMount: (props: any) => {
           // console.log('afterMount');
         },

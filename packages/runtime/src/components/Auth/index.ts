@@ -61,57 +61,75 @@ const setUser = (user: User) => {
   let userAppInfos = {}
   let userAppInfosChange = false
 
-  let currentUser = user
-  if (!userAppInfos[currentUser.userAppInfo.currentSystem.systemCode]) {
-    userAppInfos[currentUser.userAppInfo.currentSystem.systemCode] =
-      user.userAppInfo
+  let currentUser: User = user
+
+  const systemCode = currentUser.userAppInfo?.currentSystem.systemCode || ''
+
+  if (!userAppInfos[systemCode]) {
+    userAppInfos[systemCode] = user.userAppInfo
     userAppInfosChange = true
   } else {
-    const tuser = userAppInfos[currentUser.userAppInfo.currentSystem.systemCode]
-
-    if (!_.eq(tuser.currentDept, user.userAppInfo.currentDept)) {
-      userAppInfos[currentUser.userAppInfo.currentSystem.systemCode] =
-        user.userAppInfo
+    const tuser = userAppInfos[systemCode]
+    if (!_.eq(tuser.currentDept, user.userAppInfo?.currentDept)) {
+      userAppInfos[systemCode] = user.userAppInfo
       userAppInfosChange = true
     }
   }
-  setStorage(User_Key, currentUser)
-  setStorage(CurrentApp_KEY, currentUser.userAppInfo.currentSystem.systemCode)
 
+  const { userAppInfo, ...restUser } = currentUser
+
+  setStorage(User_Key, restUser)
+  setStorage(CurrentApp_KEY, systemCode)
+  //@ts-ignore
+  window.syscode = systemCode
   if (userAppInfosChange) {
     setStorage(AppsUser_Key, userAppInfos)
   }
 }
 
 const getAppCode = () => {
-  return getStorage<string>(CurrentApp_KEY)
+  // @ts-ignore
+  let appcode = window.syscode
+
+  if (appcode === undefined || appcode === null) {
+    const pathname = window.location.pathname
+    if (pathname === '/') {
+      appcode = getStorage<string>(CurrentApp_KEY)
+      return appcode
+    } else {
+      const paths = pathname.substring(1, pathname.length).split('/')
+      const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
+      if (userAppInfos && paths[0] && userAppInfos[paths[0]]) {
+        return paths[0]
+      } else {
+        appcode = getStorage<string>(CurrentApp_KEY)
+        return appcode
+      }
+    }
+  }
+
+  return appcode
 }
 
 const getUser = (): User | null | undefined => {
   const currentUser: any = getStorage(User_Key)
-
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
 
   const appCode = getAppCode()
   if (appCode && userAppInfos && currentUser) {
     const tuserApp = userAppInfos[appCode]
     if (tuserApp) {
-      if (
-        tuserApp.currentSystem.systemCode !==
-        currentUser.userAppInfo.currentSystem.systemCode
-      ) {
-        currentUser.userAppInfo = tuserApp
-        setUser(currentUser)
-      }
+      currentUser.userAppInfo = tuserApp
     }
   }
   return currentUser
 }
 
-const getAppUser = (sysCode: string) => {
+const getAppUser = () => {
+  const appCode = getAppCode()
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
   if (userAppInfos) {
-    return userAppInfos[sysCode]
+    return userAppInfos[appCode]
   }
   return null
 }
@@ -122,31 +140,31 @@ const getAppUser = (sysCode: string) => {
  * @param sysCode
  */
 const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
-  const currentUser: any = getStorage(User_Key)
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
-  if (userAppInfos && userAppInfos[sysCode]) {
-    if (currentUser) {
-      currentUser.userAppInfo = userAppInfos[sysCode]
-      setUser(currentUser)
-      return true
-    }
-  }
-  if (userAppInfo) {
-    if (currentUser) {
-      currentUser.userAppInfo = userAppInfo
-      setUser(currentUser)
-    }
+
+  if (userAppInfos && userAppInfo) {
+    userAppInfos[sysCode] = userAppInfo
+    //@ts-ignore
+    window.syscode = sysCode
+    setStorage(AppsUser_Key, userAppInfos)
+    setStorage(CurrentApp_KEY, sysCode)
     return true
   }
-
   return false
 }
 const updateUser = (userAppInfo: UserAppInfo) => {
-  const cuser = getUser()
-  if (cuser) {
-    cuser.userAppInfo.currentDept = userAppInfo.currentDept
-    cuser.userAppInfo.menuTreeNodeList = userAppInfo.menuTreeNodeList
-    setUser(cuser)
+  const appCode = getAppCode()
+  const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
+
+  if (userAppInfos) {
+    const ruserAppInfo = userAppInfos[appCode]
+    ruserAppInfo.currentDept = userAppInfo.currentDept
+    ruserAppInfo.menuTreeNodeList = userAppInfo.menuTreeNodeList
+
+    userAppInfos[appCode] = ruserAppInfo
+  }
+  if (userAppInfos) {
+    setStorage(AppsUser_Key, userAppInfos)
   }
 }
 const clearUser = () => {
