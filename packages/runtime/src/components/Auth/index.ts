@@ -58,23 +58,15 @@ const getStorage = <T>(skey: string): T | null => {
 
 const setUser = (user: User) => {
   // let currentUser = null;
-  let userAppInfos = {}
+  const userAppInfos =
+    getStorage<Record<string, UserAppInfo>>(AppsUser_Key) || {}
   let userAppInfosChange = false
 
   let currentUser: User = user
 
   const systemCode = currentUser.userAppInfo?.currentSystem.systemCode || ''
-
-  if (!userAppInfos[systemCode]) {
-    userAppInfos[systemCode] = user.userAppInfo
-    userAppInfosChange = true
-  } else {
-    const tuser = userAppInfos[systemCode]
-    if (!_.eq(tuser.currentDept, user.userAppInfo?.currentDept)) {
-      userAppInfos[systemCode] = user.userAppInfo
-      userAppInfosChange = true
-    }
-  }
+  userAppInfos[systemCode] = user.userAppInfo
+  userAppInfosChange = true
 
   const { userAppInfo, ...restUser } = currentUser
 
