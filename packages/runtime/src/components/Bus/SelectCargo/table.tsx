@@ -55,7 +55,10 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
 
   if (Array.isArray(extraQueryColumns) && extraQueryColumns.length > 0) {
     extraQueryColumns.forEach((item: FormSearchItem) => {
-      search.addSearchItem(item)
+      search.addSearchItem({
+        ...item,
+        width: item.width ? item.width : 120,
+      })
     })
   }
   const searchConfig = search.toConfig()
@@ -163,6 +166,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           params={tableParams}
           request={request}
           onLoad={onLoad}
+          scroll={{ y: '300px' }}
         ></BsTable>
       </div>
     </div>

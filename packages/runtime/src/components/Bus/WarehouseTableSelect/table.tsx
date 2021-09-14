@@ -53,6 +53,7 @@ const Table: React.FC<any> = (props: any) => {
         onSelectRow={onTabelRow}
         selectedRowKeys={selectedRowKeys}
         params={params}
+        scroll={{ y: 240 }}
       />
     </div>
   )

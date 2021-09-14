@@ -11,7 +11,7 @@ import userDictModel from '../../../components/Dict/userDictModel'
 const pagaConfig: PageConfig = {
   ...list,
 }
- 
+
 const Table: React.FC<any> = (props: any) => {
   const { pageProps } = props
   const { selectionType, onTabelRow, rowKey, selectedRowKeys } = pageProps
@@ -36,7 +36,7 @@ const Table: React.FC<any> = (props: any) => {
     return map
   }, [getDistList])
 
-  const pageInfo:any = page
+  const pageInfo: any = page
     .getTable()
     .changeCol('shopBusiness', {
       render: (text: string, record: any) => {
@@ -62,7 +62,7 @@ const Table: React.FC<any> = (props: any) => {
   return (
     <div style={{ padding: '20px' }}>
       <BsSearch {...searchConfig} />
-    
+
       <BsTable
         {...pageInfo}
         checkbox
@@ -75,6 +75,7 @@ const Table: React.FC<any> = (props: any) => {
         onSelectRow={onTabelRow}
         selectedRowKeys={selectedRowKeys}
         params={params}
+        scroll={{ y: 240 }}
       />
     </div>
   )
