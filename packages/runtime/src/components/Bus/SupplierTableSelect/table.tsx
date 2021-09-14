@@ -29,7 +29,7 @@ const Table: React.FC<any> = (props: any) => {
     tableKey: isCooperateSupplier ? 'cooperateSupplier' : 'supplier',
   })
   const searchConfig = search.toConfig()
-  const pageInfo:any = page.getTable().toConfig()
+  const pageInfo: any = page.getTable().toConfig()
 
   const params = useMemo(() => {
     return {
@@ -52,6 +52,7 @@ const Table: React.FC<any> = (props: any) => {
         onSelectRow={onTabelRow}
         selectedRowKeys={selectedRowKeys}
         params={params}
+        scroll={{ y: 240 }}
       />
     </div>
   )

@@ -26,17 +26,19 @@ const pageConfig: PageConfig = {
         fieldName: 'cargoName',
         fieldImage: 'cargoIconUrl',
       },
-      width: 120,
+      width: 200,
     },
     {
       title: '品牌',
       dataIndex: 'brandName',
       key: 'brandName',
+      width: 80,
     },
     {
       title: '规格',
       dataIndex: 'standards',
       key: 'standards',
+      width: 80,
     },
   ],
 }
