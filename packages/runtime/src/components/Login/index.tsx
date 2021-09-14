@@ -35,11 +35,11 @@ const Login: React.FC<any> = () => {
       } else {
         const { systemCode } = userInfo?.userAppInfo.currentSystem || {};
         //@ts-ignore
-        if (window.__POWERED_BY_QIANKUN__){
+       // if (window.__POWERED_BY_QIANKUN__){
           history.push(`/${systemCode}`);
-        }else{
-          history.push(`/`);
-        }
+        //}else{
+         // history.push(`/`);
+       // }
       
       }
     }
