@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import Login from "./components/Login";
 import Loading from "./components/Loading";
 import SelectDept from "./components/SelectDept";
-import * as Auth from "./components/Auth";
+import * as AllAuth from "./components/Auth";
 export * from "./components/Base/index";
 export * from "./components/Bus/index";
 import * as Utils from "./utils/common";
@@ -28,6 +28,9 @@ import {
   uesRequest as useServiceRequest,
 } from "./utils/service";
 import { setFuncodes } from "@scboson/sc-schema";
+
+const {openWindow,...Auth}=AllAuth;
+
 const AppStart = { onRouteChange, render, patchRoutes };
 setFuncodes({
   add: {
@@ -66,5 +69,6 @@ export {
   AppStart,
   FormRules,
   getFunCodeAuth,
-  Loading
+  Loading,
+  openWindow
 };
