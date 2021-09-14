@@ -30,17 +30,22 @@ const Login: React.FC<any> = () => {
       const { chooseSysVO, ...userInfo } = data;
       userInfo.userAppInfo = chooseSysVO;
       setUser(userInfo);
+      if (userInfo.needModifyPwd) {
+        history.push("/system/current/initpassword");
+        return;
+      }
       if (!checkUserDept(window.location.pathname)) {
         history.push("/selectDept");
+        return;
       } else {
         const { systemCode } = userInfo?.userAppInfo.currentSystem || {};
         //@ts-ignore
-       // if (window.__POWERED_BY_QIANKUN__){
-          history.push(`/${systemCode}`);
+        // if (window.__POWERED_BY_QIANKUN__){
+        history.push(`/${systemCode}`);
+        return;
         //}else{
-         // history.push(`/`);
-       // }
-      
+        // history.push(`/`);
+        // }
       }
     }
   };

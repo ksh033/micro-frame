@@ -45,6 +45,29 @@ const AppsUser_Key = "APP-CURRENT-USERS";
 // 当前用户appCode
 let _userAppCode = "";
 
+
+const addCookie= (objName, objValue, objHours)=> {
+  var str = objName + "=" + escape(objValue); //编码
+  if (objHours > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失
+      var date = new Date();
+  
+      var ms = objHours * 3600 * 1000;
+      date.setTime(date.getTime() + ms);
+      // @ts-ignore
+      str += "; expires=" + date.toGMTString();
+  }
+  document.cookie = str;
+}
+
+//读Cookie
+const getCookie=(objName) {//获取指定名称的cookie的值
+  var arrStr = document.cookie.split("; ");
+  for (var i = 0; i < arrStr.length; i++) {
+      var temp = arrStr[i].split("=");
+      if (temp[0] == objName) return unescape(temp[1]);  //解码
+  }
+  return "";
+}
 //const CurrentApp_KEY = 'CURRENT-APP'
 const CurrentApp_KEY = "TEM-CURRENT-APP";
 const setStorage = (skey: string, value: any) => {
@@ -64,7 +87,8 @@ const restUserAppCode = (tuserAppCode?: string) => {
   if (temCode) {
     localStorage.setItem(CurrentApp_KEY, temCode);
   } else {
-    _userAppCode = localStorage.getItem(CurrentApp_KEY) || "";
+    // _userAppCode = localStorage.getItem(CurrentApp_KEY) || "";
+    setUserAppCode(_userAppCode)
     localStorage.removeItem(CurrentApp_KEY);
   }
 
@@ -122,17 +146,27 @@ const getAppCode = () => {
 
 const setUserAppCode = (userAppCode) => {
   _userAppCode = userAppCode;
+  addCookie(CurrentApp_KEY,_userAppCode,0)
 };
 
 const getUserAppCode = () => {
   if (!_userAppCode) {
     // @ts-ignore
+   // const systemcode=getCookie(CurrentApp_KEY)
+
     if (window.userAppCode) {
+           // _userAppCode = window.userAppCode;
       // @ts-ignore
-      _userAppCode = window.userAppCode;
+      setUserAppCode(window.userAppCode)
+    }else{
+      const systemcode=getCookie(CurrentApp_KEY)
+      if (systemcode){
+        setUserAppCode(systemcode);
+      }
     }
+
   }
-  console.log("当前用户appCode:" + _userAppCode);
+ // console.log("当前用户appCode:" + _userAppCode);
   return _userAppCode;
 };
 const getUser = (): User | null | undefined => {
@@ -167,7 +201,7 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key);
   if (!userAppInfo && userAppInfos) {
     if (userAppInfos[sysCode]) {
-      _userAppCode = sysCode;
+      setUserAppCode(sysCode)
       return true;
     }
   }
@@ -176,7 +210,7 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
     //@ts-ignore
     // window.syscode = sysCode
     setStorage(AppsUser_Key, userAppInfos);
-    _userAppCode = sysCode;
+    setUserAppCode(sysCode)
     // setStorage(CurrentApp_KEY, sysCode)
     return true;
   }

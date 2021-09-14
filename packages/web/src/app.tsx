@@ -88,25 +88,19 @@ export const qiankun = getServiceApi("system", "getApplist")()
     };
   })
   .catch(() => {});
-// export function onRouteChange({ location }: any) {
-//   // if (matchedRoutes.length) {
-//   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
-//   // }
-//   if (location.pathname !== "/selectDept") {
-//     const currentUser = getUser();
-//     if (currentUser) {
-//       const { userAppInfo } = currentUser;
-//       if (userAppInfo) {
-//         const { currentDept, needChooseDept } = userAppInfo;
-//         if (!currentDept && needChooseDept) {
-//           // setTimeout()
-
-//           history.push("/selectDept");
-//         }
-//       }
-//     }
-//   }
-//  }
+export function onRouteChange({ location }: any) {
+  // if (matchedRoutes.length) {
+  // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
+  // }
+  if (location.pathname !== "/system/current/initpassword") {
+    const currentUser = getUser();
+    if (currentUser) {
+      if (currentUser.needModifyPwd){
+        history.push("/system/current/initpassword");
+      }
+    }
+  }
+ }
 
 export function render(oldRender: any) {
   const currentUser = getUser();

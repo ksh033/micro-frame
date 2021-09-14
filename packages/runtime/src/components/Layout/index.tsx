@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { ProSettings, MasterLayout } from "@scboson/sc-layout";
 // @ts-ignore
 import { Link, history, useModel } from "umi";
-import { getUser, changeApp, restUserAppCode, getUserAppCode,checkUserDept } from "../Auth";
+import {
+  getUser,
+  changeApp,
+  restUserAppCode,
+  getUserAppCode,
+  checkUserDept,
+} from "../Auth";
 import { uesRequest } from "../../utils/api";
 import RightContent from "./GlobalHeader/RightContent";
 import logo from "../../assets/logo.svg";
@@ -34,6 +40,7 @@ export default (props: any) => {
   const apps = systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
+    disabled:user?.needModifyPwd,
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
@@ -104,6 +111,7 @@ export default (props: any) => {
         }}
         appMenuProps={{
           onSelect: async (keys: any) => {
+        
             if (keys && keys.length > 0) {
               if (!changeApp(keys[0])) {
                 const data = await req.run({ systemCode: keys[0] });
