@@ -1,5 +1,4 @@
 import { LayoutConfig } from '../types/interface.d';
-
 export default (
   userConfig: LayoutConfig,
   path: string
@@ -7,6 +6,7 @@ export default (
 import { ApplyPluginsType, useModel} from "umi";
 import { plugin } from "../core/umiExports";
 import LayoutComponent from '${path}';
+import {Auth} from '@micro-frame/sc-runtime';
 
 export default props => {
   const [runtimeConfig, setRuntimeConfig] = useState(null);
@@ -38,6 +38,12 @@ export default props => {
     ...runtimeConfig || {}
   };
 
+  useEffect(() => {
+    window.syscode=userConfig.appSelected
+    Auth.setUserAppCode(userConfig.appSelected)
+  }, [userConfig]);
+
+  
 
   if(!runtimeConfig){
     return null

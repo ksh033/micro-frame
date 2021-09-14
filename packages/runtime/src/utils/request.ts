@@ -11,13 +11,13 @@ import {
   Context,
   RequestOptionsWithResponse,
   RequestOptionsWithoutResponse,
-} from 'umi-request'
-import { notification, message } from 'antd'
+} from "umi-request";
+import { notification, message } from "antd";
 // @ts-ignore
-import { history } from 'umi'
-import { getUser, clearUser } from '../components/Auth'
+import { history } from "umi";
+import { getUser, clearUser } from "../components/Auth";
 // import {useRequest as useUmiRequest} from 'ahooks';
-import useUmiRequest from '@ahooksjs/use-request'
+import useUmiRequest from "@ahooksjs/use-request";
 import {
   BaseOptions,
   BasePaginatedOptions,
@@ -33,10 +33,10 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from '@ahooksjs/use-request/es/types'
+} from "@ahooksjs/use-request/es/types";
 
-type ResultWithData<T = any> = { data?: T; [key: string]: any }
-import { baseApi } from './common'
+type ResultWithData<T = any> = { data?: T; [key: string]: any };
+import { baseApi } from "./common";
 
 /**
  * 文件下载
@@ -46,20 +46,20 @@ import { baseApi } from './common'
  */
 const download = (content: any, fileName: string) => {
   const blob = new Blob([content], {
-    type: 'application/vnd.ms-excel',
-  })
-  const a = document.createElement('a')
-  const url = window.URL.createObjectURL(blob)
+    type: "application/vnd.ms-excel",
+  });
+  const a = document.createElement("a");
+  const url = window.URL.createObjectURL(blob);
   // 文件中文URL解码
-  const filename = decodeURI(fileName)
-  a.href = url
-  a.download = filename
-  a.click()
-  window.URL.revokeObjectURL(url)
-}
+  const filename = decodeURI(fileName);
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
 
 export enum ExtendMethod {
-  FILEUPLOAD = 'FILEUPLOAD',
+  FILEUPLOAD = "FILEUPLOAD",
 }
 
 export enum ErrorShowType {
@@ -70,153 +70,157 @@ export enum ErrorShowType {
   REDIRECT = 9,
 }
 interface ErrorInfoStructure {
-  success: boolean
-  data?: any
-  errorCode?: string
-  errorMessage?: string
-  showType?: ErrorShowType
-  traceId?: string
-  host?: string
-  [key: string]: any
+  success: boolean;
+  data?: any;
+  errorCode?: string;
+  errorMessage?: string;
+  showType?: ErrorShowType;
+  traceId?: string;
+  host?: string;
+  [key: string]: any;
 }
 
 interface RequestError extends Error {
-  data?: any
-  info?: ErrorInfoStructure
-  request?: Context['req']
-  response?: Context['res']
+  data?: any;
+  info?: ErrorInfoStructure;
+  request?: Context["req"];
+  response?: Context["res"];
 }
-let requestMethodInstance: RequestMethod
-const DEFAULT_ERROR_PAGE = '/exception'
+let requestMethodInstance: RequestMethod;
+const DEFAULT_ERROR_PAGE = "/exception";
 
 const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
-}
+  200: "服务器成功返回请求的数据。",
+  201: "新建或修改数据成功。",
+  202: "一个请求已经进入后台排队（异步任务）。",
+  204: "删除数据成功。",
+  400: "发出的请求有错误，服务器没有进行新建或修改数据的操作。",
+  401: "用户没有权限（令牌、用户名、密码错误）。",
+  403: "用户得到授权，但是访问是被禁止的。",
+  404: "发出的请求针对的是不存在的记录，服务器没有进行操作。",
+  406: "请求的格式不可得。",
+  410: "请求的资源被永久删除，且不会再得到的。",
+  422: "当创建一个对象时，发生一个验证错误。",
+  500: "服务器发生错误，请检查服务器。",
+  502: "网关错误。",
+  503: "服务不可用，服务器暂时过载或维护。",
+  504: "网关超时。",
+};
 
 interface NewRequestOptionsInit {
-  messageType?: ErrorShowType
-  returnMessage?: string
-  showMessage?: boolean
-  formatType?: 'table' | 'list'
+  messageType?: ErrorShowType;
+  returnMessage?: string;
+  showMessage?: boolean;
+  formatType?: "table" | "list";
 }
 
 const getRequestMethod = () => {
   if (requestMethodInstance) {
-    return requestMethodInstance
+    return requestMethodInstance;
   }
-  const errorAdaptor = (resData: any, ctx: any) => resData
+  const errorAdaptor = (resData: any, ctx: any) => resData;
   requestMethodInstance = extend({
     errorHandler: (error: RequestError) => {
       // @ts-ignore
       if (error?.request?.options?.skipErrorHandler) {
-        throw error
+        throw error;
       }
-      let errorInfo: ErrorInfoStructure | undefined
-      if (error.name === 'ResponseError' && error.data && error.request) {
+      let errorInfo: ErrorInfoStructure | undefined;
+      if (error.name === "ResponseError" && error.data && error.request) {
         const ctx: Context = {
           req: error.request,
           res: error.response,
-        }
-        errorInfo = errorAdaptor(error.data, ctx)
-        error.message = errorInfo?.errorMessage || error.message
-        error.data = error.data
-        error.info = errorInfo
+        };
+        errorInfo = errorAdaptor(error.data, ctx);
+        error.message = errorInfo?.errorMessage || error.message;
+        error.data = error.data;
+        error.info = errorInfo;
       }
-      errorInfo = error.info
+      errorInfo = error.info;
 
-      if (errorInfo && errorInfo.errorCode === 'A100002') {
+      if (errorInfo && errorInfo.errorCode === "A100002") {
         // window.location="/login";
 
         //@ts-ignore
-        const his = window.masterHistory || history
-        clearUser()
+        const his = window.masterHistory || history;
+        clearUser();
         his.push({
-          pathname: '/login',
-        })
-        return
+          pathname: "/login",
+        });
+        return;
       }
       if (errorInfo) {
-        const { errorMessage, errorShowTip } = errorInfo
-        const { errorCode } = errorInfo
-        const errorPage = DEFAULT_ERROR_PAGE
+        const { errorMessage, errorShowTip } = errorInfo;
+        const { errorCode } = errorInfo;
+        const errorPage = DEFAULT_ERROR_PAGE;
         // requestConfig.errorConfig?.errorPage || DEFAULT_ERROR_PAGE;
 
-        const errormsg = errorShowTip || errorMessage
+        const errormsg = errorShowTip || errorMessage;
         switch (errorInfo?.showType) {
           case ErrorShowType.SILENT:
             // do nothing
-            break
+            break;
           case ErrorShowType.WARN_MESSAGE:
-            message.warn(errormsg)
-            break
+            message.warn(errormsg);
+            break;
           case ErrorShowType.ERROR_MESSAGE:
-            message.error(errormsg)
-            break
+            message.error(errormsg);
+            break;
           case ErrorShowType.NOTIFICATION:
             notification.open({
               message: errormsg,
-            })
-            break
+            });
+            break;
           case ErrorShowType.REDIRECT:
             // @ts-ignore
             history.push({
               pathname: errorPage,
               query: { errorCode, errormsg },
-            })
+            });
             // redirect to error page
-            break
+            break;
           default:
-            message.error(errormsg)
-            break
+            message.error(errormsg);
+            break;
         }
       } else {
-        message.error(error.message || 'Request error, please retry.')
+        message.error(error.message || "Request error, please retry.");
       }
 
-      throw error
+      throw error;
     },
-  })
+  });
   requestMethodInstance.interceptors.request.use(
     (
       url: string,
       options: RequestOptionsInit & {
-        skipErrorHandler?: boolean
+        skipErrorHandler?: boolean;
       } & NewRequestOptionsInit
     ) => {
-      const user = getUser()
-      const headers: any = { version: '1.0', ...options.headers }
+      const user = getUser();
+      const headers: any = { version: "1.0", ...options.headers };
       if (user) {
-        headers.token = user.token
-        headers['sys-code'] = user.userAppInfo.currentSystem.systemCode
+        headers.token = user.token;
+        if (user.userAppInfo) {
+          headers["sys-code"] = user.userAppInfo.currentSystem.systemCode;
+        } else {
+          headers["sys-code"] = "common";
+        }
       } else {
-        headers['sys-code'] = 'common'
+        headers["sys-code"] = "common";
       }
 
-      const newOptions = { ...options, headers }
+      const newOptions = { ...options, headers };
       // 处理图片上传
       if (
         options.method &&
         options.method.toUpperCase() === ExtendMethod.FILEUPLOAD
       ) {
-        newOptions.method = 'POST'
-        const dataParament: any = newOptions.body
-        const filedata = new FormData()
+        newOptions.method = "POST";
+        const dataParament: any = newOptions.body;
+        const filedata = new FormData();
         if (dataParament.fileLists) {
-          const filesLists = dataParament.fileLists
+          const filesLists = dataParament.fileLists;
           // 这里可以包装多文件
           // eslint-disable-next-line no-restricted-syntax
           for (const key in filesLists) {
@@ -224,141 +228,141 @@ const getRequestMethod = () => {
               if (Array.isArray(filesLists[key])) {
                 for (let i = 0; i < filesLists[key].length; i++) {
                   if (filesLists[key][i].originFileObj) {
-                    filedata.append(key, filesLists[key][i].originFileObj)
+                    filedata.append(key, filesLists[key][i].originFileObj);
                   }
                 }
               } else if (filesLists[key].originFileObj) {
-                filedata.append(key, filesLists[key].originFileObj)
+                filedata.append(key, filesLists[key].originFileObj);
               }
             }
           }
         }
         // eslint-disable-next-line no-restricted-syntax
         for (const item in dataParament) {
-          if (item !== 'fileLists') {
+          if (item !== "fileLists") {
             if (
               item !== null &&
               dataParament[item] !== undefined &&
               dataParament[item] !== null
             ) {
               // 除了文件之外的 其他参数 用这个循环加到filedata中
-              filedata.append(item, dataParament[item])
+              filedata.append(item, dataParament[item]);
             }
           }
         }
-        newOptions.body = filedata
+        newOptions.body = filedata;
       }
-      let sp = '/'
-      if (url && url.charAt(0) === '/') {
-        sp = ''
+      let sp = "/";
+      if (url && url.charAt(0) === "/") {
+        sp = "";
       }
-      let newUrl = sp + url
+      let newUrl = sp + url;
       if (url.indexOf(baseApi) === -1) {
-        newUrl = baseApi + newUrl
+        newUrl = baseApi + newUrl;
       }
 
       // console.log(baseApi);
       return {
         url: newUrl,
         options: newOptions,
-      }
+      };
     }
-  )
+  );
   // 文件下载处理
 
   // @ts-ignore
   requestMethodInstance.interceptors.response.use(async (response) => {
-    const disposition = response.headers.get('Content-Disposition')
+    const disposition = response.headers.get("Content-Disposition");
 
-    if (disposition && disposition.indexOf('attachment') !== -1) {
-      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
-      const matches = disposition.split(filenameRegex)
-      let filename = 'download.xsl'
+    if (disposition && disposition.indexOf("attachment") !== -1) {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = disposition.split(filenameRegex);
+      let filename = "download.xsl";
       if (matches != null && matches[1]) {
-        filename = matches[1].replace(/['"]/g, '')
+        filename = matches[1].replace(/['"]/g, "");
       }
 
-      download(await response.blob(), filename)
+      download(await response.blob(), filename);
 
       return Promise.resolve({
         success: true,
-      })
+      });
     } else {
-      return response
+      return response;
     }
-  })
+  });
 
   // 中间件统一错误处理
   // 后端返回格式 { success: boolean, data: any }
   // 按照项目具体情况修改该部分逻辑
   requestMethodInstance.use(async (ctx, next) => {
-    await next()
-    const { req, res } = ctx
+    await next();
+    const { req, res } = ctx;
     // @ts-ignore
     if (req.options?.skipErrorHandler) {
-      return
+      return;
     }
 
-    const { options } = req
-    const { getResponse } = options
+    const { options } = req;
+    const { getResponse } = options;
 
-    const resData = getResponse ? res.data : res
+    const resData = getResponse ? res.data : res;
 
-    const errorInfo = errorAdaptor(resData, ctx)
+    const errorInfo = errorAdaptor(resData, ctx);
     // errorInfo.success = false
     if (errorInfo.success === false) {
       // 抛出错误到 errorHandler 中处理
-      const error: RequestError = new Error(errorInfo.errorMessage)
+      const error: RequestError = new Error(errorInfo.errorMessage);
       // error.name = 'BizError';
-      error.data = resData
-      error.info = errorInfo
-      throw error
+      error.data = resData;
+      error.info = errorInfo;
+      throw error;
     } else {
       // @ts-ignore
-      const formatType = req.options.formatType
+      const formatType = req.options.formatType;
       if (formatType) {
-        if (formatType === 'list') {
+        if (formatType === "list") {
           if (resData.data.records) {
           }
-          resData.data = resData.data.records
+          resData.data = resData.data.records;
         }
-        if (formatType === 'table') {
+        if (formatType === "table") {
           resData.data = {
             records: resData.data,
-          }
+          };
         }
       }
-      ctx.res = resData.data
+      ctx.res = resData.data;
       // Promise.resolve(resData.data)
     }
-  })
-  return requestMethodInstance
-}
+  });
+  return requestMethodInstance;
+};
 export interface RequestMethodInUmi<R = false> {
   <T = any>(
     url: string,
     options: RequestOptionsWithResponse & {
-      skipErrorHandler?: boolean
+      skipErrorHandler?: boolean;
     } & NewRequestOptionsInit
-  ): Promise<RequestResponse<T>>
+  ): Promise<RequestResponse<T>>;
   <T = any>(
     url: string,
     options: RequestOptionsWithoutResponse & {
-      skipErrorHandler?: boolean
+      skipErrorHandler?: boolean;
     } & NewRequestOptionsInit
-  ): Promise<T>
+  ): Promise<T>;
   <T = any>(
     url: string,
     options?: RequestOptionsInit & {
-      skipErrorHandler?: boolean
+      skipErrorHandler?: boolean;
     } & NewRequestOptionsInit
-  ): R extends true ? Promise<RequestResponse<T>> : Promise<T>
+  ): R extends true ? Promise<RequestResponse<T>> : Promise<T>;
 }
 
 const request: RequestMethodInUmi = (url: any, options: any) => {
-  const requestMethod = getRequestMethod()
-  return requestMethod(url, options)
-}
+  const requestMethod = getRequestMethod();
+  return requestMethod(url, options);
+};
 
 function useRequest<
   R = any,
@@ -368,51 +372,51 @@ function useRequest<
 >(
   service: CombineService<R, P>,
   options: OptionsWithFormat<R, P, U, UU>
-): BaseResult<U, P>
+): BaseResult<U, P>;
 function useRequest<R extends ResultWithData = any, P extends any[] = any>(
   service: CombineService<R, P>,
-  options?: BaseOptions<R['data'], P>
-): BaseResult<R['data'], P>
+  options?: BaseOptions<R["data"], P>
+): BaseResult<R["data"], P>;
 function useRequest<R extends LoadMoreFormatReturn = any, RR = any>(
   service: CombineService<RR, LoadMoreParams<R>>,
   options: LoadMoreOptionsWithFormat<R, RR>
-): LoadMoreResult<R>
+): LoadMoreResult<R>;
 function useRequest<
   R extends ResultWithData<LoadMoreFormatReturn | any> = any,
   RR extends R = any
 >(
-  service: CombineService<R, LoadMoreParams<R['data']>>,
-  options: LoadMoreOptions<RR['data']>
-): LoadMoreResult<R['data']>
+  service: CombineService<R, LoadMoreParams<R["data"]>>,
+  options: LoadMoreOptions<RR["data"]>
+): LoadMoreResult<R["data"]>;
 
 function useRequest<R = any, Item = any, U extends Item = any>(
   service: CombineService<R, PaginatedParams>,
   options: PaginatedOptionsWithFormat<R, Item, U>
-): PaginatedResult<Item>
+): PaginatedResult<Item>;
 function useRequest<Item = any, U extends Item = any>(
   service: CombineService<
     ResultWithData<PaginatedFormatReturn<Item>>,
     PaginatedParams
   >,
   options: BasePaginatedOptions<U>
-): PaginatedResult<Item>
+): PaginatedResult<Item>;
 
 function useRequest(service: any, options: any = {}) {
   // const defaultOptions= {manual:true}
   return useUmiRequest(service, {
     requestMethod: (requestOptions: any) => {
-      if (typeof requestOptions === 'string') {
-        return request(requestOptions)
+      if (typeof requestOptions === "string") {
+        return request(requestOptions);
       }
-      if (typeof requestOptions === 'object') {
-        const { url, ...rest } = requestOptions
-        return request(url, rest)
+      if (typeof requestOptions === "object") {
+        const { url, ...rest } = requestOptions;
+        return request(url, rest);
       }
-      throw new Error('request options error')
+      throw new Error("request options error");
     },
     manual: true,
     ...options,
-  })
+  });
 }
 
-export { request, useRequest }
+export { request, useRequest };

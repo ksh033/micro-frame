@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { ProSettings, MasterLayout } from "@scboson/sc-layout";
 // @ts-ignore
-import { Link, history,useModel } from "umi";
-import { getUser, changeApp } from "../Auth";
+import { Link, history, useModel } from "umi";
+import { getUser, changeApp, restUserAppCode, getUserAppCode,checkUserDept } from "../Auth";
 import { uesRequest } from "../../utils/api";
 import RightContent from "./GlobalHeader/RightContent";
 import logo from "../../assets/logo.svg";
+import { useMount } from "ahooks";
 
 import menuFormat from "./menuFormat";
 import userDictModel from "../Dict/userDictModel";
 
-import './index.less'
+import "./index.less";
 
 export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
@@ -18,24 +19,27 @@ export default (props: any) => {
   });
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
-  const { menuData, appData, appSelected,localMenuData } = userConfig||{};
+  const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
+  const userAppInfo = user?.userAppInfo;
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
   const systemList = appData || user?.systemList;
-  const appSelectedKeys =
-    appSelected || user?.userAppInfo.currentSystem.systemCode;
+  const { setQiankunGlobalState } =
+    useModel("@@qiankunStateForSlave") ||
+    useModel("@@qiankunStateFromMaster") ||
+    {};
+
+  const appSelectedKeys = appSelected || getUserAppCode() || [];
   const apps = systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
-  const mdata = menuData? menuData:user?.userAppInfo.menuTreeNodeList;
-  const [appCode, setAppCode] = useState<any>();
+  const mdata = menuData ? menuData : userAppInfo?.menuTreeNodeList || [];
+  //const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
-  const { setQiankunGlobalState } = useModel('@@qiankunStateForSlave') || useModel('@@qiankunStateFromMaster')||{};
-
   useEffect(() => {
     // 加载枚举
     loadDict();
@@ -50,6 +54,39 @@ export default (props: any) => {
       }
     }
   }, []);
+  useMount(() => {
+    if (window.addEventListener) {
+      window.addEventListener("unload", page_unload, true);
+    }
+    function page_unload() {
+      //const appCode = globalState.currentApp;
+
+      restUserAppCode(getUserAppCode());
+      return true;
+    }
+    // window.location
+    if (!checkUserDept(location.pathname)) {
+      history.push("/selectDept");
+    }
+  });
+
+  // const cehckDept = () => {
+  //   const currentUser = getUser();
+  //   if (location.pathname !== "/selectDept") {
+  //     if (currentUser) {
+  //       const { userAppInfo } = currentUser;
+  //       if (userAppInfo) {
+  //         const { currentDept, needChooseDept } = userAppInfo;
+  //         if (!currentDept && needChooseDept) {
+  //           // setTimeout()
+
+  //           return false;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // };
   return (
     <div
       id="test-pro-layout"
@@ -60,11 +97,11 @@ export default (props: any) => {
       <MasterLayout
         logo={logo}
         apps={apps}
-        onPageChange={(location,menuItem)=>{
-
-          if (menuItem&&menuItem.key)
-          setQiankunGlobalState&&setQiankunGlobalState({currentMenu:menuItem})
-      }}
+        onPageChange={(location, menuItem) => {
+          if (menuItem && menuItem.key)
+            setQiankunGlobalState &&
+              setQiankunGlobalState({ currentMenu: menuItem });
+        }}
         appMenuProps={{
           onSelect: async (keys: any) => {
             if (keys && keys.length > 0) {
@@ -72,30 +109,62 @@ export default (props: any) => {
                 const data = await req.run({ systemCode: keys[0] });
                 changeApp(keys[0], data);
               }
-              history.push("/" + keys[0]);
-              //setAppCode(keys[0])
-              // console.log(data)
+              if (!checkUserDept(location.pathname)) {
+                history.push("/selectDept");
+              } else {
+                history.push("/" + keys[0]);
+              }
             }
           },
         }}
-        itemRender={({ breadcrumbName, path }:any)=>{
-          const { routerBase = '/' } =  window ;
-          const url=path.replace(routerBase,"")
-    
-          return <Link href={path} to={url}>{breadcrumbName}</Link>
+        itemRender={({ breadcrumbName, path }: any) => {
+          const { routerBase = "/" } = window;
+          const url = path.replace(routerBase, "");
+
+          return (
+            <Link href={path} to={url}>
+              {breadcrumbName}
+            </Link>
+          );
         }}
         appSelectedKeys={[appSelectedKeys]}
         {...restProps}
         menuDataRender={() => {
-          const menus = menuFormat.formatMenu(mdata || [], [],appSelectedKeys,localMenuData);
+          const menus = menuFormat.formatMenu(
+            mdata || [],
+            [],
+            appSelectedKeys,
+            localMenuData
+          );
           return menus;
         }}
         menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
+          const { path, syscode } = item;
+          let search = "";
+          // const paths = path.substring(1, path.length).split('/')
+          // const [currentSysCode]=paths;
+          //if (appSelectedKeys && appSelectedKeys.length > 0) {
+          // const [currentSysCode] = appSelectedKeys;
+          // if (currentSysCode !== syscode) {
+          //   search = "refsyscode=" + syscode;
+          // }
+          //}
+
           if (item.isApp) {
             return <a>{dom}</a>;
           }
-          return <Link to={`${item.path}`} >{dom}</Link>;
+
+          //   to={`${item.path}`}
+          return (
+            <Link
+              to={{
+                pathname: `${path}`,
+              }}
+            >
+              {dom}
+            </Link>
+          );
         }}
         rightContentRender={() => (
           <RightContent currentUser={user} menu></RightContent>

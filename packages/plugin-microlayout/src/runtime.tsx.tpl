@@ -1,9 +1,12 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import {SchemaContext} from '@scboson/sc-schema'
-import {AppStart,BsTable} from '@micro-frame/sc-runtime'
+import {AppStart,BsTable,Auth} from '@micro-frame/sc-runtime'
+{{#localLayout}}
 import MasterApp from './layout/layout/MasterApp'
 
+
+{{/localLayout}}
 import {history} from 'umi'
 
 const {render} = AppStart
@@ -15,7 +18,8 @@ const { Operation } = BsTable
 export function rootContainer(container: any) {
 
 {{#localLayout}}
-
+  window.syscode="{{appSelected}}"
+    Auth.setUserAppCode("{{appSelected}}")
    return React.createElement(MasterApp,null,container);
 {{/localLayout}}
 
@@ -39,7 +43,7 @@ export function rootContainer(container: any) {
 
 {{^localLayout}}
  export {
- render
+ 
 }
 {{/localLayout}}
 

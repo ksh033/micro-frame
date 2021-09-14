@@ -11,7 +11,7 @@ const SelectDept: React.FC<any> = (props) => {
   const user = getUser()
   const { run } = uesRequest('user', 'chooseDept')
   const selectOrg = async (deptId: any) => {
-    if (user) {
+    if (user&&user.userAppInfo) {
       const currentSys = user.userAppInfo.currentSystem
       const data = await run({ deptId, systemCode: currentSys.systemCode })
       updateUser(data)
@@ -20,7 +20,7 @@ const SelectDept: React.FC<any> = (props) => {
   }
 
   const renderDept = () => {
-    if (user) {
+    if (user&&user.userAppInfo) {
       const depList = user.userAppInfo.deptList
       const currentDept=user.userAppInfo.currentDept||{}
       const itemsList = depList.map((val) => {

@@ -119,11 +119,11 @@ export const setPrintSetting = (moduleId: string): any => {
 export const print = async (moduleId: string, options: PrintProps) => {
 
   const printObject=getPrintObject()
-  // const start = await checkClient();
-  // if (!start) {
-  //   // message.warning('打印服务启动中')
-  //   return;
-  // }
+  const start = await checkClient();
+  if (!start) {
+    // message.warning('打印服务启动中')
+    return;
+  }
   if (moduleId) {
     const printCfg = printList[moduleId];
     if (printCfg) {
