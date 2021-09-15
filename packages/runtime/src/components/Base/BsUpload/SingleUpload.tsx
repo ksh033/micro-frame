@@ -60,13 +60,13 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     }
   }
 
-  // useEffect(() => {
-  //   if (typeof value === 'string') {
-  //     setPreviewImage(value)
-  //   } else {
-  //     setPreviewImage(value && value.url ? value.url : null)
-  //   }
-  // }, [JSON.stringify(value)])
+  useEffect(() => {
+    if (typeof value === 'string') {
+      setPreviewImage(value)
+    } else {
+      setPreviewImage(value && value.url ? value.url : null)
+    }
+  }, [JSON.stringify(value)])
 
   const handleChange = ({ file }: any) => {
     if (!maxSizeCheck(file)) {
