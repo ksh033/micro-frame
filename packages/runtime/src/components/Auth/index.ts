@@ -156,10 +156,14 @@ const setUserAppCode = (userAppCode) => {
 const getUserAppCode = () => {
   // @ts-ignore
   //当外部与内部不一致时用外部
-  if (window.userAppCode&&_userAppCode && window.userAppCode !== _userAppCode) {
-    // @ts-ignore
-    setUserAppCode(window.userAppCode);
+  if (window.__POWERED_BY_QIANKUN__ ) {
+     // @ts-ignore
+    if (window.userAppCode&&_userAppCode && window.userAppCode !== _userAppCode) {
+      // @ts-ignore
+      setUserAppCode(window.userAppCode);
+    }
   }
+  
   if (!_userAppCode) {
     // @ts-ignore
     // const systemcode=getCookie(CurrentApp_KEY)
