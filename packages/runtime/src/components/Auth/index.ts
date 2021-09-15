@@ -220,23 +220,23 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
 
 const checkUserDept = (pathname) => {
   const currentUser = getUser();
-  if (pathname !== "/selectDept") {
+ // if (pathname !== "/selectDept") {
     if (currentUser) {
       const { userAppInfo } = currentUser;
       if (userAppInfo) {
         const { currentDept, needChooseDept } = userAppInfo;
         if (!currentDept && needChooseDept) {
-          // setTimeout()
+         
 
           return false;
         }
       }
     }
-  }
+ // }
   return true;
 };
 const updateUser = (userAppInfo: UserAppInfo) => {
-  const appCode = getAppCode();
+  const appCode = getUserAppCode();
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key);
 
   if (userAppInfos) {
@@ -245,10 +245,13 @@ const updateUser = (userAppInfo: UserAppInfo) => {
     ruserAppInfo.menuTreeNodeList = userAppInfo.menuTreeNodeList;
 
     userAppInfos[appCode] = ruserAppInfo;
+  
+   
   }
   if (userAppInfos) {
     setStorage(AppsUser_Key, userAppInfos);
-  }
+  } 
+  
 };
 const clearUser = () => {
   localStorage.removeItem(User_Key);
