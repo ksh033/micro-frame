@@ -158,9 +158,11 @@ const getUserAppCode = () => {
   //当外部与内部不一致时用外部
   if (window.__POWERED_BY_QIANKUN__ ) {
      // @ts-ignore
-    if (window.userAppCode&&_userAppCode && window.userAppCode !== _userAppCode) {
+     const cuserAppCode = getCookie(CurrentApp_KEY);
+     
+    if (_userAppCode && cuserAppCode !== _userAppCode) {
       // @ts-ignore
-      setUserAppCode(window.userAppCode);
+      setUserAppCode(cuserAppCode);
     }
   }
   
@@ -265,6 +267,9 @@ const clearUser = () => {
   localStorage.removeItem(AppsUser_Key);
   localStorage.removeItem(CurrentApp_KEY);
   _userAppCode = "";
+  addCookie(CurrentApp_KEY,"",0);
+  //@ts-ignore
+  window.userAppCode="";
   sessionStorage.removeItem("CG-CURRENT-DICT");
 };
 
