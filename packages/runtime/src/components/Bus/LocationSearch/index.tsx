@@ -35,10 +35,11 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
     if (currentData) {
       const name = currentData['name'] || ''
       const cityName = currentData['cityname'] || ''
+      const pname = currentData['pname'] || ''
       const adname = currentData['adname'] || ''
       const address = currentData['address'] || ''
 
-      const newName = cityName + adname + address + name
+      const newName = pname + cityName + adname + address + name
 
       const location = currentData['location'] || {}
       return {

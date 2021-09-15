@@ -27,10 +27,11 @@ const SearchMap = (props: any) => {
     if (_value) {
       const name = _value['name'] || ''
       const cityName = _value['cityname'] || ''
+      const pname = _value['pname'] || ''
       const adname = _value['adname'] || ''
       const address = _value['address'] || ''
 
-      return cityName + adname + address + name
+      return pname + cityName + adname + address + name
     }
     return ''
   }

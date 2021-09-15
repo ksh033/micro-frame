@@ -18,12 +18,19 @@ type BsPriceInputState = {
 }
 
 const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
-  const { value, onChange, readonly, rowData, ...restProps } = props
+  const {
+    value,
+    onChange,
+    readonly,
+    rowData,
+    complement = 0,
+    ...restProps
+  } = props
 
   const formatValue = (rVal: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     if (!isNaN(rVal) && reg.test(rVal)) {
-      return compute.divide(rVal, 10000)
+      return compute.divide(rVal, 10000).toFixed(complement)
     } else {
       return rVal
     }
@@ -50,7 +57,6 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   const onBlur = (rValue: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     if (!isNaN(rValue) && reg.test(rValue)) {
-    
       onChange && onChange(compute.multiply(rValue, 10000))
     } else {
       onChange && onChange(rValue)
@@ -66,6 +72,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
       value={state.value}
       onChange={handleChange}
       onBlur={onBlur}
+      complement={complement}
       {...restProps}
     ></BsNumberInput>
   )
