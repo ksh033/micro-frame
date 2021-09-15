@@ -151,6 +151,13 @@ export const useQiankunStateForSlave = () => {
   };
 };
 
+// eslint-disable-next-line func-names
+window.onunload=function(){
+  console.log("restUserAppCode")
+  restUserAppCode(getUserAppCode())
+  
+}
+
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
   routes[0].routes.unshift({
