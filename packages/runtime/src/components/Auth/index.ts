@@ -45,29 +45,30 @@ const AppsUser_Key = "APP-CURRENT-USERS";
 // 当前用户appCode
 let _userAppCode = "";
 
-
-const addCookie= (objName, objValue, objHours)=> {
+const addCookie = (objName, objValue, objHours) => {
   var str = objName + "=" + escape(objValue); //编码
-  if (objHours > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失
-      var date = new Date();
-  
-      var ms = objHours * 3600 * 1000;
-      date.setTime(date.getTime() + ms);
-      // @ts-ignore
-      str += "; expires=" + date.toGMTString();
+  if (objHours > 0) {
+    //为0时不设定过期时间，浏览器关闭时cookie自动消失
+    var date = new Date();
+
+    var ms = objHours * 3600 * 1000;
+    date.setTime(date.getTime() + ms);
+    // @ts-ignore
+    str += "; expires=" + date.toGMTString();
   }
   document.cookie = str;
-}
+};
 
 //读Cookie
-const getCookie=(objName)=> {//获取指定名称的cookie的值
+const getCookie = (objName) => {
+  //获取指定名称的cookie的值
   var arrStr = document.cookie.split("; ");
   for (var i = 0; i < arrStr.length; i++) {
-      var temp = arrStr[i].split("=");
-      if (temp[0] == objName) return unescape(temp[1]);  //解码
+    var temp = arrStr[i].split("=");
+    if (temp[0] == objName) return unescape(temp[1]); //解码
   }
   return "";
-}
+};
 //const CurrentApp_KEY = 'CURRENT-APP'
 const CurrentApp_KEY = "TEM-CURRENT-APP";
 const setStorage = (skey: string, value: any) => {
@@ -87,8 +88,11 @@ const restUserAppCode = (tuserAppCode?: string) => {
   if (temCode) {
     localStorage.setItem(CurrentApp_KEY, temCode);
   } else {
-    // _userAppCode = localStorage.getItem(CurrentApp_KEY) || "";
-    setUserAppCode(_userAppCode)
+    let storeAppCode = localStorage.getItem(CurrentApp_KEY);
+    if (!storeAppCode) {
+      storeAppCode = getCookie(CurrentApp_KEY);
+    }
+    setUserAppCode(storeAppCode);
     localStorage.removeItem(CurrentApp_KEY);
   }
 
@@ -113,7 +117,7 @@ const setUser = (user: User) => {
   //setStorage(CurrentApp_KEY, systemCode)
   //@ts-ignore
   window.syscode = systemCode;
-  _userAppCode=systemCode;
+  _userAppCode = systemCode;
   if (userAppInfosChange) {
     setStorage(AppsUser_Key, userAppInfos);
   }
@@ -146,27 +150,26 @@ const getAppCode = () => {
 
 const setUserAppCode = (userAppCode) => {
   _userAppCode = userAppCode;
-  addCookie(CurrentApp_KEY,_userAppCode,0)
+  addCookie(CurrentApp_KEY, _userAppCode, 0);
 };
 
 const getUserAppCode = () => {
   if (!_userAppCode) {
     // @ts-ignore
-   // const systemcode=getCookie(CurrentApp_KEY)
+    // const systemcode=getCookie(CurrentApp_KEY)
 
     if (window.userAppCode) {
-           // _userAppCode = window.userAppCode;
+      // _userAppCode = window.userAppCode;
       // @ts-ignore
-      setUserAppCode(window.userAppCode)
-    }else{
-      const systemcode=getCookie(CurrentApp_KEY)
-      if (systemcode){
+      setUserAppCode(window.userAppCode);
+    } else {
+      const systemcode = getCookie(CurrentApp_KEY);
+      if (systemcode) {
         setUserAppCode(systemcode);
       }
     }
-
   }
- // console.log("当前用户appCode:" + _userAppCode);
+  // console.log("当前用户appCode:" + _userAppCode);
   return _userAppCode;
 };
 const getUser = (): User | null | undefined => {
@@ -201,7 +204,7 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key);
   if (!userAppInfo && userAppInfos) {
     if (userAppInfos[sysCode]) {
-      setUserAppCode(sysCode)
+      setUserAppCode(sysCode);
       return true;
     }
   }
@@ -210,29 +213,26 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
     //@ts-ignore
     // window.syscode = sysCode
     setStorage(AppsUser_Key, userAppInfos);
-    setUserAppCode(sysCode)
+    setUserAppCode(sysCode);
     // setStorage(CurrentApp_KEY, sysCode)
     return true;
   }
   return false;
 };
 
-
 const checkUserDept = (pathname) => {
   const currentUser = getUser();
- // if (pathname !== "/selectDept") {
-    if (currentUser) {
-      const { userAppInfo } = currentUser;
-      if (userAppInfo) {
-        const { currentDept, needChooseDept } = userAppInfo;
-        if (!currentDept && needChooseDept) {
-         
-
-          return false;
-        }
+  // if (pathname !== "/selectDept") {
+  if (currentUser) {
+    const { userAppInfo } = currentUser;
+    if (userAppInfo) {
+      const { currentDept, needChooseDept } = userAppInfo;
+      if (!currentDept && needChooseDept) {
+        return false;
       }
     }
- // }
+  }
+  // }
   return true;
 };
 const updateUser = (userAppInfo: UserAppInfo) => {
@@ -245,13 +245,10 @@ const updateUser = (userAppInfo: UserAppInfo) => {
     ruserAppInfo.menuTreeNodeList = userAppInfo.menuTreeNodeList;
 
     userAppInfos[appCode] = ruserAppInfo;
-  
-   
   }
   if (userAppInfos) {
     setStorage(AppsUser_Key, userAppInfos);
-  } 
-  
+  }
 };
 const clearUser = () => {
   localStorage.removeItem(User_Key);
@@ -261,10 +258,10 @@ const clearUser = () => {
   sessionStorage.removeItem("CG-CURRENT-DICT");
 };
 
-const openWindow=(url:string)=>{
+const openWindow = (url: string) => {
   restUserAppCode(getUserAppCode());
- window.open(url);
-}
+  window.open(url);
+};
 export {
   updateUser,
   getUser,
@@ -276,5 +273,5 @@ export {
   setUserAppCode,
   getUserAppCode,
   openWindow,
-  checkUserDept
+  checkUserDept,
 };
