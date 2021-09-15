@@ -62,15 +62,23 @@ export default (props: any) => {
     }
   }, []);
   useMount(() => {
-    if (window.addEventListener) {
-      window.addEventListener("unload", page_unload, true);
-    }
-    function page_unload() {
-      //const appCode = globalState.currentApp;
+ 
+    //if (window.addEventListener) {
+      //window.addEventListener("unload", page_unload, false);
+   // }else{
+      window.onunload=function(){
+        console.log("重置窗口")
+        restUserAppCode(getUserAppCode());
 
-      restUserAppCode(getUserAppCode());
-      return true;
-    }
+      }
+   // }
+    
+    // function page_unload() {
+    //   //const appCode = globalState.currentApp;
+
+    //   restUserAppCode(getUserAppCode());
+    //   return true;
+    // }
     // window.location
     if (!checkUserDept(location.pathname)) {
       history.push("/selectDept");
