@@ -23,7 +23,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     onChange,
     readonly,
     rowData,
-    complement = 0,
+    complement = 2,
     ...restProps
   } = props
 
