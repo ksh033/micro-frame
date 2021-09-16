@@ -3,11 +3,12 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { urlSafeBase64Decode, urlSateBase64Encode } from "../../utils/common";
 import SMSCode from "../SMSCode";
 import { uesRequest } from "../../utils/api";
-import { setUser, getUser, checkUserDept } from "../Auth";
+import { setUser, getUser, checkUserDept,clearUser } from "../Auth";
 //@ts-ignore
 import { history } from "umi";
 import styles from "./index.less";
 import logo from "../../assets/login/logo.png";
+import {useMount} from 'ahooks'
 const Encrypt = require("../../assets/jsencrypt.min");
 
 const Login: React.FC<any> = () => {
@@ -16,6 +17,8 @@ const Login: React.FC<any> = () => {
   const { loading, run } = uesRequest("user", "loginByPhone");
   const getPublicKey = uesRequest("user", "getPublicKey");
   const onFinish = async (values: any) => {
+
+   
     const publicKey = await getPublicKey.run();
     if (publicKey) {
       let encryptor = new Encrypt.JSEncrypt();
@@ -53,6 +56,10 @@ const Login: React.FC<any> = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+
+  useMount(()=>{
+    clearUser();
+  })
   return (
     <div className={styles["login-account"]}>
       <div className={styles["login-account-left"]}></div>
