@@ -17,11 +17,26 @@ const BsImg: React.FC<any> = (props) => {
     setCustomSrc(imageUrl(src))
   }, [src])
 
+  const breviaryUrl = (url) => {
+    var newUrl = url
+    var pattern = /[^\.]\w*$/
+    if (url && url.indexOf('_200x200') === -1) {
+      const name = newUrl.match(pattern)
+      if (name && name[0] !== 'gif') {
+        newUrl = newUrl.replace('.' + name[0], '_200x200.' + name[0])
+      }
+    }
+    return newUrl
+  }
+
   return customSrc ? (
     <Image
-      src={customSrc}
+      src={breviaryUrl(customSrc)}
       fallback={defaultImg}
       alt=""
+      preview={{
+        src: customSrc,
+      }}
       {...restProps}
       className={styles['bs-img']}
     />
