@@ -7,6 +7,7 @@ import { useSetState, useUpdateEffect } from 'ahooks'
 import React from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 import compute from '../../../utils/compute'
+import _ from 'lodash'
 
 type BsPriceInputProps = BsNumberInputProps &
   FormComponentProps & {
@@ -28,7 +29,10 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   } = props
 
   const formatValue = (rVal: any) => {
-    const reg = /^-?\d*(\.\d*)?$/
+    if (_.isEmpty(rVal)){
+      return "";
+    }
+    const reg =  /-?(0|[1-9]\d*)(\.\d+)?/
     if (!isNaN(rVal) && reg.test(rVal)) {
       return compute.divide(rVal, 10000).toFixed(complement)
     } else {
@@ -55,7 +59,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   }, [value])
 
   const onBlur = (rValue: any) => {
-    const reg = /^-?\d*(\.\d*)?$/
+    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
     if (!isNaN(rValue) && reg.test(rValue)) {
       onChange && onChange(compute.multiply(rValue, 10000))
     } else {
