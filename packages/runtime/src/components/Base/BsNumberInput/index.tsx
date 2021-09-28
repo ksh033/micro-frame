@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Input } from 'antd'
 import type { InputProps } from 'antd'
 import { useUpdateEffect } from 'ahooks'
-import _ from 'lodash'
+
 export type BsNumberInputProps = {
   value?: any
   onChange?: (value: any) => any
@@ -34,9 +34,10 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   }, [value])
 
   const formatValue = (rvalue: any) => {
-    if (_.isEmpty(rvalue)){
+    if (rvalue===""||rvalue===null||rvalue===undefined){
       return "";
     }
+    
     const _val = rvalue
     const newVal = String(_val)
     let num = complement

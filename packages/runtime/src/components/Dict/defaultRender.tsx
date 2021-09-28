@@ -6,7 +6,6 @@ import { SupplierStatus, IntroType } from './constant'
 import BsImg from '../Base/BsImg'
 // import { DictDataItem } from '@/models/userDictModel';
 import moment from 'moment'
-import _ from 'lodash'
 
 const { formatMoneyQuery } = MoneyUtils
 
@@ -78,7 +77,7 @@ const defaultRenderText = <T, U>(
     return text === -1 || text === '-1' ? '不限' : text
   }
   if (valueType === 'money') {
-    if (_.isEmpty(text)){
+    if (text===undefined||text===""||text===null){
       return "";
     }
     const rText = typeof text === 'number' ? text / 10000 : 0
