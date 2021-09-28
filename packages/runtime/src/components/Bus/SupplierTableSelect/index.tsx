@@ -141,6 +141,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
           labelInValue
           open={false}
           onChange={handleChange}
+          allowClear
           {...resProps}
         ></Select>
       </div>
