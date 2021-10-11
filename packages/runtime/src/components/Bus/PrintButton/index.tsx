@@ -38,10 +38,10 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
   }
   const printClcik = async () => {
     const params = await getParam()
-    print(printType, { params, preview })
+    const result = await print(printType, { params, preview })
     if (preview === false) {
-      if (callBack) {
-        callBack()
+      if (result) {
+        callBack && callBack()
       }
     }
   }
