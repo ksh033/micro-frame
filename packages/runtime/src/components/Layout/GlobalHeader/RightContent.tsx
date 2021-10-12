@@ -8,6 +8,8 @@ import Avatar from './AvatarDropdown'
 import styles from './index.less'
 // @ts-ignore
 import { history } from 'umi'
+import { Button } from 'antd'
+
 export type SiderTheme = 'light' | 'dark'
 
 const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
@@ -27,6 +29,9 @@ const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
 
   return (
     <div className={className}>
+      <div>
+        <a href="./长嘴猫客户端-v1.7.1.2.exe">下载打印插件</a>
+      </div>
       <Avatar currentUser={currentUser} menu={menu} layoutFn={layoutFn} />
     </div>
   )
