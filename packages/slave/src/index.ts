@@ -94,9 +94,16 @@ export default defineConfig({
   //       }
   //     : false,
   microlayout: {
-    localMenu: true,
+    localMenuData: true,
     localLayout: true,
   },
+
+ 
+   //window.routerBase =window.__POWERED_BY_QIANKUN__? "/mallsys":"/micro-mallsys/";
+    
+  headScripts: [{
+    content: `window.routerBase = window.__POWERED_BY_QIANKUN__?${base}:/${packageName};`,
+  }],
   extraBabelPlugins: [
     [
       require.resolve("babel-plugin-import"),
