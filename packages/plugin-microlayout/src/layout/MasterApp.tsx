@@ -8,15 +8,14 @@ import { AppStart, BsTable } from '@micro-frame/sc-runtime'
 const { Operation } = BsTable
 export default function MicroApp(componentProps: any) {
 
-
-  const { children,localMenuData } = componentProps;
+  
+  const { children } = componentProps;
   const [globalState, setQiankunGlobalState] = useState({
     currentMenu: "null",
-    localMenuData
   });
   
   useEffect(()=>{
-    setModelState({...globalState})
+    setModelState({globalState,setQiankunGlobalState})
   },[globalState])
  
 

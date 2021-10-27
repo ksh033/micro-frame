@@ -28,6 +28,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     textField = 'supplierName',
     valueField = 'supplierId',
     isCooperateSupplier = false,
+    
     supplierEnabled = true,
     ...resProps
   } = props
