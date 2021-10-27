@@ -10,8 +10,7 @@ type AuthorityType = {
 
 type AuthorityResp<T> = React.ComponentClass<T> | React.FunctionComponent<T>;
 
-
-export const getFunCodeAuth=()=>{
+export const getFunCodeAuth = () => {
   let masterState: any = {};
 
   try {
@@ -32,7 +31,7 @@ export const getFunCodeAuth=()=>{
     return funcodes;
   }
   return [];
-}
+};
 
 const Authority = function <T extends AuthorityType>(
   WrappedComponent:
@@ -59,41 +58,42 @@ const Authority = function <T extends AuthorityType>(
 
     const { buttons, children, funcode, ...restProps } = props;
     //const masterProps = (useModel || noop)('@@qiankunStateFromMaster') || {};
-    const { currentMenu } = globalState;
-    if (currentMenu) {
-      let { funcodes = "" } = currentMenu;
-      funcodes = funcodes.split("|");
-      if (funcode) {
-        // funcodes.splice(funcodes.indexOf("ENABLE"),1)
-        if (funcodes.includes(funcode)) {
-          return React.createElement(WrappedComponent, restProps, children);
+    const { currentMenu, localMenuData } = globalState;
+    if (!localMenuData) {
+      if (currentMenu) {
+        let { funcodes = "" } = currentMenu;
+        funcodes = funcodes.split("|");
+        if (funcode) {
+          // funcodes.splice(funcodes.indexOf("ENABLE"),1)
+          if (funcodes.includes(funcode)) {
+            return React.createElement(WrappedComponent, restProps, children);
+          }
+          if (displayName && displayName === "Enabled") {
+            restProps["disabled"] = true;
+            return React.createElement(WrappedComponent, restProps, children);
+          }
+          return null;
         }
-        if (displayName && displayName === "Enabled") {
-          restProps["disabled"] = true;
-          return React.createElement(WrappedComponent, restProps, children);
-        }
-        return null;
-      }
 
-      if (buttons && buttons.length > 0) {
-        const newButtons: any[] = [];
-        buttons.forEach((item: any) => {
-          if (item.funcode) {
-            if (funcodes.includes(item.funcode)) {
+        if (buttons && buttons.length > 0) {
+          const newButtons: any[] = [];
+          buttons.forEach((item: any) => {
+            if (item.funcode) {
+              if (funcodes.includes(item.funcode)) {
+                newButtons.push(item);
+              }
+            } else {
               newButtons.push(item);
             }
-          } else {
-            newButtons.push(item);
-          }
-        });
+          });
 
-        const newprops = { restProps, buttons: newButtons };
+          const newprops = { restProps, buttons: newButtons };
 
-        return <WrappedComponent {...newprops}></WrappedComponent>;
+          return <WrappedComponent {...newprops}></WrappedComponent>;
+        }
       }
     }
-
-    return <WrappedComponent {...props}  />;
+    return <WrappedComponent {...props} />;
   };
   if (displayName) component.displayName = displayName;
 

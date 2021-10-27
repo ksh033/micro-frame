@@ -7,13 +7,16 @@ import {SchemaContext} from '@scboson/sc-schema'
 import { AppStart, BsTable } from '@micro-frame/sc-runtime'
 const { Operation } = BsTable
 export default function MicroApp(componentProps: any) {
-  const { children } = componentProps;
+
+
+  const { children,localMenuData } = componentProps;
   const [globalState, setQiankunGlobalState] = useState({
     currentMenu: "null",
+    localMenuData
   });
   
   useEffect(()=>{
-    setModelState({globalState,setQiankunGlobalState})
+    setModelState({...globalState})
   },[globalState])
  
 

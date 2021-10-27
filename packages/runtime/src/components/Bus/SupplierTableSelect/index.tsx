@@ -20,7 +20,7 @@ interface TableSelectProps {
 
 const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
   const {
-    placeholder = 'Basic usage',
+    placeholder = '选择供应商',
     title = '选择供应商',
     selectionType = 'radio',
     onChange,

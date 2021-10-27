@@ -31,6 +31,7 @@ export default (props: any) => {
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
   const systemList = appData || user?.systemList;
+  //独立运行是模拟setQiankunGlobalState
   const { setQiankunGlobalState } =
     useModel("@@qiankunStateForSlave") ||
     useModel("@@qiankunStateFromMaster") ||

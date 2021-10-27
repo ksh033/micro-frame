@@ -20,7 +20,7 @@ export function rootContainer(container: any) {
 {{#localLayout}}
   window.syscode="{{appSelected}}"
     Auth.setUserAppCode("{{appSelected}}")
-   return React.createElement(MasterApp,null,container);
+   return React.createElement(MasterApp,{localMenuData:{{localMenuData}}},container);
 {{/localLayout}}
 
 
