@@ -1,3 +1,5 @@
+import { User } from '@/components/Auth'
+
 // @ts-ignore
 export const baseUrl = SC_GLOBAL_IMG_URL || 'https://testepay.bstj.com/bg/img'
 
@@ -232,5 +234,38 @@ export function colorRgba(sHex: string, alpha?: number): string {
     return `rgba(${sColorChange.join(',')},${alpha})`
   } else {
     return sColor
+  }
+}
+
+export function initUser(token: string, systemCode: string): User {
+  return {
+    systemList: [],
+    lastLoginTime: '',
+    realName: '',
+    needModifyPwd: false,
+    token: token,
+    phone: 'string',
+    userName: 'string',
+    userAppInfo: {
+      currentSystem: {
+        systemCode: systemCode,
+        systemName: '',
+        defaulted: true,
+        enabled: true,
+        publiced: '',
+      },
+      currentDept: {
+        bizDeptId: '',
+        bizDeptName: '',
+        bizDeptType: '',
+        contactName: '',
+        contactPhone: '',
+      },
+      deptList: [],
+      needChooseDept: false,
+      menuTreeNodeList: [],
+    },
+    email: '',
+    superAdminFlag: false,
   }
 }
