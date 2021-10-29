@@ -55,6 +55,11 @@ const services = {
       method: 'post',
       sysCode: 'base',
     },
+    bizdept: {
+      url: '/purchase/api/bizdept/list',
+      method: 'post',
+      sysCode: 'purchasesys',
+    },
   },
   user: {
     getPublicKey: {
