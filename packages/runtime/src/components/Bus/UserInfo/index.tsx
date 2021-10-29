@@ -42,6 +42,6 @@ const UserInfo: FormComponent<UserDeptProp> = (props) => {
     return <Input value={userName} {  ...restProps}></Input>;
   }
 };
-UserInfo.customView = true;
+//UserInfo.customView = true;
 
 export default UserInfo;

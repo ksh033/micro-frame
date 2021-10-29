@@ -151,6 +151,6 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     )
   }
 }
-UserDept.customView = true
+
 
 export default UserDept

@@ -4,8 +4,9 @@ import React, { useRef, useEffect } from 'react'
 import { Input, message, Select } from 'antd'
 import { CModal } from '@scboson/sc-element'
 import TableModal from './table'
+import type { FormComponent, FormComponentProps } from '@scboson/sc-element/es/c-form';
 
-interface TableSelectProps {
+interface TableSelectProps extends FormComponentProps{
   placeholder?: string
   value?: any
   title?: string
@@ -16,9 +17,9 @@ interface TableSelectProps {
   isCooperateSupplier?: boolean
   supplierEnabled?: boolean | null
   disabled?: boolean
-}
+} 
 
-const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
+const TabelSelect:FormComponent<TableSelectProps> = (props: TableSelectProps) => {
   const {
     placeholder = '选择供应商',
     title = '选择供应商',
@@ -28,7 +29,7 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     textField = 'supplierName',
     valueField = 'supplierId',
     isCooperateSupplier = false,
-    
+      readonly,
     supplierEnabled = true,
     ...resProps
   } = props
@@ -131,6 +132,9 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     return ''
   }
 
+  if (readonly===true){
+    return  <span>{formatInputValue(value)}</span>
+  }
   if (selectionType === 'checkbox') {
     return (
       <div onClick={handleClick}>
@@ -159,5 +163,5 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     </div>
   )
 }
-
+TabelSelect.customView=true;
 export default TabelSelect
