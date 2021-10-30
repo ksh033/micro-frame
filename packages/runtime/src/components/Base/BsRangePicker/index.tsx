@@ -23,7 +23,7 @@ export interface ScRangePickerProps extends FormComponentProps {
   showTime?: Object | boolean
   rulesRequire?: boolean
   disabled?: boolean
-  disabledToday: boolean
+  disabledToday?: boolean
 }
 
 const ScRangePicker: FormComponent<RangePickerProps & ScRangePickerProps> = (

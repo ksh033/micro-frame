@@ -4,9 +4,12 @@ import React, { useRef, useEffect } from 'react'
 import { Input, message, Select } from 'antd'
 import { CModal } from '@scboson/sc-element'
 import TableModal from './table'
-import type { FormComponent, FormComponentProps } from '@scboson/sc-element/es/c-form';
+import type {
+  FormComponent,
+  FormComponentProps,
+} from '@scboson/sc-element/es/c-form'
 
-interface TableSelectProps extends FormComponentProps{
+interface TableSelectProps extends FormComponentProps {
   placeholder?: string
   value?: any
   title?: string
@@ -17,9 +20,11 @@ interface TableSelectProps extends FormComponentProps{
   isCooperateSupplier?: boolean
   supplierEnabled?: boolean | null
   disabled?: boolean
-} 
+}
 
-const TabelSelect:FormComponent<TableSelectProps> = (props: TableSelectProps) => {
+const TabelSelect: FormComponent<TableSelectProps> = (
+  props: TableSelectProps
+) => {
   const {
     placeholder = '选择供应商',
     title = '选择供应商',
@@ -29,8 +34,9 @@ const TabelSelect:FormComponent<TableSelectProps> = (props: TableSelectProps) =>
     textField = 'supplierName',
     valueField = 'supplierId',
     isCooperateSupplier = false,
-      readonly,
+    readonly,
     supplierEnabled = true,
+    form,
     ...resProps
   } = props
 
@@ -132,8 +138,8 @@ const TabelSelect:FormComponent<TableSelectProps> = (props: TableSelectProps) =>
     return ''
   }
 
-  if (readonly===true){
-    return  <span>{formatInputValue(value)}</span>
+  if (readonly === true) {
+    return <span>{formatInputValue(value)}</span>
   }
   if (selectionType === 'checkbox') {
     return (
@@ -163,5 +169,5 @@ const TabelSelect:FormComponent<TableSelectProps> = (props: TableSelectProps) =>
     </div>
   )
 }
-TabelSelect.customView=true;
+TabelSelect.customView = true
 export default TabelSelect

@@ -34,10 +34,10 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   }, [value])
 
   const formatValue = (rvalue: any) => {
-    if (rvalue===""||rvalue===null||rvalue===undefined){
-      return "";
+    if (rvalue === '' || rvalue === null || rvalue === undefined) {
+      return ''
     }
-    
+
     const _val = rvalue
     const newVal = String(_val)
     let num = complement
@@ -63,26 +63,28 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
     return str
   }
 
-  const handleChange = (e: any) => {
-    const _value = e.target.value
-    setNewValue(_value)
-    onChange && onChange(_value)
-  }
-
-  const handleBlur = () => {
-    const _val = newValue
+  const toOutVal = (_val: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     const newVal = String(_val)
     if (!isNaN(_val) && reg.test(newVal) && _val !== '') {
       const str = formatValue(newVal)
-      setNewValue(str)
-      onChange && onChange(str)
-      onBlur && onBlur(str)
+      return str
     } else {
-      setNewValue('')
-      onChange && onChange('')
-      onBlur && onBlur('')
+      return ''
     }
+  }
+
+  const handleChange = (e: any) => {
+    const _value = e.target.value
+    setNewValue(_value)
+  }
+
+  const handleBlur = () => {
+    const _val = newValue
+    const str = toOutVal(_val)
+    setNewValue(str)
+    onChange && onChange(str)
+    onBlur && onBlur(str)
   }
 
   return (

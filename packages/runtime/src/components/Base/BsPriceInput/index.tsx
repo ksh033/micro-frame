@@ -8,7 +8,6 @@ import React from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 import compute from '../../../utils/compute'
 
-
 type BsPriceInputProps = BsNumberInputProps &
   FormComponentProps & {
     rowData?: any
@@ -29,10 +28,10 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   } = props
 
   const formatValue = (rVal: any) => {
-    if (rVal===""||rVal===null||rVal===undefined){
-      return "";
+    if (rVal === '' || rVal === null || rVal === undefined) {
+      return ''
     }
-    const reg =  /-?(0|[1-9]\d*)(\.\d+)?/
+    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
     if (!isNaN(rVal) && reg.test(rVal)) {
       return compute.divide(rVal, 10000).toFixed(complement)
     } else {
@@ -63,7 +62,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     if (!isNaN(rValue) && reg.test(rValue)) {
       onChange && onChange(compute.multiply(rValue, 10000))
     } else {
-      onChange && onChange(rValue)
+      onChange && onChange('')
     }
   }
 
