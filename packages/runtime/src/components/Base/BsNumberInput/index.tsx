@@ -66,22 +66,31 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   const toOutVal = (_val: any) => {
     const reg = /^-?\d*(\.\d*)?$/
     const newVal = String(_val)
+    if (_val === '') {
+      return _val
+    }
     if (!isNaN(_val) && reg.test(newVal) && _val !== '') {
-      const str = formatValue(newVal)
-      return str
+      return _val
     } else {
-      return ''
+      return null
     }
   }
 
   const handleChange = (e: any) => {
     const _value = e.target.value
-    setNewValue(_value)
+    const str = toOutVal(_value)
+    if (str !== null) {
+      setNewValue(str)
+      onChange && onChange(str)
+    }
   }
 
   const handleBlur = () => {
     const _val = newValue
-    const str = toOutVal(_val)
+    let str = toOutVal(_val)
+    if (str === null) {
+      str = ''
+    }
     setNewValue(str)
     onChange && onChange(str)
     onBlur && onBlur(str)
