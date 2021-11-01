@@ -60,6 +60,13 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/mallsys/api/mall/opera/pricetag/print',
     method: 'post',
   },
+  '00000003': {
+    moduleId: '00000003',
+    moduleName: '盘点单',
+    tplName: 'priceTag.grf',
+    dataUrl: '/wms/api/checkorder/reprint',
+    method: 'get',
+  },
 }
 
 export interface PrintProps {

@@ -4,8 +4,12 @@ import React, { useRef } from 'react'
 import { Input, Select, Button } from 'antd'
 import { CModal } from '@scboson/sc-element'
 import TableModal from './table'
+import {
+  FormComponent,
+  FormComponentProps,
+} from '@scboson/sc-element/es/c-form'
 
-interface TableSelectProps {
+interface TableSelectProps extends FormComponentProps {
   placeholder?: string
   value?: any
   title?: string
@@ -16,7 +20,9 @@ interface TableSelectProps {
   valueField?: string
 }
 
-const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
+const TabelSelect: FormComponent<TableSelectProps> = (
+  props: TableSelectProps
+) => {
   const {
     placeholder = '请选择仓库',
     title = '选择',
@@ -26,6 +32,8 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     disabled = false,
     textField = 'warehouseName',
     valueField = 'warehouseId',
+    readonly,
+    form,
     ...resProps
   } = props
 
@@ -112,6 +120,9 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     }
     return ''
   }
+  if (readonly === true) {
+    return <span>{formatInputValue(value)}</span>
+  }
 
   if (selectionType === 'checkbox') {
     return (
@@ -150,5 +161,5 @@ const TabelSelect: React.FC<TableSelectProps> = (props: TableSelectProps) => {
     </Input.Group>
   )
 }
-
+TabelSelect.customView = true
 export default TabelSelect
