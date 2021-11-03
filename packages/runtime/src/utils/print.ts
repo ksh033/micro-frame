@@ -63,7 +63,7 @@ const printList: { [key: string]: PrintCfg } = {
   '00000003': {
     moduleId: '00000003',
     moduleName: '盘点单',
-    tplName: 'priceTag.grf',
+    tplName: 'checkOrder.grf',
     dataUrl: '/wms/api/checkorder/reprint',
     method: 'get',
   },
