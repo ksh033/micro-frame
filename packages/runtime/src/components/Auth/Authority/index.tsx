@@ -23,7 +23,10 @@ export const getFunCodeAuth = () => {
     };
   }
   const { globalState = {} } = masterState;
-  const { currentMenu } = globalState;
+  const { currentMenu,localMenuData } = globalState;
+  if (localMenuData) {
+    return null;
+  }
   if (currentMenu) {
     let { funcodes = "" } = currentMenu;
     funcodes = funcodes.split("|");
