@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Form, Input } from 'antd'
 import { RangePickerProps } from 'antd/es/date-picker/index'
 import moment, { Moment } from 'moment'
@@ -135,6 +135,23 @@ const ScRangePicker: FormComponent<RangePickerProps & ScRangePickerProps> = (
       return <div></div>
     }
   }
+  const newProps = useMemo(() => {
+    return {
+      ...resProps,
+      showTime:
+        typeof showTime === 'object' && showTime !== null
+          ? showTime
+          : typeof showTime === 'boolean' && showTime
+          ? {
+              hideDisabledOptions: true,
+              defaultValue: [
+                moment('00:00:00', 'HH:mm:ss'),
+                moment('23:59:59', 'HH:mm:ss'),
+              ],
+            }
+          : false,
+    }
+  }, [resProps, JSON.stringify(showTime)])
 
   if (readonly) {
     return formatValueView()
@@ -163,12 +180,7 @@ const ScRangePicker: FormComponent<RangePickerProps & ScRangePickerProps> = (
               : undefined
           }
         >
-          <RangePicker
-            format={cformat}
-            onChange={handleChange}
-            {...resProps}
-            showTime={showTime}
-          />
+          <RangePicker format={cformat} onChange={handleChange} {...newProps} />
         </Form.Item>
       </Form.Item>
     )
