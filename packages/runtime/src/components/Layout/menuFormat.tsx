@@ -1,38 +1,38 @@
 /* eslint-disable import/no-unresolved */
-import { MenuDataItem } from "@scboson/sc-layout";
-import React from "react";
-import { AppstoreFilled } from "@ant-design/icons";
+import { MenuDataItem } from '@scboson/sc-layout'
+import React from 'react'
+import { AppstoreFilled } from '@ant-design/icons'
 
 export const getRouterData = (routerConfig: any[]) => {
-  let routerData = {};
+  let routerData = {}
   routerConfig.forEach((item) => {
-    const { exact, path } = item;
+    const { exact, path } = item
     const router = {
       exact,
       path,
-    };
-    if (item.routes) {
-      routerData = { ...routerData, ...getRouterData(item.routes) };
     }
-    routerData[path] = router;
-  });
-  return routerData;
-};
+    if (item.routes) {
+      routerData = { ...routerData, ...getRouterData(item.routes) }
+    }
+    routerData[path] = router
+  })
+  return routerData
+}
 function getMenuMap(menu: any[], routes: any): any[] {
-  const routersMap = new Map<string, any>();
-  const menuMap = new Map<string, any>();
+  const routersMap = new Map<string, any>()
+  const menuMap = new Map<string, any>()
 
   // const _routerMap = getRouterData(routes);
 
   const getAllRoute = (_menu: any) => {
     _menu.forEach((item: any) => {
-      if (item["key"]) {
-        const mapkey = `${item["key"]}`;
-        menuMap.set(mapkey.toLowerCase(), item);
+      if (item['key']) {
+        const mapkey = `${item['key']}`
+        menuMap.set(mapkey.toLowerCase(), item)
       }
 
-      if (item["path"]) {
-        const mapkey = item["path"];
+      if (item['path']) {
+        const mapkey = item['path']
         // const dy = `${mapkey}/:editpage`;
         // if (_routerMap[dy]) {
         //   const { key, path } = item;
@@ -49,30 +49,30 @@ function getMenuMap(menu: any[], routes: any): any[] {
         //     });
         //   });
         // }
-        routersMap.set(mapkey.toLowerCase(), item);
+        routersMap.set(mapkey.toLowerCase(), item)
       }
       if (item.children && item.children.length > 0) {
-        getAllRoute(item.children);
+        getAllRoute(item.children)
       }
-    });
-  };
-  getAllRoute(menu);
-  return [routersMap, menuMap];
+    })
+  }
+  getAllRoute(menu)
+  return [routersMap, menuMap]
 }
 
 function getBreadcrumb(code: any, menuMap: Map<string, any>) {
-  let routes: any = [];
-  const menuItem = menuMap.get(`${code}`);
+  let routes: any = []
+  const menuItem = menuMap.get(`${code}`)
   if (menuItem) {
-    if (`${menuItem.pkey}` !== "0") {
-      routes = [...getBreadcrumb(`${menuItem.pkey}`, menuMap), menuItem];
+    if (`${menuItem.pkey}` !== '0') {
+      routes = [...getBreadcrumb(`${menuItem.pkey}`, menuMap), menuItem]
     } else {
-      routes = [menuItem];
+      routes = [menuItem]
     }
   }
-  return routes;
+  return routes
 }
-const menuMap = {};
+const menuMap = {}
 const formatMenu = (
   menus: any[],
   parnetKeys: string[],
@@ -93,51 +93,48 @@ const formatMenu = (
       //functionType,
       dataType,
       children,
-    } = item;
+    } = item
 
-    const funcodes: any[] = [];
-    let newChildren: MenuDataItem[] = [];
+    const funcodes: any[] = []
+    let newChildren: MenuDataItem[] = []
     if (children && children.length > 0) {
-      const pKeys = [...parnetKeys, id];
-      newChildren = formatMenu(children, pKeys, appCode, localData);
+      const pKeys = [...parnetKeys, id]
+      newChildren = formatMenu(children, pKeys, appCode, localData)
 
       children.forEach((citem: any) => {
         if (citem.functionType) {
-          funcodes.push(citem.functionType);
+          funcodes.push(citem.functionType)
         }
-      });
+      })
     }
     if (parnetKeys.length > 0 && pageUrl) {
-      const paths = pageUrl.split("/");
+      const paths = pageUrl.split('/')
       parnetKeys.forEach((key, i) => {
         if (!menuMap[key]) {
           if (localData === false) {
-            menuMap[key] = paths[i + 2];
-          }else{
-         
-            menuMap[key] = paths[i + 1];
-
-
+            menuMap[key] = paths[i + 2]
+          } else {
+            menuMap[key] = paths[i + 1]
           }
         }
-      });
+      })
     }
-    let hiddenChild = true;
+    let hiddenChild = true
     newChildren.forEach((nitem: any) => {
       if (!nitem.hidden) {
-        hiddenChild = false;
+        hiddenChild = false
       }
-    });
+    })
 
     // const defaultPath = defPaths[menuCode];
-    let rpath: string = "";
+    let rpath: string = ''
     //if (appCode && appCode !== '') {
     //rpath = '/' + appCode + pageUrl || menuMap[id]
     // } else {
-    rpath = pageUrl|| menuMap[id]
+    rpath = pageUrl || menuMap[id]
     // }
-    if (localData === false&&rpath) {
-      rpath = rpath.replace("/" + appCode, "");
+    if (localData === false && rpath) {
+      rpath = rpath.replace('/' + appCode, '')
     }
 
     // newChildren=newChildren.filter((i)=>(i))
@@ -147,19 +144,20 @@ const formatMenu = (
       key: `${id}`,
       pkey: parentId,
       path: rpath,
-      funcodes: funcodes.join("|"),
+      funcodes: funcodes.join('|'),
       icon: iconUrl || <AppstoreFilled />,
       parentKeys: parnetKeys,
       // id,
-      syscode:systemCode,
+      syscode: systemCode,
       children: newChildren,
+      routes: newChildren,
       hideChildrenInMenu: hiddenChild,
-      hideInMenu: dataType === "FUNC",
-    };
-  });
-};
+      hideInMenu: dataType === 'FUNC',
+    }
+  })
+}
 export default {
   getMenuMap,
   getBreadcrumb,
   formatMenu,
-};
+}
