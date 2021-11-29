@@ -20,6 +20,7 @@ const Table: React.FC<any> = (props: any) => {
     selectedRowKeys,
     isCooperateSupplier = false,
     supplierEnabled = true,
+    exterParams = {},
   } = pageProps
   const { run } = isCooperateSupplier
     ? uesRequest('system', 'cooperateSupplier')
@@ -35,8 +36,13 @@ const Table: React.FC<any> = (props: any) => {
     return {
       ...pageInfo.params,
       enabled: supplierEnabled,
+      ...exterParams,
     }
-  }, [JSON.stringify(pageInfo.params), supplierEnabled])
+  }, [
+    JSON.stringify(pageInfo.params),
+    supplierEnabled,
+    JSON.stringify(exterParams),
+  ])
   return (
     <div style={{ padding: '20px' }}>
       <BsSearch {...searchConfig} />

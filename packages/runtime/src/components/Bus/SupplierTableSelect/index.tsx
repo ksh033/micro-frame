@@ -20,6 +20,8 @@ interface TableSelectProps extends FormComponentProps {
   isCooperateSupplier?: boolean
   supplierEnabled?: boolean | null
   disabled?: boolean
+  preClick?: () => boolean
+  params?: any
 }
 
 const TabelSelect: FormComponent<TableSelectProps> = (
@@ -37,6 +39,8 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     readonly,
     supplierEnabled = true,
     form,
+    preClick,
+    params = {},
     ...resProps
   } = props
 
@@ -77,31 +81,35 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     if (resProps.disabled) {
       return
     }
-    CModal.show({
-      title,
-      width: '1200px',
-      content: TableModal,
-      pageProps: {
-        onTabelRow,
-        selectionType,
-        isCooperateSupplier,
-        supplierEnabled,
-        rowKey: valueField,
-        ...stateRef.current,
-      },
-      onOk: () => {
-        if (
-          Array.isArray(stateRef.current.selectedRows) &&
-          stateRef.current.selectedRows.length > 0
-        ) {
-          onChange?.(stateRef.current.selectedRows)
-          return Promise.resolve()
-        } else {
-          message.warning('请最少选择一个供应商')
-          return Promise.reject()
-        }
-      },
-    })
+    const preFlag = typeof preClick === 'function' ? preClick?.() : true
+    if (preFlag) {
+      CModal.show({
+        title,
+        width: '1200px',
+        content: TableModal,
+        pageProps: {
+          onTabelRow,
+          selectionType,
+          isCooperateSupplier,
+          supplierEnabled,
+          rowKey: valueField,
+          ...stateRef.current,
+          exterParams: params,
+        },
+        onOk: () => {
+          if (
+            Array.isArray(stateRef.current.selectedRows) &&
+            stateRef.current.selectedRows.length > 0
+          ) {
+            onChange?.(stateRef.current.selectedRows)
+            return Promise.resolve()
+          } else {
+            message.warning('请最少选择一个供应商')
+            return Promise.reject()
+          }
+        },
+      })
+    }
   }
 
   const handleChange = (e: any[]) => {
