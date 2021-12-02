@@ -215,10 +215,19 @@ export default (props: RailProps) => {
 
   const editorEvents = {
     created: (ins: any) => {
-      if (!editorMap.get(ins.Rc.getExtData())) {
-        editorMap.set(ins.Rc.getExtData(), ins)
+      console.log(ins)
+      let extData: any = null
+      if (ins.Rc && ins.Rc.getExtData) {
+        extData = ins.Rc.getExtData()
       }
-      const center = getCenterOfGravityPoint(ins.Rc.getPath())
+
+      if (ins.Sc && ins.Sc.De && ins.Sc.De.extData) {
+        extData = ins.Sc.De.extData
+      }
+      if (!editorMap.get(extData) && extData !== null) {
+        editorMap.set(extData, ins)
+      }
+      const center = getCenterOfGravityPoint(ins.Sc.De.path)
       setMapCenter(center)
     },
     adjust: ({ target }: any) => {
