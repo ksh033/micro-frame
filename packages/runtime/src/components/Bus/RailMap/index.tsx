@@ -215,7 +215,6 @@ export default (props: RailProps) => {
 
   const editorEvents = {
     created: (ins: any) => {
-      console.log(ins)
       let extData: any = null
       if (ins.Rc && ins.Rc.getExtData) {
         extData = ins.Rc.getExtData()
@@ -231,6 +230,17 @@ export default (props: RailProps) => {
       setMapCenter(center)
     },
     adjust: ({ target }: any) => {
+      const key = target.getExtData()
+      const obj: any = overlaysMap.get(key)
+      if (obj) {
+        obj.path = formatLngLat(target.getPath())
+        overlaysMap.set(key, obj)
+      }
+    },
+  }
+
+  const event = {
+    mouseup: ({ target }: any) => {
       const key = target.getExtData()
       const obj: any = overlaysMap.get(key)
       if (obj) {
@@ -289,7 +299,7 @@ export default (props: RailProps) => {
       }
       const active = state.active === key
       polyEditors.push(
-        <Polygon path={path} key={key} style={style}>
+        <Polygon path={path} key={key} style={style} draggable events={event}>
           <PolyEditor
             key={`${key}_editor`}
             events={editorEvents}
