@@ -10,6 +10,8 @@ import FieldImageName from './FieldImageName'
 import Volume from './Volume'
 import BsRangePicker from './BsRangePicker'
 import BsRangeTimePicker from './BsRangeTimePicker'
+import BsIcon from './BsIcon'
+
 
 const { regeditCmp } = PageSchema
 regeditCmp('DictSelect', DictSelect)
@@ -33,4 +35,5 @@ export {
   Volume,
   BsRangePicker,
   BsRangeTimePicker,
+  BsIcon
 }

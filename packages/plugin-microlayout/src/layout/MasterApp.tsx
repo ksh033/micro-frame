@@ -16,7 +16,7 @@ export default function MicroApp(componentProps: any) {
   });
   
   useEffect(()=>{
-    setModelState({...globalState,setQiankunGlobalState})
+    setModelState({globalState:{...globalState,localMenuData},setQiankunGlobalState})
   },[globalState])
  
 

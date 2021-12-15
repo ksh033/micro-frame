@@ -5,8 +5,8 @@ import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
 
 import { ScCard } from "@scboson/sc-layout";
 
-const GoodsCatalogTree: React.FC<ScTreeProps&{catalogType?:string}> = (props) => {
-  const {catalogType,...restProps}=props
+const GoodsCatalogTree: React.FC<ScTreeProps&{catalogType?:string,catalogScene?:string}> = (props) => {
+  const {catalogType,catalogScene,...restProps}=props
   const api = uesRequest('mall', 'showCatalogList');
   const loadDataPramsFormat = (item: any) => {
     return {
@@ -25,7 +25,7 @@ const GoodsCatalogTree: React.FC<ScTreeProps&{catalogType?:string}> = (props) =>
         loadDataPramsFormat={loadDataPramsFormat}
         autoload={true}
         request={api.run}
-        params={{ parentId: '0',catalogType:catalogType }}
+        params={{ parentId: '0',catalogType:catalogType,catalogScene:catalogScene }}
         textField="catalogName"
         valueField="mallCatalogId"
       />
