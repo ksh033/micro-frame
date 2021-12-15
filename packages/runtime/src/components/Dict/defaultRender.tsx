@@ -92,7 +92,7 @@ const defaultRenderText = <T, U>(
   if (valueType === 'defaultNumber') {
     return text === -1 || text === '-1' ? '不限' : text
   }
-  if (valueType === 'money') {
+  if (valueType === 'unitprice') {
     if (text === undefined || text === '' || text === null) {
       return ''
     }
@@ -103,6 +103,15 @@ const defaultRenderText = <T, U>(
     } else {
       money = formatMoneyQuery(rText / 10000)
     }
+
+    return money !== '' ? money : money
+  }
+  if (valueType === 'money') {
+    if (text === undefined || text === '' || text === null) {
+      return ''
+    }
+    const rText = typeof text === 'number' ? text : 0
+    const money = formatMoneyQuery(rText / 10000)
 
     return money !== '' ? money : money
   }
