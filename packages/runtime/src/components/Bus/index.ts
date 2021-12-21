@@ -67,5 +67,6 @@ export {
   ShowCatalogTree,
   ShowCatalogSelect,
   PrintButton,
+  CatalogTreeSelect,
   WarehouseTableSelect,
 }

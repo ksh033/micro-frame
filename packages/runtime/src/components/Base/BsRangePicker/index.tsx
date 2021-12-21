@@ -7,7 +7,7 @@ import moment, { Moment } from 'moment'
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/lib/c-form'
+} from '@scboson/sc-element/es/c-form'
 import { RangeValue } from 'rc-picker/es/interface'
 
 import RangePicker from './RangePicker'
