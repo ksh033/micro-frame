@@ -132,6 +132,12 @@ const defaultRenderText = <T, U>(
   if (valueType === 'media') {
     return <BsImg src={text} />
   }
+  if (valueType === 'rate') {
+    if (text !== undefined && text !== null) {
+      return <span>{text}%</span>
+    }
+    return ''
+  }
   return text
 }
 
