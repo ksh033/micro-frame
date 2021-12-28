@@ -98,7 +98,11 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
 
   return (
     <Input
-      value={newValue}
+      value={
+        newValue !== undefined && newValue !== null
+          ? String(newValue)
+          : newValue
+      }
       onChange={handleChange}
       onBlur={handleBlur}
       {...restProps}
