@@ -87,7 +87,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
 
   const handleBlur = () => {
     const _val = newValue
-    let str = toOutVal(_val)
+    let str = formatValue(toOutVal(_val))
     if (str === null) {
       str = ''
     }
