@@ -24,6 +24,7 @@ import WarehouseTableSelect from './WarehouseTableSelect'
 import UserInfo from './UserInfo'
 import OrgSelect from './OrgSelect'
 import CatalogTreeSelect from './CatalogTreeSelect'
+import Quantity from './Quantity'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -45,6 +46,7 @@ regeditCmp('WarehouseTableSelect', WarehouseTableSelect)
 regeditCmp('UserInfo', UserInfo)
 regeditCmp('OrgSelect', OrgSelect)
 regeditCmp('CatalogTreeSelect', CatalogTreeSelect)
+regeditCmp('Quantity', Quantity)
 
 export {
   CheckBoxDate,
@@ -69,4 +71,5 @@ export {
   PrintButton,
   CatalogTreeSelect,
   WarehouseTableSelect,
+  Quantity,
 }

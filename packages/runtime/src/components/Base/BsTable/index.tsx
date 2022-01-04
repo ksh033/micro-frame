@@ -1,14 +1,11 @@
-/* eslint-disable no-param-reassign */
-import React, { useMemo } from 'react'
+import React from 'react'
 import { ScTable } from '@scboson/sc-element'
-import type { ScTableProps, ScProColumn } from '@scboson/sc-element/es/sc-table'
+import type { ScTableProps } from '@scboson/sc-element/es/sc-table'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
 import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
 import Authority from '../../Auth/Authority'
-
 import styles from './index.less'
-import { ToolBarProps } from '@scboson/sc-element/es/sc-table/components/ToolBar'
 
 const { Operation } = ScTable
 
@@ -150,6 +147,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           onLoad={dataLoad}
           data={data}
           columns={columns}
+          size="small"
           toolBarRender={newToolBarRender}
         />
       </div>

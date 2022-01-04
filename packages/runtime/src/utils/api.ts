@@ -10,6 +10,11 @@ interface MethodProps {
 const services = {
   // 模块
   system: {
+    getWeightUnit: {
+      url: '/base/api/anony/cargo/weight/unit/list',
+      method: 'get',
+      sysCode: 'common',
+    },
     getApplist: {
       url: '/user/api/anony/sys/list',
       method: 'get',

@@ -98,6 +98,7 @@ const AareSelect: React.FC<AreaSelecthProps> = (
 
   return (
     <ScCascader
+      // @ts-ignore
       allowClear={false}
       textField="areaName"
       params={params}

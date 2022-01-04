@@ -1,41 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { Badge } from 'antd'
-import { SupplierStatus, IntroType } from './constant'
 import BsImg from '../Base/BsImg'
-// import { DictDataItem } from '@/models/userDictModel';
-import moment from 'moment'
+import {
+  dataTime,
+  defaultNumber,
+  formatMoneyQuery as fmq,
+  money,
+  rate,
+  unitNumberFormat,
+  unitprice,
+} from './format'
 
-export function formatMoneyQuery(val, dotNum = 2, dw = '') {
-  if (typeof val === 'number' || typeof val === 'string') {
-    if (val === '0' || val === 0) {
-      return `${dw}0.00`
-    }
-    if (val) {
-      let baseNum = 10
-
-      if (dotNum === 2) {
-        baseNum = 100
-      } else {
-        for (let i = 0; i < dotNum; i++) {
-          baseNum = baseNum * 10
-        }
-      }
-      // 金额转换 分->元 保留2位小数 并每隔3位用逗号分开 1,234.56
-
-      const str = `${(
-        Math.round(parseFloat(`${val}`) * baseNum) / baseNum
-      ).toFixed(dotNum)}`
-      const intSum = str
-        .substring(0, str.indexOf('.'))
-        .replace(/\B(?=(?:\d{3})+$)/g, ',') // 取到整数部分
-      const dot = str.substring(str.length, str.indexOf('.')) // 取到小数部分搜索
-      const ret = intSum + dot
-      return dw + ret
-    }
-  }
-  return '--'
-}
+export const formatMoneyQuery = fmq
 
 const status = (text: any) => {
   let result: any = '--'
@@ -44,48 +21,6 @@ const status = (text: any) => {
   }
   if (text === false) {
     result = <Badge color="#FFA940" text="停用" />
-  }
-  return result
-}
-
-const supplierStatus = (text: string | number | React.ReactText[]) => {
-  let result = text
-  switch (text) {
-    case SupplierStatus.ENABLE.value:
-      result = SupplierStatus.ENABLE.name
-      break
-    case SupplierStatus.DISABLE.value:
-      result = SupplierStatus.DISABLE.name
-      break
-    default:
-      result = '--'
-      break
-  }
-  return result
-}
-
-const introType = (text: string | number | React.ReactText[]) => {
-  let result = text
-  switch (text) {
-    case IntroType.MASTER.value:
-      result = IntroType.MASTER.name
-      break
-    case IntroType.SLIDESHOW.value:
-      result = IntroType.SLIDESHOW.name
-      break
-    case IntroType.DETAIL.value:
-      result = IntroType.DETAIL.name
-      break
-    case IntroType.VIDEO.value:
-      result = IntroType.VIDEO.name
-      break
-
-    case IntroType.ARTICLES.value:
-      result = IntroType.ARTICLES.name
-      break
-    default:
-      result = '--'
-      break
   }
   return result
 }
@@ -101,56 +36,42 @@ const defaultRenderText = <T, U>(
   valueType: string,
   record: any = {}
 ): React.ReactNode => {
-  if (valueType === 'defaultNumber') {
-    return text === -1 || text === '-1' ? '不限' : text
+  let newText: any = text
+  switch (valueType) {
+    case 'defaultNumber':
+      newText = defaultNumber(text)
+      break
+    case 'unitprice':
+      newText = unitprice(text)
+      break
+    case 'money':
+      newText = money(text)
+      break
+    case 'status':
+      newText = status(text)
+      break
+    case 'dataTime':
+      newText = dataTime(text)
+      break
+    case 'media':
+      newText = <BsImg src={text} />
+      break
+    case 'rate':
+      newText = rate(text)
+      break
+    default:
+      break
   }
-  if (valueType === 'unitprice') {
-    if (text === undefined || text === '' || text === null) {
-      return ''
-    }
-    const rText = typeof text === 'number' ? text : 0
-    let money = rText + ''
-    if (rText % 100 !== 0) {
-      money = formatMoneyQuery(rText / 10000, 4)
-    } else {
-      money = formatMoneyQuery(rText / 10000)
-    }
+  if (
+    valueType === 'un_cargoUnit' ||
+    valueType === 'un_stockUnit' ||
+    valueType === 'un_purchaseUnit' ||
+    valueType === 'un_distributeUnit'
+  ) {
+    return unitNumberFormat(valueType, text, record)
+  }
 
-    return money !== '' ? money : money
-  }
-  if (valueType === 'money') {
-    if (text === undefined || text === '' || text === null) {
-      return ''
-    }
-    const rText = typeof text === 'number' ? text : 0
-    const money = formatMoneyQuery(rText / 10000)
-
-    return money !== '' ? money : money
-  }
-  if (valueType === 'dataTime') {
-    const timeMoment = moment(text).format('YYYY-MM-DD')
-    return timeMoment
-  }
-  if (valueType === 'status') {
-    return status(text)
-  }
-
-  if (valueType === 'supplierStatus') {
-    return supplierStatus(text)
-  }
-  if (valueType === 'introType') {
-    return introType(text)
-  }
-  if (valueType === 'media') {
-    return <BsImg src={text} />
-  }
-  if (valueType === 'rate') {
-    if (text !== undefined && text !== null) {
-      return <span>{text}%</span>
-    }
-    return ''
-  }
-  return text
+  return newText
 }
 
 export const cacheRender = (
