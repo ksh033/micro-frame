@@ -29,14 +29,14 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
     ...resProps
   } = props
 
-  const { loadWeight, has } = useWeightUnit()
+  const { weightUnit, has } = useWeightUnit()
 
   const max = getMax?.(rowData) || undefined
 
   const min = getMin?.(rowData) || undefined
 
   const IsWeightUnit = useMemo(() => {
-    if (Array.isArray(loadWeight)) {
+    if (Array.isArray(weightUnit)) {
       return has(rowData[unitName])
     }
     return false
