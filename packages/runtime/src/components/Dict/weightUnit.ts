@@ -26,11 +26,12 @@ export default function useWeightUnit() {
   }, [JSON.stringify(weightUnit)])
 
   const has = (unitName: string) => {
-    const index = weightUnit?.findIndex((it) => {
+    const list = weightUnit || []
+    const index = list.findIndex((it) => {
       return it.unitValue === unitName || it.unitName === unitName
     })
 
-    return index !== -1
+    return index > -1
   }
 
   return { weightUnit, loadWeight, has }
