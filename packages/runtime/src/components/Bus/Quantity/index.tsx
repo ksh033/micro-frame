@@ -36,10 +36,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
   const min = getMin?.(rowData) || undefined
 
   const IsWeightUnit = useMemo(() => {
-    if (Array.isArray(weightUnit)) {
-      return has(rowData[unitName])
-    }
-    return false
+    return has(rowData[unitName])
   }, [unitName, JSON.stringify(rowData)])
 
   const complement = useMemo(() => {

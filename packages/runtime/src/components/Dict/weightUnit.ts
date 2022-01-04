@@ -30,8 +30,7 @@ export default function useWeightUnit() {
     const index = list.findIndex((it) => {
       return it.unitValue === unitName || it.unitName === unitName
     })
-
-    return index > -1
+    return index !== -1
   }
 
   return { weightUnit, loadWeight, has }
