@@ -76,5 +76,5 @@ export const unitNumberFormat = (valueType: string, text: any, record: any) => {
   const { has } = useWeightUnit()
   const unitName = valueType.split('_')[1]
 
-  return has(record[unitName]) ? formatMoneyQuery(text, 4) : text
+  return has(record[unitName]) ? formatMoneyQuery(text, 3) : text
 }
