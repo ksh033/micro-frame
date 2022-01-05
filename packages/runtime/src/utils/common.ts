@@ -269,3 +269,28 @@ export function initUser(token: string, systemCode: string): User {
     superAdminFlag: false,
   }
 }
+
+export function decimalPoint(val, dotNum = 2) {
+  if (typeof val === 'number' || typeof val === 'string') {
+    if (val === '0' || val === 0) {
+      return `0`
+    }
+    if (val) {
+      let baseNum = 10
+
+      if (dotNum === 2) {
+        baseNum = 100
+      } else {
+        for (let i = 0; i < dotNum; i++) {
+          baseNum = baseNum * 10
+        }
+      }
+      const str = `${(
+        Math.round(parseFloat(`${val}`) * baseNum) / baseNum
+      ).toFixed(dotNum)}`
+
+      return str
+    }
+  }
+  return '--'
+}

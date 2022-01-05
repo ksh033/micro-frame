@@ -1,5 +1,6 @@
 import moment from 'moment'
 import useWeightUnit from '../Dict/weightUnit'
+import { decimalPoint } from '../../utils/common'
 
 export function formatMoneyQuery(val, dotNum = 2, dw = '') {
   if (typeof val === 'number' || typeof val === 'string') {
@@ -76,5 +77,5 @@ export const unitNumberFormat = (valueType: string, text: any, record: any) => {
   const { has } = useWeightUnit()
   const unitName = valueType.split('_')[1]
 
-  return has(record[unitName]) ? formatMoneyQuery(text, 3) : text
+  return has(record[unitName]) ? decimalPoint(text, 3) : text
 }
