@@ -275,7 +275,16 @@ export function decimalPoint(val, dotNum = 2) {
     if (val === '0' || val === 0) {
       return `0`
     }
-    if (val) {
+    let newVal = val
+    // 科学计数法
+    if (/^(\d+(?:\.\d+)?)(e)([\-]?\d+)$/.test(String(val))) {
+      const temp = /^(\d{1,}(?:,\d{3})*\.(?:0*[1-9]+)?)(0*)?$/.exec(String(val))
+      if (temp) {
+        newVal = temp[1]
+      }
+    }
+
+    if (newVal) {
       let baseNum = 10
 
       if (dotNum === 2) {
@@ -286,7 +295,7 @@ export function decimalPoint(val, dotNum = 2) {
         }
       }
       const str = `${(
-        Math.round(parseFloat(`${val}`) * baseNum) / baseNum
+        Math.round(parseFloat(`${newVal}`) * baseNum) / baseNum
       ).toFixed(dotNum)}`
 
       return str
