@@ -270,6 +270,60 @@ export function initUser(token: string, systemCode: string): User {
   }
 }
 
+export function toFixed2(val, decimal = 2) {
+  // console.log(this, decimal)
+  if (Number(decimal) < 0 && Number(decimal) > 100) {
+    return RangeError('toFixed() digits argument must be between 0 and 100')
+  }
+  if (val === undefined || val === null || val === '') {
+    return 0
+  }
+  // 按小数点分割，得到整数位及小数位
+  // 按保留小数点位数分割小数位，得到需保留的小数位
+  // 将需保留的小数位与整数位拼接得到四舍五入之前的结果
+  // 对需四舍五入的小数最大一位数进行四舍五入，如果大于等于5则进位flag为1，否则为0
+  // 对四舍五入之前的结果+进位flag进行四舍五入得到最终结果
+
+  if (String(val).indexOf('.') === -1) {
+    return Number(val).toFixed(decimal)
+  }
+  // 分割整数与小数
+  let cutArr = val.toString().split('.')
+  // 小数部分根据要保留的小数确定，如果小数部分长度小于要保留的精度缺失部分用0补全
+  let decimalStr =
+    cutArr[1].length > decimal
+      ? cutArr[1]
+      : cutArr[1] + new Array(decimal - cutArr[1].length).fill('0')
+  // 是否进位
+  const plus = decimalStr.slice(decimal, decimal + 1) >= 5 ? 1 : 0
+  // 未四舍五入之前，(处理保留0位小数)
+  let mainArr: any = (
+    cutArr[0] +
+    (decimal > 0
+      ? '.' + decimalStr.slice(0, decimal)
+      : '' + decimalStr.slice(0, decimal))
+  ).split('')
+  // 要输出的结果最后一位+是否要进位，
+  mainArr[mainArr.length - 1] = Number(mainArr[mainArr.length - 1]) + plus
+  mainArr.reverse()
+  // 如果加完是10则向前进一位,否则直接输出
+  if (plus && mainArr[0] > 9) {
+    for (let i = 0; i < mainArr.length; i++) {
+      if (mainArr[i] > 9) {
+        if (mainArr[i + 1] != undefined && mainArr[i + 2] != undefined) {
+          if (mainArr[i + 1] === '.') {
+            mainArr[i + 2] = Number(mainArr[i + 2]) + 1
+          } else {
+            mainArr[i + 1] = Number(mainArr[i + 1]) + 1
+          }
+        }
+        mainArr[i] = 0
+      }
+    }
+  }
+  return Number(mainArr.reverse().join().replace(/,/g, ''))
+}
+
 export function decimalPoint(val, dotNum = 2) {
   if (typeof val === 'number' || typeof val === 'string') {
     if (val === '0' || val === 0) {
@@ -285,20 +339,7 @@ export function decimalPoint(val, dotNum = 2) {
     }
 
     if (newVal) {
-      let baseNum = 10
-
-      if (dotNum === 2) {
-        baseNum = 100
-      } else {
-        for (let i = 0; i < dotNum; i++) {
-          baseNum = baseNum * 10
-        }
-      }
-      const str = `${(
-        Math.round(parseFloat(`${newVal}`) * baseNum) / baseNum
-      ).toFixed(dotNum)}`
-
-      return str
+      return Number(toFixed2(newVal + '', dotNum))
     }
   }
   return '--'

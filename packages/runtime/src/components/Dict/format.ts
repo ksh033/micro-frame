@@ -1,6 +1,6 @@
 import moment from 'moment'
 import useWeightUnit from '../Dict/weightUnit'
-import { decimalPoint } from '../../utils/common'
+import { decimalPoint, toFixed2 } from '../../utils/common'
 
 export function formatMoneyQuery(val, dotNum = 2, dw = '') {
   if (typeof val === 'number' || typeof val === 'string') {
@@ -8,20 +8,7 @@ export function formatMoneyQuery(val, dotNum = 2, dw = '') {
       return `${dw}0.00`
     }
     if (val) {
-      let baseNum = 10
-
-      if (dotNum === 2) {
-        baseNum = 100
-      } else {
-        for (let i = 0; i < dotNum; i++) {
-          baseNum = baseNum * 10
-        }
-      }
-      // 金额转换 分->元 保留2位小数 并每隔3位用逗号分开 1,234.56
-
-      const str = `${(
-        Math.round(parseFloat(`${val}`) * baseNum) / baseNum
-      ).toFixed(dotNum)}`
+      const str = `${toFixed2(val, dotNum)}`
       const intSum = str
         .substring(0, str.indexOf('.'))
         .replace(/\B(?=(?:\d{3})+$)/g, ',') // 取到整数部分
