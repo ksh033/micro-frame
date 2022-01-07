@@ -338,6 +338,8 @@ export function decimalPoint(val, dotNum = 2) {
       const temp = /^(\d{1,}(?:,\d{3})*\.(?:0*[1-9]+)?)(0*)?$/.exec(String(val))
       if (temp) {
         newVal = temp[1]
+      } else {
+        newVal = Number(newVal).toFixed(dotNum)
       }
     }
     if (newVal) {
