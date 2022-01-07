@@ -8,7 +8,7 @@ export function formatMoneyQuery(val, dotNum = 2, dw = '') {
       return `${dw}0.00`
     }
     if (val) {
-      const str = `${toFixed2(val, dotNum)}`
+      const str = `${Number(toFixed2(val, dotNum)).toFixed(dotNum)}`
       const intSum = str
         .substring(0, str.indexOf('.'))
         .replace(/\B(?=(?:\d{3})+$)/g, ',') // 取到整数部分
@@ -36,7 +36,7 @@ export const unitprice = (text: any) => {
     money = formatMoneyQuery(rText / 10000)
   }
 
-  return money !== '--' ? money : money
+  return money
 }
 
 export const money = (text: any) => {
@@ -46,7 +46,7 @@ export const money = (text: any) => {
   const rText = typeof text === 'number' ? text : 0
   const money = formatMoneyQuery(rText / 10000)
 
-  return money !== '--' ? Number(money).toFixed(2) : money
+  return money
 }
 
 export const dataTime = (text: any) => {
