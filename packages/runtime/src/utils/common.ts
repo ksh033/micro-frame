@@ -291,9 +291,10 @@ export function toFixed2(val, decimal = 2) {
   let cutArr = val.toString().split('.')
   // 小数部分根据要保留的小数确定，如果小数部分长度小于要保留的精度缺失部分用0补全
   let decimalStr =
-    cutArr[1].length > decimal
+    cutArr[1].length >= decimal
       ? cutArr[1]
-      : cutArr[1] + new Array(decimal - cutArr[1].length).fill('0')
+      : [cutArr[1] + '', ...new Array(decimal - cutArr[1].length).fill('0')]
+
   // 是否进位
   const plus = decimalStr.slice(decimal, decimal + 1) >= 5 ? 1 : 0
   // 未四舍五入之前，(处理保留0位小数)
@@ -303,8 +304,9 @@ export function toFixed2(val, decimal = 2) {
       ? '.' + decimalStr.slice(0, decimal)
       : '' + decimalStr.slice(0, decimal))
   ).split('')
+
   // 要输出的结果最后一位+是否要进位，
-  mainArr[mainArr.length - 1] = Number(mainArr[mainArr.length - 1]) + plus
+  mainArr[mainArr.length - 1] = Number(mainArr[mainArr.length - 1] || 0) + plus
   mainArr.reverse()
   // 如果加完是10则向前进一位,否则直接输出
   if (plus && mainArr[0] > 9) {
@@ -321,7 +323,8 @@ export function toFixed2(val, decimal = 2) {
       }
     }
   }
-  return Number(mainArr.reverse().join().replace(/,/g, ''))
+  const num = mainArr.reverse().join().replace(/,/g, '')
+  return Number(num)
 }
 
 export function decimalPoint(val, dotNum = 2) {
@@ -337,10 +340,10 @@ export function decimalPoint(val, dotNum = 2) {
         newVal = temp[1]
       }
     }
-
     if (newVal) {
-      return Number(toFixed2(newVal + '', dotNum))
+      return toFixed2(newVal, dotNum)
     }
+    return '--'
   }
   return '--'
 }
