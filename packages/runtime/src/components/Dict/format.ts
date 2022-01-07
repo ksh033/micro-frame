@@ -36,7 +36,7 @@ export const unitprice = (text: any) => {
     money = formatMoneyQuery(rText / 10000)
   }
 
-  return money !== '' ? money : money
+  return money !== '--' ? money : money
 }
 
 export const money = (text: any) => {
@@ -46,7 +46,7 @@ export const money = (text: any) => {
   const rText = typeof text === 'number' ? text : 0
   const money = formatMoneyQuery(rText / 10000)
 
-  return money !== '' ? money : money
+  return money !== '--' ? Number(money).toFixed(2) : money
 }
 
 export const dataTime = (text: any) => {
