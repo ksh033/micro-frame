@@ -284,47 +284,47 @@ export function toFixed2(val, decimal = 2) {
   // 对需四舍五入的小数最大一位数进行四舍五入，如果大于等于5则进位flag为1，否则为0
   // 对四舍五入之前的结果+进位flag进行四舍五入得到最终结果
 
-  if (String(val).indexOf('.') === -1) {
-    return Number(val).toFixed(decimal)
+  let numberStr = val + ''
+  let reg = /^(-|\+)?(\d+(\.\d*)?|\.\d+)$/i
+  if (!reg.test(numberStr)) {
+    console.error('输入的数字格式不对')
+    return
   }
-  // 分割整数与小数
-  let cutArr = val.toString().split('.')
-  // 小数部分根据要保留的小数确定，如果小数部分长度小于要保留的精度缺失部分用0补全
-  let decimalStr =
-    cutArr[1].length >= decimal
-      ? cutArr[1]
-      : [cutArr[1] + '', ...new Array(decimal - cutArr[1].length).fill('0')]
-
-  // 是否进位
-  const plus = decimalStr.slice(decimal, decimal + 1) >= 5 ? 1 : 0
-  // 未四舍五入之前，(处理保留0位小数)
-  let mainArr: any = (
-    cutArr[0] +
-    (decimal > 0
-      ? '.' + decimalStr.slice(0, decimal)
-      : '' + decimalStr.slice(0, decimal))
-  ).split('')
-
-  // 要输出的结果最后一位+是否要进位，
-  mainArr[mainArr.length - 1] = Number(mainArr[mainArr.length - 1] || 0) + plus
-  mainArr.reverse()
-  // 如果加完是10则向前进一位,否则直接输出
-  if (plus && mainArr[0] > 9) {
-    for (let i = 0; i < mainArr.length; i++) {
-      if (mainArr[i] > 9) {
-        if (mainArr[i + 1] != undefined && mainArr[i + 2] != undefined) {
-          if (mainArr[i + 1] === '.') {
-            mainArr[i + 2] = Number(mainArr[i + 2]) + 1
-          } else {
-            mainArr[i + 1] = Number(mainArr[i + 1]) + 1
-          }
-        }
-        mainArr[i] = 0
-      }
+  let sign =
+    numberStr.charAt(0) === '-' ? ((numberStr = numberStr.slice(1)), -1) : 1 // 判断是否是负数
+  let pointIndex = numberStr.indexOf('.') // 记录小数点的位置
+  if (pointIndex > -1) {
+    numberStr = numberStr.replace('.', '')
+  } else {
+    // 没有小数点直接添加补0；
+    numberStr += '.'
+    numberStr += new Array(decimal).join('0')
+    return numberStr
+  }
+  let numberArray: any[] = numberStr.split('') //转成数组
+  let len = numberArray.length
+  let oldPointNum = len - pointIndex // 获取原数据有多少位小数
+  if (oldPointNum < decimal) {
+    // 要保留的小数点比原来的要大，直接补0
+    while (decimal - oldPointNum > 0) {
+      numberArray.push('0')
+      decimal--
     }
+  } else if (oldPointNum > decimal) {
+    // 模拟四舍五入
+
+    let i = oldPointNum - decimal // 从倒数第i个数字开始比较
+    let more = numberArray[len - i] >= 5 ? true : false
+    while (more) {
+      i++
+      more = +numberArray[len - i] + 1 === 10 ? true : false // 进位后判断是否等于10，是则继续进位
+      numberArray[len - i] =
+        more && i !== len + 1 ? 0 : +numberArray[len - i] + 1 // 其他位置的数字进位直接变成0，第一位的例外
+    }
+    numberArray.length = len - (oldPointNum - decimal) // 截取多余的小数
   }
-  const num = mainArr.reverse().join().replace(/,/g, '')
-  return Number(num)
+  numberArray.splice(pointIndex, 0, '.')
+  return sign === -1 ? '-' + numberArray.join('') : numberArray.join('')
 }
 
 export function decimalPoint(val, dotNum = 2) {
@@ -343,7 +343,7 @@ export function decimalPoint(val, dotNum = 2) {
       }
     }
     if (newVal) {
-      return toFixed2(newVal, dotNum)
+      return Number(toFixed2(newVal, dotNum))
     }
     return '--'
   }
