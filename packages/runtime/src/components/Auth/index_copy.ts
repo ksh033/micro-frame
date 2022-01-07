@@ -164,5 +164,6 @@ const clearUser = () => {
   localStorage.removeItem(AppsUser_Key)
   localStorage.removeItem(CurrentApp_KEY)
   sessionStorage.removeItem('CG-CURRENT-DICT')
+  sessionStorage.removeItem('CG-WEIGHT-UNIT')
 }
 export { updateUser, getUser, changeApp, setUser, clearUser, getAppCode }
