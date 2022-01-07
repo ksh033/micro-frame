@@ -64,5 +64,5 @@ export const unitNumberFormat = (valueType: string, text: any, record: any) => {
   const { has } = useWeightUnit()
   const unitName = valueType.split('_')[1]
 
-  return has(record[unitName]) ? decimalPoint(text, 3) : text
+  return has(record[unitName]) ? Number(decimalPoint(text, 3)).toFixed(3) : text
 }
