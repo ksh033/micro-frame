@@ -290,8 +290,10 @@ export function toFixed2(val, decimal = 2) {
     console.error('输入的数字格式不对')
     return
   }
-  let sign =
-    numberStr.charAt(0) === '-' ? ((numberStr = numberStr.slice(1)), -1) : 1 // 判断是否是负数
+  let sign = numberStr.trim().charAt(0) === '-' ? -1 : 1 // 判断是否是负数
+  if (sign === -1) {
+    numberStr = numberStr.slice(1)
+  }
   let pointIndex = numberStr.indexOf('.') // 记录小数点的位置
   if (pointIndex > -1) {
     numberStr = numberStr.replace('.', '')
