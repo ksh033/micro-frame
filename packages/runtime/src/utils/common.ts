@@ -301,7 +301,7 @@ export function toFixed2(val, decimal = 2) {
     // 没有小数点直接添加补0；
     numberStr += '.'
     numberStr += new Array(decimal).join('0')
-    return numberStr
+    return sign === -1 ? '-' + numberStr : numberStr
   }
   let numberArray: any[] = numberStr.split('') //转成数组
   let len = numberArray.length
