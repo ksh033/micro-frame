@@ -50,7 +50,6 @@ export default (props: any) => {
   //const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
   useEffect(() => {
-    console.log(12)
     // 加载枚举
     loadDict()
     // 加载计重单位
