@@ -57,7 +57,7 @@ export const rate = (text: any) => {
   if (text !== undefined && text !== null) {
     return `${text}%`
   }
-  return ''
+  return '--'
 }
 
 export const unitNumberFormat = (valueType: string, text: any, record: any) => {
