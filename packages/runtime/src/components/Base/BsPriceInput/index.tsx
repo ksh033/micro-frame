@@ -35,19 +35,13 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     if (!isNaN(rVal) && reg.test(rVal)) {
       return compute.divide(rVal, 10000).toFixed(complement)
     } else {
-      return rVal
+      return ''
     }
   }
 
   const [state, setState] = useSetState<BsPriceInputState>({
     value: formatValue(value),
   })
-
-  const handleChange = (rValue: any) => {
-    setState({
-      value: rValue,
-    })
-  }
 
   useUpdateEffect(() => {
     if (value !== null && value !== undefined) {
@@ -57,6 +51,18 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     }
   }, [value])
 
+  const handleChange = (rValue: any) => {
+    setState({
+      value: rValue,
+    })
+    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
+    if (!isNaN(rValue) && reg.test(rValue)) {
+      onChange &&
+        onChange(compute.multiply(Number(rValue).toFixed(complement), 10000))
+    } else {
+      onChange && onChange('')
+    }
+  }
   const onBlur = (rValue: any) => {
     const reg = /-?(0|[1-9]\d*)(\.\d+)?/
     if (!isNaN(rValue) && reg.test(rValue)) {
@@ -73,7 +79,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
 
   return (
     <BsNumberInput
-      value={state.value}
+      value={formatValue(value)}
       onChange={handleChange}
       onBlur={onBlur}
       complement={complement}
