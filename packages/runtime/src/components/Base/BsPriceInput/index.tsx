@@ -4,7 +4,7 @@ import {
   FormComponentProps,
 } from '@scboson/sc-element/es/c-form'
 import { useSetState, useUpdateEffect } from 'ahooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 import compute from '../../../utils/compute'
 
@@ -44,7 +44,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   })
 
   useUpdateEffect(() => {
-    if (value !== null && value !== undefined) {
+    if (value !== null && value !== undefined && value !== state.value) {
       setState({
         value: formatValue(value),
       })
@@ -55,13 +55,6 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     setState({
       value: rValue,
     })
-    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
-    if (!isNaN(rValue) && reg.test(rValue)) {
-      onChange &&
-        onChange(compute.multiply(Number(rValue).toFixed(complement), 10000))
-    } else {
-      onChange && onChange('')
-    }
   }
   const onBlur = (rValue: any) => {
     const reg = /-?(0|[1-9]\d*)(\.\d+)?/
