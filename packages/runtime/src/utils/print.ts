@@ -43,6 +43,10 @@ export enum PrintTplType {
   traceSource = '00000001',
   /** 商品价签码 */
   priceTag = '00000002',
+  // 盘点单
+  checkOrder = '00000003',
+  // 收货单
+  receiverOrder = '00000004',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -65,6 +69,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleName: '盘点单',
     tplName: 'checkOrder.grf',
     dataUrl: '/wms/api/checkorder/reprint',
+    method: 'get',
+  },
+  '00000004': {
+    moduleId: '00000004',
+    moduleName: '收货单',
+    tplName: 'receiverOrder.grf',
+    dataUrl: '/transportsys/api/transport/order/print',
     method: 'get',
   },
 }
