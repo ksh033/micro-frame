@@ -14,17 +14,17 @@ const { REACT_APP_ENV, NODE_ENV } = process.env;
 
 export const EVN_CONFIG = {
   dev: {
-    imgUrl: "http://test.bogengkeji.com/images",
+    imgUrl: "http://test.yumcat.cn/images",
     apiUrl: "/webapi-dev",
     masterUrl: "http://172.18.164.54/",
   },
   pro: {
-    imgUrl: "https://images.bogengkeji.com",
+    imgUrl: "https://images.yumcat.cn",
     apiUrl: "/webapi",
-    masterUrl: "https://cat.bogengkeji.com/",
+    masterUrl: "https://sys.yumcat.cn/",
   },
   test: {
-    imgUrl: "http://test.bogengkeji.com/images",
+    imgUrl: "http://test.yumcat.com/images",
     apiUrl: "/webapi-test",
     masterUrl: "http://172.18.164.55/",
   },
