@@ -32,62 +32,73 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const { getDistList } = userDictModel()
 
   const lastCol: any = columns[columns.length - 1]
-  columns.forEach((col: any, index: number) => {
-    const list: any = getDistList({
-      syscode: col.sysCode,
-      dictTypeCode: `${col.dataType || col.dataIndex}`,
-    })
-    if (!col.width) {
-      col.width = 180
-    }
-    // if (columns.length > 3) {
-    //   if (lastCol.dataIndex !== '_OperateKey') {
-    //     if (index === columns.length - 2) {
-    //        col.width='auto'
-    //     }
-    //   } else {
-    //     if (index === columns.length - 1) {
-    //       delete col.width
-    //     }
-    //   }
-    // }
 
-    if (list && !col.render) {
-      col.render = (text: string) => {
-        return cacheRender(text, list)
+  const columnsFormat = (list: any[]) => {
+    list.forEach((col: any, index: number) => {
+      if (Array.isArray(col.children) && col.children.length > 0) {
+        col.children = columnsFormat(col.children)
       }
-    } else if (col.dataType && !col.render) {
-      col.render = (text: string, record: any) => {
-        return defaultRenderText(text, col.dataType || col.dataIndex, record)
+
+      const list: any = getDistList({
+        syscode: col.sysCode,
+        dictTypeCode: `${col.dataType || col.dataIndex}`,
+      })
+      if (!col.width) {
+        col.width = 180
       }
-    } else if (col.component && !col.render) {
-      const comProps = col.props || {}
-      col.render = (text: any, record: any) => {
-        if (
-          col.component.displayName &&
-          col.component.displayName === 'Enabled'
-        ) {
-          if (!comProps['funcode']) comProps['funcode'] = 'ENABLE'
+      // if (columns.length > 3) {
+      //   if (lastCol.dataIndex !== '_OperateKey') {
+      //     if (index === columns.length - 2) {
+      //        col.width='auto'
+      //     }
+      //   } else {
+      //     if (index === columns.length - 1) {
+      //       delete col.width
+      //     }
+      //   }
+      // }
+
+      if (list && !col.render) {
+        col.render = (text: string) => {
+          return cacheRender(text, list)
         }
-        const component =
-          typeof col.component === 'function'
-            ? React.createElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
-            : React.cloneElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
-        return component
+      } else if (col.dataType && !col.render) {
+        col.render = (text: string, record: any) => {
+          return defaultRenderText(text, col.dataType || col.dataIndex, record)
+        }
+      } else if (col.component && !col.render) {
+        const comProps = col.props || {}
+        col.render = (text: any, record: any) => {
+          if (
+            col.component.displayName &&
+            col.component.displayName === 'Enabled'
+          ) {
+            if (!comProps['funcode']) comProps['funcode'] = 'ENABLE'
+          }
+          const component =
+            typeof col.component === 'function'
+              ? React.createElement(col.component, {
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
+              : React.cloneElement(col.component, {
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
+          return component
+        }
       }
-    }
-    delete col.sysCode
-  })
+      delete col.sysCode
+    })
+
+    return list
+  }
+
+  const newColumns = columnsFormat(columns)
 
   let newToolBarRender: any
 
@@ -146,7 +157,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           {...restProps}
           onLoad={dataLoad}
           data={data}
-          columns={columns}
+          columns={newColumns}
           size="small"
           toolBarRender={newToolBarRender}
         />
