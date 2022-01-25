@@ -75,7 +75,7 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
       style={{ padding: '0px' }}
       // @ts-ignore
       getPopupContainer={(node: any) => {
-        const footer = document.getElementsByClassName('tpl-page-footer')
+        const footer = document.getElementsByClassName('ant-pro-footer-bar')
         if (footer.length > 0) {
           return footer.item(0)
         } else {
