@@ -11,6 +11,7 @@ import { getServiceApi } from '../../../utils/api'
 
 export interface UserDeptProp extends ScSelectProps, FormComponentProps {
   init?: boolean
+  needCompany?: boolean
 }
 
 interface UserDeptPropState {
@@ -27,6 +28,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     fieldProps,
     labelInValue = false,
     init = true,
+    needCompany = true,
     ...restProps
   } = props
   const deptList = useRef<any[]>([])
@@ -76,10 +78,12 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         if (bizDeptType === 'COMPANY') {
           queryAll().then((_data: any[]) => {
             if (_data) {
-              _data.unshift({
-                subcompanyId: currentDept.bizDeptId,
-                subcompanyName: currentDept.bizDeptName,
-              })
+              if (needCompany) {
+                _data.unshift({
+                  subcompanyId: currentDept.bizDeptId,
+                  subcompanyName: currentDept.bizDeptName,
+                })
+              }
               deptList.current = _data
               setState({
                 disabled: false,
@@ -151,6 +155,5 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     )
   }
 }
-
 
 export default UserDept
