@@ -65,6 +65,8 @@ const AareSelect: React.FC<AreaSelecthProps> = (
       for (let i = 0; i <= areaLevel; i++) {
         const text = form?.getFieldValue(fields[i] + 'Name')
         selectVal.push({
+          value: value.substr(0, (i + 1) * 2),
+          label: text,
           areaCode: value.substr(0, (i + 1) * 2),
           areaName: text,
         })

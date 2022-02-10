@@ -11,7 +11,7 @@ import Volume from './Volume'
 import BsRangePicker from './BsRangePicker'
 import BsRangeTimePicker from './BsRangeTimePicker'
 import BsIcon from './BsIcon'
-
+import BsEditTable from './BsEditTable'
 
 const { regeditCmp } = PageSchema
 regeditCmp('DictSelect', DictSelect)
@@ -22,6 +22,7 @@ regeditCmp('BsPriceInput', BsPriceInput)
 regeditCmp('Volume', Volume)
 regeditCmp('BsRangePicker', BsRangePicker)
 regeditCmp('BsRangeTimePicker', BsRangeTimePicker)
+regeditCmp('BsEditTable', BsEditTable)
 
 export {
   DictSelect,
@@ -35,5 +36,6 @@ export {
   Volume,
   BsRangePicker,
   BsRangeTimePicker,
-  BsIcon
+  BsIcon,
+  BsEditTable,
 }
