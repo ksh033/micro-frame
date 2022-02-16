@@ -67,31 +67,6 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         col.render = (text: string, record: any) => {
           return defaultRenderText(text, col.dataType || col.dataIndex, record)
         }
-      } else if (col.component && !col.render) {
-        const comProps = col.props || {}
-        col.render = (text: any, record: any) => {
-          if (
-            col.component.displayName &&
-            col.component.displayName === 'Enabled'
-          ) {
-            if (!comProps['funcode']) comProps['funcode'] = 'ENABLE'
-          }
-          const component =
-            typeof col.component === 'function'
-              ? React.createElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
-              : React.cloneElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
-          return component
-        }
       }
       delete col.sysCode
     })

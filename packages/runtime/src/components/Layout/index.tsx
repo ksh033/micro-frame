@@ -175,6 +175,9 @@ export default (props: any) => {
           //   to={`${item.path}`}
           return (
             <Link
+              onClick={() => {
+                sessionStorage.removeItem('SEARCH_PARAMS')
+              }}
               to={{
                 pathname: `${path}`,
               }}
