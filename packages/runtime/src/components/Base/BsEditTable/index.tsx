@@ -93,6 +93,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
       pagination={pagination}
       showIndex={showIndex}
       scroll={scroll}
+      readonly={readonly}
       editable={{
         // @ts-ignore
         form: newForm,
