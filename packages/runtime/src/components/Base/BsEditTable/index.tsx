@@ -7,12 +7,15 @@ import { Key } from 'antd/es/table/interface'
 import { FormInstance } from 'antd/es/form/Form'
 import Form from 'antd/es/form'
 import useMergedState from 'rc-util/es/hooks/useMergedState'
+import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing'
 
 export interface BsEditTableProps extends EditableProTableProps<any> {
   type: 'multiple' | 'single'
   editableKeys?: Key[]
   setEditableRowKeys?: (editableKeys: Key[], editableRows: any) => void
   innerForm?: FormInstance<any>
+  actionRender?: ActionRenderFunction<any> | undefined
+  preformatValue?: (list: any[]) => any[]
 }
 
 const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
@@ -30,6 +33,10 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
     clickEdit = true,
     rowKey = 'rowIndex',
     scroll = { x: 'max-content' },
+    actionRender = (row, config, defaultDoms) => {
+      return [defaultDoms.delete]
+    },
+    preformatValue,
     ...restProps
   } = props
 
@@ -92,11 +99,13 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         type: type,
         editableKeys: editableRowKey,
         onChange: setRowKeys,
-        actionRender: (row, config, defaultDoms) => {
-          return [defaultDoms.delete]
-        },
+        actionRender: actionRender,
         onValuesChange: (record, recordList) => {
-          onChange?.(recordList)
+          let newList = recordList
+          if (preformatValue) {
+            newList = preformatValue(recordList)
+          }
+          onChange?.(newList)
         },
       }}
       {...restProps}

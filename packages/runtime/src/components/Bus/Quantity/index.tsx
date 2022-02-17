@@ -14,6 +14,7 @@ interface QuantityProps extends TableComponentProps {
   getMax?: (record: any) => number
   getMin?: (record: any) => number
   getSuffix?: (record: any) => React.ReactNode
+  promptRender?: (value: any, record: any) => React.ReactNode
 }
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
@@ -25,6 +26,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
     getMin,
     getSuffix,
     unitName = 'cargoUnit',
+    promptRender,
     form,
     ...resProps
   } = props
@@ -57,6 +59,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
         min={min}
         {...resProps}
       />
+      {promptRender ? promptRender(value, rowData) : null}
     </div>
   )
 }

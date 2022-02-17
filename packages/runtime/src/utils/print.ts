@@ -47,6 +47,8 @@ export enum PrintTplType {
   checkOrder = '00000003',
   // 收货单
   receiverOrder = '00000004',
+  // 出库单
+  stockOutOrder = '00000005',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -76,6 +78,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleName: '收货单',
     tplName: 'receiverOrder.grf',
     dataUrl: '/transportsys/api/transport/order/print',
+    method: 'get',
+  },
+  '00000005': {
+    moduleId: '00000005',
+    moduleName: '出库单',
+    tplName: 'stockOutOrder.grf',
+    dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
   },
 }
