@@ -22,7 +22,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     rowKeyName = 'id',
     value,
     rowData,
-    warning = '',
+    warning = '您是否确定禁用?',
     enabledName = 'enabled',
     disabled,
     disabledCallback,
@@ -39,7 +39,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
   const handleChange: SwitchChangeEventHandler = (checked: boolean) => {
     if (checked === false) {
       CModal.confirm({
-        title: `${warning}您是否确定禁用?`,
+        title: `${warning}`,
         okText: '确定',
         okType: 'danger',
         cancelText: '取消',

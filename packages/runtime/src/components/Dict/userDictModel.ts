@@ -146,7 +146,7 @@ export default function useDictModel() {
       }
     }
 
-    return sysMap[config.dictTypeCode] || []
+    return sysMap[config.dictTypeCode]
   }
 
   const getDictText = (
