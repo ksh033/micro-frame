@@ -65,6 +65,11 @@ const services = {
       method: 'post',
       sysCode: 'purchasesys',
     },
+    barndList: {
+      url: '/base/api/brand/list/bysize',
+      method: 'get',
+      sysCode: 'base',
+    },
   },
   user: {
     getPublicKey: {

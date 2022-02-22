@@ -8,7 +8,7 @@ interface TableSelectProps extends ScSelectProps {
   limit?: number
 }
 
-const CargoSelect: React.FC<TableSelectProps> = (props) => {
+const CooperateSupplierSelect: React.FC<TableSelectProps> = (props) => {
   const { run } = uesRequest('system', 'cooperateSupplierList')
 
   const params = useMemo(
@@ -36,4 +36,4 @@ const CargoSelect: React.FC<TableSelectProps> = (props) => {
   )
 }
 
-export default CargoSelect
+export default CooperateSupplierSelect

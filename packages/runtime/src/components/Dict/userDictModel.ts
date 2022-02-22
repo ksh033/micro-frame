@@ -132,9 +132,8 @@ export default function useDictModel() {
   }
 
   const getDistList = (config: { syscode?: string; dictTypeCode: string }) => {
-   // const user = getUser()
-    const systemCode =
-      config.syscode || getAppCode() || 'common'
+    // const user = getUser()
+    const systemCode = config.syscode || getAppCode() || 'common'
     let sysMap = getBySysCode(systemCode)
     if (sysMap === null) {
       sysMap = getBySysCode('common') || {}
@@ -147,19 +146,29 @@ export default function useDictModel() {
       }
     }
 
-    return sysMap[config.dictTypeCode]
+    return sysMap[config.dictTypeCode] || []
   }
 
-  const getDictText=(config: { syscode?: string; dictTypeCode: string },dictVal:any)=>{
-    const distList=getDistList(config)||[];
-    const findItem=distList.find((item:any)=>{
-      return item.value===dictVal
+  const getDictText = (
+    config: { syscode?: string; dictTypeCode: string },
+    dictVal: any
+  ) => {
+    const distList = getDistList(config) || []
+    const findItem = distList.find((item: any) => {
+      return item.value === dictVal
     })
-    if (findItem){
+    if (findItem) {
       return findItem.name
     }
     return dictVal
   }
 
-  return { dict: newDict, loadDict, setLocal, getBySysCode, getDistList,getDictText}
+  return {
+    dict: newDict,
+    loadDict,
+    setLocal,
+    getBySysCode,
+    getDistList,
+    getDictText,
+  }
 }
