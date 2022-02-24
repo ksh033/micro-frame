@@ -8,11 +8,23 @@ import {
   formatMoneyQuery as fmq,
   money,
   rate,
-  unitNumberFormat,
   unitprice,
 } from './format'
+import useWeightUnit from './weightUnit'
+import { decimalPoint } from '@/utils/common'
 
 export const formatMoneyQuery = fmq
+
+const UnitFormat: React.FC<any> = (props) => {
+  const { valueType, text, record } = props
+  const { has } = useWeightUnit()
+  const unitName = valueType.split('_')[1]
+  const value = has(record[unitName])
+    ? Number(decimalPoint(text, 3)).toFixed(3)
+    : text
+
+  return <span>{value}</span>
+}
 
 const status = (text: any) => {
   let result: any = '--'
@@ -68,7 +80,13 @@ const defaultRenderText = <T, U>(
     valueType === 'un_purchaseUnit' ||
     valueType === 'un_distributeUnit'
   ) {
-    return unitNumberFormat(valueType, text, record)
+    return (
+      <UnitFormat
+        valueType={valueType}
+        text={text}
+        record={record}
+      ></UnitFormat>
+    )
   }
 
   return newText

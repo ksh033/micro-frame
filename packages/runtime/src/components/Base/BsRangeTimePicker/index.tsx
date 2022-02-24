@@ -21,6 +21,7 @@ export interface BsRangeTimePickerProps
   startTimeFiled?: string
   endTimeFiled?: string
   rulesRequire?: boolean
+  onChange?: (dates: RangeValue<Moment>, dateStrings: [string, string]) => void
 }
 
 const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {

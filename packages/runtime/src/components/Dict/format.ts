@@ -1,6 +1,6 @@
 import moment from 'moment'
-import useWeightUnit from '../Dict/weightUnit'
-import { decimalPoint, toFixed2 } from '../../utils/common'
+
+import { toFixed2 } from '../../utils/common'
 
 export function formatMoneyQuery(val, dotNum = 2, dw = '') {
   if (typeof val === 'number' || typeof val === 'string') {
@@ -58,11 +58,4 @@ export const rate = (text: any) => {
     return `${text}%`
   }
   return '--'
-}
-
-export const unitNumberFormat = (valueType: string, text: any, record: any) => {
-  const { has } = useWeightUnit()
-  const unitName = valueType.split('_')[1]
-
-  return has(record[unitName]) ? Number(decimalPoint(text, 3)).toFixed(3) : text
 }
