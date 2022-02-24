@@ -11,7 +11,7 @@ import {
   unitprice,
 } from './format'
 import useWeightUnit from './weightUnit'
-import { decimalPoint } from '@/utils/common'
+import { decimalPoint } from '../../utils/common'
 
 export const formatMoneyQuery = fmq
 
