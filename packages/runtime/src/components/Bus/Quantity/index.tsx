@@ -9,12 +9,12 @@ import type {
 interface QuantityProps extends TableComponentProps {
   onChange: (val: any) => any
   value?: any
-  returnReason: string
   unitName?: string
   getMax?: (record: any) => number
   getMin?: (record: any) => number
   getSuffix?: (record: any) => React.ReactNode
   promptRender?: (value: any, record: any) => React.ReactNode
+  style?: any
 }
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
@@ -49,7 +49,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
   }, [IsWeightUnit])
 
   return (
-    <div>
+    <>
       <BsNumberInput
         value={value !== undefined && value !== null ? String(value) : value}
         onChange={onChange}
@@ -60,7 +60,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
         {...resProps}
       />
       {promptRender ? promptRender(value, rowData) : null}
-    </div>
+    </>
   )
 }
 Quantity.customView = true

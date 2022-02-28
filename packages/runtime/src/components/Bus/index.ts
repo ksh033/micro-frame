@@ -78,4 +78,5 @@ export {
   Quantity,
   BrandSelect,
   BatchCopyAddModal,
+  OrgSelect,
 }
