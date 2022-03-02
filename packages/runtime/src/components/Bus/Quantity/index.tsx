@@ -15,6 +15,7 @@ interface QuantityProps extends TableComponentProps {
   getSuffix?: (record: any) => React.ReactNode
   promptRender?: (value: any, record: any) => React.ReactNode
   style?: any
+  id?: any
 }
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
