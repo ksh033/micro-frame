@@ -172,5 +172,5 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     </div>
   )
 }
-
-export default ListPage(SelectCargoTable, pagaConfig)
+const CargoTable:React.FunctionComponent<any>= ListPage(SelectCargoTable, pagaConfig)
+export default CargoTable

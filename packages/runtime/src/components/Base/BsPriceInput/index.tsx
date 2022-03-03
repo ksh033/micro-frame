@@ -24,6 +24,8 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     readonly,
     rowData,
     complement = 2,
+    addonAfter,
+    addonBefore,
     ...restProps
   } = props
 
@@ -67,7 +69,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   }
 
   if (readonly) {
-    return <div>{formatValue(value)}</div>
+    return <div>{addonBefore}{formatValue(value)}{addonAfter}</div>
   }
 
   return (
@@ -75,6 +77,8 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
       value={formatValue(value)}
       onChange={handleChange}
       onBlur={onBlur}
+      addonAfter={addonAfter}
+      addonBefore={addonBefore}
       complement={complement}
       {...restProps}
     ></BsNumberInput>

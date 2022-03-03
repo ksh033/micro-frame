@@ -2,14 +2,15 @@ import React, { useMemo } from 'react'
 import userDictModel from '../../Dict/userDictModel'
 import { ScSelect, ScRadio, ScCheckBox } from '@scboson/sc-element'
 import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index'
-
+import { ScRadioProps } from '@scboson/sc-element/es/sc-radio/index'
+import { ScCheckProps } from '@scboson/sc-element/es/sc-check-box/index'
 import {
   FormComponent,
   FormComponentProps,
   deepGet,
 } from '@scboson/sc-element/es/c-form'
 
-export interface DictSelectProp extends ScSelectProps, FormComponentProps {
+export interface DictSelectProp extends  FormComponentProps {
   /** 字典类型 */
   dictType: string
   /** 系统 */
@@ -17,8 +18,10 @@ export interface DictSelectProp extends ScSelectProps, FormComponentProps {
   type?: 'Select' | 'Radio' | 'CheckBox'
   fieldProps?: any
   filterData?: (dictData: any[]) => any[]
-  rowData?: any
+  rowData?: any;
+  [key: string]: any;
 }
+
 /**
  * 字典控件
  *

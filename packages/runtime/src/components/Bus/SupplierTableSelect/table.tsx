@@ -63,5 +63,6 @@ const Table: React.FC<any> = (props: any) => {
     </div>
   )
 }
+const SupplierTable: React.FunctionComponent= ListPage(Table, pagaConfig)
 
-export default ListPage(Table, pagaConfig)
+export default SupplierTable;
