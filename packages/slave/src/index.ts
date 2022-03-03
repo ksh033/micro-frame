@@ -35,15 +35,15 @@ try {
 }
 export const EVN_CONFIG = {
   dev: {
-    imgUrl: "https://test.bogengkeji.com/images",
+    imgUrl: "https://test.yumcat.cn/images",
     apiUrl: "/webapi-dev",
   },
   pro: {
-    imgUrl: "https://images.bogengkeji.com",
+    imgUrl: "https://images.yumcat.cn",
     apiUrl: "/webapi",
   },
   test: {
-    imgUrl: "https://test.bogengkeji.com/images",
+    imgUrl: "https://test.yumcat.cn/images",
     apiUrl: "/webapi-test",
   },
 };
@@ -230,6 +230,9 @@ export default defineConfig({
         return localName;
       },
     },
+  },
+  theme: {
+    '@root-entry-name': 'default',
   },
   proxy: proxy !== null ? proxy[REACT_APP_ENV || "dev"] : {},
 });
