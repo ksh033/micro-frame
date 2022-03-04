@@ -16,6 +16,7 @@ interface QuantityProps extends TableComponentProps {
   promptRender?: (value: any, record: any) => React.ReactNode
   style?: any
   id?: any
+  disabled?: boolean | ((record: any) => boolean)
 }
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
@@ -29,6 +30,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
     unitName = 'cargoUnit',
     promptRender,
     form,
+    disabled = false,
     ...resProps
   } = props
 
@@ -37,6 +39,9 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
   const max = getMax?.(rowData) || undefined
 
   const min = getMin?.(rowData) || undefined
+
+  const newDisabled =
+    typeof disabled === 'function' ? disabled?.(rowData) : disabled
 
   const IsWeightUnit = useMemo(() => {
     return has(rowData[unitName])
@@ -58,6 +63,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
         complement={complement}
         max={max}
         min={min}
+        disabled={newDisabled}
         {...resProps}
       />
       {promptRender ? promptRender(value, rowData) : null}
