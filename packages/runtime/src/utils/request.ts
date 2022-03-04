@@ -332,6 +332,12 @@ const getRequestMethod = () => {
           };
         }
       }
+      if (resData.data&&resData.data.records){
+        resData.data.rows=resData.data.records;
+        delete resData.data.records;
+      }
+     
+    
       ctx.res = resData.data;
       // Promise.resolve(resData.data)
     }

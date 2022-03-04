@@ -59,4 +59,5 @@ const Table: React.FC<any> = (props: any) => {
   )
 }
 
-export default ListPage(Table, pagaConfig)
+const WarehouseTable:any=ListPage(Table, pagaConfig);
+export default WarehouseTable

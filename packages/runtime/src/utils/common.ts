@@ -1,4 +1,4 @@
-import { User } from '@/components/Auth'
+import { User } from '../components/Auth'
 
 // @ts-ignore
 export const baseUrl = SC_GLOBAL_IMG_URL || 'https://testepay.bstj.com/bg/img'

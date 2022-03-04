@@ -11,16 +11,13 @@ import userDictModel from '../../../components/Dict/userDictModel'
 const pagaConfig: PageConfig = {
   ...list,
 }
-
-const Table: React.FC<any> = (props: any) => {
+const Table = (props: any) => {
   const { pageProps } = props
   const { selectionType, onTabelRow, rowKey, selectedRowKeys } = pageProps
   const { run } = uesRequest('system', 'shop')
-
   const page = useListPageContext()
   const search = page.getSearch({})
   const searchConfig = search.toConfig()
-
   const { getDistList } = userDictModel()
 
   const shopBusinessMap = useMemo(() => {
@@ -55,7 +52,6 @@ const Table: React.FC<any> = (props: any) => {
       },
     })
     .toConfig()
-
   const params = useMemo(() => {
     return pageInfo.params
   }, [JSON.stringify(pageInfo.params)])
@@ -80,5 +76,6 @@ const Table: React.FC<any> = (props: any) => {
     </div>
   )
 }
+const ShopTableTable:React.FunctionComponent<any> = ListPage(Table, pagaConfig)
 
-export default ListPage(Table, pagaConfig)
+export default ShopTableTable;
