@@ -60,8 +60,15 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
         [listValueFiled]: list.map((it) => it.code),
         ...params,
       }).then((res) => {
-        if (Array.isArray(res) && res.length > 0) {
-          const newList = res.map((it: any) => {
+        let list: any = []
+        if (Object.prototype.toString.call(res) === '[object Object]') {
+          list = res.records || res.rows || []
+        }
+        if (Array.isArray(res)) {
+          list = res
+        }
+        if (Array.isArray(list) && list.length > 0) {
+          const newList = list.map((it: any) => {
             return {
               ...it,
               quantity: map[it.cargoCode],
