@@ -73,6 +73,7 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
       icon={<DownOutlined></DownOutlined>}
       overlay={menu}
       style={{ padding: '0px' }}
+      trigger={['click']}
       // @ts-ignore
       getPopupContainer={(node: any) => {
         const footer = document.getElementsByClassName('ant-pro-footer-bar')
