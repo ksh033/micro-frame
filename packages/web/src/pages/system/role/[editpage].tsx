@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import type { FC} from 'react';
+import type { FC } from 'react'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { CForm } from '@scboson/sc-element'
 import { EditPage, useEditPageContext } from '@scboson/sc-schema'
@@ -73,12 +73,12 @@ const Page: FC<any> = (props) => {
       },
     })
     .toConfig()
-  const modalButtons = scope.getModalBtns(action, true)
+  const modalButtons = scope.getModalBtns(action)
   const title = scope.getTitle(action)
 
   const onValuesChange = (changedValues: any, values: any) => {
     if (values.systemCode !== systemCode) {
-      formConfig.form.current.setFieldsValue({
+      formConfig.form.current?.setFieldsValue({
         bizDeptId: null,
       })
       setBizDeptId(null)

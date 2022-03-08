@@ -20,7 +20,7 @@ interface CurrentUserState {}
 const Page: FC<any> = (props) => {
   const scope = useEditPageContext<CurrentUserState>()
   const { run } = useServiceRequest('user', 'update')
-  const user: User | null = Auth.getUser()
+  const user = Auth.getUser()
   const [userInfo, setUseInfo] = useSetState<any>(user)
   const formConfig = scope.getFormInfo().toConfig()
 
@@ -31,12 +31,12 @@ const Page: FC<any> = (props) => {
   }, [userInfo])
 
   const handleSave = () => {
-    formConfig.form.current.validateFields().then(async (values: any) => {
+    formConfig.form.current?.validateFields().then(async (values: any) => {
       const data = await run(values)
       if (data) {
         setUseInfo(values)
         console.log(values)
-        formConfig.form.current.setFieldsValue(values)
+        formConfig.form.current?.setFieldsValue(values)
         Auth.setUser({ ...userInfo, ...values })
       }
     })
