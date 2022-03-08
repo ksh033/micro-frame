@@ -3,7 +3,6 @@ import React, { useLayoutEffect, FC, useState, useMemo } from 'react'
 import { CForm } from '@scboson/sc-element'
 import { EditPage, useEditPageContext } from '@scboson/sc-schema'
 import { ModalPageContainer, getService } from '@micro-frame/sc-runtime'
-import { Auth } from '@micro-frame/sc-runtime'
 
 import formData from './components/form'
 

@@ -1,4 +1,4 @@
-import { Input, Progress, Space } from 'antd'
+import { Input, Progress } from 'antd'
 import React, { useState } from 'react'
 import style from './index.less'
 import { chenkPwdStrength } from './check'
