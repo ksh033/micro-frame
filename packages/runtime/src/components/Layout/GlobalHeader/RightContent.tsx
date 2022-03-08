@@ -27,10 +27,11 @@ const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
     })
   }
 
+  const url = `${window.location.origin}/长嘴猫客户端-v1.7.1.2.exe`
   return (
     <div className={className}>
       <div>
-        <a href="./长嘴猫客户端-v1.7.1.2.exe">下载打印插件</a>
+        <a href={url}>下载打印插件</a>
       </div>
       <Avatar currentUser={currentUser} menu={menu} layoutFn={layoutFn} />
     </div>
