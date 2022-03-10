@@ -159,7 +159,7 @@ async function release() {
             isNext ? "with next tag" : ""
           }`
         );
-        const cliArgs = isNext ? ["publish", "--tag", "next"] : ["publish"];
+        const cliArgs = isNext ? ["publish", "--tag", "beta",'--dry-run'] : ["publish"];
         const { stdout } = execa.sync("npm", cliArgs, {
           cwd: pkgPath,
         });
