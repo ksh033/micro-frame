@@ -79,43 +79,43 @@ async function release() {
     // Commit
     // Git Tag
     // Push
-    logStep("bump version with lerna version");
+  //   logStep("bump version with lerna version");
 
-    const conventionalGraduate = args.conventionalGraduate
-      ? ["--conventional-graduate"].concat(
-          Array.isArray(args.conventionalGraduate)
-            ? args.conventionalGraduate.join(",")
-            : []
-        )
-      : [];
-    const conventionalPrerelease = args.conventionalPrerelease
-      ? ["--conventional-prerelease"].concat(
-          Array.isArray(args.conventionalPrerelease)
-            ? args.conventionalPrerelease.join(",")
-            : []
-        )
-      : [];
+  //   const conventionalGraduate = args.conventionalGraduate
+  //     ? ["--conventional-graduate"].concat(
+  //         Array.isArray(args.conventionalGraduate)
+  //           ? args.conventionalGraduate.join(",")
+  //           : []
+  //       )
+  //     : [];
+  //   const conventionalPrerelease = args.conventionalPrerelease
+  //     ? ["--conventional-prerelease"].concat(
+  //         Array.isArray(args.conventionalPrerelease)
+  //           ? args.conventionalPrerelease.join(",")
+  //           : []
+  //       )
+  //     : [];
 
-    await exec(
-      "node",
-      [
-        [lernaCli],
-        "version",
-        "--exact",
-        // '--no-commit-hooks',
-        // '--no-git-tag-version',
-        // '--no-push',
-        "--message",
-        "🎨 chore(release): Publish",
-        "--conventional-commits",
-      ]
-        .concat(conventionalGraduate)
-        .concat(conventionalPrerelease),
-      {
-        shell: false,
-      }
-    );
-  }
+  //   await exec(
+  //     "node",
+  //     [
+  //       [lernaCli],
+  //       "version",
+  //       "--exact",
+  //       // '--no-commit-hooks',
+  //       // '--no-git-tag-version',
+  //       // '--no-push',
+  //       "--message",
+  //       "🎨 chore(release): Publish",
+  //       "--conventional-commits",
+  //     ]
+  //       .concat(conventionalGraduate)
+  //       .concat(conventionalPrerelease),
+  //     {
+  //       shell: false,
+  //     }
+  //   );
+  // }
 
   // Publish
   // Umi must be the latest.
