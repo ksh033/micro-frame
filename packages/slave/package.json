@@ -38,6 +38,7 @@
     "ahooks": "^2.9.6"
   },
   "publishConfig": {
-    "registry": "http://172.18.169.70:8081/repository/bsnpm/"
+    "access": "public",
+    "registry": "http://172.18.164.103:4873/"
   }
 }

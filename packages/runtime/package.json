@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "react-amap": "^1.2.8",
-    "@scboson/client-plugin": "2.0.0",
+    "@scboson/client-plugin": "2.0.0-beta1",
     "@scboson/sc-element":"1.0.4-beta1",
     "@scboson/sc-layout": "1.0.1-beta1"
   },
@@ -35,6 +35,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "http://172.18.169.70:8081/repository/bsnpm/"
+    "registry": "http://172.18.164.103:4873/"
   }
 }
