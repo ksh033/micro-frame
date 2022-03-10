@@ -27,6 +27,7 @@ import CatalogTreeSelect from './CatalogTreeSelect'
 import Quantity from './Quantity'
 import BrandSelect from './BrandSelect'
 import BatchCopyAddModal from './BatchCopyAddModal'
+import Invalid from './Invalid'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -51,6 +52,7 @@ regeditCmp('CatalogTreeSelect', CatalogTreeSelect)
 regeditCmp('Quantity', Quantity)
 regeditCmp('BrandSelect', BrandSelect)
 regeditCmp('BatchCopyAddModal', BatchCopyAddModal)
+regeditCmp('Invalid', Invalid)
 
 export {
   CheckBoxDate,
@@ -79,4 +81,5 @@ export {
   BrandSelect,
   BatchCopyAddModal,
   OrgSelect,
+  Invalid,
 }
