@@ -30,7 +30,6 @@ const OrgSelect: React.FC<OrgSelectProps> = (props) => {
 
   return (
     <ScSelect
-      {...resProps}
       request={run}
       showSearch
       labelInValue
@@ -44,6 +43,7 @@ const OrgSelect: React.FC<OrgSelectProps> = (props) => {
       filterOption={false}
       defaultActiveFirstOption={false}
       group={innerBizDeptTypes.length > 1}
+      {...resProps}
     ></ScSelect>
   )
 }
