@@ -23,9 +23,9 @@
   ],
   "dependencies": {
     "react-amap": "^1.2.8",
-    "@scboson/client-plugin": "^2.0.0-beta.1",
-    "@scboson/sc-element":"^1.0.4-beta.2",
-    "@scboson/sc-layout": "^1.0.1-beta.2"
+    "@scboson/client-plugin": "2.0.0-beta.1",
+    "@scboson/sc-element":"1.0.4-beta.2",
+    "@scboson/sc-layout": "1.0.1-beta.2"
   },
   "keywords": [],
   "authors": [],
