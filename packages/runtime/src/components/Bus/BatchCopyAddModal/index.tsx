@@ -11,6 +11,8 @@ type AddExpenseModalProps = {
     title?: string
     params?: {}
     listValueFiled?: string
+    quantityFiled?: string
+    valueFiled?: string
     addList?: (list: any[]) => void
     request: (params: any) => Promise<any> // 请求数据的远程方法
   }
@@ -25,6 +27,8 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     warning = '请在下方粘贴从excel复制的信息',
     title = '批量添加货品',
     listValueFiled = 'cargoCodeList',
+    quantityFiled = 'quantity',
+    valueFiled = 'cargoCode',
   } = pageProps
   const [form] = Form.useForm()
 
@@ -71,7 +75,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
           const newList = list.map((it: any) => {
             return {
               ...it,
-              quantity: map[it.cargoCode],
+              [quantityFiled]: map[it[valueFiled]],
             }
           })
           addList?.(newList)
