@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ScEditableTable } from '@scboson/sc-element'
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
 import userDictModel from '../../Dict/userDictModel'
@@ -51,6 +51,24 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
       onChange: setEditableRowKeys,
     }
   )
+
+  useEffect(() => {
+    if (Array.isArray(value) && value.length > 0) {
+      const editList = value.filter((it) => {
+        return editableRowKey.indexOf(it[rowKey]) !== -1
+      })
+      if (editList.length > 0) {
+        let fieldsValue = {}
+        editList.forEach((it: any) => {
+          fieldsValue = {
+            ...fieldsValue,
+            [it[rowKey]]: it,
+          }
+        })
+        newForm.setFieldsValue(fieldsValue)
+      }
+    }
+  }, [JSON.stringify(value)])
 
   const columnsFormat = (list: any[]) => {
     list.forEach((col: any, index: number) => {
