@@ -65,7 +65,7 @@ const Authority = function <T extends AuthorityType>(
     if (!localMenuData) {
       if (currentMenu) {
         let { funcodes = "" } = currentMenu;
-        funcodes = funcodes.split("|");
+        funcodes = funcodes.toUpperCase().split("|");
         if (funcode) {
           // funcodes.splice(funcodes.indexOf("ENABLE"),1)
           if (funcodes.includes(funcode)) {
@@ -82,7 +82,8 @@ const Authority = function <T extends AuthorityType>(
           const newButtons: any[] = [];
           buttons.forEach((item: any) => {
             if (item.funcode) {
-              if (funcodes.includes(item.funcode)) {
+              
+              if (funcodes.includes(item.funcode.toUpperCase())) {
                 newButtons.push(item);
               }
             } else {
