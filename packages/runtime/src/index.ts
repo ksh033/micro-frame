@@ -1,5 +1,7 @@
 /// <reference path="./typings.d.ts" />
 import Layout from "./components/Layout";
+import SlaveLayout from "./components/Layout/SlaveLayout";
+
 import Login from "./components/Login";
 import Loading from "./components/Loading";
 import SelectDept from "./components/SelectDept";
@@ -57,6 +59,7 @@ setFuncodes({
 });
 export {
   Layout,
+  SlaveLayout,
   Auth,
   Utils,
   SelectDept,

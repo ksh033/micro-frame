@@ -1,49 +1,44 @@
 /* eslint-disable import/no-dynamic-require */
+{{#localLayout}}
 import React from 'react';
-import {SchemaContext} from '@scboson/sc-schema'
-import {AppStart,BsTable,Auth} from '@micro-frame/sc-runtime'
-{{#localLayout}}
-import MasterApp from './layout/layout/MasterApp'
-
-
-{{/localLayout}}
-import {history} from 'umi'
-
+import {SchemaContext} from '@scboson/sc-schema';
+import {AppStart,BsTable,Auth} from '@micro-frame/sc-runtime';
+import MasterApp from './layout/layout/MasterApp';
 const {render} = AppStart
-
-const { Operation } = BsTable
-
-
-
 export function rootContainer(container: any) {
-
-{{#localLayout}}
-  window.syscode="{{appSelected}}"
+   window.syscode="{{appSelected}}"
     Auth.setUserAppCode("{{appSelected}}")
    return React.createElement(MasterApp,{localMenuData:{{localMenuData}}},container);
-{{/localLayout}}
-
-
-{{^localLayout}}
-  return React.createElement(SchemaContext.Provider,{value:{
-   umi:{history},
-    tableOpColCmp:Operation
-  }},container);
-{{/localLayout}}
 } 
-
-
-{{#localLayout}}
  const patchRoutes=AppStart.patchRoutes
  const onRouteChange=AppStart.onRouteChange
  export {
  render,patchRoutes,onRouteChange
 }
 {{/localLayout}}
-
 {{^localLayout}}
- export {
+import React from 'react';
+import {dynamic} from 'umi';
+import {SlaveLayout,Loading} from '@micro-frame/sc-runtime';
+
+export function patchRoutes({ routes }) {
+if (Array.isArray(routes)) {
+
+  let childRoutes=[];
+  let len=routes.length;
+  for(let i=0;i<len;i++){
+    childRoutes.push(routes.shift())
+  }
  
+  routes.push({
+    path: "/",
+    component: SlaveLayout,
+
+   routes:childRoutes
+ })
+  }
+  return routes
+  
 }
 {{/localLayout}}
 

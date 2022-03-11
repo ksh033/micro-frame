@@ -185,11 +185,12 @@ export default defineConfig({
     }
   },
   plugins: [
-    "@micro-frame/plugin-microlayout",
+  
     "@umijs/plugin-esbuild",
     "@umijs/plugin-model",
     "@umijs/plugin-antd",
     "@umijs/plugin-qiankun",
+    "@micro-frame/plugin-microlayout",
     "@umijs/plugin-locale",
   ],
   cssLoader: {

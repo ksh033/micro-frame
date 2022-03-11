@@ -1,78 +1,78 @@
-import React, { useState, useEffect } from 'react'
-import { ProSettings, MasterLayout } from '@scboson/sc-layout'
+import React, { useState, useEffect } from "react";
+import { ProSettings, MasterLayout } from "@scboson/sc-layout";
 // @ts-ignore
-import { Link, history, useModel } from 'umi'
+import { Link, history, useModel } from "umi";
 import {
   getUser,
   changeApp,
   restUserAppCode,
   getUserAppCode,
   checkUserDept,
-} from '../Auth'
-import { uesRequest } from '../../utils/api'
-import RightContent from './GlobalHeader/RightContent'
-import logo from '../../assets/logo.svg'
-import { useMount } from 'ahooks'
-import useWeightUnit from '../Dict/weightUnit'
-import menuFormat from './menuFormat'
-import userDictModel from '../Dict/userDictModel'
+} from "../Auth";
+import { uesRequest } from "../../utils/api";
+import RightContent from "./GlobalHeader/RightContent";
+import logo from "../../assets/logo.svg";
+import { useMount } from "ahooks";
+import useWeightUnit from "../Dict/weightUnit";
+import menuFormat from "./menuFormat";
+import userDictModel from "../Dict/userDictModel";
 
-import './index.less'
+import "./index.less";
 
 export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-  })
+  });
   //isMaster 是否是主应用
-  const { children, userConfig, isMaster, ...restProps } = props
-  const { menuData, appData, appSelected, localMenuData } = userConfig || {}
-  const user = getUser()
-  const userAppInfo = user?.userAppInfo
-  const req = uesRequest('user', 'chooseSys')
-  const { loadDict, dict } = userDictModel()
-  const { loadWeight } = useWeightUnit()
-  const systemList = appData || user?.systemList
+  const { children, userConfig, isMaster, ...restProps } = props;
+  const { menuData, appData, appSelected, localMenuData } = userConfig || {};
+  const user = getUser();
+  const userAppInfo = user?.userAppInfo;
+  const req = uesRequest("user", "chooseSys");
+  const { loadDict, dict } = userDictModel();
+  const { loadWeight } = useWeightUnit();
+  const systemList = appData || user?.systemList;
   //独立运行是模拟setQiankunGlobalState
   const { setQiankunGlobalState } =
-    useModel('@@qiankunStateForSlave') ||
-    useModel('@@qiankunStateFromMaster') ||
-    {}
+    useModel("@@qiankunStateForSlave") ||
+    useModel("@@qiankunStateFromMaster") ||
+    {};
 
-  const appSelectedKeys = appSelected || getUserAppCode() || []
+  const appSelectedKeys = appSelected || getUserAppCode() || [];
   const apps = systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
     disabled: user?.needModifyPwd,
     isApp: true,
     path: `/${sys.systemCode}`,
-  }))
-  const mdata = menuData ? menuData : userAppInfo?.menuTreeNodeList || []
+  }));
+  const mdata = menuData ? menuData : userAppInfo?.menuTreeNodeList || [];
   //const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
   useEffect(() => {
     // 加载枚举
-    loadDict()
+    loadDict();
     // 加载计重单位
-    loadWeight()
+    loadWeight();
     if (!isMaster) {
       if (appSelected) {
         if (!changeApp(appSelected)) {
           req.run({ systemCode: appSelected }).then((data) => {
-            changeApp(appSelected, data)
-            history.push('/')
-          })
+            changeApp(appSelected, data);
+            history.push("/");
+          });
         }
       }
     }
-  }, [])
+  }, []);
   useMount(() => {
     //if (window.addEventListener) {
     //window.addEventListener("unload", page_unload, false);
     // }else{
     window.onunload = function () {
-      console.log('重置窗口')
-      restUserAppCode(getUserAppCode())
-    }
+      console.log("重置窗口");
+      restUserAppCode(getUserAppCode());
+    };
     // }
 
     // function page_unload() {
@@ -83,9 +83,9 @@ export default (props: any) => {
     // }
     // window.location
     if (!checkUserDept(location.pathname)) {
-      history.push('/selectDept')
+      history.push("/selectDept");
     }
-  })
+  });
 
   // const cehckDept = () => {
   //   const currentUser = getUser();
@@ -108,7 +108,7 @@ export default (props: any) => {
     <div
       id="test-pro-layout"
       style={{
-        height: '100vh',
+        height: "100vh",
       }}
     >
       <MasterLayout
@@ -117,32 +117,32 @@ export default (props: any) => {
         onPageChange={(location, menuItem) => {
           if (menuItem && menuItem.key)
             setQiankunGlobalState &&
-              setQiankunGlobalState({ currentMenu: menuItem })
+              setQiankunGlobalState({ currentMenu: menuItem });
         }}
         appMenuProps={{
           onSelect: async (keys: any) => {
             if (keys && keys.length > 0) {
               if (!changeApp(keys[0])) {
-                const data = await req.run({ systemCode: keys[0] })
-                changeApp(keys[0], data)
+                const data = await req.run({ systemCode: keys[0] });
+                changeApp(keys[0], data);
               }
               if (!checkUserDept(location.pathname)) {
-                history.push('/selectDept')
+                history.push("/selectDept");
               } else {
-                history.push('/' + keys[0])
+                history.push("/" + keys[0]);
               }
             }
           },
         }}
         itemRender={({ breadcrumbName, path }: any) => {
-          const { routerBase = '/' } = window
-          const url = path.replace(routerBase, '')
+          const { routerBase = "/" } = window;
+          const url = path.replace(routerBase, "");
 
           return (
             <Link href={path} to={url}>
               {breadcrumbName}
             </Link>
-          )
+          );
         }}
         appSelectedKeys={[appSelectedKeys]}
         {...restProps}
@@ -152,13 +152,13 @@ export default (props: any) => {
             [],
             appSelectedKeys,
             localMenuData
-          )
-          return menus
+          );
+          return menus;
         }}
         menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
-          const { path, syscode } = item
-          let search = ''
+          const { path, syscode } = item;
+          let search = "";
           // const paths = path.substring(1, path.length).split('/')
           // const [currentSysCode]=paths;
           //if (appSelectedKeys && appSelectedKeys.length > 0) {
@@ -169,14 +169,13 @@ export default (props: any) => {
           //}
 
           if (item.isApp) {
-            return <a>{dom}</a>
+            return <a>{dom}</a>;
           }
-
           //   to={`${item.path}`}
           return (
             <Link
               onClick={() => {
-                sessionStorage.removeItem('SEARCH_PARAMS')
+                sessionStorage.removeItem("SEARCH_PARAMS");
               }}
               to={{
                 pathname: `${path}`,
@@ -184,7 +183,7 @@ export default (props: any) => {
             >
               {dom}
             </Link>
-          )
+          );
         }}
         rightContentRender={() => (
           <RightContent currentUser={user} menu></RightContent>
@@ -195,5 +194,5 @@ export default (props: any) => {
         {children}
       </MasterLayout>
     </div>
-  )
-}
+  );
+};

@@ -147,6 +147,7 @@ const formatMenu = (
       funcodes: funcodes.join('|'),
       icon: iconUrl || <AppstoreFilled />,
       parentKeys: parnetKeys,
+      pageUrl,
       // id,
       syscode: systemCode,
       children: newChildren,
