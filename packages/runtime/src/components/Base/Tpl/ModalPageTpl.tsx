@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import styles from './ModalPageTpl.less';
 
 const ModalEditPageTpl: React.FC<any> = props => {
-  const { toolbar, children } = props;
+  const { toolbar, children,...restProps } = props;
 
   /**
    * 表单顶部合并 以及通用方法引入
@@ -21,7 +21,7 @@ const ModalEditPageTpl: React.FC<any> = props => {
   }, [toolbar]);
 
   return (
-    <div className={styles['modal-page']}>
+    <div className={styles['modal-page']} {...restProps}>
       <div className={styles['modal-page-content']}>{children}</div>
       {toolbar ? (
         <div className={`ant-modal-footer ${styles['modal-page-footer']}`}>
