@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-runtime",
-  "version": "1.0.4-beta.2",
+  "version": "1.0.4-beta.3",
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
@@ -22,10 +22,10 @@
     "ie >= 11"
   ],
   "dependencies": {
-    "react-amap": "^1.2.8",
     "@scboson/client-plugin": "beta",
-    "@scboson/sc-element":"beta",
-    "@scboson/sc-layout": "beta"
+    "@scboson/sc-element": "beta",
+    "@scboson/sc-layout": "beta",
+    "react-amap": "^1.2.8"
   },
   "keywords": [],
   "authors": [],
