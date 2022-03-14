@@ -6,9 +6,9 @@
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
     "build": "father-build",
-    "release": "node ./scripts/release.js",
+    "release": "node ./scripts/release.js --conventionalPrerelease=true",
     "build:dev": "father-build --watch",
-    "build:web-dev": "cross-env ANALYZE=1 REACT_APP_ENV=dev APP_ROOT=packages/web umi build",
+    "build:web-dev": "cross-env  REACT_APP_ENV=dev APP_ROOT=packages/web umi build",
     "build:web-pro": "npm run build && cross-env REACT_APP_ENV=pro APP_ROOT=packages/web umi build",
     "build:web-test": "npm run build && cross-env REACT_APP_ENV=test APP_ROOT=packages/web umi build",
     "start": "cross-env APP_ROOT=packages/web umi dev",

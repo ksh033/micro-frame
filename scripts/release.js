@@ -103,7 +103,7 @@ async function release() {
           'version',
           '--yes',
           '--exact',
-          '--no-git-tag-version',
+          //'--no-git-tag-version',
           // '--no-commit-hooks',
           // '--no-git-tag-version',
           // '--no-push',
