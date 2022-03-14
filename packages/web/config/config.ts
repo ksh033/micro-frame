@@ -90,7 +90,7 @@ export default defineConfig({
   // loading: '@ant-design/pro-layout/es/PageLoading',
   // },
   devtool: REACT_APP_ENV === 'pro' ? false : 'source-map',
-
+  cssModulesTypescriptLoader:{},
   targets: {
     ie: 11,
   },
