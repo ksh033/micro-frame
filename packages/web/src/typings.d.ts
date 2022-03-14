@@ -28,7 +28,8 @@ interface Window {
     fieldsObject: GAFieldsObject | string
   ) => void
   reloadAuthorized: () => void
-  masterHistory: any;
+  masterHistory: any
+  webkitMutationObserver: any
 }
 
 declare let ga: () => void
@@ -41,5 +42,4 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false
 
-declare const SC_MASTER_URL: string;
-
+declare const SC_MASTER_URL: string

@@ -1,21 +1,90 @@
-import React, { useState } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Form, Input, Button, Tabs, Modal, Spin } from 'antd'
 import { urlSafeBase64Decode, urlSateBase64Encode } from '../../utils/common'
 import SMSCode from '../SMSCode'
 import { uesRequest } from '../../utils/api'
-import { setUser, getUser, checkUserDept, clearUser } from '../Auth'
+import { setUser, checkUserDept, clearUser } from '../Auth'
 //@ts-ignore
 import { history } from 'umi'
 import styles from './index.less'
 import logo from '../../assets/login/logo.png'
-import { useMount } from 'ahooks'
+import phonepng from '../../assets/login/u650.png'
+import wxpng from '../../assets/login/u651.png'
+import { useMount, useExternal, useUpdateEffect } from 'ahooks'
+import createWxLoginQr from '../../wxConfig'
+
+const { TabPane } = Tabs
 const Encrypt = require('../../assets/jsencrypt.min')
 
-const Login: React.FC<any> = () => {
-  const [state, setstate] = useState(1)
+const Login: React.FC<any> = (props: any) => {
+  const [activeKey, setActiveKey] = useState('wx')
+  const [state, setState] = useState(1)
   //  const { signin } = useModel('useAuthModel');
+  const { location } = props
   const { loading, run } = uesRequest('user', 'loginByPhone')
+  const wechatCodeLogin = uesRequest('user', 'wechatCodeLogin')
   const getPublicKey = uesRequest('user', 'getPublicKey')
+
+  const pageParams = location.query || {}
+
+  const [status] = useExternal(
+    'https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js',
+    {
+      async: false,
+    }
+  )
+
+  const loginCallBack = (data: any) => {
+    const { chooseSysVO, ...userInfo } = data
+    userInfo.userAppInfo = chooseSysVO
+    setUser(userInfo)
+    if (userInfo.needModifyPwd) {
+      history.push('/system/current/initpassword')
+      return
+    }
+    if (!checkUserDept(window.location.pathname)) {
+      history.push('/selectDept')
+      return
+    } else {
+      const { systemCode } = userInfo?.userAppInfo.currentSystem || {}
+      //@ts-ignore
+      // if (window.__POWERED_BY_QIANKUN__){
+      history.push(`/${systemCode}`)
+      return
+      //}else{
+      // history.push(`/`);
+      // }
+    }
+  }
+
+  useUpdateEffect(() => {
+    if (status === 'ready') {
+      createWxLoginQr('wx_login_container', '/login')
+    }
+  }, [status])
+
+  useEffect(() => {
+    if (pageParams.code !== undefined && pageParams.code !== null) {
+      wechatCodeLogin
+        .run(pageParams)
+        .then((data: any) => {
+          loginCallBack(data)
+        })
+        .catch((error) => {
+          if (error && error.data.errorCode === 'A100115') {
+            Modal.warning({
+              title: '提示',
+              content:
+                '当前微信暂未绑定长嘴猫账号，请使用账号密码登录后在【个人中心】进行绑定',
+              onOk() {
+                setActiveKey('custom')
+              },
+            })
+          }
+        })
+    }
+  }, [pageParams.code])
+
   const onFinish = async (values: any) => {
     const publicKey = await getPublicKey.run()
     if (publicKey) {
@@ -28,26 +97,7 @@ const Login: React.FC<any> = () => {
         cipherStr: urlSateBase64Encode(cipherStr),
       }
       const data = await run(params)
-      const { chooseSysVO, ...userInfo } = data
-      userInfo.userAppInfo = chooseSysVO
-      setUser(userInfo)
-      if (userInfo.needModifyPwd) {
-        history.push('/system/current/initpassword')
-        return
-      }
-      if (!checkUserDept(window.location.pathname)) {
-        history.push('/selectDept')
-        return
-      } else {
-        const { systemCode } = userInfo?.userAppInfo.currentSystem || {}
-        //@ts-ignore
-        // if (window.__POWERED_BY_QIANKUN__){
-        history.push(`/${systemCode}`)
-        return
-        //}else{
-        // history.push(`/`);
-        // }
-      }
+      loginCallBack(data)
     }
   }
 
@@ -55,103 +105,110 @@ const Login: React.FC<any> = () => {
     console.log('Failed:', errorInfo)
   }
 
+  const tabRender = (type: 'wx' | 'custom') => {
+    if (type === 'wx') {
+      return (
+        <span>
+          <img src={wxpng} className={styles['login-title-logo']}></img>
+          微信扫码登录
+        </span>
+      )
+    } else {
+      return (
+        <span>
+          <img src={phonepng} className={styles['login-title-logo']}></img>
+          账号密码登录
+        </span>
+      )
+    }
+  }
+
   useMount(() => {
     clearUser()
   })
   return (
-    <div className={styles['login-account']}>
-      <div className={styles['login-account-left']}></div>
-      <div className={styles['login-account-right']}></div>
-      <div className={styles['login-container']}>
-        <div className={styles['login-container-left']}>
-          <div className={styles['logo']}>
-            <img src={logo} alt="lgog"></img>
+    <Spin spinning={wechatCodeLogin.loading} tip="跳转登录中...">
+      <div className={styles['login-account']}>
+        <div className={styles['login-account-left']}></div>
+        <div className={styles['login-account-right']}></div>
+        <div className={styles['login-container']}>
+          <div className={styles['login-container-left']}>
+            <div className={styles['logo']}>
+              <img src={logo} alt="lgog"></img>
+            </div>
           </div>
-        </div>
-        <div className={styles['login-container-right']}>
-          <div className={styles['login-title']}>运营平台</div>
-          <div className={styles['login-container-content']}>
-            {/* <div className={styles["login-container-header"]}>
-              <span
-                className={state === 1 ? styles["bold"] : ""}
-                onClick={() => {
-                  setstate(1);
-                }}
-              >
-                密码登录
-              </span>
-              <span
-                className={state === 2 ? styles["bold"] : ""}
-                onClick={() => {
-                  setstate(2);
-                }}
-              >
-                验证码登录
-              </span>
-            </div> */}
-            <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              className={styles['base-line-form']}
-            >
-              <Form.Item
-                name="phone"
-                rules={[
-                  { required: true, message: '请输入手机号' },
-                  {
-                    pattern: /^1[3|4|5|6|7|8][0-9]{9}$/,
-                    message: '请输入正确的手机号',
-                  },
-                ]}
-              >
-                <Input placeholder="请输入手机号" size="large" />
-              </Form.Item>
-              {state === 1 ? (
-                <Form.Item
-                  name="pwd"
-                  rules={[{ required: true, message: '请输入密码' }]}
-                >
-                  <Input.Password placeholder="请输入登录密码" size="large" />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  name="code"
-                  rules={[{ required: true, message: '短信验证码是 6 位数字' }]}
-                >
-                  <Input
-                    placeholder="输入短信验证码"
-                    suffix={<SMSCode></SMSCode>}
-                  />
-                </Form.Item>
-              )}
-              <div className={styles['login-container-btn']}>
-                <Checkbox>3天内自动登录</Checkbox>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size="large"
-                  loading={loading}
-                  className={styles['base-btn']}
-                  block
-                >
-                  登&nbsp;&nbsp;录
-                </Button>
-
-                {/* <div>
-                  <div className={styles['login-container-links-actions']}>
-                    <a href="#">忘记密码</a>
-                    <Divider type="vertical" />
-                    <a href="#">免费注册</a>
-                  </div>
-                </div> */}
-              </div>
-            </Form>
+          <div className={styles['login-container-right']}>
+            <div className={styles['login-title']}>运营平台</div>
+            <Tabs centered activeKey={activeKey} onChange={setActiveKey}>
+              <TabPane tab={tabRender('wx')} key="wx">
+                <div className={styles['wx-content']}>
+                  <div id="wx_login_container" style={{ width: '300px' }}></div>
+                </div>
+              </TabPane>
+              <TabPane tab={tabRender('custom')} key="custom">
+                <div className={styles['login-container-content']}>
+                  <Form
+                    name="basic"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    className={styles['base-line-form']}
+                  >
+                    <Form.Item
+                      name="phone"
+                      rules={[
+                        { required: true, message: '请输入手机号' },
+                        {
+                          pattern: /^1[3|4|5|6|7|8][0-9]{9}$/,
+                          message: '请输入正确的手机号',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="请输入手机号" size="large" />
+                    </Form.Item>
+                    {state === 1 ? (
+                      <Form.Item
+                        name="pwd"
+                        rules={[{ required: true, message: '请输入密码' }]}
+                      >
+                        <Input.Password
+                          placeholder="请输入登录密码"
+                          size="large"
+                        />
+                      </Form.Item>
+                    ) : (
+                      <Form.Item
+                        name="code"
+                        rules={[
+                          { required: true, message: '短信验证码是 6 位数字' },
+                        ]}
+                      >
+                        <Input
+                          placeholder="输入短信验证码"
+                          suffix={<SMSCode></SMSCode>}
+                        />
+                      </Form.Item>
+                    )}
+                    <div className={styles['login-container-btn']}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        size="large"
+                        loading={loading}
+                        className={styles['base-btn']}
+                        block
+                      >
+                        登&nbsp;&nbsp;录
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
+              </TabPane>
+            </Tabs>
           </div>
         </div>
       </div>
-    </div>
+    </Spin>
   )
 }
 

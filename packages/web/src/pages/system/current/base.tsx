@@ -6,7 +6,6 @@ import { useServiceRequest } from '@micro-frame/sc-runtime'
 import { Auth } from '@micro-frame/sc-runtime'
 import formData from './components/form'
 import { useSetState } from 'ahooks'
-import { User } from '@micro-frame/sc-runtime/es/components/Auth'
 import { Button } from 'antd'
 import styles from './baseStyles.less'
 
