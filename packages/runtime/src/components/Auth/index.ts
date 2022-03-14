@@ -153,7 +153,7 @@ const getAppCode = () => {
 const setUserAppCode = (userAppCode) => {
   _userAppCode = userAppCode
    // @ts-ignore
-  if (!window.__POWERED_BY_QIANKUN__) {
+  if (window.__POWERED_BY_QIANKUN__) {
     addCookie(CurrentApp_KEY, _userAppCode, 0)
   }
 
