@@ -1,5 +1,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable consistent-return */
+
+import React from 'react'
+
 /* eslint-disable func-names */
 interface LatLng {
   lat: number
@@ -184,4 +187,46 @@ export function getMonthStartEnd() {
   const endDate = getFullDate(cloneNowDate.setDate(endOfMonth)) // 当月最后一天
   const starDate = getFullDate(cloneNowDate.setDate(1)) // 当月第一天
   return [starDate, endDate]
+}
+
+export function initIframeChange(
+  elemIfram: any,
+  iframeSrcChanged: (oldPath: string, newPath: string, iframe: Event) => void
+) {
+  if (window.MutationObserver || window.webkitMutationObserver) {
+    // chrome
+    var callback = function (mutations: any) {
+      mutations.forEach(function (mutation: any) {
+        iframeSrcChanged(
+          mutation.oldValue,
+          mutation.target.src,
+          mutation.target
+        )
+      })
+    }
+    if (window.MutationObserver) {
+      var observer = new MutationObserver(callback)
+    } else {
+      // @ts-ignore
+      var observer = new webkitMutationObserver(callback)
+    }
+    observer.observe(elemIfram, {
+      attributes: true,
+      attributeOldValue: true,
+    })
+  } else if (elemIfram.addEventListener) {
+    // Firefox, Opera and Safari
+    elemIfram.addEventListener(
+      'DOMAttrModified',
+      function (event: any) {
+        iframeSrcChanged(event.prevValue, event.newValue, event.target)
+      },
+      false
+    )
+  } else if (elemIfram.attachEvent) {
+    // Internet Explorer
+    elemIfram.attachEvent('onpropertychange', function (event: any) {
+      iframeSrcChanged(event.prevValue, event.newValue, event.target)
+    })
+  }
 }

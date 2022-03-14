@@ -29,8 +29,9 @@ interface Window {
   ) => void
   reloadAuthorized: () => void
   AMap: any
-  routerBase:string;
-  masterHistory:any;
+  routerBase: string
+  masterHistory: any
+  WxLogin: any
 }
 
 declare let ga: Function

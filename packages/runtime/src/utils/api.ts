@@ -97,6 +97,11 @@ const services = {
       method: 'get',
       sysCode: 'common',
     },
+    wechatCodeLogin: {
+      url: '/user/api/anony/login/wechat/webapp',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
   catalog: {
     treeData: {

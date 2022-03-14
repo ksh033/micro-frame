@@ -40,6 +40,16 @@ export default {
       method: 'post',
       sysCode: 'usersys',
     },
+    bindwx: {
+      url: '/user/api/wechat/webapp/operate/bind',
+      method: 'get',
+      sysCode: 'common',
+    },
+    unbindwx: {
+      url: '/user/api/wechat/webapp/operate/unbind',
+      method: 'get',
+      sysCode: 'common',
+    },
   },
   role: roleApi,
   deptUser: {

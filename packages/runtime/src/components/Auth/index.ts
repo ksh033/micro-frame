@@ -34,6 +34,9 @@ export interface User {
   userAppInfo: UserAppInfo
   email: string // 邮箱地址
   superAdminFlag: boolean // 是否是超级管理员
+  wechatAvatarUrl: string | null // 微信头像信息
+  wechatNickname: string | null // 微信头像昵称
+  wechatUnionId: string | null // 微信id
 }
 
 // type User =  BaseUser & {};
@@ -233,6 +236,9 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
 
 const checkUserDept = (pathname) => {
   const currentUser = getUser()
+  if (pathname.indexOf('/system/current') > -1) {
+    return true
+  }
   // if (pathname !== "/selectDept") {
   if (currentUser) {
     const { userAppInfo } = currentUser

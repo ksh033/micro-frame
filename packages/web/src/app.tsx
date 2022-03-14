@@ -1,37 +1,31 @@
-import { useState } from "react";
-import {
-  Auth,
-  Login,
-  SelectDept,
-  getServiceApi,
-} from "@micro-frame/sc-runtime";
-import { history } from "umi";
+import { useState } from 'react'
+import { Auth, Login, SelectDept, getServiceApi } from '@micro-frame/sc-runtime'
+import { history } from 'umi'
 
-const { getUser, restUserAppCode, getUserAppCode } = Auth;
+const { getUser, restUserAppCode, getUserAppCode } = Auth
 
-window.masterHistory = history;
+window.masterHistory = history
 
-const masterUrl = SC_MASTER_URL || "";
+const masterUrl = SC_MASTER_URL || ''
 // @ts-ignore
-window.masterWindow = window;
+window.masterWindow = window
 
-export const qiankun = getServiceApi("system", "getApplist")()
+export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
-    const apps: any[] = [];
-    const routes: any[] = [];
+    const apps: any[] = []
+    const routes: any[] = []
     data.forEach((item: { systemCode: any; systemName: any }) => {
-      const { systemCode } = item;
+      const { systemCode } = item
       // console.log(`${masterUrl}micro-${systemCode}/`)
-    
-        apps.push({
-          name: systemCode,
-          to: `/${systemCode}`,
-          entry: `${masterUrl}micro-${systemCode}/`,
-          activeRule: `/${systemCode}`,
-          // entry: `${masterUrl}${systemCode}/`,
-          // activeRule: `/micro-${systemCode}`,
-        });
-     
+
+      apps.push({
+        name: systemCode,
+        to: `/${systemCode}`,
+        entry: `${masterUrl}micro-${systemCode}/`,
+        activeRule: `/${systemCode}`,
+        // entry: `${masterUrl}${systemCode}/`,
+        // activeRule: `/micro-${systemCode}`,
+      })
 
       routes.push({
         path: `/${systemCode}`,
@@ -40,17 +34,17 @@ export const qiankun = getServiceApi("system", "getApplist")()
           autoSetLoading: true,
           autoCaptureError: true,
         },
-      });
-    });
+      })
+    })
     return {
       apps,
       routes,
-     
+
       excludeAssetFilter: (assetUrl: string) => {
-        if (assetUrl.indexOf("127.0.0.1") > -1) {
-          return true;
+        if (assetUrl.indexOf('127.0.0.1') > -1) {
+          return true
         }
-        return false;
+        return false
       },
       lifeCycles: {
         beforeLoad: (app: any, scope: any) => {
@@ -60,23 +54,22 @@ export const qiankun = getServiceApi("system", "getApplist")()
           // loading=true;
           // 子应用 syscode
           // eslint-disable-next-line no-param-reassign
-          scope.syscode = app.name;
+          scope.syscode = app.name
           // 主应用 syscode
           // @ts-ignore
-          window.syscode = app.name;
-        
+          window.syscode = app.name
         },
-        
+
         afterMount: (props: any, scope: any) => {
           // @ts-ignore
           // 子应用userAppCode
           // eslint-disable-next-line no-param-reassign
-          scope.userAppCode = getUserAppCode();
+          scope.userAppCode = getUserAppCode()
 
           // 主应用userAppCode
           // @ts-ignore
-          window.userAppCode = getUserAppCode();
-       
+          window.userAppCode = getUserAppCode()
+
           // loading=false;
           // console.log(scope);
 
@@ -85,31 +78,33 @@ export const qiankun = getServiceApi("system", "getApplist")()
           // console.log(props);
         },
       },
-    };
+    }
   })
-  .catch(() => {});
+  .catch(() => {})
 export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  if (location.pathname !== "/system/current/initpassword") {
-    const currentUser = getUser();
+  if (location.pathname !== '/system/current/initpassword') {
+    const currentUser = getUser()
     if (currentUser) {
-      if (currentUser.needModifyPwd){
-        history.push("/system/current/initpassword");
+      if (currentUser.needModifyPwd) {
+        history.push('/system/current/initpassword')
       }
     }
   }
- }
+}
 
 export function render(oldRender: any) {
-  const currentUser = getUser();
+  const currentUser = getUser()
   if (currentUser) {
-   
-    oldRender();
+    oldRender()
   } else {
-    history.push("/login");
-    oldRender();
+    history.push({
+      pathname: '/login',
+      query: history.location.query,
+    })
+    oldRender()
   }
 }
 // export const qiankun = {
@@ -138,36 +133,35 @@ export function render(oldRender: any) {
 //   },
 // };
 
-const temCode = restUserAppCode();
+const temCode = restUserAppCode()
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
-    currentMenu: "null",
+    currentMenu: 'null',
     currentApp: temCode,
-  });
+  })
 
   return {
     globalState,
     setQiankunGlobalState,
-  };
-};
+  }
+}
 
 // eslint-disable-next-line func-names
-window.onunload=function(){
-  console.log("restUserAppCode")
+window.onunload = function () {
+  console.log('restUserAppCode')
   restUserAppCode(getUserAppCode())
-  
 }
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
   routes[0].routes.unshift({
-    path: "/selectDept",
+    path: '/selectDept',
     exact: true,
     component: SelectDept,
-  });
+  })
   routes.unshift({
-    path: "/login",
+    path: '/login',
     exact: true,
     component: Login,
-  });
+  })
 }
