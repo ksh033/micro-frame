@@ -104,7 +104,7 @@ export default defineConfig({
   qiankun: {
     master: { apps: [] },
   },
-  base: '/sysweb',
+  // base: '/sysweb',
   alias: {
     '@@service': '@/services',
   },

@@ -13,8 +13,8 @@ const config = {
 const createWxLoginQr = (id: string, url?: string) => {
   // @ts-ignore
   const login = window.WxLogin || WxLogin
-  const defaultUrl = 'https://test.yumcat.cn/sysweb'
-  // const defaultUrl = window.location.origin
+  // const defaultUrl = 'https://test.yumcat.cn/sysweb'
+  const defaultUrl = window.location.origin
   const rUrl = typeof url === 'string' ? defaultUrl + url : defaultUrl
   const redirect_uri = encodeURI(rUrl)
   new login({
