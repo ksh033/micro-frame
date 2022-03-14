@@ -77,7 +77,7 @@ const Page: FC<any> = (props) => {
           console.log(error)
           if (error && error.data.errorCode === 'A100116') {
             CModal.confirm({
-              title: error.errorShowTip,
+              title: error.data.errorShowTip,
               okText: '绑定其他微信',
               cancelText: '放弃绑定',
               onOk: () => {
