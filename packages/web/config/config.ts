@@ -71,7 +71,7 @@ const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : './'
 const outputPath = NODE_ENV === 'development' ? './public' : './dist'
 
 export default defineConfig({
-  publicPath: '/sysweb/',
+  // publicPath: '/sysweb/',
   hash: true,
   antd: {},
   scripts,
