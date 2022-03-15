@@ -49,7 +49,7 @@ const AppsUser_Key = "APP-CURRENT-USERS";
 let _userAppCode = "";
 
 const addCookie = (objName, objValue, objHours) => {
-  var str = objName + "=" + escape(objValue); //编码
+  var str = objName + "=" + objValue+' ;path=/'; //编码
   if (objHours > 0) {
     //为0时不设定过期时间，浏览器关闭时cookie自动消失
     var date = new Date();
@@ -59,7 +59,10 @@ const addCookie = (objName, objValue, objHours) => {
     // @ts-ignore
     str += "; expires=" + date.toGMTString();
   }
+
   document.cookie = str;
+  //@ts-ignore
+  console.log("cookie:",document.cookie ,"syscode:",window.syscode)
 };
 
 //读Cookie
@@ -68,7 +71,7 @@ const getCookie = (objName) => {
   var arrStr = document.cookie.split("; ");
   for (var i = 0; i < arrStr.length; i++) {
     var temp = arrStr[i].split("=");
-    if (temp[0] == objName) return unescape(temp[1]); //解码
+    if (temp[0] == objName) return temp[1]; //解码
   }
   return "";
 };
