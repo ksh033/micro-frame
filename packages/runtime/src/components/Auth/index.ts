@@ -282,6 +282,7 @@ const clearUser = () => {
   addCookie(CurrentApp_KEY, '', 0)
   //@ts-ignore
   window.userAppCode = ''
+  document.cookie='';
   sessionStorage.removeItem('CG-CURRENT-DICT')
   sessionStorage.removeItem('CG-WEIGHT-UNIT')
 }
