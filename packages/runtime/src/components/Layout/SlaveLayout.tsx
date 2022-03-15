@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 //@ts-ignore
 import { history,Link } from "umi";
 //@ts-ignore
@@ -18,10 +18,17 @@ import menuFormat from "./menuFormat";
 const {Operation}=BsTable
 export default function SlaveLayout(componentProps: any) {
   const { children, route, menu,...resProps } = componentProps;
-  const userAppInfo = getUser()?.userAppInfo;
-  const mdata = userAppInfo?.menuTreeNodeList || [];
+  const ref=useRef<any>({})
 
-  const syscode = userAppInfo?.currentSystem.systemCode || "";
+  if (!ref.current.mdata){
+    const userAppInfo = getUser()?.userAppInfo;
+    ref.current.mdata = userAppInfo?.menuTreeNodeList || [];
+    ref.current.syscode=userAppInfo?.currentSystem.systemCode || ""
+  }
+ 
+ 
+
+
   const [menuInfoData, setMenuInfoData] = useMergedState<{
     breadcrumb?: Record<string, any>;
     breadcrumbMap?: Map<string, any>;
@@ -29,7 +36,7 @@ export default function SlaveLayout(componentProps: any) {
   }>(() =>
     getMenuData(route?.routes || [], menu, undefined, (menuItems:any[]) => {
    
-      const menus = menuFormat.formatMenu(mdata || [], [], syscode, false);
+      const menus = menuFormat.formatMenu(ref.current.mdata || [], [], ref.current.syscode, false);
       return menus;
     })
   );

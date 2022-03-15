@@ -168,10 +168,10 @@ const getUserAppCode = () => {
     // @ts-ignore
     const cuserAppCode = getCookie(CurrentApp_KEY);
 
-    if (_userAppCode && cuserAppCode !== _userAppCode) {
+    if ((!_userAppCode)||(_userAppCode && cuserAppCode !== _userAppCode)) {
       // @ts-ignore
-     // setUserAppCode(cuserAppCode);
-     _userAppCode=cuserAppCode
+    setUserAppCode(cuserAppCode);
+     //_userAppCode=cuserAppCode
     }
   }
 
