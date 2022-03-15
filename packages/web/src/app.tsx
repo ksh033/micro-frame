@@ -54,10 +54,10 @@ export const qiankun = getServiceApi('system', 'getApplist')()
           // loading=true;
           // 子应用 syscode
           // eslint-disable-next-line no-param-reassign
-          scope.syscode = app.name
+         // scope.syscode = app.name
           // 主应用 syscode
           // @ts-ignore
-          window.syscode = app.name
+          //window.syscode = app.name
         },
 
         afterMount: (props: any, scope: any) => {
@@ -65,7 +65,7 @@ export const qiankun = getServiceApi('system', 'getApplist')()
           // 子应用userAppCode
           // eslint-disable-next-line no-param-reassign
           scope.userAppCode = getUserAppCode()
-
+         
           // 主应用userAppCode
           // @ts-ignore
           window.userAppCode = getUserAppCode()

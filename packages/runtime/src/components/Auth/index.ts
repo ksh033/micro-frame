@@ -49,8 +49,7 @@ const AppsUser_Key = "APP-CURRENT-USERS";
 let _userAppCode = "";
 
 const addCookie = (objName, objValue, objHours) => {
-  document.cookie ="";
-  var str = objName + "=" + objValue + ";path=/"; //编码
+  var str = objName + "=" + escape(objValue); //编码
   if (objHours > 0) {
     //为0时不设定过期时间，浏览器关闭时cookie自动消失
     var date = new Date();
@@ -58,11 +57,9 @@ const addCookie = (objName, objValue, objHours) => {
     var ms = objHours * 3600 * 1000;
     date.setTime(date.getTime() + ms);
     // @ts-ignore
-    str += ";expires=" + date.toGMTString();
+    str += "; expires=" + date.toGMTString();
   }
   document.cookie = str;
-  //@ts-ignore
-  console.log("cookie change", document.cookie,"syscode",window.syscode);
 };
 
 //读Cookie
@@ -71,7 +68,7 @@ const getCookie = (objName) => {
   var arrStr = document.cookie.split("; ");
   for (var i = 0; i < arrStr.length; i++) {
     var temp = arrStr[i].split("=");
-    if (temp[0] == objName) return temp[1]; //解码
+    if (temp[0] == objName) return unescape(temp[1]); //解码
   }
   return "";
 };
@@ -123,8 +120,7 @@ const setUser = (user: User) => {
   //setStorage(CurrentApp_KEY, systemCode)
   //@ts-ignore
   window.syscode = systemCode;
-  //_userAppCode = systemCode
-  setUserAppCode(systemCode);
+  _userAppCode = systemCode;
   if (userAppInfosChange) {
     setStorage(AppsUser_Key, userAppInfos);
   }
@@ -158,41 +154,42 @@ const getAppCode = () => {
 const setUserAppCode = (userAppCode) => {
   _userAppCode = userAppCode;
   // @ts-ignore
-  //if (window.__POWERED_BY_QIANKUN__) {
-  addCookie(CurrentApp_KEY, _userAppCode, 0);
-  // }
+  if (!window.__POWERED_BY_QIANKUN__) {
+    addCookie(CurrentApp_KEY, _userAppCode, 0);
+  }
 };
 
 const getUserAppCode = () => {
   // @ts-ignore
   //当外部与内部不一致时用外部
-  if (window.__POWERED_BY_QIANKUN__) {
-    // @ts-ignore
-    const cuserAppCode = getCookie(CurrentApp_KEY);
+  _userAppCode = getCookie(CurrentApp_KEY);
+  // if (window.__POWERED_BY_QIANKUN__) {
+  //   // @ts-ignore
+   
 
-    if ((!_userAppCode)||(_userAppCode && cuserAppCode !== _userAppCode)) {
-      // @ts-ignore
-    setUserAppCode(cuserAppCode);
-     //_userAppCode=cuserAppCode
-    }
-  }
+  //   if (_userAppCode && cuserAppCode !== _userAppCode) {
+  //     // @ts-ignore
+  //     //setUserAppCode(cuserAppCode);
+  //   }
+  // }else{
+  //   if (!_userAppCode) {
+  //     // @ts-ignore
+  //     // const systemcode=getCookie(CurrentApp_KEY)
+  
+  //     if (window.userAppCode) {
+  //       // _userAppCode = window.userAppCode;
+  //       // @ts-ignore
+  //       setUserAppCode(window.userAppCode);
+  //     } else {
+  //       const systemcode = getCookie(CurrentApp_KEY);
+  //       if (systemcode) {
+  //         setUserAppCode(systemcode);
+  //       }
+  //     }
+  //   }
+  // }
 
-  //当cookie获取不到syscode
-  if (!_userAppCode) {
-    // @ts-ignore
-    // const systemcode=getCookie(CurrentApp_KEY)
-
-    if (window.userAppCode) {
-      // _userAppCode = window.userAppCode;
-      // @ts-ignore
-      setUserAppCode(window.userAppCode);
-    // } else {
-    //   const systemcode = getCookie(CurrentApp_KEY);
-    //   if (systemcode) {
-    //     setUserAppCode(systemcode);
-    //   }
-    }
-  }
+  
   // console.log("当前用户appCode:" + _userAppCode);
   return _userAppCode;
 };
@@ -226,7 +223,6 @@ const getAppUser = () => {
  */
 const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
   const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key);
-
   if (!userAppInfo && userAppInfos) {
     if (userAppInfos[sysCode]) {
       setUserAppCode(sysCode);
@@ -284,10 +280,8 @@ const clearUser = () => {
   localStorage.removeItem(CurrentApp_KEY);
   _userAppCode = "";
   addCookie(CurrentApp_KEY, "", 0);
-  document.cookie="";
   //@ts-ignore
   window.userAppCode = "";
-  document.cookie = "";
   sessionStorage.removeItem("CG-CURRENT-DICT");
   sessionStorage.removeItem("CG-WEIGHT-UNIT");
 };
