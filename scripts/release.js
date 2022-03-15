@@ -136,7 +136,7 @@ async function release() {
   //process.env.NPM_CONFIG_OTP = otp;
 
   pkgs.forEach((pkg, index) => {
-    if (pkg !== "sc-web") {
+    if (pkg !== "web") {
       const pkgPath = join(
         cwd,
         "packages",
@@ -165,6 +165,7 @@ async function release() {
         const { stdout } = execa.sync("npm", cliArgs, {
           cwd: pkgPath,
         });
+        logStep(stdout);
       }
     }
   });
