@@ -235,6 +235,7 @@ const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
     // setStorage(CurrentApp_KEY, sysCode)
     return true
   }
+  addCookie(CurrentApp_KEY, sysCode, 0)
   return false
 }
 
