@@ -60,7 +60,7 @@ const addCookie = (objName, objValue, objHours) => {
     str += ';expires=' + date.toGMTString()
   }
   document.cookie = str
-  console.log('cookie change',)
+  console.log('cookie change', document.cookie )
 }
 
 //读Cookie
