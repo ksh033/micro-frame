@@ -57,7 +57,7 @@ const addCookie = (objName, objValue, objHours) => {
     var ms = objHours * 3600 * 1000
     date.setTime(date.getTime() + ms)
     // @ts-ignore
-    str += '; expires=' + date.toGMTString()
+    str += '; path=/;expires=' + date.toGMTString()
   }
   document.cookie = str
 }
