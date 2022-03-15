@@ -29,7 +29,6 @@ export default function SlaveLayout(componentProps: any) {
   }>(() =>
     getMenuData(route?.routes || [], menu, undefined, (menuItems:any[]) => {
    
-      console.log(menuItems)
       const menus = menuFormat.formatMenu(mdata || [], [], syscode, false);
       return menus;
     })
