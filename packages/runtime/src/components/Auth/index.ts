@@ -123,7 +123,7 @@ const setUser = (user: User) => {
   //setStorage(CurrentApp_KEY, systemCode)
   //@ts-ignore
   window.syscode = systemCode;
-  _userAppCode = systemCode;
+  setUserAppCode(systemCode)
   if (userAppInfosChange) {
     setStorage(AppsUser_Key, userAppInfos);
   }
