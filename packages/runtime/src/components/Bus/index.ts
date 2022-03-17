@@ -28,6 +28,7 @@ import Quantity from './Quantity'
 import BrandSelect from './BrandSelect'
 import BatchCopyAddModal from './BatchCopyAddModal'
 import Invalid from './Invalid'
+import CargoTableFooterSelect from './CargoTableFooterSelect'
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -82,4 +83,5 @@ export {
   BatchCopyAddModal,
   OrgSelect,
   Invalid,
+  CargoTableFooterSelect,
 }
