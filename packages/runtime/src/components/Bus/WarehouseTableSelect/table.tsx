@@ -13,7 +13,8 @@ const pagaConfig: PageConfig = {
 
 const Table: React.FC<any> = (props: any) => {
   const { pageProps } = props
-  const { selectionType, onTabelRow, rowKey, selectedRowKeys } = pageProps
+  const { selectionType, onTabelRow, rowKey, selectedRowKeys, rowSelection } =
+    pageProps
   const { run } = uesRequest('system', 'warehouse')
 
   const page = useListPageContext()
@@ -40,12 +41,12 @@ const Table: React.FC<any> = (props: any) => {
   return (
     <div style={{ padding: '20px' }}>
       <BsSearch {...searchConfig} />
-
       <BsTable
         {...pageInfo}
         checkbox
         rowSelection={{
           type: selectionType,
+          ...(rowSelection || {}),
         }}
         autoload
         rowKey={rowKey}
@@ -59,5 +60,5 @@ const Table: React.FC<any> = (props: any) => {
   )
 }
 
-const WarehouseTable:any=ListPage(Table, pagaConfig);
+const WarehouseTable: any = ListPage(Table, pagaConfig)
 export default WarehouseTable

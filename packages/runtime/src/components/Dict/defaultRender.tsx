@@ -19,11 +19,15 @@ const UnitFormat: React.FC<any> = (props) => {
   const { valueType, text, record } = props
   const { has } = useWeightUnit()
   const unitName = valueType.split('_')[1]
-  const value = has(record[unitName])
-    ? Number(decimalPoint(text, 3)).toFixed(3)
-    : text
 
-  return <span>{value}</span>
+  if (text) {
+    const value = has(record[unitName])
+      ? Number(decimalPoint(text, 3)).toFixed(3)
+      : text
+
+    return <span>{value}</span>
+  }
+  return null
 }
 
 const status = (text: any) => {

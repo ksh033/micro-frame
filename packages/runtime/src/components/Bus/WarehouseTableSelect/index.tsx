@@ -8,6 +8,7 @@ import {
   FormComponent,
   FormComponentProps,
 } from '@scboson/sc-element/es/c-form'
+import { TableRowSelection } from 'antd/es/table/interface'
 
 interface TableSelectProps extends FormComponentProps {
   placeholder?: string
@@ -18,6 +19,7 @@ interface TableSelectProps extends FormComponentProps {
   textField?: any
   disabled: boolean
   valueField?: string
+  rowSelection?: TableRowSelection<any>
 }
 
 const TabelSelect: FormComponent<TableSelectProps> = (
@@ -27,6 +29,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     placeholder = '请选择仓库',
     title = '选择',
     selectionType = 'radio',
+    rowSelection,
     onChange,
     value = [],
     disabled = false,
@@ -76,6 +79,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
       width: '1200px',
       content: TableModal,
       pageProps: {
+        rowSelection,
         onTabelRow,
         selectionType,
         rowKey: valueField,
