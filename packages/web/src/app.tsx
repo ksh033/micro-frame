@@ -58,6 +58,13 @@ export const qiankun = getServiceApi('system', 'getApplist')()
           // 主应用 syscode
           // @ts-ignore
           //window.syscode = app.name
+           // 子应用userAppCode
+          // eslint-disable-next-line no-param-reassign
+          scope.userAppCode = getUserAppCode()
+         
+          // 主应用userAppCode
+          // @ts-ignore
+          window.userAppCode = getUserAppCode()
         },
 
         afterMount: (props: any, scope: any) => {
