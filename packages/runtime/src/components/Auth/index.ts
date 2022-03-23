@@ -59,6 +59,8 @@ const addCookie = (objName, objValue, objHours) => {
     // @ts-ignore
     str += '; expires=' + date.toGMTString()
   }
+  //@ts-ignore
+  console.log(`window.sysCode=${window.syscode},cookies-syscode=${objValue}`)
   document.cookie = str
 }
 
