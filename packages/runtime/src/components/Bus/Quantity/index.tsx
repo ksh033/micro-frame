@@ -7,7 +7,7 @@ import type {
 } from '@scboson/sc-element/es/sc-editable-table/typing'
 
 interface QuantityProps extends TableComponentProps {
-  onChange: (val: any) => any
+  onChange?: (val: any) => any
   value?: any
   unitName?: string
   getMax?: (record: any) => number
@@ -21,7 +21,7 @@ interface QuantityProps extends TableComponentProps {
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
   const {
-    rowData,
+    rowData = {},
     value,
     onChange,
     getMax,

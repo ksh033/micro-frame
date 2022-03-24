@@ -8,6 +8,7 @@ import { FormInstance } from 'antd/es/form/Form'
 import Form from 'antd/es/form'
 import useMergedState from 'rc-util/es/hooks/useMergedState'
 import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing'
+import style from './index.less'
 
 export interface BsEditTableProps extends EditableProTableProps<any> {
   type: 'multiple' | 'single'
@@ -102,33 +103,35 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
   const newColumns = columnsFormat(columns)
 
   return (
-    <ScEditableTable<any>
-      columns={newColumns}
-      value={value}
-      onChange={onChange}
-      rowKey={rowKey}
-      clickEdit={clickEdit}
-      pagination={pagination}
-      showIndex={showIndex}
-      scroll={scroll}
-      readonly={readonly}
-      editable={{
-        // @ts-ignore
-        form: newForm,
-        type: type,
-        editableKeys: editableRowKey,
-        onChange: setRowKeys,
-        actionRender: actionRender,
-        onValuesChange: (record, recordList) => {
-          let newList = recordList
-          if (preformatValue) {
-            newList = preformatValue(recordList)
-          }
-          onChange?.(newList)
-        },
-      }}
-      {...restProps}
-    />
+    <div className={style['bs-edit-table']}>
+      <ScEditableTable<any>
+        columns={newColumns}
+        value={value}
+        onChange={onChange}
+        rowKey={rowKey}
+        clickEdit={clickEdit}
+        pagination={pagination}
+        showIndex={showIndex}
+        scroll={scroll}
+        readonly={readonly}
+        editable={{
+          // @ts-ignore
+          form: newForm,
+          type: type,
+          editableKeys: editableRowKey,
+          onChange: setRowKeys,
+          actionRender: actionRender,
+          onValuesChange: (record, recordList) => {
+            let newList = recordList
+            if (preformatValue) {
+              newList = preformatValue(recordList)
+            }
+            onChange?.(newList)
+          },
+        }}
+        {...restProps}
+      />
+    </div>
   )
 }
 
