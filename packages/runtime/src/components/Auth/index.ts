@@ -163,11 +163,14 @@ const getUserAppCode = () => {
   if (window.__POWERED_BY_QIANKUN__) {
     // @ts-ignore
     const cuserAppCode = getCookie(CurrentApp_KEY)
-
-    if (_userAppCode && cuserAppCode !== _userAppCode) {
-      // @ts-ignore
-      setUserAppCode(cuserAppCode)
+   //当临时syscode不为空&&内存_userAppCode!== cookie的syscode，替换内存
+    if (!cuserAppCode){
+      if (_userAppCode && cuserAppCode !== _userAppCode) {
+        // @ts-ignore
+        setUserAppCode(cuserAppCode)
+      }
     }
+   
   }
 
   if (!_userAppCode) {
