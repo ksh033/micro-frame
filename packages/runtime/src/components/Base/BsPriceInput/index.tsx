@@ -8,7 +8,7 @@ import React, { useEffect } from 'react'
 import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
 import compute from '../../../utils/compute'
 
-type BsPriceInputProps = BsNumberInputProps &
+export type BsPriceInputProps = BsNumberInputProps &
   FormComponentProps & {
     rowData?: any
   }
@@ -69,7 +69,13 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   }
 
   if (readonly) {
-    return <div>{addonBefore}{formatValue(value)}{addonAfter}</div>
+    return (
+      <div>
+        {addonBefore}
+        {formatValue(value)}
+        {addonAfter}
+      </div>
+    )
   }
 
   return (
