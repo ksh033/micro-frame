@@ -20,7 +20,7 @@ const UnitFormat: React.FC<any> = (props) => {
   const { has } = useWeightUnit()
   const unitName = valueType.split('_')[1]
 
-  if (text) {
+  if (text !== undefined && text !== null) {
     const value = has(record[unitName])
       ? Number(decimalPoint(text, 3)).toFixed(3)
       : text
