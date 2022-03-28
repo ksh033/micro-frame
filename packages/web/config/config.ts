@@ -16,7 +16,7 @@ export const EVN_CONFIG = {
   dev: {
     imgUrl: 'http://test.yumcat.cn/images',
     apiUrl: '/webapi-dev',
-    masterUrl: 'http://172.18.164.54/',
+    masterUrl: 'http://172.18.164.121/',
   },
   pro: {
     imgUrl: 'https://images.yumcat.cn',
@@ -26,7 +26,12 @@ export const EVN_CONFIG = {
   test: {
     imgUrl: 'http://test.yumcat.com/images',
     apiUrl: '/webapi-test',
-    masterUrl: 'http://172.18.164.55/',
+    masterUrl: 'http://172.18.164.102/',
+  },
+  pre: {
+    imgUrl: 'http://test.yumcat.com/images',
+    apiUrl: '/webapi-test',
+    masterUrl: 'http://172.18.164.107/',
   },
 }
 const externalCSS: any[] = [

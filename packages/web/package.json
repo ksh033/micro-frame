@@ -26,7 +26,7 @@
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "cross-env REACT_APP_ENV=pro umi build",
     "build:test": "cross-env  REACT_APP_ENV=test umi build",
-    "build:mock": "cross-env  REACT_APP_ENV=mock umi build",
+    "build:pre": "cross-env  REACT_APP_ENV=pre umi build",
     "build:dev": "cross-env   REACT_APP_ENV=dev umi build",
     "link": "yarn link sc-element",
     "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
