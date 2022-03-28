@@ -26,7 +26,7 @@ export const EVN_CONFIG = {
   test: {
     imgUrl: 'http://test.yumcat.com/images',
     apiUrl: '/webapi-test',
-    masterUrl: 'http://172.18.164.102/',
+    masterUrl: 'http://172.18.164.55/',
   },
   pre: {
     imgUrl: 'http://test.yumcat.com/images',
