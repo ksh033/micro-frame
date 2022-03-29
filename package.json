@@ -11,6 +11,7 @@
     "build:web-dev": "cross-env  REACT_APP_ENV=dev APP_ROOT=packages/web umi build",
     "build:web-pro": "npm run build && cross-env REACT_APP_ENV=pro APP_ROOT=packages/web umi build",
     "build:web-test": "npm run build && cross-env REACT_APP_ENV=test APP_ROOT=packages/web umi build",
+    "build:web-pre": "npm run build && cross-env REACT_APP_ENV=pre APP_ROOT=packages/web umi build",
     "start": "cross-env APP_ROOT=packages/web umi dev",
     "update:deps": "yarn upgrade"
   },

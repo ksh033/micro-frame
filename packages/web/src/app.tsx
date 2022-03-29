@@ -6,7 +6,7 @@ const { getUser, restUserAppCode, getUserAppCode } = Auth
 
 window.masterHistory = history
 
-const masterUrl = SC_MASTER_URL || ''
+let masterUrl = SC_MASTER_URL || ''
 // @ts-ignore
 window.masterWindow = window
 
@@ -14,6 +14,8 @@ export const qiankun = getServiceApi('system', 'getApplist')()
   .then((data: any) => {
     const apps: any[] = []
     const routes: any[] = []
+    const {protocol,host}=window.location
+    masterUrl=`${protocol}//${host}/`
     data.forEach((item: { systemCode: any; systemName: any }) => {
       const { systemCode } = item
       // console.log(`${masterUrl}micro-${systemCode}/`)
