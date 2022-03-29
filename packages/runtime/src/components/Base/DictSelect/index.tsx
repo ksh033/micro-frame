@@ -10,7 +10,7 @@ import {
   deepGet,
 } from '@scboson/sc-element/es/c-form'
 
-export interface DictSelectProp extends  FormComponentProps {
+export interface DictSelectProp extends FormComponentProps {
   /** 字典类型 */
   dictType: string
   /** 系统 */
@@ -18,8 +18,9 @@ export interface DictSelectProp extends  FormComponentProps {
   type?: 'Select' | 'Radio' | 'CheckBox'
   fieldProps?: any
   filterData?: (dictData: any[]) => any[]
-  rowData?: any;
-  [key: string]: any;
+  rowData?: any
+  splitDot?: string
+  [key: string]: any
 }
 
 /**
@@ -39,6 +40,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     formItemProps,
     fieldProps,
     filterData,
+    splitDot = '、',
     rowData,
     ...restProps
   } = pros
@@ -66,12 +68,22 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     if (!val && initialValues) {
       val = deepGet(initialValues, newName)
     }
-    const valItem = data.find((item) => {
-      return item.value === val
-    })
-    const text = valItem?.name
+    if (Array.isArray(val)) {
+      const valItemList = data
+        .filter((it) => {
+          return val.indexOf(it.value) > -1
+        })
+        .map((item) => item.name)
 
-    return <span>{text}</span>
+      return <span>{valItemList.join(splitDot)}</span>
+    } else {
+      const valItem = data.find((item) => {
+        return item.value === val
+      })
+      const text = valItem?.name
+
+      return <span>{text}</span>
+    }
   } else {
     if (type === 'Radio') {
       const radioProps: any = restProps
