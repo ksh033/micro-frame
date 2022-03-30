@@ -260,6 +260,8 @@ export function initUser(token: string, systemCode: string): User {
         bizDeptType: '',
         contactName: '',
         contactPhone: '',
+        subcompanyId: '',
+        subcompanyName: '',
       },
       deptList: [],
       needChooseDept: false,

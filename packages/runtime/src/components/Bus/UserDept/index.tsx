@@ -38,11 +38,17 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
   })
 
   const initValue = (currentDeptMsg: any) => {
-    const { bizDeptName, bizDeptId } = currentDeptMsg
+    const {
+      bizDeptName,
+      bizDeptId,
+      bizDeptType,
+      subcompanyId,
+      subcompanyName,
+    } = currentDeptMsg
 
     if (init) {
-      onChange &&
-        onChange(
+      if (bizDeptType === 'SUBCOMPANY') {
+        onChange?.(
           labelInValue
             ? { value: bizDeptId || '', text: bizDeptName }
             : bizDeptId,
@@ -52,6 +58,18 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
             ...currentDeptMsg,
           }
         )
+      } else {
+        onChange?.(
+          labelInValue
+            ? { value: subcompanyId || '', text: subcompanyName }
+            : subcompanyId,
+          {
+            value: subcompanyId || '',
+            text: subcompanyName,
+            ...currentDeptMsg,
+          }
+        )
+      }
     }
   }
   useUpdateEffect(() => {
@@ -91,11 +109,22 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
               })
             }
           })
-        } else {
+        } else if (bizDeptType === 'SUBCOMPANY') {
           deptList.current = [
             {
               subcompanyId: currentDept.bizDeptId,
               subcompanyName: currentDept.bizDeptName,
+            },
+          ]
+          setState({
+            disabled: true,
+            data: deptList.current,
+          })
+        } else {
+          deptList.current = [
+            {
+              subcompanyId: currentDept.subcompanyId,
+              subcompanyName: currentDept.subcompanyName,
             },
           ]
           setState({
