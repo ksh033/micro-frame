@@ -47,6 +47,7 @@
   "dependencies": {
     "@ant-design/colors": "^3.1.0",
     "@ant-design/icons": "^4.0.0",
+    "@micro-frame/sc-runtime": "beta",
     "@scboson/sc-schema": "beta",
     "ahooks": "^2.2.0",
     "classnames": "^2.2.6",
