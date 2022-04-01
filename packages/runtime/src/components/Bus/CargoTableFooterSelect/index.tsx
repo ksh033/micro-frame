@@ -82,6 +82,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
     <ScSelectTable
       remoteSearch
       showSearch
+      openReloadData
       labelInValue
       valueField={valueField}
       textField="cargoName"
@@ -97,6 +98,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       onLoad={handleLoad}
       params={newParams}
       {...restProps}
+      autoFocus={false}
     />
   )
 }
