@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-web",
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.17",
   "description": "@micro-frame/sc-web",
   "module": "es/index.js",
   "main": "lib/index.js",
@@ -47,6 +47,7 @@
   "dependencies": {
     "@ant-design/colors": "^3.1.0",
     "@ant-design/icons": "^4.0.0",
+    "@micro-frame/sc-runtime": "beta",
     "@scboson/sc-schema": "beta",
     "ahooks": "^2.2.0",
     "classnames": "^2.2.6",
