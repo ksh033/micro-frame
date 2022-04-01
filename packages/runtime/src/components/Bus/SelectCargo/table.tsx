@@ -9,6 +9,7 @@ import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface'
 import { RowSelectionType } from 'antd/es/table/interface'
 import styles from './index.less'
 import { CheckboxProps } from 'antd'
+import TableInfo from '@scboson/sc-schema/lib/page/TableInfo'
 
 const pagaConfig: PageConfig = {
   service: {},
@@ -30,6 +31,7 @@ export type SelectCargoTableProps = {
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>
+  formatTableInfo: (tableInfo: TableInfo) => TableInfo
 }
 
 const SelectCargoTable: React.FC<SelectCargoTableProps> = (
@@ -47,6 +49,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     getCheckboxProps,
     onLoad,
     formatPrams,
+    formatTableInfo,
     rowKey = 'cargoId',
   } = props
   const { run } = uesRequest('catalog', 'treeData')
@@ -64,12 +67,16 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   const searchConfig = search.toConfig()
 
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
-  const pageTable = page.getTable()
+  let pageTable = page.getTable()
   if (Array.isArray(extraColumns) && extraColumns.length > 0) {
     extraColumns.forEach((item: ProColumn) => {
       pageTable.addCol(item)
     })
   }
+  if (formatTableInfo) {
+    pageTable = formatTableInfo(pageTable)
+  }
+
   const pageInfo = pageTable.toConfig()
 
   const loadDataPramsFormat = (item: any) => {
@@ -172,5 +179,8 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     </div>
   )
 }
-const CargoTable:React.FunctionComponent<any>= ListPage(SelectCargoTable, pagaConfig)
+const CargoTable: React.FunctionComponent<any> = ListPage(
+  SelectCargoTable,
+  pagaConfig
+)
 export default CargoTable

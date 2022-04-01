@@ -9,7 +9,7 @@ export function onRouteChange({ location }: any) {
   // }
   if (location.pathname !== '/selectDept') {
     const currentUser = getUser()
-    if (currentUser) {
+    if (currentUser && currentUser.userAppInfo) {
       const { currentDept, needChooseDept } = currentUser.userAppInfo
       if (!currentDept && needChooseDept) {
         history.push('/selectDept')

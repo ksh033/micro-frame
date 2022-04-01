@@ -81,7 +81,7 @@ const ScRangePicker: FormComponent<RangePickerProps & ScRangePickerProps> = (
     dateStrings: [string, string]
   ) => {
     const _dates: {
-      [key: string]: string | Date
+      [key: string]: string | Date | null
     } = {}
     const _dateStrings: {
       [key: string]: any
@@ -111,6 +111,9 @@ const ScRangePicker: FormComponent<RangePickerProps & ScRangePickerProps> = (
         _dates[`${temStartTimeFiled}`] = dateStrings[0]
         _dates[`${temEndTimeFiled}`] = dateStrings[1]
       }
+    } else {
+      _dates[`${temStartTimeFiled}`] = null
+      _dates[`${temEndTimeFiled}`] = null
     }
     temData[`${temStartTimeFiled}`] = dateStrings[0]
     temData[`${temEndTimeFiled}`] = dateStrings[1]

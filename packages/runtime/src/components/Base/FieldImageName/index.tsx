@@ -6,7 +6,7 @@ import { BsTableComponentProps } from '../BsTable'
 type FieldImageNameProps = BsTableComponentProps & {
   fieldName: string
   fieldImage: string
-  fildDesc?: string
+  fildDesc?: string | React.ReactNode
 }
 
 const FieldImageName: React.FC<FieldImageNameProps> = (props) => {
