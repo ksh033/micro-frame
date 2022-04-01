@@ -12,6 +12,7 @@ import { getServiceApi } from '../../../utils/api'
 export interface UserDeptProp extends ScSelectProps, FormComponentProps {
   init?: boolean
   needCompany?: boolean
+  companyNeedInit?: boolean
 }
 
 interface UserDeptPropState {
@@ -29,6 +30,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     labelInValue = false,
     init = true,
     needCompany = true,
+    companyNeedInit = false,
     ...restProps
   } = props
   const deptList = useRef<any[]>([])
@@ -80,6 +82,23 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } = user
       if (currentDept.bizDeptType !== 'COMPANY') {
         initValue(currentDept)
+      } else {
+        if (companyNeedInit && state.data.length > 0) {
+          const itemFirst = state.data[0]
+          onChange?.(
+            labelInValue
+              ? {
+                  value: itemFirst.subcompanyId || '',
+                  text: itemFirst.subcompanyName,
+                }
+              : itemFirst.subcompanyId,
+            {
+              value: itemFirst.subcompanyId || '',
+              text: itemFirst.subcompanyName,
+              ...itemFirst,
+            }
+          )
+        }
       }
     }
   }, [state.data])
