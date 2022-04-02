@@ -83,6 +83,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       remoteSearch
       openReloadData
       labelInValue
+      showSearch
       valueField={valueField}
       textField="cargoName"
       searchField="cargoCodeName"
