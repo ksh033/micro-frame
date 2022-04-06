@@ -6,8 +6,7 @@ import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
 import Authority from '../../Auth/Authority'
 import styles from './index.less'
-
-const { Operation } = ScTable
+import Operation from './Operation'
 
 export interface BsTableProps extends ScTableProps<any> {
   toolbar?: any[]
