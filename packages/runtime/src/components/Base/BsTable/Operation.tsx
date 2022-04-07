@@ -13,8 +13,6 @@ export interface OperationProps {
 }
 
 const Operation: React.FC<OperationProps> = (props) => {
-  console.log(props)
-
   const { buttons, max = 4 } = props
 
   const renderChild = useCallback(() => {
