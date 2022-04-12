@@ -1,71 +1,71 @@
-import { observer } from 'mobx-react-lite'
-import React, { useEffect, useMemo, useState } from 'react'
-import { Form } from 'antd'
-import { useStore } from '../../stores'
-import { ModalType } from '../../stores/editor'
-import './index.less'
-import PanelList from './PanelList'
-import BaseForm from '../../components/BaseForm'
-import { filterPageConfig } from '../../utils/common'
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Form } from 'antd';
+import { useStore } from '../../stores';
+import { ModalType } from '../../stores/editor';
+import './index.less';
+import PanelList from './PanelList';
+import BaseForm from '../../components/BaseForm';
+import { filterPageConfig } from '../../utils/common';
 
 const PropertyPanel: React.FC<any> = (props) => {
-  const { editorStore, comsStore } = useStore()
+  const { editorStore, comsStore } = useStore();
 
-  const modalType = editorStore.modalType
+  const modalType = editorStore.modalType;
 
   const editCmp =
-    modalType === 'pageSet' ? editorStore.pageinfo : editorStore.currentEditCmp
-  console.log('editCmp', editCmp)
-  const [form] = Form.useForm()
+    modalType === 'pageSet' ? editorStore.pageinfo : editorStore.currentEditCmp;
 
-  const [values, setValues] = useState<any>(editCmp?.getFieldsValue() || {})
+  const [form] = Form.useForm();
+
+  const [values, setValues] = useState<any>(editCmp?.getFieldsValue() || {});
   const initialValues = editCmp?.getInitialValue
     ? editCmp?.getFieldsValue()
-    : {}
-  const editCmpInfo = comsStore.getCompInfoByKey(editCmp?.cmpKey || '')
+    : {};
+  const editCmpInfo = comsStore.getCompInfoByKey(editCmp?.cmpKey || '');
 
   useEffect(() => {
-    const newValues = editCmp?.getFieldsValue() || {}
-    setValues(newValues)
-    form.setFieldsValue(newValues)
-  }, [editCmp?.id])
+    const newValues = editCmp?.getFieldsValue() || {};
+    setValues(newValues);
+    form.setFieldsValue(newValues);
+  }, [editCmp?.id]);
 
   // 判读是否一进来就校验
   useEffect(() => {
-    form.validateFields()
-    editCmp?.setImmediatelyCheck(false)
-  }, [editCmp?.immediatelyCheck])
+    form.validateFields();
+    editCmp?.setImmediatelyCheck(false);
+  }, [editCmp?.immediatelyCheck]);
 
   const columns = React.useMemo(() => {
     if (editCmp?.propsConfig) {
-      let newcolumns = filterPageConfig(editCmp?.propsConfig)
+      let newcolumns = filterPageConfig(editCmp?.propsConfig);
       if (editCmp?.getPropsConfig) {
-        newcolumns = editCmp?.getPropsConfig(newcolumns, values)
+        newcolumns = editCmp?.getPropsConfig(newcolumns, values);
       }
-      return newcolumns
+      return newcolumns;
     }
-    return []
-  }, [editCmp?.propsConfig, editCmp?.getPropsConfig, JSON.stringify(values)])
+    return [];
+  }, [editCmp?.propsConfig, editCmp?.getPropsConfig, JSON.stringify(values)]);
 
   const onPageValuesChange = (values: any, allValues: any) => {
     // 更新页面数据
-    editorStore.updatePageInfoValues(allValues)
-  }
+    editorStore.updatePageInfoValues(allValues);
+  };
 
   const onValuesChange = (values: any, allValues: any) => {
-    let newValues = allValues
+    let newValues = allValues;
     // 修改表单
     if (editCmp?.onValuesChange) {
-      newValues = editCmp?.onValuesChange(values, newValues)
-      form.setFieldsValue(newValues)
+      newValues = editCmp?.onValuesChange(values, newValues);
+      form.setFieldsValue(newValues);
     }
     setValues({
       ...values,
       ...newValues,
-    })
+    });
     // 更新数据
-    editorStore.updateCurrentEditCmpValues(newValues)
-  }
+    editorStore.updateCurrentEditCmpValues(newValues);
+  };
 
   const renderByType = (type: ModalType) => {
     if ((type === 'component' || type === 'pageSet') && editCmp) {
@@ -78,19 +78,19 @@ const PropertyPanel: React.FC<any> = (props) => {
         onValuesChange:
           type === 'component' ? onValuesChange : onPageValuesChange,
         'data-row': values,
-      }
+      };
 
       if (editCmp.render) {
-        return <React.Fragment>{editCmp.render(baseProps)}</React.Fragment>
+        return <React.Fragment>{editCmp.render(baseProps)}</React.Fragment>;
       }
 
-      return <BaseForm {...baseProps}></BaseForm>
+      return <BaseForm {...baseProps}></BaseForm>;
     }
     if (type === 'componentList') {
-      return <PanelList></PanelList>
+      return <PanelList></PanelList>;
     }
-    return null
-  }
+    return null;
+  };
 
   return (
     <div className="right-wrapper">
@@ -110,6 +110,6 @@ const PropertyPanel: React.FC<any> = (props) => {
         <div className="deco-component-form">{renderByType(modalType)}</div>
       </div>
     </div>
-  )
-}
-export default observer(PropertyPanel)
+  );
+};
+export default observer(PropertyPanel);

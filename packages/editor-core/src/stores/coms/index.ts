@@ -1,11 +1,8 @@
 import { observable, action } from 'mobx';
-import {
-  BaseCompGroup,
-  BaseCompMap,
-  ClassType,
-  CmpInfo,
-  CompsGroup,
-} from '@scvisual/element';
+// @ts-ignore
+import { BaseCompGroup, BaseCompMap, CmpInfo } from '@scvisual/element';
+// @ts-ignore
+import type { ClassType, CompsGroup } from '@scvisual/element';
 import { message } from 'antd';
 
 export type comsStoreType = {
@@ -36,9 +33,9 @@ class ComsClass {
   @action.bound
   initComsInfoMap() {
     const map = new Map<String, CmpInfo>();
-    this.comsList.forEach((it) => {
+    this.comsList.forEach((it: CompsGroup) => {
       if (Array.isArray(it.list)) {
-        it.list.forEach((itm) => {
+        it.list.forEach((itm: CmpInfo) => {
           map.set(itm.cmpKey, itm);
         });
       }

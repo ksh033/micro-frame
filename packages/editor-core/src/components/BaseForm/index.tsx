@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ProProvider from '@ant-design/pro-provider';
 import { BetaSchemaForm } from '@ant-design/pro-form';
 import { FormSchema } from '@ant-design/pro-form/es/components/SchemaForm';
+// @ts-ignore
 import * as Components from '@scvisual/element';
 import { ProRenderFieldPropsType } from '@ant-design/pro-utils';
 import { valueTypelist } from '../../index';
@@ -17,7 +18,6 @@ const BaseForm: React.FC<FormSchema<any>> = (props) => {
     const WarpCommponent = Components[cmpkey];
     valueTypeMap[warpCom] = {
       renderFormItem: (text, props) => {
-        // console.log(props)
         return (
           <WarpCommponent {...props} {...props?.fieldProps} rowData={rowData} />
         );

@@ -1,6 +1,8 @@
 import Frame from './editor/Frame';
 import { StoreProvider } from './stores/index';
+// @ts-ignore
 import * as Components from '@scvisual/element';
+import './index.less';
 
 const valueTypelist: string[] = [];
 Object.keys(Components).forEach((key: string) => {
@@ -8,8 +10,9 @@ Object.keys(Components).forEach((key: string) => {
     valueTypelist.push(key);
   }
 });
+const iframeId = 'myFrame';
+export { valueTypelist, iframeId };
 
-export { valueTypelist };
 const App = (props: any) => {
   return (
     <StoreProvider>

@@ -1,14 +1,20 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import { useStore } from '../../stores'
-import './PanelList.less'
-import { SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc'
-import { Button, Popconfirm, Space } from 'antd'
-import { CopyOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons'
-import { ComponentSchemaProps } from '@scvisual/element'
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { useStore } from '../../stores';
+import './PanelList.less';
+import {
+  SortableContainer,
+  SortableElement,
+  SortEnd,
+} from 'react-sortable-hoc';
+import { Button, Popconfirm, Space } from 'antd';
+import { CopyOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons';
+// @ts-ignore
+import { ComponentSchemaProps } from '@scvisual/element';
+import sendToIframe from '../../utils/sendToIframe';
 
 const SortableItem = SortableElement((props: any) => {
-  const { value, onCopy, onDelete, indexNmu } = props
+  const { value, onCopy, onDelete, indexNmu } = props;
 
   return (
     <div className="deco-editor-card-item">
@@ -35,12 +41,12 @@ const SortableItem = SortableElement((props: any) => {
         </div>
       </div>
     </div>
-  )
-})
+  );
+});
 
 const SortableList = SortableContainer(
   (props: { children?: any; confirm?: any; showClearAction: boolean }) => {
-    const { confirm, showClearAction = false } = props
+    const { confirm, showClearAction = false } = props;
     return (
       <div>
         {showClearAction ? (
@@ -59,37 +65,37 @@ const SortableList = SortableContainer(
 
         <div>{props.children}</div>
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
 const PanelList: React.FC<any> = (props) => {
-  const { comsStore, editorStore } = useStore()
+  const { comsStore, editorStore } = useStore();
 
-  const editList = editorStore.editList
+  const editList = editorStore.editList;
 
   const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    editorStore.sortEditList(oldIndex, newIndex)
-  }
+    editorStore.arrayMove(oldIndex, newIndex);
+  };
 
   const onCopy = (value: ComponentSchemaProps) => {
-    const flag = comsStore.addComsNum(value.cmpKey)
+    const flag = comsStore.addComsNum(value.cmpKey);
     if (flag) {
-      editorStore.copyCmp(value)
+      editorStore.copyCmp(value);
     }
-  }
+  };
 
   const onDelete = (value: ComponentSchemaProps) => {
-    const flag = comsStore.minusComsNum(value.cmpKey)
+    const flag = comsStore.minusComsNum(value.cmpKey);
     if (flag) {
-      editorStore.deleteCmp(value.id)
+      editorStore.deleteCmp(value.id);
     }
-  }
+  };
   // 清空组件
   const clearConfirm = () => {
-    comsStore.clearNum()
-    editorStore.clearAllCmp()
-  }
+    comsStore.clearNum();
+    editorStore.clearAllCmp();
+  };
 
   return (
     <SortableList
@@ -105,14 +111,14 @@ const PanelList: React.FC<any> = (props) => {
           value={value}
           indexNmu={index}
           onCopy={() => {
-            onCopy(value)
+            onCopy(value);
           }}
           onDelete={() => {
-            onDelete(value)
+            onDelete(value);
           }}
         />
       ))}
     </SortableList>
-  )
-}
-export default observer(PanelList)
+  );
+};
+export default observer(PanelList);

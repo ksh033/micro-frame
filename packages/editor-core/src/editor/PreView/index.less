@@ -1,4 +1,6 @@
 .preview-wrap {
+  position: relative;
+
   .preview-page{
     position: fixed;
     top: 128px;
@@ -16,5 +18,43 @@
     cursor: pointer;
     border-width: 0;
   }
+  .preview{
+    position: relative;
+    width: 100%;
+    min-height: 601px;
+    padding: 20px 0;
+  
+    .preview-head{
+      background-image: url('./preview-header.png');
+      height: 64px;
+      width: 375px;
+      margin: 0 auto;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50%;
+      position: relative;
+      box-shadow: 0 0 14px 0 rgba(0,0,0,0.1);
+    }
 
+    .preview-content{}
+    // position: relative;
+    // .preview-content{
+    //   position: absolute;
+    //   width: 100%; //iframe放大和窗口一般大
+    //   height: 100%;
+    // }
+    .preview-footer{
+      box-shadow: 0 4px 16px 0 rgba(0,0,0,0.1);
+      width: 375px;
+      margin: 0 auto;
+      -webkit-user-select: none;
+      user-select: none;
+      min-height: 1px;
+      text-align: center;
+      line-height: 16px;
+      background-color: #ffffff;
+      padding: 10px 0;
+    }
+
+  }
 }

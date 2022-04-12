@@ -7,21 +7,30 @@ export type VdFormItemProps = {
   formItemTitle?: string;
   valueName?: React.Key;
   showValue?: boolean;
+  block?: boolean;
 };
 
 const VdFormItem: React.FC<VdFormItemProps> = (props) => {
-  const { formItemTitle, valueName, showValue = true } = props;
+  const { formItemTitle, valueName, showValue = true, block = false } = props;
 
   return (
     <Form.Item>
-      <div className="vd-component-warp">
+      <div
+        className={
+          block
+            ? 'vd-component-warp vd-component-warp-block'
+            : 'vd-component-warp'
+        }
+      >
         <div className="vd-component-warp-header">
           <span className="vd-component-warp__label">
             {formItemTitle || ''}
           </span>
-          {showValue ? <span>{valueName}</span> : null}
+          {showValue ? (
+            <span className="vd-component-warp__value">{valueName}</span>
+          ) : null}
         </div>
-        {props.children}
+        <div className="vd-component-warp-content">{props.children}</div>
       </div>
     </Form.Item>
   );
