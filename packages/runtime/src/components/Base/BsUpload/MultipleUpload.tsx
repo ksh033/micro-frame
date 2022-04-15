@@ -1,12 +1,10 @@
 /* eslint-disable consistent-return */
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { ScUpload } from '@scboson/sc-element'
 import { UploadFile } from '@scboson/sc-element/es/sc-upload'
-
 import { PlusOutlined } from '@ant-design/icons'
 import { imageUrl } from '../../../utils/common'
-import { useUpdateEffect } from 'ahooks'
-
+import { FileType } from './index'
 interface MultipleUpload {
   action?: string
   value?: any[]
@@ -18,7 +16,7 @@ interface MultipleUpload {
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: any
-  dataFormat?: (data: any) => string | null
+  valeFormat?: (data: any) => Promise<string | FileType | null>
 }
 
 const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
@@ -29,7 +27,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     beforeUpload,
     accept,
     headers,
-    dataFormat,
+    valeFormat,
     maxSizeCheck,
     ...restProps
   } = props
@@ -40,28 +38,19 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
         .map((item, index) => {
           if (typeof item === 'string') {
             return {
-              uid: index,
+              uid: index + '',
               url: imageUrl(item),
               fileUrl: item,
               status: 'done',
             }
           } else {
-            let result = item
-            if (item.size && item.type) {
-              if (maxSizeCheck(item)) {
-                if (item.response && item.response.success) {
-                  result = item.response.data
-                }
-                if (dataFormat) {
-                  result = dataFormat(result)
-                }
-                item.url = imageUrl(result)
-                return item
-              } else {
-                return null
-              }
-            } else {
-              return item
+            return {
+              uid: index + '',
+              url: imageUrl(item.url),
+              fileUrl: item.url,
+              fileInfoId: item.fileId || item.fileInfoId,
+              thumbnailUrl: item.thumb_url || item.thumbnailUrl,
+              status: 'done',
             }
           }
         })
@@ -72,13 +61,11 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     return newfileList
   }
 
-  useUpdateEffect(() => {
-    if (Array.isArray(fileList) && fileList.length === 0) {
-      setFileList(formatList(value))
-    }
-  }, [JSON.stringify(value)])
-
   const [fileList, setFileList] = useState<UploadFile[]>([])
+
+  useLayoutEffect(() => {
+    setFileList(formatList(value))
+  }, [JSON.stringify(value)])
 
   const uploadButton = (
     <div>
@@ -87,27 +74,44 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     </div>
   )
 
-  const handleChange = ({
+  const handleChange = async ({
     fileList: _fileList,
   }: {
     fileList: UploadFile[]
   }) => {
-    const rfileList = formatList(_fileList)
-    setFileList(rfileList)
-    const outList = rfileList.map((file: any) => {
-      if (file.status === 'done') {
-        let result = file
-        if (file.response && file.response.success) {
-          result = file.response.data
+    const rfileList = _fileList.filter((item) => {
+      if (item.status === 'done') {
+        return true
+      } else {
+        if (item.size && item.type) {
+          return maxSizeCheck(item)
         }
-        if (dataFormat) {
-          result = dataFormat(result)
-        }
-        return result
+        return true
       }
-      return file
     })
-    onChange && onChange(outList)
+
+    const doneList = _fileList.filter((it) => it.status === 'done')
+    if (doneList.length === _fileList.length) {
+      const outList: any[] = []
+      for (let i = 0; i < _fileList.length; i++) {
+        const file = _fileList[i]
+        if (file.status === 'done') {
+          let result: any = file
+          if (file.response && file.response.success) {
+            result = file.response.data
+          }
+          if (valeFormat && result) {
+            result = await valeFormat(result)
+            outList.push(result)
+          } else {
+            outList.push(result)
+          }
+        }
+      }
+      onChange?.(outList)
+    } else {
+      setFileList(rfileList)
+    }
   }
 
   return (

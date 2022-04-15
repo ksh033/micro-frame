@@ -6,6 +6,7 @@ import { PlusOutlined, LoadingOutlined } from '@ant-design/icons'
 import { UploadFile } from 'antd/es/upload/interface'
 import { imageUrl } from '../../../utils/common'
 import styles from './index.less'
+import { FileType } from './index'
 
 function getBase64(file: any): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -27,7 +28,7 @@ interface SingleUploadProps {
   beforeUpload?: (file: any, fileList: any) => boolean | Promise<any>
   accept?: string
   headers?: object
-  dataFormat?: (data: any) => string | null
+  valeFormat?: (data: any) => Promise<string | FileType | null>
 }
 const isImageFileType = (type?: string): boolean =>
   type?.indexOf('image/') === 0
@@ -45,7 +46,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     uploadImmediately = true,
     headers,
     maxSizeCheck,
-    dataFormat,
+    valeFormat,
   } = props
 
   const [previewImage, setPreviewImage] = useState<any>(null)
@@ -68,7 +69,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     }
   }, [JSON.stringify(value)])
 
-  const handleChange = ({ file }: any) => {
+  const handleChange = async ({ file }: any) => {
     if (!maxSizeCheck(file)) {
       return
     }
@@ -86,8 +87,8 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         if (file.response && file.response.success) {
           result = file.response.data
         }
-        if (dataFormat) {
-          result = dataFormat(result)
+        if (valeFormat) {
+          result = await valeFormat(result)
         }
         if (typeof result === 'string') {
           setPreviewImage(result)
@@ -154,7 +155,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   )
 
   return (
-    <div className="clearfix">
+    <div className="bs-signle-img clearfix">
       <Upload
         listType="picture-card"
         showUploadList={false}
