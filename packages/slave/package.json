@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-slave",
-  "version": "1.0.14-beta.8",
+  "version": "1.0.14-beta.9",
   "description": "应用组件包集合",
   "repository": "git@bsgit28:bgtech-fe/micro-basic.git",
   "author": "skimq <2072616987@qq.com>",
@@ -38,12 +38,12 @@
     "umi-request": "^1.3.5"
   },
   "resolutions": {
-    "@types/react":"17.0.39",
-    "@types/react-dom":"17.0.15"
+    "@types/react": "17.0.39",
+    "@types/react-dom": "17.0.15"
   },
   "peerDependencies": {
-    "@micro-frame/sc-runtime": "beta",
     "@micro-frame/plugin-microlayout": "beta",
+    "@micro-frame/sc-runtime": "beta",
     "@scboson/sc-schema": "beta",
     "@scboson/sc-utils": "beta"
   },
