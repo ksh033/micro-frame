@@ -62,7 +62,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   const headers: any = { 'app-version': '1.0' }
   if (user) {
     headers.token = user.token
-    headers['sys-code'] = user.userAppInfo.currentSystem.systemCode
+    headers['sys-code'] = user.userAppInfo.currentSystem?.systemCode
   } else {
     headers['sys-code'] = 'common'
   }

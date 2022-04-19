@@ -237,36 +237,15 @@ export function colorRgba(sHex: string, alpha?: number): string {
   }
 }
 
-export function initUser(token: string, systemCode: string): User {
+export function initUser(token: string): User {
   return {
-    systemList: [],
+    deptList: [],
     lastLoginTime: '',
     realName: '',
     needModifyPwd: false,
     token: token,
     phone: 'string',
     userName: 'string',
-    userAppInfo: {
-      currentSystem: {
-        systemCode: systemCode,
-        systemName: '',
-        defaulted: true,
-        enabled: true,
-        publiced: '',
-      },
-      currentDept: {
-        bizDeptId: '',
-        bizDeptName: '',
-        bizDeptType: '',
-        contactName: '',
-        contactPhone: '',
-        subcompanyId: '',
-        subcompanyName: '',
-      },
-      deptList: [],
-      needChooseDept: false,
-      menuTreeNodeList: [],
-    },
     email: '',
     superAdminFlag: false,
     wechatAvatarUrl: null,
