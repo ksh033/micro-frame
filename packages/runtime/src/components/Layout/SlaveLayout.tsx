@@ -20,11 +20,11 @@ export default function SlaveLayout(componentProps: any) {
   const { children, route, menu,...resProps } = componentProps;
   const ref=useRef<any>({})
 
-  if (!ref.current.mdata){
-    const userAppInfo = getUser()?.userAppInfo;
-    ref.current.mdata = userAppInfo?.menuTreeNodeList || [];
-    ref.current.syscode=userAppInfo?.currentSystem.systemCode || ""
-  }
+  // if (!ref.current.mdata){
+  //   const userAppInfo = getUser()?.userAppInfo;
+  //   ref.current.mdata = userAppInfo?.menuTreeNodeList || [];
+  //   ref.current.syscode=userAppInfo?.currentSystem.systemCode || ""
+  // }
  
  
 

@@ -8,6 +8,7 @@ interface DeptInfoProps {
   contactPhone: string
   subcompanyId: string
   subcompanyName: string
+  systemList: SysInfoProps[]
 }
 
 interface SysInfoProps {
@@ -16,24 +17,23 @@ interface SysInfoProps {
   defaulted: boolean
   enabled: boolean
   publiced: string
-}
-
-export interface UserAppInfo {
-  currentSystem: SysInfoProps
-  currentDept: DeptInfoProps
-  deptList: DeptInfoProps[]
-  needChooseDept: boolean
   menuTreeNodeList: any[]
 }
+
+export interface CurrentDeptProps {
+  currentDept: DeptInfoProps
+  currentSystem?: SysInfoProps
+}
+
 export interface User {
-  systemList: SysInfoProps[]
+  chooseDeptVO?: null | CurrentDeptProps
+  deptList: DeptInfoProps[]
   lastLoginTime: string // 最后一次登陆时间
   realName: string // 用户昵称
   needModifyPwd: boolean // 是否需要修改密码
   token: string // token
   phone: string // 手机号
   userName: string
-  userAppInfo: UserAppInfo
   email: string // 邮箱地址
   superAdminFlag: boolean // 是否是超级管理员
   wechatAvatarUrl: string | null // 微信头像信息
@@ -46,38 +46,9 @@ export interface User {
 const User_Key = 'CG-CURRENT-USER'
 
 const AppsUser_Key = 'APP-CURRENT-USERS'
-
 // 当前用户appCode
 let _userAppCode = ''
 
-const addCookie = (objName, objValue, objHours) => {
-  var str = objName + '=' + escape(objValue) //编码
-  if (objHours > 0) {
-    //为0时不设定过期时间，浏览器关闭时cookie自动消失
-    var date = new Date()
-
-    var ms = objHours * 1000
-    date.setTime(date.getTime() + ms)
-    // @ts-ignore
-    str += '; expires=' + date.toGMTString()
-  }
-  //@ts-ignore
-  console.log(`window.sysCode=${window.syscode},cookies-syscode=${objValue}`)
-  document.cookie = str
-}
-
-//读Cookie
-const getCookie = (objName) => {
-  //获取指定名称的cookie的值
-  var arrStr = document.cookie.split('; ')
-  for (var i = 0; i < arrStr.length; i++) {
-    var temp = arrStr[i].split('=')
-    if (temp[0] == objName) return unescape(temp[1]) //解码
-  }
-  return ''
-}
-//const CurrentApp_KEY = 'CURRENT-APP'
-const CurrentApp_KEY = 'TEM-CURRENT-APP'
 const setStorage = (skey: string, value: any) => {
   localStorage.setItem(skey, JSON.stringify(value))
 }
@@ -90,131 +61,38 @@ const getStorage = <T>(skey: string): T | null => {
   return null
 }
 
-const restUserAppCode = (tuserAppCode?: string) => {
-  let temCode: any = tuserAppCode
-  if (temCode) {
-    localStorage.setItem(CurrentApp_KEY, temCode)
-  } else {
-    let storeAppCode = localStorage.getItem(CurrentApp_KEY)
-    if (!storeAppCode) {
-      storeAppCode = getCookie(CurrentApp_KEY)
-    }
-    setUserAppCode(storeAppCode)
-    localStorage.removeItem(CurrentApp_KEY)
-  }
-
-  return temCode
-}
-
 const setUser = (user: User) => {
-  // let currentUser = null;
-  const userAppInfos =
-    getStorage<Record<string, UserAppInfo>>(AppsUser_Key) || {}
-  let userAppInfosChange = false
-
   let currentUser: User = user
-
-  const systemCode = currentUser.userAppInfo?.currentSystem.systemCode || ''
-  userAppInfos[systemCode] = user.userAppInfo
-  userAppInfosChange = true
-
-  const { userAppInfo, ...restUser } = currentUser
-
+  const { chooseDeptVO, ...restUser } = currentUser
+  if(chooseDeptVO!=null){
+    setStorage(AppsUser_Key, chooseDeptVO)
+  }
   setStorage(User_Key, restUser)
-  //setStorage(CurrentApp_KEY, systemCode)
-  //@ts-ignore
-  window.syscode = systemCode
-  _userAppCode = systemCode
-  if (userAppInfosChange) {
-    setStorage(AppsUser_Key, userAppInfos)
-  }
 }
-
-const getAppCode = () => {
-  // @ts-ignore
-  let appcode = window.syscode
-
-  if (appcode === undefined || appcode === null) {
-    const pathname = window.location.pathname
-    if (pathname === '/') {
-      appcode = getStorage<string>(CurrentApp_KEY)
-      return appcode
-    } else {
-      const paths = pathname.substring(1, pathname.length).split('/')
-      const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
-      if (userAppInfos && paths[0] && userAppInfos[paths[0]]) {
-        return paths[0]
-      } else {
-        appcode = getStorage<string>(CurrentApp_KEY)
-        return appcode
-      }
-    }
-  }
-
-  return appcode
-}
-
-const setUserAppCode = (userAppCode) => {
-  _userAppCode = userAppCode
-  addCookie(CurrentApp_KEY, _userAppCode, 10)
-}
-
-const getUserAppCode = () => {
-  // @ts-ignore
-  //当外部与内部不一致时用外部
-  if (window.__POWERED_BY_QIANKUN__) {
-    // @ts-ignore
-    const cuserAppCode = getCookie(CurrentApp_KEY)
-    console.log(`cuserAppCode${cuserAppCode}`)
-    console.log(`_userAppCode${_userAppCode}`)
-    //当临时syscode不为空&&内存_userAppCode!== cookie的syscode，替换内存
-    if (cuserAppCode && cuserAppCode !== '') {
-      if (_userAppCode && cuserAppCode !== _userAppCode) {
-        // @ts-ignore
-        setUserAppCode(cuserAppCode)
-      }
-    }
-  }
-
-  if (!_userAppCode) {
-    // @ts-ignore
-    // const systemcode=getCookie(CurrentApp_KEY)
-
-    if (window.userAppCode) {
-      // _userAppCode = window.userAppCode;
-      // @ts-ignore
-      setUserAppCode(window.userAppCode)
-    } else {
-      const systemcode = getCookie(CurrentApp_KEY)
-      if (systemcode) {
-        setUserAppCode(systemcode)
-      }
-    }
-  }
-  // console.log("当前用户appCode:" + _userAppCode);
-  return _userAppCode
-}
-const getUser = (): User | null | undefined => {
-  const currentUser: any = getStorage(User_Key)
-  const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
-
-  const appCode = getUserAppCode()
-  if (appCode && userAppInfos && currentUser) {
-    const tuserApp = userAppInfos[appCode]
-    if (tuserApp) {
-      currentUser.userAppInfo = tuserApp
-    }
-  }
-  return currentUser
-}
-
-const getAppUser = () => {
-  const appCode = getAppCode()
-  const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
+const updateCurrentDept = (userAppInfos: CurrentDeptProps) => {
   if (userAppInfos) {
-    return userAppInfos[appCode]
+    if(userAppInfos.currentSystem == null){
+      if(Array.isArray( userAppInfos.currentDept.systemList) &&  userAppInfos.currentDept.systemList.length > 0){
+        if (!_userAppCode) {
+          userAppInfos.currentSystem = userAppInfos.currentDept.systemList[0];
+          setStorage(AppsUser_Key, userAppInfos)
+        }else {
+          if (userAppInfos?.currentDept && Array.isArray(userAppInfos.currentDept.systemList)) {
+            const index = userAppInfos.currentDept.systemList.findIndex(it=>it.systemCode === _userAppCode)
+            if(index > -1){
+              userAppInfos.currentSystem = userAppInfos.currentDept.systemList[index];
+              setStorage(AppsUser_Key, userAppInfos)
+            }else {
+              userAppInfos.currentSystem = undefined
+              setStorage(AppsUser_Key, userAppInfos)
+            }
+          }
+        }
+      }  
+    }
+    
   }
-  return null
+  return userAppInfos
 }
 
 /**
@@ -222,85 +100,72 @@ const getAppUser = () => {
  *
  * @param sysCode
  */
-const changeApp = (sysCode: string, userAppInfo?: UserAppInfo) => {
-  const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
-  if (!userAppInfo && userAppInfos) {
-    if (userAppInfos[sysCode]) {
+ const changeApp = (sysCode: string) => {
+  const userAppInfos = getStorage<CurrentDeptProps>(AppsUser_Key)
+  if (userAppInfos?.currentDept && Array.isArray(userAppInfos.currentDept.systemList)) {
+    const index = userAppInfos.currentDept.systemList.findIndex(it=>it.systemCode === sysCode)
+    if(index > -1){
+      userAppInfos.currentSystem = userAppInfos.currentDept.systemList[index];
+      setStorage(AppsUser_Key, userAppInfos)
       setUserAppCode(sysCode)
       return true
+    }else {
+      userAppInfos.currentSystem = undefined
+      setStorage(AppsUser_Key, userAppInfos)
+      setUserAppCode(sysCode)
+      return false
     }
-  }
-  if (userAppInfos && userAppInfo) {
-    userAppInfos[sysCode] = userAppInfo
-    //@ts-ignore
-    // window.syscode = sysCode
-    setStorage(AppsUser_Key, userAppInfos)
-    setUserAppCode(sysCode)
-    // setStorage(CurrentApp_KEY, sysCode)
-    return true
+   
   }
   return false
 }
 
-const checkUserDept = (pathname) => {
-  const currentUser = getUser()
-  if (pathname.indexOf('/system/current') > -1) {
-    return true
-  }
-  // if (pathname !== "/selectDept") {
-  if (currentUser) {
-    const { userAppInfo } = currentUser
-    if (userAppInfo) {
-      const { currentDept, needChooseDept } = userAppInfo
-      if (!currentDept && needChooseDept) {
-        return false
-      }
-    }
-  }
-  // }
-  return true
-}
-const updateUser = (userAppInfo: UserAppInfo) => {
-  const appCode = getUserAppCode()
-  const userAppInfos = getStorage<Record<string, UserAppInfo>>(AppsUser_Key)
+const getUser = (): User & {
+  userAppInfo: CurrentDeptProps
+} | null | undefined => {
+  const currentUser: any = getStorage(User_Key)
+  const tuserApp = getStorage<CurrentDeptProps>(AppsUser_Key)
 
-  if (userAppInfos) {
-    const ruserAppInfo = userAppInfos[appCode]
-    ruserAppInfo.currentDept = userAppInfo.currentDept
-    ruserAppInfo.menuTreeNodeList = userAppInfo.menuTreeNodeList
+  if (tuserApp) {
+    currentUser.chooseDeptVO = tuserApp
+    currentUser.userAppInfo = tuserApp
+  }
 
-    userAppInfos[appCode] = ruserAppInfo
-  }
-  if (userAppInfos) {
-    setStorage(AppsUser_Key, userAppInfos)
-  }
+  return currentUser
 }
+
 const clearUser = () => {
   localStorage.removeItem(User_Key)
   localStorage.removeItem(AppsUser_Key)
-  localStorage.removeItem(CurrentApp_KEY)
-  _userAppCode = ''
-  addCookie(CurrentApp_KEY, '', 0)
-  //@ts-ignore
-  window.userAppCode = ''
   sessionStorage.removeItem('CG-CURRENT-DICT')
   sessionStorage.removeItem('CG-WEIGHT-UNIT')
 }
 
+const getAppCode = () => {
+  const userAppInfos = getStorage<CurrentDeptProps>(AppsUser_Key)
+  if(userAppInfos?.currentSystem?.systemCode){
+    return userAppInfos?.currentSystem.systemCode
+  }
+  return 'common'
+}
+
 const openWindow = (url: string) => {
-  restUserAppCode(getUserAppCode())
+  // restUserAppCode(getUserAppCode())
   window.open(url)
 }
+
+
+const setUserAppCode = (userAppCode) => {
+  _userAppCode = userAppCode
+}
+
 export {
-  updateUser,
-  getUser,
-  changeApp,
-  setUser,
   clearUser,
+  setUser,
+  changeApp,
+  getUser,
   getAppCode,
-  restUserAppCode,
-  setUserAppCode,
-  getUserAppCode,
   openWindow,
-  checkUserDept,
+  setUserAppCode,
+  updateCurrentDept
 }

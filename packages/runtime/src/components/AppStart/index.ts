@@ -7,15 +7,15 @@ export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  if (location.pathname !== '/selectDept') {
-    const currentUser = getUser()
-    if (currentUser && currentUser.userAppInfo) {
-      const { currentDept, needChooseDept } = currentUser.userAppInfo
-      if (!currentDept && needChooseDept) {
-        history.push('/selectDept')
-      }
-    }
-  }
+  // if (location.pathname !== '/selectDept') {
+  //   const currentUser = getUser()
+  //   if (currentUser && currentUser.userAppInfo) {
+  //     const { currentDept, needChooseDept } = currentUser.userAppInfo
+  //     if (!currentDept && needChooseDept) {
+  //       history.push('/selectDept')
+  //     }
+  //   }
+  // }
 }
 
 export function render(oldRender: any) {
@@ -38,7 +38,7 @@ export function render(oldRender: any) {
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
-  routes[0].routes.unshift({
+  routes.unshift({
     path: '/selectDept',
     exact: true,
     component: SelectDept,

@@ -34,11 +34,11 @@ class AvatarDropdown extends React.Component<
 
   render(): React.ReactNode {
     const { currentUser, menu } = this.props
-   const userAppInfo=currentUser?.userAppInfo;
+   // const userAppInfo=currentUser?.userAppInfo;
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
         {menu && 
-           userAppInfo&&userAppInfo.deptList.length>1?
+           currentUser&&currentUser.deptList.length>1?
           (<Menu.Item key="changeDept">
             <SettingOutlined />
             切换机构
@@ -70,7 +70,7 @@ class AvatarDropdown extends React.Component<
           />
           <span className="name">
             {currentUser.realName}[
-            {userAppInfo?.currentDept?.bizDeptName}]
+            {currentUser?.chooseDeptVO?.currentDept?.bizDeptName}]
           </span>
         </span>
       </HeaderDropdown>

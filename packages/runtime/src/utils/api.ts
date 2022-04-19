@@ -78,12 +78,14 @@ const services = {
       sysCode: 'common',
     },
     loginByPhone: {
-      url: '/user/api/anony/user/login/phonepwd',
+      // url: '/user/api/anony/user/login/phonepwd',
+      url: '/user/api/anony/user/pcmanage/login/phonepwd',
       method: 'post',
       sysCode: 'common',
     },
     chooseDept: {
-      url: '/user/api/dept/choose',
+      // url: '/user/api/dept/choose',
+      url: '/user/api/pcmanage/dept/choose',
       method: 'get',
       sysCode: 'common',
     },

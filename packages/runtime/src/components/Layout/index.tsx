@@ -5,10 +5,6 @@ import { Link, history, useModel } from "umi";
 import {
   getUser,
   changeApp,
-  restUserAppCode,
-  getUserAppCode,
-  setUserAppCode,
-  checkUserDept,
 } from "../Auth";
 import "./index.less";
 import { uesRequest } from "../../utils/api";
@@ -33,11 +29,11 @@ export default (props: any) => {
   const { children, userConfig, isMaster, ...restProps } = props;
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
-  const userAppInfo = user?.userAppInfo;
+  const userAppInfo = user?.chooseDeptVO;
   const req = uesRequest("user", "chooseSys");
   const { loadDict, dict } = userDictModel();
   const { loadWeight } = useWeightUnit();
-  const systemList = appData || user?.systemList;
+  const systemList = appData || user?.chooseDeptVO?.currentDept.systemList
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
   //独立运行是模拟setQiankunGlobalState
@@ -46,7 +42,7 @@ export default (props: any) => {
     useModel("@@qiankunStateFromMaster") ||
     {};
 
-  const appSelectedKeys = appSelected || getUserAppCode() || [];
+  const appSelectedKeys = userAppInfo?.currentSystem?.systemCode || '';
   const apps = systemList.map((sys) => ({
     name: sys.systemName,
     code: sys.systemCode,
@@ -54,7 +50,7 @@ export default (props: any) => {
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
-  const mdata = menuData ? menuData : userAppInfo?.menuTreeNodeList || [];
+  const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menuTreeNodeList || [];
   //const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
   useEffect(() => {
@@ -63,12 +59,13 @@ export default (props: any) => {
     // 加载计重单位
     loadWeight();
     if (!isMaster) {
-      if (appSelected) {
+      if (appSelected && userAppInfo?.currentSystem?.systemCode == null) {
         if (!changeApp(appSelected)) {
-          req.run({ systemCode: appSelected }).then((data) => {
-            changeApp(appSelected, data);
-            history.push("/");
-          });
+          changeApp(appSelected);
+          history.push("/");
+          // req.run({ systemCode: appSelected }).then((data) => {
+            
+          // });
         }
       }
     }
@@ -77,10 +74,10 @@ export default (props: any) => {
     //if (window.addEventListener) {
     //window.addEventListener("unload", page_unload, false);
     // }else{
-    window.onunload = function () {
-      console.log("重置窗口");
-      restUserAppCode(getUserAppCode());
-    };
+    // window.onunload = function () {
+    //   console.log("重置窗口");
+    //   restUserAppCode(getUserAppCode());
+    // };
     // }
 
     // function page_unload() {
@@ -90,9 +87,9 @@ export default (props: any) => {
     //   return true;
     // }
     // window.location
-    if (!checkUserDept(location.pathname)) {
-      history.push("/selectDept");
-    }
+    // if (!checkUserDept(location.pathname)) {
+    //   history.push("/selectDept");
+    // }
     if (
       (whetherNotice === undefined || whetherNotice === null) &&
       user?.wechatUnionId === null
@@ -151,14 +148,10 @@ export default (props: any) => {
           onSelect: async (keys: any) => {
             if (keys && keys.length > 0) {
               if (!changeApp(keys[0])) {
-                const data = await req.run({ systemCode: keys[0] });
-                changeApp(keys[0], data);
+                //const data = await req.run({ systemCode: keys[0] });
+                changeApp(keys[0]);
               }
-              if (!checkUserDept(location.pathname)) {
-                history.push("/selectDept");
-              } else {
-                history.push("/" + keys[0]);
-              }
+              history.push("/" + keys[0]);
             }
           },
         }}
@@ -204,7 +197,7 @@ export default (props: any) => {
             <Link
               onClick={() => {
                 sessionStorage.removeItem("SEARCH_PARAMS");
-                setUserAppCode(syscode)
+                 // setUserAppCode(syscode)
               }}
               to={{
                 pathname: `${path}`,

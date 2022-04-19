@@ -3,7 +3,7 @@ import { Form, Input, Button, Tabs, Modal, Spin } from 'antd'
 import { urlSafeBase64Decode, urlSateBase64Encode } from '../../utils/common'
 import SMSCode from '../SMSCode'
 import { uesRequest } from '../../utils/api'
-import { setUser, checkUserDept, clearUser } from '../Auth'
+import { setUser,  clearUser } from '../Auth'
 //@ts-ignore
 import { history } from 'umi'
 import styles from './index.less'
@@ -35,25 +35,28 @@ const Login: React.FC<any> = (props: any) => {
   )
 
   const loginCallBack = (data: any) => {
-    const { chooseSysVO, ...userInfo } = data
-    userInfo.userAppInfo = chooseSysVO
-    setUser(userInfo)
-    if (userInfo.needModifyPwd) {
+    const {chooseDeptVO} = data;
+    setUser(data)
+    if (data.needModifyPwd) {
       history.push('/system/current/initpassword')
       return
     }
-    if (!checkUserDept(window.location.pathname)) {
+    if (chooseDeptVO != null) {
+      const { systemCode } = chooseDeptVO.currentSystem || {}
+      if(systemCode){
+        history.push(`/${systemCode}`)
+      }else {
+        const { systemList } = chooseDeptVO.currentDept
+        if(Array.isArray(systemList) && systemList.length > 0){
+          history.push(`/${systemList[0].systemCode}`)
+        }else {
+          history.push(`/`);
+        }
+      }
+      
+    } else {
       history.push('/selectDept')
       return
-    } else {
-      const { systemCode } = userInfo?.userAppInfo.currentSystem || {}
-      //@ts-ignore
-      // if (window.__POWERED_BY_QIANKUN__){
-      history.push(`/${systemCode}`)
-      return
-      //}else{
-      // history.push(`/`);
-      // }
     }
   }
 
