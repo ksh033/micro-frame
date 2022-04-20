@@ -163,7 +163,7 @@ window.onunload = function () {
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
-  routes[0].routes.unshift({
+  routes.unshift({
     path: '/selectDept',
     exact: true,
     component: SelectDept,

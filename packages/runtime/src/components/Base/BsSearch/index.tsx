@@ -1,12 +1,12 @@
-import { ScSearchBar } from '@scboson/sc-element'
-import ToolBar from '../ToolBar'
+import { ScSearchBar } from '@scboson/sc-element';
+import ToolBar from '../ToolBar';
 
-import styles from './index.less'
+import styles from './index.less';
 
 const BsSearch = (props: any) => {
-  const { toolbar, ...resProps } = props
+  const { toolbar, ...resProps } = props;
 
-  const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0
+  const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0;
 
   return (
     <>
@@ -22,7 +22,7 @@ const BsSearch = (props: any) => {
         <ScSearchBar {...resProps}></ScSearchBar>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default BsSearch
+export default BsSearch;

@@ -19,7 +19,7 @@ interface UserDeptPropState {
   disabled: boolean
   data: any[]
 }
-const queryAll = getServiceApi('system', 'subcompany')
+const queryAll = getServiceApi('system', 'company')
 const UserDept: FormComponent<UserDeptProp> = (props) => {
   const {
     readonly,
@@ -44,12 +44,12 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       bizDeptName,
       bizDeptId,
       bizDeptType,
-      subcompanyId,
-      subcompanyName,
+      companyId,
+      companyName,
     } = currentDeptMsg
 
     if (init) {
-      if (bizDeptType === 'SUBCOMPANY') {
+      if (bizDeptType === 'CHAIN_MANAGE_COMPANY' || bizDeptType === 'SUPPLY_CHAIN_COMPANY' || bizDeptType === 'SUPPLY_SUBCOMPANY') {
         onChange?.(
           labelInValue
             ? { value: bizDeptId || '', text: bizDeptName }
@@ -63,11 +63,11 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } else {
         onChange?.(
           labelInValue
-            ? { value: subcompanyId || '', text: subcompanyName }
-            : subcompanyId,
+            ? { value: companyId || '', text: companyName }
+            : companyId,
           {
-            value: subcompanyId || '',
-            text: subcompanyName,
+            value: companyId || '',
+            text: companyName,
             ...currentDeptMsg,
           }
         )
@@ -88,13 +88,13 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
           onChange?.(
             labelInValue
               ? {
-                  value: itemFirst.subcompanyId || '',
-                  text: itemFirst.subcompanyName,
+                  value: itemFirst.companyId || '',
+                  text: itemFirst.companyName,
                 }
-              : itemFirst.subcompanyId,
+              : itemFirst.companyId,
             {
-              value: itemFirst.subcompanyId || '',
-              text: itemFirst.subcompanyName,
+              value: itemFirst.companyId || '',
+              text: itemFirst.companyName,
               ...itemFirst,
             }
           )
@@ -117,8 +117,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
             if (_data) {
               if (needCompany) {
                 _data.unshift({
-                  subcompanyId: currentDept.bizDeptId,
-                  subcompanyName: currentDept.bizDeptName,
+                  companyId: currentDept.bizDeptId,
+                  companyName: currentDept.bizDeptName,
                 })
               }
               deptList.current = _data
@@ -128,11 +128,11 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
               })
             }
           })
-        } else if (bizDeptType === 'SUBCOMPANY') {
+        } else if (bizDeptType === 'CHAIN_MANAGE_COMPANY' || bizDeptType === 'SUPPLY_CHAIN_COMPANY' || bizDeptType === 'SUPPLY_SUBCOMPANY') {
           deptList.current = [
             {
-              subcompanyId: currentDept.bizDeptId,
-              subcompanyName: currentDept.bizDeptName,
+              companyId: currentDept.bizDeptId,
+              companyName: currentDept.bizDeptName,
             },
           ]
           setState({
@@ -142,8 +142,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         } else {
           deptList.current = [
             {
-              subcompanyId: currentDept.subcompanyId,
-              subcompanyName: currentDept.subcompanyName,
+              companyId: currentDept.companyId,
+              companyName: currentDept.companyName,
             },
           ]
           setState({
@@ -192,8 +192,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     return (
       <ScSelect
         data={state.data}
-        valueField="subcompanyId"
-        textField="subcompanyName"
+        valueField="companyId"
+        textField="companyName"
         disabled={state.disabled}
         onChange={handleChange}
         labelInValue={labelInValue}

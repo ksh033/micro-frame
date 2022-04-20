@@ -6,8 +6,8 @@ interface DeptInfoProps {
   bizDeptType: string
   contactName: string
   contactPhone: string
-  subcompanyId: string
-  subcompanyName: string
+  companyId: string
+  companyName: string
   systemList: SysInfoProps[]
 }
 
@@ -159,6 +159,10 @@ const setUserAppCode = (userAppCode) => {
   _userAppCode = userAppCode
 }
 
+const getUserAppCode=()=>{
+  return getAppCode();
+}
+
 export {
   clearUser,
   setUser,
@@ -167,5 +171,6 @@ export {
   getAppCode,
   openWindow,
   setUserAppCode,
-  updateCurrentDept
+  updateCurrentDept,
+  getUserAppCode
 }

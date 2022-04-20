@@ -1,39 +1,58 @@
-import React from 'react'
+import React from 'react';
 // @ts-ignore
-import { useModel } from 'umi'
+import { useModel } from 'umi';
 type AuthorityType = {
-  buttons?: any[]
-  funcode?: any
-  callback?: any
-  children?: any
-}
+  buttons?: any[];
+  funcode?: any;
+  callback?: any;
+  children?: any;
+};
 
-type AuthorityResp<T> = React.ComponentClass<T> | React.FunctionComponent<T>
+type AuthorityResp<T> =
+  | React.ComponentClass<T>
+  | React.FunctionComponent<T>
+  | React.FunctionComponentElement<T>
+  | any;
 
 export const getFunCodeAuth = () => {
-  let masterState: any = {}
+  let masterState: any = {};
 
   try {
     masterState = useModel('@@qiankunStateFromMaster') || {
       globalState: {},
-    }
+    };
   } catch (ex) {
     masterState = {
       globalState: {},
-    }
+    };
   }
-  const { globalState = {} } = masterState
-  const { currentMenu, localMenuData } = globalState
+  const { globalState = {} } = masterState;
+  const { currentMenu, localMenuData } = globalState;
   if (localMenuData) {
-    return null
+    return null;
   }
   if (currentMenu) {
-    let { funcodes = '' } = currentMenu
-    funcodes = funcodes.split('|')
+    let { funcodes = '' } = currentMenu;
+    funcodes = funcodes.split('|');
 
-    return funcodes
+    return funcodes;
   }
-  return []
+  return [];
+};
+function withMoreInfo<T extends React.Component<any, any>>(
+  Wrapped: new (props: any, context?: any) => T
+) {
+  return class WithMoreInfo extends React.Component<{ asPath: string }> {
+    static async getInitialProps({ asPath }: { asPath: string }) {
+      return { asPath };
+    }
+
+    render() {
+      const { asPath } = this.props;
+      const language = asPath.indexOf('/ro') === 0 ? 'ro' : 'en';
+      return <Wrapped language={language} pathname={asPath} />;
+    }
+  };
 }
 
 const Authority = function <T extends AuthorityType>(
@@ -44,65 +63,63 @@ const Authority = function <T extends AuthorityType>(
     | string
     | any,
   displayName?: string
-): AuthorityResp<T & AuthorityType> {
+): AuthorityResp<T> {
   const component = (props: T, ...rest: any[]) => {
-    let masterState: any = {}
+    let masterState: any = {};
 
     try {
       masterState = useModel('@@qiankunStateFromMaster') || {
         globalState: {},
-      }
+      };
     } catch (ex) {
       masterState = {
         globalState: {},
-      }
+      };
     }
-    const { globalState = {} } = masterState
+    const { globalState = {} } = masterState;
 
-    const { buttons, children, funcode, ...restProps } = props
+    const { buttons, children, funcode, ...restProps } = props;
     //const masterProps = (useModel || noop)('@@qiankunStateFromMaster') || {};
-    const { currentMenu, localMenuData } = globalState
-    if (!localMenuData) {
-      if (currentMenu) {
-        let { funcodes = '' } = currentMenu
-        funcodes = funcodes.toUpperCase().split('|')
-        if (funcode) {
-          // funcodes.splice(funcodes.indexOf("ENABLE"),1)
-          if (funcodes.includes(funcode)) {
-            return React.createElement(WrappedComponent, restProps, children)
-          }
-          if (displayName && displayName === 'Enabled') {
-            restProps['disabled'] = true
-            return React.createElement(WrappedComponent, restProps, children)
-          }
-          return null
+    const { currentMenu, localMenuData } = globalState;
+    if (!localMenuData && currentMenu) {
+      let { funcodes = '' } = currentMenu;
+      funcodes = funcodes.toUpperCase().split('|');
+      if (funcode) {
+        // funcodes.splice(funcodes.indexOf("ENABLE"),1)
+        if (funcodes.includes(funcode)) {
+          return React.createElement(WrappedComponent, restProps, children);
         }
+        if (displayName && displayName === 'Enabled') {
+          restProps['disabled'] = true;
+          return React.createElement(WrappedComponent, restProps, children);
+        }
+        return null;
+      }
 
-        if (buttons && buttons.length > 0) {
-          const newButtons: any[] = []
-          buttons.forEach((item: any) => {
-            if (item.funcode) {
-              if (funcodes.includes(item.funcode.toUpperCase())) {
-                newButtons.push(item)
-              }
-            } else {
-              newButtons.push(item)
+      if (buttons && buttons.length > 0) {
+        const newButtons: any[] = [];
+        buttons.forEach((item: any) => {
+          if (item.funcode) {
+            if (funcodes.includes(item.funcode.toUpperCase())) {
+              newButtons.push(item);
             }
-          })
+          } else {
+            newButtons.push(item);
+          }
+        });
 
-          const newprops = { ...restProps, buttons: newButtons }
-
-          return <WrappedComponent {...newprops}></WrappedComponent>
-        }
+        const newprops = { ...restProps, buttons: newButtons };
+        return <WrappedComponent {...newprops}></WrappedComponent>;
       }
     }
-    return <WrappedComponent {...props} />
-  }
-  if (displayName) component.displayName = displayName
 
-  return component
-}
-export default Authority
+    return <WrappedComponent {...props} />;
+  };
+  if (displayName) component.displayName = displayName;
+
+  return component;
+};
+export default Authority;
 
 // export default function withAuthority<P>(
 //   WrappedComponent:

@@ -35,8 +35,8 @@ const pageConfig: PageConfig = {
       dataIndex: 'shopType',
     },
     {
-      title: '所属子公司',
-      dataIndex: 'subcompanyName',
+      title: '所属公司',
+      dataIndex: 'companyName',
     },
     {
       title: '经营业务',

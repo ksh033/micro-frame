@@ -22,7 +22,7 @@ interface TableSelectProps extends FormComponentProps {
   rowSelection?: TableRowSelection<any>
 }
 
-const TabelSelect: FormComponent<TableSelectProps> = (
+const WarehouseTableSelect: FormComponent<TableSelectProps> = (
   props: TableSelectProps
 ) => {
   const {
@@ -165,5 +165,5 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     </Input.Group>
   )
 }
-TabelSelect.customView = true
-export default TabelSelect
+WarehouseTableSelect.customView = true
+export default WarehouseTableSelect

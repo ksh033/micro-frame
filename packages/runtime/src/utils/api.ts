@@ -50,8 +50,8 @@ const services = {
       method: 'post',
       sysCode: 'base',
     },
-    subcompany: {
-      url: '/base/api/subcompany/list',
+    company: {
+      url: '/base/api/company/list',
       method: 'get',
       sysCode: 'base',
     },

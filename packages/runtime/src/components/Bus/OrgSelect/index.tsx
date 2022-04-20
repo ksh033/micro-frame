@@ -5,7 +5,7 @@ import { ScSelect } from '@scboson/sc-element'
 import type { ScSelectProps } from '@scboson/sc-element/es/sc-select'
 import { uesRequest } from '../../../utils/api'
 
-type bizDeptType = 'COMPANY' | 'SUBCOMPANY' | 'SHOP' | 'WAREHOUSE' | 'SUPPLIER'
+type bizDeptType = 'COMPANY' | 'CHAIN_MANAGE_COMPANY' | 'SUPPLY_CHAIN_COMPANY' | 'SUPPLY_SUBCOMPANY' | 'SHOP' | 'WAREHOUSE' | 'SUPPLIER'
 
 interface OrgSelectProps extends ScSelectProps {
   limit?: number

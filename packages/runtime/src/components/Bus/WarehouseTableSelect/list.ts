@@ -21,8 +21,8 @@ const pageConfig: PageConfig = {
       dataIndex: 'warehouseName',
     },
     {
-      title: '所属子公司',
-      dataIndex: 'subcompanyName',
+      title: '所属公司',
+      dataIndex: 'companyName',
     },
     {
       title: '地址',
