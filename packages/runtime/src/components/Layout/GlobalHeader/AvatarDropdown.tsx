@@ -1,56 +1,55 @@
-import React from 'react'
+import React from 'react';
 
 import {
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
-} from '@ant-design/icons'
-import { Avatar, Menu, Spin } from 'antd'
-import { User, clearUser } from '../../Auth'
-import HeaderDropdown from '../HeaderDropdown'
+} from '@ant-design/icons';
+import { Avatar, Menu, Spin } from 'antd';
+import { User, clearUser } from '../../Auth';
+import HeaderDropdown from '../HeaderDropdown';
 // @ts-ignore
-import { history } from 'umi'
-import './index.less'
+import { history } from 'umi';
+import './index.less';
 
 export interface GlobalHeaderRightProps extends Partial<any> {
-  currentUser?: User|null
-  menu?: boolean
+  currentUser?: User | null;
+  menu?: boolean;
 }
 class AvatarDropdown extends React.Component<
   GlobalHeaderRightProps & {
-    layoutFn: () => void
+    layoutFn: () => void;
   }
 > {
   onMenuClick = (event: any) => {
-    const { key } = event
+    const { key } = event;
     if (key === 'logout') {
-      this.props.layoutFn()
+      this.props.layoutFn();
     } else if (key === 'settings') {
-      history.push('/system/current')
-    }else if (key === 'changeDept') {
-      history.push('/selectDept')
+      history.push('/system/current');
+    } else if (key === 'changeDept') {
+      history.push('/selectDept');
     }
-  }
+  };
 
   render(): React.ReactNode {
-    const { currentUser, menu } = this.props
-   // const userAppInfo=currentUser?.userAppInfo;
+    const { currentUser, menu } = this.props;
+    // const userAppInfo=currentUser?.userAppInfo;
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
-        {menu && 
-           currentUser&&currentUser.deptList.length>1?
-          (<Menu.Item key="changeDept">
+        {menu && currentUser && currentUser.deptList.length > 1 ? (
+          <Menu.Item key="changeDept">
             <SettingOutlined />
             切换机构
-          </Menu.Item>):null
-        }
+          </Menu.Item>
+        ) : null}
         {menu && (
           <Menu.Item key="settings">
             <SettingOutlined />
             个人设置
           </Menu.Item>
         )}
-        
+
         {menu && <Menu.Divider />}
 
         <Menu.Item key="logout">
@@ -58,7 +57,7 @@ class AvatarDropdown extends React.Component<
           退出登录
         </Menu.Item>
       </Menu>
-    )
+    );
     return currentUser && currentUser.realName ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className="action account">
@@ -84,8 +83,8 @@ class AvatarDropdown extends React.Component<
           }}
         />
       </span>
-    )
+    );
   }
 }
 
-export default AvatarDropdown
+export default AvatarDropdown;

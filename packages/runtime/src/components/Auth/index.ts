@@ -72,23 +72,23 @@ const setUser = (user: User) => {
 const updateCurrentDept = (userAppInfos: CurrentDeptProps) => {
   if (userAppInfos) {
     if(userAppInfos.currentSystem == null){
-      if(Array.isArray( userAppInfos.currentDept.systemList) &&  userAppInfos.currentDept.systemList.length > 0){
-        if (!_userAppCode) {
+      if(Array.isArray(userAppInfos.currentDept.systemList) &&  userAppInfos.currentDept.systemList.length > 0){
+        if (_userAppCode == null) {
           userAppInfos.currentSystem = userAppInfos.currentDept.systemList[0];
           setStorage(AppsUser_Key, userAppInfos)
         }else {
-          if (userAppInfos?.currentDept && Array.isArray(userAppInfos.currentDept.systemList)) {
-            const index = userAppInfos.currentDept.systemList.findIndex(it=>it.systemCode === _userAppCode)
-            if(index > -1){
-              userAppInfos.currentSystem = userAppInfos.currentDept.systemList[index];
-              setStorage(AppsUser_Key, userAppInfos)
-            }else {
-              userAppInfos.currentSystem = undefined
-              setStorage(AppsUser_Key, userAppInfos)
-            }
+          const index = userAppInfos.currentDept.systemList.findIndex(it=>it.systemCode === _userAppCode)
+          if(index > -1){
+            userAppInfos.currentSystem = userAppInfos.currentDept.systemList[index];
+            setStorage(AppsUser_Key, userAppInfos)
+          }else {
+            userAppInfos.currentSystem = userAppInfos.currentDept.systemList[0]
+            setStorage(AppsUser_Key, userAppInfos)
           }
         }
       }  
+    }else {
+      setStorage(AppsUser_Key, userAppInfos)
     }
     
   }

@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { ProSettings, MasterLayout } from "@scboson/sc-layout";
+import React, { useState, useEffect } from 'react';
+import { ProSettings, MasterLayout } from '@scboson/sc-layout';
 // @ts-ignore
-import { Link, history, useModel } from "umi";
-import {
-  getUser,
-  changeApp,
-} from "../Auth";
-import "./index.less";
-import { uesRequest } from "../../utils/api";
-import RightContent from "./GlobalHeader/RightContent";
-import logo from "../../assets/logo.svg";
-import { useExternal, useMount } from "ahooks";
-import useWeightUnit from "../Dict/weightUnit";
-import menuFormat from "./menuFormat";
-import userDictModel from "../Dict/userDictModel";
-import { CModal } from "@scboson/sc-element";
+import { Link, history, useModel } from 'umi';
+import { getUser, changeApp } from '../Auth';
+import './index.less';
+import { uesRequest } from '../../utils/api';
+import RightContent from './GlobalHeader/RightContent';
+import logo from '../../assets/logo.svg';
+import { useExternal, useMount } from 'ahooks';
+import useWeightUnit from '../Dict/weightUnit';
+import menuFormat from './menuFormat';
+import userDictModel from '../Dict/userDictModel';
+import { CModal } from '@scboson/sc-element';
 // 是否通知key
-const WhetherNoticeKey = "WHETHER-NOTICE-KEY";
+const WhetherNoticeKey = 'WHETHER-NOTICE-KEY';
 
 export default (props: any) => {
-  useExternal("https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", {
+  useExternal('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', {
     async: false,
   });
   const [settings] = useState<Partial<ProSettings> | undefined>({
@@ -30,16 +27,17 @@ export default (props: any) => {
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
   const userAppInfo = user?.chooseDeptVO;
-  const req = uesRequest("user", "chooseSys");
+  const req = uesRequest('user', 'chooseSys');
   const { loadDict, dict } = userDictModel();
   const { loadWeight } = useWeightUnit();
-  const systemList = appData || user?.chooseDeptVO?.currentDept.systemList
+  const systemList =
+    appData || user?.chooseDeptVO?.currentDept.systemList || [];
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
   //独立运行是模拟setQiankunGlobalState
   const { setQiankunGlobalState } =
-    useModel("@@qiankunStateForSlave") ||
-    useModel("@@qiankunStateFromMaster") ||
+    useModel('@@qiankunStateForSlave') ||
+    useModel('@@qiankunStateFromMaster') ||
     {};
 
   const appSelectedKeys = userAppInfo?.currentSystem?.systemCode || '';
@@ -50,7 +48,9 @@ export default (props: any) => {
     isApp: true,
     path: `/${sys.systemCode}`,
   }));
-  const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menuTreeNodeList || [];
+  const mdata = menuData
+    ? menuData
+    : userAppInfo?.currentSystem?.menuTreeNodeList || [];
   //const [appCode, setAppCode] = useState<any>();
   // const [pathname, setPathname] = useState('/welcome');
   useEffect(() => {
@@ -62,9 +62,9 @@ export default (props: any) => {
       if (appSelected && userAppInfo?.currentSystem?.systemCode == null) {
         if (!changeApp(appSelected)) {
           changeApp(appSelected);
-          history.push("/");
+          history.push('/');
           // req.run({ systemCode: appSelected }).then((data) => {
-            
+
           // });
         }
       }
@@ -94,16 +94,16 @@ export default (props: any) => {
       (whetherNotice === undefined || whetherNotice === null) &&
       user?.wechatUnionId === null
     ) {
-      localStorage.setItem(WhetherNoticeKey, "true");
+      localStorage.setItem(WhetherNoticeKey, 'true');
       CModal.confirm({
-        title: "绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全",
-        okText: "立即绑定",
-        cancelText: "暂不绑定",
+        title: '绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全',
+        okText: '立即绑定',
+        cancelText: '暂不绑定',
         onOk: () => {
           history.push({
-            pathname: "/system/current",
+            pathname: '/system/current',
             query: {
-              currentKey: "binding",
+              currentKey: 'binding',
               autoOpen: true,
             },
           });
@@ -133,7 +133,7 @@ export default (props: any) => {
     <div
       id="test-pro-layout"
       style={{
-        height: "100vh",
+        height: '100vh',
       }}
     >
       <MasterLayout
@@ -151,13 +151,13 @@ export default (props: any) => {
                 //const data = await req.run({ systemCode: keys[0] });
                 changeApp(keys[0]);
               }
-              history.push("/" + keys[0]);
+              history.push('/' + keys[0]);
             }
           },
         }}
         itemRender={({ breadcrumbName, path }: any) => {
-          const { routerBase = "/" } = window;
-          const url = path.replace(routerBase, "");
+          const { routerBase = '/' } = window;
+          const url = path.replace(routerBase, '');
 
           return (
             <Link href={path} to={url}>
@@ -179,7 +179,7 @@ export default (props: any) => {
         menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
           const { path, syscode } = item;
-          let search = "";
+          let search = '';
           // const paths = path.substring(1, path.length).split('/')
           // const [currentSysCode]=paths;
           //if (appSelectedKeys && appSelectedKeys.length > 0) {
@@ -196,8 +196,8 @@ export default (props: any) => {
           return (
             <Link
               onClick={() => {
-                sessionStorage.removeItem("SEARCH_PARAMS");
-                 // setUserAppCode(syscode)
+                sessionStorage.removeItem('SEARCH_PARAMS');
+                // setUserAppCode(syscode)
               }}
               to={{
                 pathname: `${path}`,
