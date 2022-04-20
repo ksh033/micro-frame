@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Auth, Login, SelectDept, getServiceApi } from '@micro-frame/sc-runtime'
 import { history } from 'umi'
 
-const { getUser, restUserAppCode, getUserAppCode } = Auth
+const { getUser, getUserAppCode } = Auth
 
 window.masterHistory = history
 
@@ -142,11 +142,11 @@ export function render(oldRender: any) {
 //   },
 // };
 
-const temCode = restUserAppCode()
+//const temCode = restUserAppCode()
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
     currentMenu: 'null',
-    currentApp: temCode,
+    //currentApp: temCode,
   })
 
   return {
@@ -158,7 +158,7 @@ export const useQiankunStateForSlave = () => {
 // eslint-disable-next-line func-names
 window.onunload = function () {
   console.log('restUserAppCode')
-  restUserAppCode(getUserAppCode())
+  //restUserAppCode(getUserAppCode())
 }
 
 // 动态加载登录
