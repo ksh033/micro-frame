@@ -1,25 +1,26 @@
 /* eslint-disable max-len */
 
-import React, { useRef } from 'react'
-import { Input, Select, Button } from 'antd'
-import { CModal } from '@scboson/sc-element'
-import TableModal from './table'
+import React, { useRef } from 'react';
+import { Input, Select, Button } from 'antd';
+import { CModal } from '@scboson/sc-element';
+import TableModal from './table';
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form'
-import { TableRowSelection } from 'antd/es/table/interface'
+} from '@scboson/sc-element/es/c-form';
+import { TableRowSelection } from 'antd/es/table/interface';
 
 interface TableSelectProps extends FormComponentProps {
-  placeholder?: string
-  value?: any
-  title?: string
-  onChange?: (value: any) => void
-  selectionType?: 'checkbox' | 'radio'
-  textField?: any
-  disabled: boolean
-  valueField?: string
-  rowSelection?: TableRowSelection<any>
+  placeholder?: string;
+  value?: any;
+  title?: string;
+  onChange?: (value: any) => void;
+  selectionType?: 'checkbox' | 'radio';
+  textField?: any;
+  disabled: boolean;
+  valueField?: string;
+  rowSelection?: TableRowSelection<any>;
+  needAll?: boolean; // 是否需要查询组织底下所有仓库
 }
 
 const WarehouseTableSelect: FormComponent<TableSelectProps> = (
@@ -37,27 +38,28 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
     valueField = 'warehouseId',
     readonly,
     form,
+    needAll = true,
     ...resProps
-  } = props
+  } = props;
 
   const stateRef = useRef<any>({
     selectedRowKeys: [],
     selectedRows: [],
-  })
+  });
 
   if (Array.isArray(value)) {
     stateRef.current = {
       selectedRowKeys: value.map((item) => item[`${valueField}`]),
       selectedRows: value,
-    }
+    };
   }
 
   const onTabelRow = (selectedRowKeys: any[], selectedRows: any[]) => {
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-  }
+    };
+  };
 
   const formatSelectValue = (list: any[]) => {
     if (Array.isArray(list) && list.length > 0) {
@@ -66,12 +68,12 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
           value: item[valueField],
           label: item[textField],
           item,
-        }
-      })
-      return values
+        };
+      });
+      return values;
     }
-    return []
-  }
+    return [];
+  };
 
   const handleClick = () => {
     CModal.show({
@@ -82,50 +84,51 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         rowSelection,
         onTabelRow,
         selectionType,
+        needAll,
         rowKey: valueField,
         ...stateRef.current,
       },
       onOk: async () => {
-        onChange?.(stateRef.current.selectedRows)
+        onChange?.(stateRef.current.selectedRows);
       },
-    })
-  }
+    });
+  };
 
   const handleChange = (e: any[]) => {
-    let selectedRowKeys: any[] = []
+    let selectedRowKeys: any[] = [];
     if (Array.isArray(e) && e.length > 0) {
       selectedRowKeys = e.map((item, index) => {
-        return item.value || index
-      })
+        return item.value || index;
+      });
     }
 
-    let selectedRows: any[] = []
+    let selectedRows: any[] = [];
     if (
       Array.isArray(stateRef.current.selectedRows) &&
       stateRef.current.selectedRows.length > 0 &&
       selectedRowKeys.length > 0
     ) {
       selectedRows = stateRef.current.selectedRows.filter((item: any) => {
-        return item[valueField].includes(selectedRowKeys)
-      })
+        return item[valueField].includes(selectedRowKeys);
+      });
     }
 
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-    onChange?.(selectedRows)
-  }
+    };
+    onChange?.(selectedRows);
+  };
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || ''
-      return values
+      const values = list[0][textField] || '';
+      return values;
     }
-    return ''
-  }
+    return '';
+  };
   if (readonly === true) {
-    return <span>{formatInputValue(value)}</span>
+    return <span>{formatInputValue(value)}</span>;
   }
 
   if (selectionType === 'checkbox') {
@@ -146,7 +149,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
           请选择
         </Button>
       </Input.Group>
-    )
+    );
   }
   return (
     <Input.Group>
@@ -163,7 +166,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         {...resProps}
       />
     </Input.Group>
-  )
-}
-WarehouseTableSelect.customView = true
-export default WarehouseTableSelect
+  );
+};
+WarehouseTableSelect.customView = true;
+export default WarehouseTableSelect;
