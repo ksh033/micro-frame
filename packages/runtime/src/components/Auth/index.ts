@@ -4,6 +4,7 @@ interface DeptInfoProps {
   bizDeptId: string
   bizDeptName: string
   bizDeptType: string
+  bizDeptTypeName: string
   contactName: string
   contactPhone: string
   companyId: string

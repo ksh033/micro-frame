@@ -1,25 +1,30 @@
-import React, { useLayoutEffect, useRef } from 'react'
-import { ScSelect } from '@scboson/sc-element'
-import { getUser } from '../../Auth'
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index'
+import React, { useLayoutEffect, useRef } from 'react';
+import { ScSelect } from '@scboson/sc-element';
+import { getUser } from '../../Auth';
+import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index';
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form'
-import { useSetState, useUpdateEffect } from 'ahooks'
-import { getServiceApi } from '../../../utils/api'
+} from '@scboson/sc-element/es/c-form';
+import { useSetState, useUpdateEffect } from 'ahooks';
+import { getServiceApi } from '../../../utils/api';
 
 export interface UserDeptProp extends ScSelectProps, FormComponentProps {
-  init?: boolean
-  needCompany?: boolean
-  companyNeedInit?: boolean
+  init?: boolean;
+  needCompany?: boolean;
+  companyNeedInit?: boolean;
+  companyTypes?: (
+    | 'CHAIN_MANAGE_COMPANY'
+    | 'SUPPLY_CHAIN_COMPANY'
+    | 'SUPPLY_SUBCOMPANY'
+  )[]; // 集团底下要查询哪个组织机构
 }
 
 interface UserDeptPropState {
-  disabled: boolean
-  data: any[]
+  disabled: boolean;
+  data: any[];
 }
-const queryAll = getServiceApi('system', 'company')
+const queryAll = getServiceApi('system', 'company');
 const UserDept: FormComponent<UserDeptProp> = (props) => {
   const {
     readonly,
@@ -31,25 +36,25 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     init = true,
     needCompany = true,
     companyNeedInit = false,
+    companyTypes = ['CHAIN_MANAGE_COMPANY'],
     ...restProps
-  } = props
-  const deptList = useRef<any[]>([])
+  } = props;
+  const deptList = useRef<any[]>([]);
   const [state, setState] = useSetState<UserDeptPropState>({
     disabled: false,
     data: [],
-  })
+  });
 
   const initValue = (currentDeptMsg: any) => {
-    const {
-      bizDeptName,
-      bizDeptId,
-      bizDeptType,
-      companyId,
-      companyName,
-    } = currentDeptMsg
+    const { bizDeptName, bizDeptId, bizDeptType, companyId, companyName } =
+      currentDeptMsg;
 
     if (init) {
-      if (bizDeptType === 'CHAIN_MANAGE_COMPANY' || bizDeptType === 'SUPPLY_CHAIN_COMPANY' || bizDeptType === 'SUPPLY_SUBCOMPANY') {
+      if (
+        bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
+        bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
+        bizDeptType === 'SUPPLY_SUBCOMPANY'
+      ) {
         onChange?.(
           labelInValue
             ? { value: bizDeptId || '', text: bizDeptName }
@@ -59,7 +64,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
             text: bizDeptName,
             ...currentDeptMsg,
           }
-        )
+        );
       } else {
         onChange?.(
           labelInValue
@@ -70,21 +75,21 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
             text: companyName,
             ...currentDeptMsg,
           }
-        )
+        );
       }
     }
-  }
+  };
   useUpdateEffect(() => {
-    const user = getUser()
+    const user = getUser();
     if (user) {
       const {
         userAppInfo: { currentDept },
-      } = user
+      } = user;
       if (currentDept.bizDeptType !== 'COMPANY') {
-        initValue(currentDept)
+        initValue(currentDept);
       } else {
         if (companyNeedInit && state.data.length > 0) {
-          const itemFirst = state.data[0]
+          const itemFirst = state.data[0];
           onChange?.(
             labelInValue
               ? {
@@ -97,97 +102,103 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
               text: itemFirst.companyName,
               ...itemFirst,
             }
-          )
+          );
         }
       }
     }
-  }, [state.data])
+  }, [state.data]);
 
   useLayoutEffect(() => {
-    const user = getUser()
+    const user = getUser();
 
     if (user) {
       const {
         userAppInfo: { currentDept },
-      } = user
-      const { bizDeptType } = currentDept
+      } = user;
+      const { bizDeptType } = currentDept;
       if (deptList.current.length === 0) {
         if (bizDeptType === 'COMPANY') {
-          queryAll().then((_data: any[]) => {
+          queryAll({
+            companyTypes: companyTypes,
+          }).then((_data: any[]) => {
             if (_data) {
               if (needCompany) {
                 _data.unshift({
                   companyId: currentDept.bizDeptId,
                   companyName: currentDept.bizDeptName,
-                })
+                });
               }
-              deptList.current = _data
+              deptList.current = _data;
               setState({
                 disabled: false,
                 data: _data,
-              })
+              });
             }
-          })
-        } else if (bizDeptType === 'CHAIN_MANAGE_COMPANY' || bizDeptType === 'SUPPLY_CHAIN_COMPANY' || bizDeptType === 'SUPPLY_SUBCOMPANY') {
+          });
+        } else if (
+          bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
+          bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
+          bizDeptType === 'SUPPLY_SUBCOMPANY'
+        ) {
           deptList.current = [
             {
               companyId: currentDept.bizDeptId,
               companyName: currentDept.bizDeptName,
             },
-          ]
+          ];
           setState({
             disabled: true,
             data: deptList.current,
-          })
+          });
         } else {
           deptList.current = [
             {
               companyId: currentDept.companyId,
               companyName: currentDept.companyName,
             },
-          ]
+          ];
           setState({
             disabled: true,
             data: deptList.current,
-          })
+          });
         }
       } else {
         setState({
           disabled: bizDeptType !== 'COMPANY',
           data: deptList.current,
-        })
+        });
       }
     }
-  }, [])
+  }, []);
 
   const handleChange = (value: any, option: any) => {
-    const deptId = typeof value === 'object' ? value.value : value
+    const deptId = typeof value === 'object' ? value.value : value;
     const index = state.data.findIndex((item) => {
-      return item.deptId === deptId
-    })
+      return item.deptId === deptId;
+    });
     onChange &&
       onChange(value, {
         ...option,
         ...state.data[index],
-      })
-  }
+      });
+  };
 
   const formatName = (_value: any, list: any[]) => {
-    let res = ''
+    let res = '';
     if (_value !== undefined && _value !== null && Array.isArray(list)) {
       const index = list.findIndex((item) => {
-        return item.deptId === _value
-      })
+        return item.deptId === _value;
+      });
 
       if (index > -1) {
-        res = list[index] ? list[index].deptName : ''
+        res = list[index] ? list[index].deptName : '';
       }
     }
-    return <div>{res}</div>
-  }
+    return <div>{res}</div>;
+  };
 
   if (readonly) {
-    return formatName(restProps.value, state.data)
+    return formatName(restProps.value, state.data);
   } else {
     return (
       <ScSelect
@@ -200,8 +211,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         allowClear
         {...restProps}
       ></ScSelect>
-    )
+    );
   }
-}
+};
 
-export default UserDept
+export default UserDept;

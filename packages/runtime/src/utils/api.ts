@@ -52,7 +52,7 @@ const services = {
     },
     company: {
       url: '/base/api/company/list',
-      method: 'get',
+      method: 'post',
       sysCode: 'base',
     },
     warehouse: {

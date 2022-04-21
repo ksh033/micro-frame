@@ -1,31 +1,31 @@
 /* eslint-disable max-len */
 
-import React, { useRef, useEffect } from 'react'
-import { Input, message, Select } from 'antd'
-import { CModal } from '@scboson/sc-element'
-import TableModal from './table'
+import React, { useRef, useEffect } from 'react';
+import { Input, message, Select } from 'antd';
+import { CModal } from '@scboson/sc-element';
+import TableModal from './table';
 import type {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form'
+} from '@scboson/sc-element/es/c-form';
 
-interface TableSelectProps extends FormComponentProps {
-  placeholder?: string
-  value?: any
-  title?: string
-  onChange?: (value: any) => void
-  selectionType?: 'checkbox' | 'radio'
-  textField?: any
-  valueField?: string
-  isCooperateSupplier?: boolean
-  supplierEnabled?: boolean | null
-  disabled?: boolean
-  preClick?: () => boolean
-  params?: any
+interface SupplierTableSelectProps extends FormComponentProps {
+  placeholder?: string;
+  value?: any;
+  title?: string;
+  onChange?: (value: any) => void;
+  selectionType?: 'checkbox' | 'radio';
+  textField?: any;
+  valueField?: string;
+  isCooperateSupplier?: boolean;
+  supplierEnabled?: boolean | null;
+  disabled?: boolean;
+  preClick?: () => boolean;
+  params?: any;
 }
 
-const TabelSelect: FormComponent<TableSelectProps> = (
-  props: TableSelectProps
+const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
+  props
 ) => {
   const {
     placeholder = '选择供应商',
@@ -42,26 +42,26 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     preClick,
     params = {},
     ...resProps
-  } = props
+  } = props;
 
   const stateRef = useRef<any>({
     selectedRowKeys: [],
     selectedRows: [],
-  })
+  });
 
   if (Array.isArray(value)) {
     stateRef.current = {
       selectedRowKeys: value.map((item) => item[`${valueField}`]),
       selectedRows: value,
-    }
+    };
   }
 
   const onTabelRow = (selectedRowKeys: any[], selectedRows: any[]) => {
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-  }
+    };
+  };
 
   const formatSelectValue = (list: any[]) => {
     if (Array.isArray(list) && list.length > 0) {
@@ -70,18 +70,18 @@ const TabelSelect: FormComponent<TableSelectProps> = (
           value: item[valueField],
           label: item[textField],
           item,
-        }
-      })
-      return values
+        };
+      });
+      return values;
     }
-    return []
-  }
+    return [];
+  };
 
   const handleClick = () => {
     if (resProps.disabled) {
-      return
+      return;
     }
-    const preFlag = typeof preClick === 'function' ? preClick?.() : true
+    const preFlag = typeof preClick === 'function' ? preClick?.() : true;
     if (preFlag) {
       CModal.show({
         title,
@@ -101,53 +101,53 @@ const TabelSelect: FormComponent<TableSelectProps> = (
             Array.isArray(stateRef.current.selectedRows) &&
             stateRef.current.selectedRows.length > 0
           ) {
-            onChange?.(stateRef.current.selectedRows)
-            return Promise.resolve()
+            onChange?.(stateRef.current.selectedRows);
+            return Promise.resolve();
           } else {
-            message.warning('请最少选择一个供应商')
-            return Promise.reject()
+            message.warning('请最少选择一个供应商');
+            return Promise.reject();
           }
         },
-      })
+      });
     }
-  }
+  };
 
   const handleChange = (e: any[]) => {
-    let selectedRowKeys: any[] = []
+    let selectedRowKeys: any[] = [];
     if (Array.isArray(e) && e.length > 0) {
       selectedRowKeys = e.map((item, index) => {
-        return item.value || index
-      })
+        return item.value || index;
+      });
     }
 
-    let selectedRows: any[] = []
+    let selectedRows: any[] = [];
     if (
       Array.isArray(stateRef.current.selectedRows) &&
       stateRef.current.selectedRows.length > 0 &&
       selectedRowKeys.length > 0
     ) {
       selectedRows = stateRef.current.selectedRows.filter((item: any) => {
-        return item[valueField].includes(selectedRowKeys)
-      })
+        return item[valueField].includes(selectedRowKeys);
+      });
     }
 
     stateRef.current = {
       selectedRowKeys,
       selectedRows,
-    }
-    onChange?.(selectedRows)
-  }
+    };
+    onChange?.(selectedRows);
+  };
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || ''
-      return values
+      const values = list[0][textField] || '';
+      return values;
     }
-    return ''
-  }
+    return '';
+  };
 
   if (readonly === true) {
-    return <span>{formatInputValue(value)}</span>
+    return <span>{formatInputValue(value)}</span>;
   }
   if (selectionType === 'checkbox') {
     return (
@@ -164,7 +164,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
           {...resProps}
         ></Select>
       </div>
-    )
+    );
   }
   return (
     <div onClick={handleClick}>
@@ -175,7 +175,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
         {...resProps}
       />
     </div>
-  )
-}
-TabelSelect.customView = true
-export default TabelSelect
+  );
+};
+SupplierTableSelect.customView = true;
+export default SupplierTableSelect;
