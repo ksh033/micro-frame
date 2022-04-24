@@ -23,6 +23,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
     onLoad,
     columns = [],
     unitDataIndexName = 'cargoUnit',
+    autoFocus = false,
     ...restProps
   } = props;
 
@@ -101,8 +102,8 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       }}
       onLoad={handleLoad}
       params={newParams}
+      autoFocus={autoFocus}
       {...restProps}
-      autoFocus={false}
     />
   );
 };
