@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { FC } from 'react'
-import { useMemo } from 'react'
-import { ScSelectTable } from '@scboson/sc-element'
-import type { ScSelectTableProps } from '@scboson/sc-element/es/sc-select-table'
-import type { ScProColumn, ScTableProps } from '@scboson/sc-element/es/sc-table'
+import type { FC } from 'react';
+import { useMemo } from 'react';
+import { ScSelectTable } from '@scboson/sc-element';
+import type { ScSelectTableProps } from '@scboson/sc-element/es/sc-select-table';
+import type {
+  ScProColumn,
+  ScTableProps,
+} from '@scboson/sc-element/es/sc-table';
 
 export type CargoTableFooterSelectProps = {
-  dropdownRenderProps?: ScTableProps<any>
+  dropdownRenderProps?: ScTableProps<any>;
   /** @name table 列属性 */
-  columns?: ScProColumn<any>
-  unitDataIndexName?: string
-} & Omit<ScSelectTableProps, 'dropdownRenderProps'>
+  columns?: ScProColumn<any>;
+  unitDataIndexName?: string;
+} & Omit<ScSelectTableProps, 'dropdownRenderProps'>;
 
 const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
   const {
@@ -21,7 +24,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
     columns = [],
     unitDataIndexName = 'cargoUnit',
     ...restProps
-  } = props
+  } = props;
 
   const baseColumns = [
     {
@@ -51,40 +54,41 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       dataIndex: unitDataIndexName,
       width: 80,
     },
-  ]
+  ];
 
   const newColumns = useMemo(() => {
     if (Array.isArray(columns) && columns.length > 0) {
-      return columns
+      return columns;
     }
-    return baseColumns
-  }, [columns])
+    return baseColumns;
+  }, [columns]);
 
   const newParams = useMemo(() => {
     return params
       ? { ...params, current: 1, size: 10 }
-      : { current: 1, size: 10 }
-  }, [JSON.stringify(params)])
+      : { current: 1, size: 10 };
+  }, [JSON.stringify(params)]);
 
   const handleLoad = (data: any) => {
-    const dataList = data.records || data.rows
+    const dataList = data.records || data.rows;
     if (Array.isArray(dataList)) {
-      let newData = dataList
+      let newData = dataList;
       if (onLoad) {
-        newData = onLoad(newData)
+        newData = onLoad(newData);
       }
-      return newData
+      return newData;
     }
-    return []
-  }
+    return [];
+  };
 
   return (
     <ScSelectTable
       remoteSearch
-      openReloadData
+      openReloadData={false}
       labelInValue
       showSearch
       valueField={valueField}
+      singleInput={true}
       textField="cargoName"
       searchField="cargoCodeName"
       allowClear
@@ -100,7 +104,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       {...restProps}
       autoFocus={false}
     />
-  )
-}
+  );
+};
 
-export default CargoTableFooterSelect
+export default CargoTableFooterSelect;
