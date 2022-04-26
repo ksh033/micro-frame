@@ -19,10 +19,14 @@ export interface DictSelectProp extends FormComponentProps {
   fieldProps?: any
   filterData?: (dictData: any[]) => any[]
   rowData?: any
-  splitDot?: string
+  splitDot?: string,
+  /**本地数据 */
+  localDict?:boolean,
+  emptyItem?: boolean | { name: any, value: any }
   [key: string]: any
 }
 
+const EMPTY_ITEM = { name: "全部", value: '' }
 /**
  * 字典控件
  *
@@ -40,18 +44,31 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     formItemProps,
     fieldProps,
     filterData,
+    emptyItem,
     splitDot = '、',
     rowData,
+    localDict,
     ...restProps
   } = pros
   const { getDistList } = userDictModel()
 
   let data = useMemo(() => {
-    const list = getDistList({
+    const list: any[] = getDistList({
       syscode: sysCode,
       dictTypeCode: dictType,
+      localDict
     })
-
+    let emptyDataItem;
+    if (emptyItem) {
+      emptyDataItem = EMPTY_ITEM
+      if (typeof emptyItem == "object") {
+        emptyDataItem = emptyItem
+      }
+      if (list){
+        list.unshift(emptyDataItem)
+      }
+     
+    }
     if (list) {
       return list
     }

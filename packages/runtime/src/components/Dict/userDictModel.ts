@@ -102,7 +102,7 @@ export default function useDictModel() {
               value: false,
             },
           ],
-          yesNo: [
+         yesNo: [
             {
               name: '是',
               value: true,
@@ -131,10 +131,10 @@ export default function useDictModel() {
     return newDict[syscode] ? newDict[syscode] : null
   }
 
-  const getDistList = (config: { syscode?: string; dictTypeCode: string }) => {
+  const getDistList = (config: { syscode?: string; dictTypeCode: string,localDict?:boolean }) => {
     // const user = getUser()
     const systemCode = config.syscode || getAppCode() || 'common'
-    let sysMap = getBySysCode(systemCode)
+    let sysMap = config.localDict?getBySysCode('local'):getBySysCode(systemCode)
     if (sysMap === null) {
       sysMap = getBySysCode('common') || {}
     } else {
@@ -145,6 +145,7 @@ export default function useDictModel() {
         sysMap = getBySysCode('common') || {}
       }
     }
+   
 
     return sysMap[config.dictTypeCode]
   }
