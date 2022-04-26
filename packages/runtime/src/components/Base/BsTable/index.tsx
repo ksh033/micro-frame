@@ -10,7 +10,7 @@ import { isArray } from 'lodash'
 import Operation from './Operation'
 
 export interface BsTableProps extends ScTableProps<any> {
-  toolbar?: any[]
+
   sysCode?: string
 }
 export interface BsTableComponentProps {
