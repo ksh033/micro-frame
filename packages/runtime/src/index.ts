@@ -28,8 +28,6 @@ import {
   getService,
   getServiceApi,
   uesRequest as useServiceRequest,
-  ServiceKeyTypes,
-  ServiceType
 } from './utils/service'
 import { setFuncodes } from '@scboson/sc-schema'
 import createWxLoginQr from './wxConfig'
@@ -78,6 +76,4 @@ export {
   Loading,
   openWindow,
   createWxLoginQr,
-  ServiceKeyTypes,
-  ServiceType
 }
