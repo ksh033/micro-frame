@@ -1,12 +1,11 @@
 /* eslint-disable global-require */
-import type { FC } from 'react'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
-import { CForm } from '@scboson/sc-element'
-import { EditPage, useEditPageContext } from '@scboson/sc-schema'
-import { PageContainer, getService } from '@micro-frame/sc-runtime'
-import { Auth } from '@micro-frame/sc-runtime'
-import SysPermList from './components/SysPermList'
-import formData from './components/form'
+import { getService, PageContainer } from '@micro-frame/sc-runtime';
+import { CForm } from '@scboson/sc-element';
+import { EditPage, useEditPageContext } from '@scboson/sc-schema';
+import type { FC } from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
+import formData from './components/form';
+import SysPermList from './components/SysPermList';
 
 const services = getService(
   'role',
@@ -15,43 +14,42 @@ const services = getService(
   'formSubmit',
   'queryById',
   'formUpdate'
-)
+);
 const pagaConfig = {
   service: services,
   pageType: 'page',
   ...formData,
-}
+};
 
-const Page: FC<any> = (props) => {
-  const scope = useEditPageContext()
+const Page: FC<any> = () => {
+  const scope = useEditPageContext();
   // scope.setData({ list: [] })
-  const action = scope.getAction()
+  const action = scope.getAction();
 
-  const [systemCode, setSystemCode] = useState<string | null | undefined>()
-  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>()
-  const superAdminFlag = Auth.getUser()?.superAdminFlag
+  const [systemCode, setSystemCode] = useState<string | null | undefined>();
+  const [bizDeptId, setBizDeptId] = useState<string | null | undefined>();
 
   const initialValues = useMemo(() => {
     return {
       systemCode,
       bizDeptId,
       roleType: 'COMMON',
-    }
-  }, [systemCode, bizDeptId, superAdminFlag])
+    };
+  }, [systemCode, bizDeptId]);
 
   useLayoutEffect(() => {
     scope.toInitialValues({
       defaultValues: initialValues,
       callback: (res: any) => {
-        setSystemCode(res.systemCode)
-        return res
+        setSystemCode(res.systemCode);
+        return res;
       },
-    })
-  }, [])
+    });
+  }, []);
 
   const bizDeptIdParam = useMemo(() => {
-    return { systemCode }
-  }, [systemCode])
+    return { systemCode };
+  }, [systemCode]);
 
   const formConfig = scope
     .getFormInfo()
@@ -72,22 +70,22 @@ const Page: FC<any> = (props) => {
         params: bizDeptIdParam,
       },
     })
-    .toConfig()
-  const modalButtons = scope.getModalBtns(action)
-  const title = scope.getTitle(action)
+    .toConfig();
+  const modalButtons = scope.getModalBtns(action);
+  const title = scope.getTitle(action);
 
   const onValuesChange = (changedValues: any, values: any) => {
     if (values.systemCode !== systemCode) {
       formConfig.form.current?.setFieldsValue({
         bizDeptId: null,
-      })
-      setBizDeptId(null)
-      setSystemCode(values.systemCode)
+      });
+      setBizDeptId(null);
+      setSystemCode(values.systemCode);
     }
     if (values.bizDeptId !== bizDeptId) {
-      setBizDeptId(values.bizDeptId)
+      setBizDeptId(values.bizDeptId);
     }
-  }
+  };
 
   return (
     <PageContainer title={`角色${title}`} footer={modalButtons}>
@@ -99,6 +97,6 @@ const Page: FC<any> = (props) => {
         onValuesChange={onValuesChange}
       />
     </PageContainer>
-  )
-}
-export default EditPage(Page, pagaConfig)
+  );
+};
+export default EditPage(Page, pagaConfig);

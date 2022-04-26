@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 interface DeptInfoProps {
   bizDeptId: string
@@ -36,7 +35,6 @@ export interface User {
   phone: string // 手机号
   userName: string
   email: string // 邮箱地址
-  superAdminFlag: boolean // 是否是超级管理员
   wechatAvatarUrl: string | null // 微信头像信息
   wechatNickname: string | null // 微信头像昵称
   wechatUnionId: string | null // 微信id
@@ -175,3 +173,4 @@ export {
   updateCurrentDept,
   getUserAppCode
 }
+

@@ -247,7 +247,6 @@ export function initUser(token: string): User {
     phone: 'string',
     userName: 'string',
     email: '',
-    superAdminFlag: false,
     wechatAvatarUrl: null,
     wechatNickname: null,
     wechatUnionId: null,
