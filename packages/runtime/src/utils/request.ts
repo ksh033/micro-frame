@@ -107,12 +107,16 @@ const codeMessage = {
   504: '网关超时。',
 }
 
-interface NewRequestOptionsInit {
+export interface CustomRequestOptionsInit extends  RequestOptionsInit {
   messageType?: ErrorShowType
   returnMessage?: string
   showMessage?: boolean
-  formatType?: 'table' | 'list'
+  formatType?: 'table' | 'list',
+  skipErrorHandler?: boolean
 }
+
+
+
 
 const getRequestMethod = () => {
   if (requestMethodInstance) {
@@ -192,9 +196,7 @@ const getRequestMethod = () => {
   requestMethodInstance.interceptors.request.use(
     (
       url: string,
-      options: RequestOptionsInit & {
-        skipErrorHandler?: boolean
-      } & NewRequestOptionsInit
+      options: CustomRequestOptionsInit 
     ) => {
       const user = getUser()
       const headers: any = { version: '1.0', ...options.headers }
@@ -331,7 +333,10 @@ const getRequestMethod = () => {
         resData.data.rows = resData.data.records
         delete resData.data.records
       }
-
+      if (req.options?.showMessage) {
+        message.success("操作成功")
+      }
+  
       ctx.res = resData.data
       // Promise.resolve(resData.data)
     }
@@ -341,29 +346,22 @@ const getRequestMethod = () => {
 export interface RequestMethodInUmi<R = false> {
   <T = any>(
     url: string,
-    options: RequestOptionsWithResponse & {
-      skipErrorHandler?: boolean
-    } & NewRequestOptionsInit
+    options: CustomRequestOptionsInit
   ): Promise<RequestResponse<T>>
   <T = any>(
     url: string,
-    options: RequestOptionsWithoutResponse & {
-      skipErrorHandler?: boolean
-    } & NewRequestOptionsInit
+    options: CustomRequestOptionsInit 
   ): Promise<T>
   <T = any>(
     url: string,
-    options?: RequestOptionsInit & {
-      skipErrorHandler?: boolean
-    } & NewRequestOptionsInit
+    options?: CustomRequestOptionsInit 
   ): R extends true ? Promise<RequestResponse<T>> : Promise<T>
 }
 
-const request: RequestMethodInUmi = (url: any, options: any) => {
+const request: RequestMethodInUmi = (url: any, options?: CustomRequestOptionsInit) => {
   const requestMethod = getRequestMethod()
   return requestMethod(url, options)
 }
-
 function useRequest<
   R = any,
   P extends any[] = any,
@@ -420,4 +418,4 @@ function useRequest(service: any, options: any = {}) {
   })
 }
 
-export { request, useRequest }
+export { request, useRequest ,BaseOptions}

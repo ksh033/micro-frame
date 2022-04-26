@@ -1,4 +1,4 @@
-import { request, useRequest as umiUesRequest } from "./request";
+import { request, useRequest as umiUesRequest,CustomRequestOptionsInit,BaseOptions } from "./request";
 interface MethodProps {
   url: string;
   method: "get" | "post";
@@ -10,6 +10,8 @@ import services from "@@service";
 
 // services { ...services.system, ...services.user };
 // function getService<T extends keyof typeof services>(syscode:T):any
+export type ServiceKeyTypes=keyof typeof services
+
 
 const AllReq = {};
 const createRequest = (methodService: MethodProps, funName: string) => {
@@ -37,12 +39,14 @@ const createRequest = (methodService: MethodProps, funName: string) => {
 
   return req;
 };
-export function getService<T extends keyof typeof services>(mcode: T): any;
+export function getService<T extends ServiceKeyTypes>(mcode: T):  {
+  [P in keyof typeof services[T]]:(params?: any, options?:  CustomRequestOptionsInit) => Promise<any>;
+}  ;
 
 export function getService<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
->(mcode: T, ...funName: P[]): Record<P,  (params?: any, options?: any) => Promise<any>>;
+>(mcode: T, ...funName: P[]): Record<P,  (params?: any, options?:  CustomRequestOptionsInit) => Promise<any>>;
 export function getService<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
@@ -70,7 +74,7 @@ export function getService<
 function getServiceApi<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
->(mcode: T, funName: P): (params?: any, options?: any) => Promise<any> {
+>(mcode: T, funName: P): (params?: any, options?:  CustomRequestOptionsInit) => Promise<any> {
   const serviceItem = getService(mcode, funName);
   //const itemReq = createRequest(`${apiUrl}`, urlItem);
   return serviceItem[funName];
@@ -79,11 +83,11 @@ function getServiceApi<
 function uesRequest<
   T extends keyof typeof services,
   P extends keyof typeof services[T]
->(mcode: T, funName: P, options?: any) {
-  const useOptions = { ...options };
+>(mcode: T, funName: P, useOpts?: BaseOptions<any,any>,reqOpts?:CustomRequestOptionsInit) {
+  const useOptions = { ...useOpts };
   let serviceApi = getServiceApi(mcode, funName);
   return umiUesRequest((params) => {
-    return serviceApi(params, useOptions);
+    return serviceApi(params, reqOpts);
   }, useOptions);
 }
 
