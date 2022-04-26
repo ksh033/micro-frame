@@ -6,6 +6,7 @@ import userDictModel from '../../Dict/userDictModel'
 import ToolBar from '../ToolBar'
 import Authority from '../../Auth/Authority'
 import styles from './index.less'
+import { isArray } from 'lodash'
 import Operation from './Operation'
 
 export interface BsTableProps extends ScTableProps<any> {
@@ -90,6 +91,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
                 })
           return component
         }
+      }else if(list && col.render) {
+
+        const render=col.render
+        col.render=(text, record, index)=>{
+          const dictText=cacheRender(text, list);
+          return render(dictText, record, index);
+        }
       }
       delete col.sysCode
     })
@@ -125,19 +133,24 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const dataLoad = (data: any) => {
     let newData = {}
     if (data) {
-      let rows = data.records || data.rows || []
-      const { current = 1, size = 10 } = data
-      rows = rows.map((item: any, index: number) => {
-        const titem = item
-        titem.index = index + 1 + (current - 1) * size
-        return titem
-      })
-      newData = {
-        rows,
-        total: data.total,
-        current,
-        size,
+      if (!isArray(data)){
+        let rows = data.records || data.rows || []
+        const { current = 1, size = 10 } = data
+        rows = rows.map((item: any, index: number) => {
+          const titem = item
+          titem.index = index + 1 + (current - 1) * size
+          return titem
+        })
+        newData = {
+          rows,
+          total: data.total,
+          current,
+          size,
+        }
+      }else{
+        newData=data
       }
+      
     } else {
       newData = {
         total: 0,
