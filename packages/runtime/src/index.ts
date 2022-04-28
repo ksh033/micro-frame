@@ -1,4 +1,5 @@
 /// <reference path="./typings.d.ts" />
+import "./components/Style/index.less"
 import Layout from './components/Layout'
 import SlaveLayout from './components/Layout/SlaveLayout'
 

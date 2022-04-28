@@ -27,7 +27,11 @@ export interface AreaSelecthProps extends FormComponentProps {
   checkbox?: boolean
   fieldProps?: any
 }
-
+/**
+ * @deprecated 废弃
+ * @param props 
+ * @returns 
+ */
 const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   props: AreaSelecthProps = {
     data: [],

@@ -112,6 +112,17 @@ const services = {
       sysCode: 'base',
     },
   },
+
+   /**
+   * 商品品目管理
+   */
+  mallgoods_catalog: {
+     
+      list: {
+        url: '/goods/api/goods/opera/catalog/list',
+        method: 'post',
+      },  
+    },
   mall: {
     showCatalogList: {
       url: '/mallsys/api/mall/opera/mallcatalog/list',

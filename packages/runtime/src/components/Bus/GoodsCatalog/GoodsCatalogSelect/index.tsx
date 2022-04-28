@@ -5,6 +5,12 @@ import type { ScTreeSelectProps } from '@scboson/sc-element/es/sc-tree-select'
 
 import { uesRequest } from '../../../../utils/api'
 
+
+/**
+ * 
+ * @deprecated 废弃
+ * @returns 
+ */
 const GoodsCatalogTree: React.FC<ScTreeSelectProps> = (props) => {
   const api = uesRequest('mall', 'goodsCatalogList')
   const loadDataPramsFormat = (item: any) => {

@@ -4,7 +4,11 @@ import { ScTreeSelect } from '@scboson/sc-element';
 import type { ScTreeSelectProps } from '@scboson/sc-element/es/sc-tree-select';
 
 import { uesRequest } from '../../../../utils/api'
-
+/**
+ * @deprecated 废弃
+ * @param props 
+ * @returns 
+ */
 const ShowCatalogSelect: React.FC<ScTreeSelectProps&{catalogType?:string}> = (props) => {
    const {catalogType,...restProps}=props
   const api = uesRequest('mall', 'showCatalogList');

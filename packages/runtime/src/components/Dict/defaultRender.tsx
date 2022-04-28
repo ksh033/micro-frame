@@ -97,7 +97,7 @@ const defaultRenderText = <T, U>(
 }
 
 export const cacheRender = (
-  text: string | number | React.ReactText[],
+  text: string | number ,
   list: any[]
 ): React.ReactNode => {
   if (Array.isArray(list)) {

@@ -14,21 +14,34 @@ import ShopTableSelect from './ShopTableSelect'
 import RailMap from './RailMap'
 import PageTitle from './PageTitle'
 import UserDept from './UserDept'
+
+/**旧 商品组件 
+ * @deprecated
+ * begin*/
 import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect'
 import GoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree'
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect'
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree'
+import CatalogTreeSelect from './CatalogTreeSelect'
+/**旧 商品组件 end*/
 import CooperateSupplierSelect from './CooperateSupplierSelect'
 import PrintButton from './PrintButton'
 import WarehouseTableSelect from './WarehouseTableSelect'
 import UserInfo from './UserInfo'
 import OrgSelect from './OrgSelect'
-import CatalogTreeSelect from './CatalogTreeSelect'
 import Quantity from './Quantity'
 import BrandSelect from './BrandSelect'
 import BatchCopyAddModal from './BatchCopyAddModal'
 import Invalid from './Invalid'
 import CargoTableFooterSelect from './CargoTableFooterSelect'
+
+/**
+ * 新商品组件
+ */
+import CatalogTree from './MallGoods/Catalog/CatalogTree'
+import GoodsTable from './MallGoods/Goods/GoodsCenterTable'
+import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect'
+
 
 const { regeditCmp } = PageSchema
 regeditCmp('CheckBoxDate', CheckBoxDate)
@@ -84,4 +97,7 @@ export {
   OrgSelect,
   Invalid,
   CargoTableFooterSelect,
+  GoodsModalSelect,
+  GoodsTable,
+  CatalogTree
 }

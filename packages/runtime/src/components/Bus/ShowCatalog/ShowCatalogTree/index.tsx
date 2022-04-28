@@ -4,7 +4,11 @@ import { ScTree } from "@scboson/sc-element";
 import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
 
 import { ScCard } from "@scboson/sc-layout";
-
+/**
+ * @deprecated 废弃
+ * @param props 
+ * @returns 
+ */
 const GoodsCatalogTree: React.FC<ScTreeProps&{catalogType?:string,catalogScene?:string}> = (props) => {
   const {catalogType,catalogScene,...restProps}=props
   const api = uesRequest('mall', 'showCatalogList');
