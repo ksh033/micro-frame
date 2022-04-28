@@ -4,7 +4,7 @@ import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message, Layout } from 'antd';
+import { message, Layout, PageHeader } from 'antd';
 const { Header, Content } = Layout;
 
 const SelectDept: React.FC<any> = (props) => {
@@ -60,14 +60,7 @@ const SelectDept: React.FC<any> = (props) => {
     return <div className="inner-wrapper"></div>;
   };
 
-  return (
-    <Layout>
-      <Header className="header"></Header>
-      <Content style={{ padding: '0 50px' }}>
-        <div className="select-wrapper">{renderDept()}</div>;
-      </Content>
-    </Layout>
-  );
+  return <div className="select-wrapper">{renderDept()}</div>;
 };
 
 export default SelectDept;

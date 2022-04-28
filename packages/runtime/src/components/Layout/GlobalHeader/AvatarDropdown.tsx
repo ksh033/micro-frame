@@ -69,7 +69,7 @@ class AvatarDropdown extends React.Component<
           />
           <span className="name">
             {currentUser.realName}[
-            {currentUser?.chooseDeptVO.currentDept?.bizDeptName}]
+            {currentUser?.chooseDeptVO?.currentDept?.bizDeptName}]
           </span>
         </span>
       </HeaderDropdown>
