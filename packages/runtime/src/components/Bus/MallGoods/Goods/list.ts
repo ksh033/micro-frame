@@ -47,7 +47,7 @@ const pageConfig: PageConfig = {
       title: "关联货品",
       align: "center",
       dataIndex: "cargoList",
-      width: "auto",
+      width: 180,
     },
   ],
 };
