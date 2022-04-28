@@ -6,14 +6,14 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
-import { User, clearUser } from '../../Auth';
+import { GetUser } from '../../Auth';
 import HeaderDropdown from '../HeaderDropdown';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
 
 export interface GlobalHeaderRightProps extends Partial<any> {
-  currentUser?: User | null;
+  currentUser?: GetUser | null;
   menu?: boolean;
 }
 class AvatarDropdown extends React.Component<
@@ -37,7 +37,7 @@ class AvatarDropdown extends React.Component<
     // const userAppInfo=currentUser?.userAppInfo;
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
-        {menu && currentUser && currentUser.deptList.length > 1 ? (
+        {menu && currentUser && currentUser.optionalDepts.length > 1 ? (
           <Menu.Item key="changeDept">
             <SettingOutlined />
             切换机构
@@ -69,7 +69,7 @@ class AvatarDropdown extends React.Component<
           />
           <span className="name">
             {currentUser.realName}[
-            {currentUser?.chooseDeptVO?.currentDept?.bizDeptName}]
+            {currentUser?.chooseDeptVO.currentDept?.bizDeptName}]
           </span>
         </span>
       </HeaderDropdown>

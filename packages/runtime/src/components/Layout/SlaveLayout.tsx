@@ -1,60 +1,53 @@
-import React,{useRef} from "react";
+import React, { useRef } from 'react';
 //@ts-ignore
-import { history,Link } from "umi";
+import { history, Link } from 'umi';
 //@ts-ignore
-import { SchemaContext } from "@scboson/sc-schema";
-import { getUser } from "../Auth";
-import BsTable  from "../Base/BsTable";
-import useMergedState from "rc-util/es/hooks/useMergedState";
+import { SchemaContext } from '@scboson/sc-schema';
+import { getUser } from '../Auth';
+import BsTable from '../Base/BsTable';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 
-
 //@ts-ignore
-import { RouteContext } from "@scboson/sc-layout";
+import { RouteContext } from '@scboson/sc-layout';
 import {
   getMenuData,
   getBreadcrumbProps,
-} from "@scboson/sc-layout/es/MasterLayout";
-import menuFormat from "./menuFormat";
-const {Operation}=BsTable
+} from '@scboson/sc-layout/es/MasterLayout';
+import menuFormat from './menuFormat';
+const { Operation } = BsTable;
 export default function SlaveLayout(componentProps: any) {
-  const { children, route, menu,...resProps } = componentProps;
-  const ref=useRef<any>({})
-
-  // if (!ref.current.mdata){
-  //   const userAppInfo = getUser()?.userAppInfo;
-  //   ref.current.mdata = userAppInfo?.menuTreeNodeList || [];
-  //   ref.current.syscode=userAppInfo?.currentSystem.systemCode || ""
-  // }
- 
- 
-
+  const { children, route, menu, ...resProps } = componentProps;
+  const ref = useRef<any>({});
 
   const [menuInfoData, setMenuInfoData] = useMergedState<{
     breadcrumb?: Record<string, any>;
     breadcrumbMap?: Map<string, any>;
     menuData?: any[];
   }>(() =>
-    getMenuData(route?.routes || [], menu, undefined, (menuItems:any[]) => {
-   
-      const menus = menuFormat.formatMenu(ref.current.mdata || [], [], ref.current.syscode, false);
+    getMenuData(route?.routes || [], menu, undefined, (menuItems: any[]) => {
+      const menus = menuFormat.formatMenu(
+        ref.current.mdata || [],
+        [],
+        ref.current.syscode,
+        false
+      );
       return menus;
     })
   );
   const { breadcrumb = {}, breadcrumbMap, menuData = [] } = menuInfoData;
   const defaultItemRender: any = ({ breadcrumbName, path }) => {
-
-    let url=path?path.replace(window.routerBase,""):path;
-    const item=breadcrumbMap?.get(url)
-    if (!item||(item&&!item["pageUrl"])){
-      url="";
+    let url = path ? path.replace(window.routerBase, '') : path;
+    const item = breadcrumbMap?.get(url);
+    if (!item || (item && !item['pageUrl'])) {
+      url = '';
     }
-    return url?<Link to={url}>{breadcrumbName}</Link>:breadcrumbName
+    return url ? <Link to={url}>{breadcrumbName}</Link> : breadcrumbName;
   };
   // gen breadcrumbProps, parameter for pageHeader
   const breadcrumbProps = getBreadcrumbProps({
     ...resProps,
     breadcrumbMap,
-    itemRender:defaultItemRender
+    itemRender: defaultItemRender,
   });
   return (
     <SchemaContext.Provider

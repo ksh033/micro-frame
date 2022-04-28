@@ -1,77 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Input, Button, Tabs, Modal, Spin } from 'antd'
-import { urlSafeBase64Decode, urlSateBase64Encode } from '../../utils/common'
-import SMSCode from '../SMSCode'
-import { uesRequest } from '../../utils/api'
-import { setUser,  clearUser } from '../Auth'
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Button, Tabs, Modal, Spin } from 'antd';
+import { urlSafeBase64Decode, urlSateBase64Encode } from '../../utils/common';
+import SMSCode from '../SMSCode';
+import { uesRequest } from '../../utils/api';
+import { setUser, clearUser } from '../Auth';
 //@ts-ignore
-import { history } from 'umi'
-import styles from './index.less'
-import logo from '../../assets/login/logo.png'
-import phonepng from '../../assets/login/u650.png'
-import wxpng from '../../assets/login/u651.png'
-import { useMount, useExternal, useUpdateEffect } from 'ahooks'
-import createWxLoginQr from '../../wxConfig'
+import { history } from 'umi';
+import styles from './index.less';
+import logo from '../../assets/login/logo.png';
+import phonepng from '../../assets/login/u650.png';
+import wxpng from '../../assets/login/u651.png';
+import { useMount, useExternal, useUpdateEffect } from 'ahooks';
+import createWxLoginQr from '../../wxConfig';
 
-const { TabPane } = Tabs
-const Encrypt = require('../../assets/jsencrypt.min')
+const { TabPane } = Tabs;
+const Encrypt = require('../../assets/jsencrypt.min');
 
 const Login: React.FC<any> = (props: any) => {
-  const [activeKey, setActiveKey] = useState('wx')
-  const [state, setState] = useState(1)
-  //  const { signin } = useModel('useAuthModel');
-  const { location } = props
-  const { loading, run } = uesRequest('user', 'loginByPhone')
-  const wechatCodeLogin = uesRequest('user', 'wechatCodeLogin')
-  const getPublicKey = uesRequest('user', 'getPublicKey')
+  const [activeKey, setActiveKey] = useState('wx');
+  const [state, setState] = useState(1);
 
-  const pageParams = location.query || {}
+  const { location } = props;
+  const { loading, run } = uesRequest('user', 'loginByPhone');
+  const wechatCodeLogin = uesRequest('user', 'wechatCodeLogin');
+  const getPublicKey = uesRequest('user', 'getPublicKey');
+
+  const pageParams = location.query || {};
 
   const [status] = useExternal(
     'https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js',
     {
       async: false,
     }
-  )
+  );
 
   const loginCallBack = (data: any) => {
-    const {chooseDeptVO} = data;
-    setUser(data)
+    const { currentDept } = data;
+    setUser(data);
     if (data.needModifyPwd) {
-      history.push('/system/current/initpassword')
-      return
+      history.push('/system/current/initpassword');
+      return;
     }
-    if (chooseDeptVO != null) {
-      const { systemCode } = chooseDeptVO.currentSystem || {}
-      if(systemCode){
-        history.push(`/${systemCode}`)
-      }else {
-        const { systemList } = chooseDeptVO.currentDept
-        if(Array.isArray(systemList) && systemList.length > 0){
-          history.push(`/${systemList[0].systemCode}`)
-        }else {
-          history.push(`/`);
-        }
+    if (currentDept != null) {
+      const menus = currentDept.menus;
+      if (Array.isArray(menus) && menus.length > 0) {
+        history.push(`/${menus[0].pageUrl}`);
+      } else {
+        history.push(`/`);
       }
-      
     } else {
-      history.push('/selectDept')
-      return
+      history.push('/selectDept');
+      return;
     }
-  }
+  };
 
   useUpdateEffect(() => {
     if (status === 'ready') {
-      createWxLoginQr('wx_login_container', '/login')
+      createWxLoginQr('wx_login_container', '/login');
     }
-  }, [status])
+  }, [status]);
 
   useEffect(() => {
     if (pageParams.code !== undefined && pageParams.code !== null) {
       wechatCodeLogin
         .run(pageParams)
         .then((data: any) => {
-          loginCallBack(data)
+          loginCallBack(data);
         })
         .catch((error) => {
           if (error && error.data.errorCode === 'A100115') {
@@ -80,33 +74,33 @@ const Login: React.FC<any> = (props: any) => {
               content:
                 '当前微信暂未绑定长嘴猫账号，请使用账号密码登录后在【个人中心】进行绑定',
               onOk() {
-                setActiveKey('custom')
+                setActiveKey('custom');
               },
-            })
+            });
           }
-        })
+        });
     }
-  }, [pageParams.code])
+  }, [pageParams.code]);
 
   const onFinish = async (values: any) => {
-    const publicKey = await getPublicKey.run()
+    const publicKey = await getPublicKey.run();
     if (publicKey) {
-      let encryptor = new Encrypt.JSEncrypt()
-      encryptor.setPublicKey(urlSafeBase64Decode(publicKey)) // 设置公钥
-      const cipherStr = encryptor.encrypt(JSON.stringify(values)) // 对需要加密的数据进行加密
+      let encryptor = new Encrypt.JSEncrypt();
+      encryptor.setPublicKey(urlSafeBase64Decode(publicKey)); // 设置公钥
+      const cipherStr = encryptor.encrypt(JSON.stringify(values)); // 对需要加密的数据进行加密
 
       //接口参数
       const params = {
         cipherStr: urlSateBase64Encode(cipherStr),
-      }
-      const data = await run(params)
-      loginCallBack(data)
+      };
+      const data = await run(params);
+      loginCallBack(data);
     }
-  }
+  };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
-  }
+    console.log('Failed:', errorInfo);
+  };
 
   const tabRender = (type: 'wx' | 'custom') => {
     if (type === 'wx') {
@@ -115,20 +109,20 @@ const Login: React.FC<any> = (props: any) => {
           <img src={wxpng} className={styles['login-title-logo']}></img>
           微信扫码登录
         </span>
-      )
+      );
     } else {
       return (
         <span>
           <img src={phonepng} className={styles['login-title-logo']}></img>
           账号密码登录
         </span>
-      )
+      );
     }
-  }
+  };
 
   useMount(() => {
-    clearUser()
-  })
+    clearUser();
+  });
   return (
     <Spin spinning={wechatCodeLogin.loading} tip="跳转登录中...">
       <div className={styles['login-account']}>
@@ -212,7 +206,7 @@ const Login: React.FC<any> = (props: any) => {
         </div>
       </div>
     </Spin>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

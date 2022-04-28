@@ -1,32 +1,27 @@
-import React, { useMemo } from 'react'
-import userDictModel from '../../Dict/userDictModel'
-import { ScSelect, ScRadio, ScCheckBox } from '@scboson/sc-element'
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index'
-import { ScRadioProps } from '@scboson/sc-element/es/sc-radio/index'
-import { ScCheckProps } from '@scboson/sc-element/es/sc-check-box/index'
+import React, { useMemo } from 'react';
+import userDictModel from '../../Dict/userDictModel';
+import { ScSelect, ScRadio, ScCheckBox } from '@scboson/sc-element';
 import {
   FormComponent,
   FormComponentProps,
   deepGet,
-} from '@scboson/sc-element/es/c-form'
+} from '@scboson/sc-element/es/c-form';
 
 export interface DictSelectProp extends FormComponentProps {
   /** 字典类型 */
-  dictType: string
-  /** 系统 */
-  sysCode?: string
-  type?: 'Select' | 'Radio' | 'CheckBox'
-  fieldProps?: any
-  filterData?: (dictData: any[]) => any[]
-  rowData?: any
-  splitDot?: string,
-  /**本地数据 */
-  localDict?:boolean,
-  emptyItem?: boolean | { name: any, value: any }
-  [key: string]: any
+  dictType: string;
+  type?: 'Select' | 'Radio' | 'CheckBox';
+  fieldProps?: any;
+  filterData?: (dictData: any[]) => any[];
+  rowData?: any;
+  splitDot?: string;
+  /** 本地数据 */
+  localDict?: boolean;
+  emptyItem?: boolean | { name: any; value: any };
+  [key: string]: any;
 }
 
-const EMPTY_ITEM = { name: "全部", value: '' }
+const EMPTY_ITEM = { name: '全部', value: '' };
 /**
  * 字典控件
  *
@@ -37,7 +32,6 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     dictType,
     readonly,
     type = 'Select',
-    sysCode,
     name,
     form,
     initialValues,
@@ -47,63 +41,61 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
     emptyItem,
     splitDot = '、',
     rowData,
-    localDict,
+    localDict = false,
     ...restProps
-  } = pros
-  const { getDistList } = userDictModel()
+  } = pros;
+  const { getDistList } = userDictModel();
 
   let data = useMemo(() => {
     const list: any[] = getDistList({
-      syscode: sysCode,
       dictTypeCode: dictType,
-      localDict
-    })
+      localDict,
+    });
     let emptyDataItem;
     if (emptyItem) {
-      emptyDataItem = EMPTY_ITEM
-      if (typeof emptyItem == "object") {
-        emptyDataItem = emptyItem
+      emptyDataItem = EMPTY_ITEM;
+      if (typeof emptyItem == 'object') {
+        emptyDataItem = emptyItem;
       }
-      if (list){
-        list.unshift(emptyDataItem)
+      if (list) {
+        list.unshift(emptyDataItem);
       }
-     
     }
     if (list) {
-      return list
+      return list;
     }
-    return []
-  }, [dictType, sysCode])
+    return [];
+  }, [dictType, localDict]);
 
   if (filterData) {
-    data = filterData(data)
+    data = filterData(data);
   }
   if (readonly) {
-    let newName: any = name || ''
-    const formData: any = form?.getFieldsValue() || {}
-    let val = deepGet(formData, newName)
+    let newName: any = name || '';
+    const formData: any = form?.getFieldsValue() || {};
+    let val = deepGet(formData, newName);
     if (!val && initialValues) {
-      val = deepGet(initialValues, newName)
+      val = deepGet(initialValues, newName);
     }
     if (Array.isArray(val)) {
       const valItemList = data
         .filter((it) => {
-          return val.indexOf(it.value) > -1
+          return val.indexOf(it.value) > -1;
         })
-        .map((item) => item.name)
+        .map((item) => item.name);
 
-      return <span>{valItemList.join(splitDot)}</span>
+      return <span>{valItemList.join(splitDot)}</span>;
     } else {
       const valItem = data.find((item) => {
-        return item.value === val
-      })
-      const text = valItem?.name
+        return item.value === val;
+      });
+      const text = valItem?.name;
 
-      return <span>{text}</span>
+      return <span>{text}</span>;
     }
   } else {
     if (type === 'Radio') {
-      const radioProps: any = restProps
+      const radioProps: any = restProps;
       return (
         <ScRadio
           textField="name"
@@ -111,10 +103,10 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
           data={data}
           {...radioProps}
         ></ScRadio>
-      )
+      );
     }
     if (type === 'CheckBox') {
-      const checkProps: any = restProps
+      const checkProps: any = restProps;
       return (
         <ScCheckBox
           textField="name"
@@ -122,7 +114,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
           data={data}
           {...checkProps}
         ></ScCheckBox>
-      )
+      );
     }
     return (
       <ScSelect
@@ -132,9 +124,9 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
         allowClear
         {...restProps}
       ></ScSelect>
-    )
+    );
   }
-}
-DictSelect.customView = true
+};
+DictSelect.customView = true;
 
-export default DictSelect
+export default DictSelect;
