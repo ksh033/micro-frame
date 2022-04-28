@@ -2,20 +2,16 @@ import { request, useRequest as umiUesRequest,CustomRequestOptionsInit,BaseOptio
 interface MethodProps {
   url: string;
   method: "get" | "post";
-  sysCode: string;
 }
 // @ts-ignore
 import services from "@@service";
-// '/api/anony/sys/list': { methodName: 'getApplist', method: 'GET' },
 
-// services { ...services.system, ...services.user };
-// function getService<T extends keyof typeof services>(syscode:T):any
 export type ServiceKeyTypes=keyof typeof services
 
 
 const AllReq = {};
 const createRequest = (methodService: MethodProps, funName: string) => {
-  const { method, url, sysCode } = methodService;
+  const { method, url } = methodService;
 
   const requestService = (params?: any, options?: any): Promise<any> => {
     const reqUrl = `${url}`;
@@ -70,7 +66,6 @@ export function getService<
     return mservices;
   }
 }
-//getService("user","chooseDept","chooseSys")
 function getServiceApi<
   T extends keyof typeof services,
   P extends keyof typeof services[T]

@@ -11,16 +11,13 @@ export interface DictData {
   dictTypeCode: string
   dictValueId: string
   remark: string
-  systemCode: string
   valueCode: string
   valueIndex: number
   valueName: string
 }
 
 export type DictMapData = {
-  [key: string]: {
-    [key: string]: Array<DictDataItem>
-  }
+  [key: string]: Array<DictDataItem>
   // items: Array<DictDataItem>;
 } | null
 
@@ -39,14 +36,6 @@ export default function useDictModel() {
     {}
   )
 
-  const newDict = useMemo(() => {
-    const newDict = dict || {}
-    const newlocalDict = localDict || {}
-    return {
-      ...newDict,
-      local: newlocalDict,
-    }
-  }, [dict, localDict])
 
   const { run } = uesRequest('system', 'getDictTypeList')
 
@@ -56,12 +45,11 @@ export default function useDictModel() {
       const result = await run()
       if (result) {
         result.forEach((item: DictData) => {
-          const sysMap = dictMapData[item.systemCode]
 
-          const dictList = sysMap ? sysMap[item.dictTypeCode] : null
+          const dictList = dictMapData[item.dictTypeCode]
 
           if (Array.isArray(dictList)) {
-            dictMapData[item.systemCode][item.dictTypeCode] = [
+            dictMapData[item.dictTypeCode] = [
               ...dictList,
               {
                 name: item.valueName,
@@ -69,23 +57,12 @@ export default function useDictModel() {
               },
             ]
           } else {
-            if (sysMap) {
-              dictMapData[item.systemCode][item.dictTypeCode] = [
-                {
-                  name: item.valueName,
-                  value: item.valueCode,
-                },
-              ]
-            } else {
-              dictMapData[item.systemCode] = {
-                [item.dictTypeCode]: [
-                  {
-                    name: item.valueName,
-                    value: item.valueCode,
-                  },
-                ],
-              }
-            }
+            dictMapData[item.dictTypeCode] = [
+              {
+                name: item.valueName,
+                value: item.valueCode,
+              },
+            ]
           }
         })
         setdDict(dictMapData)
@@ -102,7 +79,7 @@ export default function useDictModel() {
               value: false,
             },
           ],
-         yesNo: [
+          yesNo: [
             {
               name: '是',
               value: true,
@@ -127,31 +104,16 @@ export default function useDictModel() {
     setdLocalDict(localDictMap)
   }
 
-  const getBySysCode = (syscode: string) => {
-    return newDict[syscode] ? newDict[syscode] : null
-  }
-
-  const getDistList = (config: { syscode?: string; dictTypeCode: string,localDict?:boolean }) => {
-    // const user = getUser()
-    const systemCode = config.syscode || getAppCode() || 'common'
-    let sysMap = config.localDict?getBySysCode('local'):getBySysCode(systemCode)
-    if (sysMap === null) {
-      sysMap = getBySysCode('common') || {}
-    } else {
-      if (
-        sysMap[config.dictTypeCode] === undefined ||
-        sysMap[config.dictTypeCode] === null
-      ) {
-        sysMap = getBySysCode('common') || {}
-      }
+  const getDistList = (config: { dictTypeCode: string,localDict?:boolean }) => {
+    let sysMap = config.localDict? localDict : dict
+    if(sysMap){
+      return sysMap[config.dictTypeCode]
     }
-   
-
-    return sysMap[config.dictTypeCode]
+    return []
   }
 
   const getDictText = (
-    config: { syscode?: string; dictTypeCode: string },
+    config: { dictTypeCode: string },
     dictVal: any
   ) => {
     const distList = getDistList(config) || []
@@ -165,10 +127,9 @@ export default function useDictModel() {
   }
 
   return {
-    dict: newDict,
+    dict: dict,
     loadDict,
     setLocal,
-    getBySysCode,
     getDistList,
     getDictText,
   }

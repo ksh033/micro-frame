@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
-import { ScEditableTable } from '@scboson/sc-element'
-import defaultRenderText, { cacheRender } from '../../Dict/defaultRender'
-import userDictModel from '../../Dict/userDictModel'
-import { EditableProTableProps } from '@scboson/sc-element/es/sc-editable-table'
-import { Key } from 'antd/es/table/interface'
-import { FormInstance } from 'antd/es/form/Form'
-import Form from 'antd/es/form'
-import useMergedState from 'rc-util/es/hooks/useMergedState'
-import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing'
-import style from './index.less'
+import React, { useEffect } from 'react';
+import { ScEditableTable } from '@scboson/sc-element';
+import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
+import userDictModel from '../../Dict/userDictModel';
+import { EditableProTableProps } from '@scboson/sc-element/es/sc-editable-table';
+import { Key } from 'antd/es/table/interface';
+import { FormInstance } from 'antd/es/form/Form';
+import Form from 'antd/es/form';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing';
+import style from './index.less';
 
 export interface BsEditTableProps extends EditableProTableProps<any> {
-  type: 'multiple' | 'single'
-  editableKeys?: Key[]
-  setEditableRowKeys?: (editableKeys: Key[], editableRows: any) => void
-  innerForm?: FormInstance<any>
-  actionRender?: ActionRenderFunction<any> | undefined
-  preformatValue?: (list: any[]) => any[]
+  type: 'multiple' | 'single';
+  editableKeys?: Key[];
+  setEditableRowKeys?: (editableKeys: Key[], editableRows: any) => void;
+  innerForm?: FormInstance<any>;
+  actionRender?: ActionRenderFunction<any> | undefined;
+  preformatValue?: (list: any[]) => any[];
 }
 
 const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
@@ -35,15 +35,15 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
     rowKey = 'rowIndex',
     scroll = { x: 'max-content' },
     actionRender = (row, config, defaultDoms) => {
-      return [defaultDoms.delete]
+      return [defaultDoms.delete];
     },
     preformatValue,
     ...restProps
-  } = props
+  } = props;
 
-  const { getDistList } = userDictModel()
-  const [form] = Form.useForm()
-  const newForm = innerForm ? innerForm : form
+  const { getDistList } = userDictModel();
+  const [form] = Form.useForm();
+  const newForm = innerForm ? innerForm : form;
 
   const [editableRowKey, setRowKeys] = useMergedState<Key[]>(
     () => editableKeys || [],
@@ -51,56 +51,54 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
       value: editableKeys,
       onChange: setEditableRowKeys,
     }
-  )
+  );
 
   useEffect(() => {
     if (Array.isArray(value) && value.length > 0) {
       const editList = value.filter((it) => {
-        return editableRowKey.indexOf(it[rowKey]) !== -1
-      })
+        return editableRowKey.indexOf(it[rowKey]) !== -1;
+      });
       if (editList.length > 0) {
-        let fieldsValue = {}
+        let fieldsValue = {};
         editList.forEach((it: any) => {
           fieldsValue = {
             ...fieldsValue,
             [it[rowKey]]: it,
-          }
-        })
-        newForm.setFieldsValue(fieldsValue)
+          };
+        });
+        newForm.setFieldsValue(fieldsValue);
       }
     }
-  }, [JSON.stringify(value)])
+  }, [JSON.stringify(value)]);
 
   const columnsFormat = (list: any[]) => {
     list.forEach((col: any, index: number) => {
       if (Array.isArray(col.children) && col.children.length > 0) {
-        col.children = columnsFormat(col.children)
+        col.children = columnsFormat(col.children);
       }
 
       const list: any = getDistList({
-        syscode: col.sysCode,
         dictTypeCode: `${col.dataType || col.dataIndex}`,
-      })
+      });
       if (!col.width) {
-        col.width = 180
+        col.width = 180;
       }
 
       if (list && !col.render) {
         col.render = (text: string) => {
-          return cacheRender(text, list)
-        }
+          return cacheRender(text, list);
+        };
       } else if (col.dataType && !col.render) {
         col.render = (text: string, record: any) => {
-          return defaultRenderText(text, col.dataType || col.dataIndex, record)
-        }
+          return defaultRenderText(text, col.dataType || col.dataIndex, record);
+        };
       }
-      delete col.sysCode
-    })
+    });
 
-    return list
-  }
+    return list;
+  };
 
-  const newColumns = columnsFormat(columns)
+  const newColumns = columnsFormat(columns);
 
   return (
     <div className={style['bs-edit-table']}>
@@ -122,17 +120,17 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
           onChange: setRowKeys,
           actionRender: actionRender,
           onValuesChange: (record, recordList) => {
-            let newList = recordList
+            let newList = recordList;
             if (preformatValue) {
-              newList = preformatValue(recordList)
+              newList = preformatValue(recordList);
             }
-            onChange?.(newList)
+            onChange?.(newList);
           },
         }}
         {...restProps}
       />
     </div>
-  )
-}
+  );
+};
 
-export default BsEditTable
+export default BsEditTable;

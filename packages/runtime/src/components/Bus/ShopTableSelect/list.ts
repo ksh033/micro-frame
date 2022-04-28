@@ -15,7 +15,6 @@ const pageConfig: PageConfig = {
       name: 'shopType',
       component: 'DictSelect',
       props: {
-        sysCode: 'basesys',
         dictType: 'shopType',
         placeholder: '请选择门店类型',
       },

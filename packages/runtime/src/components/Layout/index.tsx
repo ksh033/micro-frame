@@ -4,7 +4,6 @@ import { ProSettings, MasterLayout } from '@scboson/sc-layout';
 import { Link, history, useModel } from 'umi';
 import { getUser, changeApp } from '../Auth';
 import './index.less';
-import { uesRequest } from '../../utils/api';
 import RightContent from './GlobalHeader/RightContent';
 import logo from '../../assets/logo.svg';
 import { useExternal, useMount } from 'ahooks';
@@ -27,14 +26,12 @@ export default (props: any) => {
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
   const userAppInfo = user?.chooseDeptVO;
-  const req = uesRequest('user', 'chooseSys');
-  const { loadDict, dict } = userDictModel();
+
+  const { loadDict } = userDictModel();
   const { loadWeight } = useWeightUnit();
-  const systemList =
-    appData || user?.chooseDeptVO?.currentDept.systemList || [];
+  const systemList = appData || user?.chooseDeptVO?.currentDept.menus || [];
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
-  //独立运行是模拟setQiankunGlobalState
   const { setQiankunGlobalState } =
     useModel('@@qiankunStateForSlave') ||
     useModel('@@qiankunStateFromMaster') ||
@@ -42,59 +39,36 @@ export default (props: any) => {
 
   const appSelectedKeys = userAppInfo?.currentSystem?.systemCode || '';
   const apps = systemList.map((sys) => ({
-    name: sys.systemName,
-    code: sys.systemCode,
+    name: sys.name || sys.systemName,
+    code: sys.pageUrl || sys.systemCode,
     disabled: user?.needModifyPwd,
     isApp: true,
-    path: `/${sys.systemCode}`,
+    path: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
   }));
-  const mdata = menuData
-    ? menuData
-    : userAppInfo?.currentSystem?.menuTreeNodeList || [];
-  //const [appCode, setAppCode] = useState<any>();
-  // const [pathname, setPathname] = useState('/welcome');
+  const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menus || [];
+
   useEffect(() => {
     // 加载枚举
     loadDict();
     // 加载计重单位
     loadWeight();
     if (!isMaster) {
+      console.log(appSelected);
       if (appSelected && userAppInfo?.currentSystem?.systemCode == null) {
         if (!changeApp(appSelected)) {
           changeApp(appSelected);
           history.push('/');
-          // req.run({ systemCode: appSelected }).then((data) => {
-
-          // });
         }
       }
     }
   }, []);
   useMount(() => {
-    //if (window.addEventListener) {
-    //window.addEventListener("unload", page_unload, false);
-    // }else{
-    // window.onunload = function () {
-    //   console.log("重置窗口");
-    //   restUserAppCode(getUserAppCode());
-    // };
-    // }
-
-    // function page_unload() {
-    //   //const appCode = globalState.currentApp;
-
-    //   restUserAppCode(getUserAppCode());
-    //   return true;
-    // }
-    // window.location
-    // if (!checkUserDept(location.pathname)) {
-    //   history.push("/selectDept");
-    // }
     if (
       (whetherNotice === undefined || whetherNotice === null) &&
       user?.wechatUnionId === null
     ) {
       localStorage.setItem(WhetherNoticeKey, 'true');
+      // @ts-ignore
       CModal.confirm({
         title: '绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全',
         okText: '立即绑定',
@@ -112,23 +86,6 @@ export default (props: any) => {
     }
   });
 
-  // const cehckDept = () => {
-  //   const currentUser = getUser();
-  //   if (location.pathname !== "/selectDept") {
-  //     if (currentUser) {
-  //       const { userAppInfo } = currentUser;
-  //       if (userAppInfo) {
-  //         const { currentDept, needChooseDept } = userAppInfo;
-  //         if (!currentDept && needChooseDept) {
-  //           // setTimeout()
-
-  //           return false;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return true;
-  // };
   return (
     <div
       id="test-pro-layout"
@@ -148,7 +105,6 @@ export default (props: any) => {
           onSelect: async (keys: any) => {
             if (keys && keys.length > 0) {
               if (!changeApp(keys[0])) {
-                //const data = await req.run({ systemCode: keys[0] });
                 changeApp(keys[0]);
               }
               history.push('/' + keys[0]);
@@ -178,26 +134,15 @@ export default (props: any) => {
         }}
         menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
-          const { path, syscode } = item;
-          let search = '';
-          // const paths = path.substring(1, path.length).split('/')
-          // const [currentSysCode]=paths;
-          //if (appSelectedKeys && appSelectedKeys.length > 0) {
-          // const [currentSysCode] = appSelectedKeys;
-          // if (currentSysCode !== syscode) {
-          //   search = "refsyscode=" + syscode;
-          // }
-          //}
+          const { path } = item;
 
           if (item.isApp) {
             return <a>{dom}</a>;
           }
-          //   to={`${item.path}`}
           return (
             <Link
               onClick={() => {
                 sessionStorage.removeItem('SEARCH_PARAMS');
-                // setUserAppCode(syscode)
               }}
               to={{
                 pathname: `${path}`,

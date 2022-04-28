@@ -239,9 +239,10 @@ export function colorRgba(sHex: string, alpha?: number): string {
 
 export function initUser(token: string): User {
   return {
-    deptList: [],
+    optionalDepts: [],
     lastLoginTime: '',
     realName: '',
+    userId: '',
     needModifyPwd: false,
     token: token,
     phone: 'string',

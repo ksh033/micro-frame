@@ -4,23 +4,14 @@ import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message } from 'antd';
+import { message, Layout } from 'antd';
+const { Header, Content } = Layout;
 
 const SelectDept: React.FC<any> = (props) => {
   const user = getUser();
   const { run } = uesRequest('user', 'chooseDept');
   const selectOrg = async (deptId: any) => {
     let data = await run({ deptId });
-    // let data:any = null
-    // const depList = user?.deptList
-    // if(Array.isArray(depList) && depList.length > 0) {
-    //   const deptInfo = depList.find(it=>it.bizDeptId === deptId);
-    //   if(deptInfo){
-    //     data = {
-    //       currentDept:deptInfo
-    //     }
-    //   }
-    // }
     if (data) {
       const userAppInfos = updateCurrentDept(data);
       if (userAppInfos.currentSystem?.systemCode) {
@@ -34,8 +25,8 @@ const SelectDept: React.FC<any> = (props) => {
   };
 
   const renderDept = () => {
-    if (user && user.deptList) {
-      const depList = user.deptList;
+    if (user && user.optionalDepts) {
+      const depList = user.optionalDepts;
       const currentDept = user.chooseDeptVO?.currentDept;
       const itemsList = depList.map((val) => {
         const { bizDeptId, bizDeptName, bizDeptTypeName } = val;
@@ -69,7 +60,14 @@ const SelectDept: React.FC<any> = (props) => {
     return <div className="inner-wrapper"></div>;
   };
 
-  return <div className="select-wrapper">{renderDept()}</div>;
+  return (
+    <Layout>
+      <Header className="header"></Header>
+      <Content style={{ padding: '0 50px' }}>
+        <div className="select-wrapper">{renderDept()}</div>;
+      </Content>
+    </Layout>
+  );
 };
 
 export default SelectDept;

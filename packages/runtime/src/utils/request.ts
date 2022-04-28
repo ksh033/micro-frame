@@ -9,8 +9,6 @@ import {
   RequestOptionsInit,
   RequestResponse,
   Context,
-  RequestOptionsWithResponse,
-  RequestOptionsWithoutResponse,
 } from 'umi-request'
 import { notification, message } from 'antd'
 // @ts-ignore
@@ -202,9 +200,6 @@ const getRequestMethod = () => {
       const headers: any = { version: '1.0', ...options.headers }
       if (user) {
         headers.token = user.token
-        headers['sys-code'] = 'common'
-      } else {
-        headers['sys-code'] = 'common'
       }
 
       const newOptions = { ...options, headers }
