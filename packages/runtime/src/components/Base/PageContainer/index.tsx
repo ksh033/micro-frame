@@ -2,10 +2,15 @@
 import React, { useMemo } from 'react';
 import { PageContainer as APageContainer } from '@scboson/sc-layout';
 import type { PageContainerProps } from '@scboson/sc-layout';
-import AuthButton from '../../Auth/AuthButton'
-import "./index.less";
+import AuthButton from '../../Auth/AuthButton';
+import './index.less';
+import { HButtonType } from '@scboson/sc-schema/es/interface';
 
-const PageContainer: React.FC<PageContainerProps> = (props) => {
+export type ScPageContainerProps = Omit<PageContainerProps, 'footer'> & {
+  footer: HButtonType[];
+};
+
+const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   const { children, footer } = props;
 
   const efooter = useMemo(() => {
@@ -30,7 +35,7 @@ const PageContainer: React.FC<PageContainerProps> = (props) => {
   }, [footer]);
 
   return (
-    <APageContainer {...props}  footer={efooter}>
+    <APageContainer {...props} footer={efooter}>
       {children}
     </APageContainer>
   );
