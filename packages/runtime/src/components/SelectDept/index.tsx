@@ -1,10 +1,11 @@
 import React from 'react';
 import { getUser, updateCurrentDept } from '../Auth';
 import { uesRequest } from '../../utils/api';
+import logo from '../../assets/logo.svg';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message, Layout, PageHeader } from 'antd';
+import { message, Layout, Card } from 'antd';
 const { Header, Content } = Layout;
 
 const SelectDept: React.FC<any> = (props) => {
@@ -49,18 +50,50 @@ const SelectDept: React.FC<any> = (props) => {
         );
       });
       return (
-        <div className="inner-wrapper">
-          <div>
-            <div className="inner-title">机构列表</div>
-            <div className="inner-content">{itemsList}</div>
-          </div>
-        </div>
+        <Card title="机构列表" bordered={false}>
+          <div className="inner-content">{itemsList}</div>
+        </Card>
       );
     }
     return <div className="inner-wrapper"></div>;
   };
 
-  return <div className="select-wrapper">{renderDept()}</div>;
+  return (
+    <div
+      id="test-pro-layout"
+      style={{
+        height: '100vh',
+      }}
+    >
+      <Layout className="ant-pro-basicLayout ">
+        <Header
+          className="ant-pro-fixed-header ant-pro-top-nav-header light"
+          style={{ height: '48px', lineHeight: '48px', padding: 0 }}
+        >
+          <div
+            className="ant-pro-top-nav-header-main"
+            style={{
+              justifyContent: 'space-between',
+              paddingRight: '24px',
+              paddingLeft: '24px',
+            }}
+          >
+            <div
+              className="ant-pro-top-nav-header-main-left ant-pro-top-nav-header-logo"
+              style={{ alignItems: 'center' }}
+            >
+              <img src={logo}></img>
+              <h1>长嘴猫平台</h1>
+            </div>
+            <div className="ant-pro-right-content">{user?.realName}</div>
+          </div>
+        </Header>
+        <Content className="ant-pro-basicLayout-content layout-select-content">
+          <div className="select-wrapper">{renderDept()}</div>
+        </Content>
+      </Layout>
+    </div>
+  );
 };
 
 export default SelectDept;
