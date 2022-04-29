@@ -117,7 +117,36 @@
     }
   }
   
-  .margin_left {
-    margin-left: 20px;
-  }
+.margin_left {
+  margin-left: 20px;
+}
+
+.card-action{
+  position: relative;
+  border: 1px solid #1890ff;
+}
+
   
+.card-action::before {
+  content: '';
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  border: 18px solid #0046FE;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.card-action::after {
+	content: '';
+  width: 8px;
+  height: 13px;
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  /* border-radius: 0 0 10px 0; */
+  transform: rotate(40deg);
+}
