@@ -11,7 +11,7 @@ import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/t
 import style from './index.less';
 
 export interface BsEditTableProps extends EditableProTableProps<any> {
-  type: 'multiple' | 'single';
+  type?: 'multiple' | 'single';
   editableKeys?: Key[];
   setEditableRowKeys?: (editableKeys: Key[], editableRows: any) => void;
   innerForm?: FormInstance<any>;
