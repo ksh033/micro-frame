@@ -7,7 +7,7 @@ import './index.less';
 import { HButtonType } from '@scboson/sc-schema/es/interface';
 
 export type ScPageContainerProps = Omit<PageContainerProps, 'footer'> & {
-  footer: HButtonType[];
+  footer?: HButtonType[];
 };
 
 const PageContainer: React.FC<ScPageContainerProps> = (props) => {

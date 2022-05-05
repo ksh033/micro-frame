@@ -22,6 +22,8 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
     dropdownRenderProps,
     params,
     valueField = 'goodsId',
+    searchField = 'keyword',
+    textField = 'goodsName',
     onLoad,
     columns = [],
     autoload = false,
@@ -70,15 +72,23 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
   }, [JSON.stringify(params)]);
 
   const handleLoad = (data: any) => {
-    const dataList = data.records || data.rows;
-    if (Array.isArray(dataList)) {
-      let newData = dataList;
+    let newData: any[] = [];
+    if (Array.isArray(data)) {
+      newData = data;
+    } else {
+      const dataList = data.records || data.rows;
+      newData = dataList;
+    }
+
+    if (Array.isArray(newData)) {
       if (onLoad) {
         newData = onLoad(newData);
       }
-      return newData;
+    } else {
+      newData = [];
     }
-    return [];
+
+    return newData;
   };
 
   return (
@@ -89,8 +99,8 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
       showSearch
       valueField={valueField}
       singleInput={true}
-      textField="cargoName"
-      searchField="cargoCodeName"
+      textField={textField}
+      searchField={searchField}
       allowClear
       placeholder="请选择/请输入商品名称"
       style={{ width: '400px' }}
