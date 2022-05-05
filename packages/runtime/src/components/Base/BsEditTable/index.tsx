@@ -42,8 +42,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
   } = props;
 
   const { getDistList } = userDictModel();
-  const [form] = Form.useForm();
-  const newForm = innerForm ? innerForm : form;
+  const [form] = Form.useForm(innerForm);
 
   const [editableRowKey, setRowKeys] = useMergedState<Key[]>(
     () => editableKeys || [],
@@ -66,7 +65,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
             [it[rowKey]]: it,
           };
         });
-        newForm.setFieldsValue(fieldsValue);
+        form.setFieldsValue(fieldsValue);
       }
     }
   }, [JSON.stringify(value)]);
@@ -113,8 +112,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         scroll={scroll}
         readonly={readonly}
         editable={{
-          // @ts-ignore
-          form: newForm,
+          form: form,
           type: type,
           editableKeys: editableRowKey,
           onChange: setRowKeys,
