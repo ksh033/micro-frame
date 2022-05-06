@@ -67,6 +67,9 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         });
         form.setFieldsValue(fieldsValue);
       }
+      if (!clickEdit) {
+        setRowKeys(value.map((it) => it[rowKey]));
+      }
     }
   }, [JSON.stringify(value)]);
 
