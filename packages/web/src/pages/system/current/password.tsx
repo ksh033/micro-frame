@@ -1,29 +1,31 @@
-/* eslint-disable global-require */
-import React, { FC } from 'react'
-import { history } from 'umi'
-import { CForm } from '@scboson/sc-element'
-import { EditPage, useEditPageContext } from '@scboson/sc-schema'
-import { useServiceRequest, Auth } from '@micro-frame/sc-runtime'
-import formData from './components/passwordForm'
-import { Alert, Button, message } from 'antd'
-import { JSEncrypt } from 'jsencrypt'
+import type { FC } from 'react';
+import React from 'react';
+import { history } from 'umi';
+import { CForm } from '@scboson/sc-element';
+import { EditPage, useEditPageContext } from '@scboson/sc-schema';
+import { useServiceRequest, Auth } from '@micro-frame/sc-runtime';
+import formData from './components/passwordForm';
+import { Alert, Button, message } from 'antd';
+import { JSEncrypt } from 'jsencrypt';
 import PasswordStrength, {
   chenkPwdStrength,
-} from './components/PasswordStrength/index'
-import { urlSafeBase64Decode, urlSateBase64Encode } from '../../../utils/common'
-import styles from './baseStyles.less'
+} from './components/PasswordStrength/index';
+import {
+  urlSafeBase64Decode,
+  urlSateBase64Encode,
+} from '../../../utils/common';
+import styles from './baseStyles.less';
 
 const pagaConfig = {
   service: {},
   pageType: 'modalpage',
   ...formData,
-}
-interface CurrentUserState {}
+};
 
-const Page: FC<any> = (props) => {
-  const scope = useEditPageContext<CurrentUserState>()
-  const { run } = useServiceRequest('user', 'changePwd')
-  const getPublicKey = useServiceRequest('system', 'getPublicKey')
+const Page: FC<any> = () => {
+  const scope = useEditPageContext();
+  const { run } = useServiceRequest('user', 'changePwd');
+  const getPublicKey = useServiceRequest('system', 'getPublicKey');
   const formConfig = scope
     .getFormInfo()
     .changeFormItem('newPwd', {
@@ -35,13 +37,13 @@ const Page: FC<any> = (props) => {
             required: true,
             message: '请输入新密码：',
           },
-          ({ getFieldValue }: any) => ({
+          ({}: any) => ({
             validator(rule: any, value: any) {
               if (chenkPwdStrength(value) >= 60) {
-                return Promise.resolve()
+                return Promise.resolve();
               }
               // eslint-disable-next-line prefer-promise-reject-errors
-              return Promise.reject('密码强度不足')
+              return Promise.reject('密码强度不足');
             },
           }),
         ],
@@ -58,16 +60,16 @@ const Page: FC<any> = (props) => {
           ({ getFieldValue }: any) => ({
             validator(rule: any, value: any) {
               if (!value || getFieldValue('newPwd') === value) {
-                return Promise.resolve()
+                return Promise.resolve();
               }
               // eslint-disable-next-line prefer-promise-reject-errors
-              return Promise.reject('两次密码不一致!')
+              return Promise.reject('两次密码不一致!');
             },
           }),
         ],
       },
     })
-    .toConfig()
+    .toConfig();
 
   const handleSave = () => {
     formConfig.form.current?.validateFields().then(async (values: any) => {
@@ -75,35 +77,35 @@ const Page: FC<any> = (props) => {
         const data = JSON.stringify({
           oldPwd: values.oldPwd,
           newPwd: values.newPwd,
-        })
-        const ec = new JSEncrypt()
-        ec.setPublicKey(urlSafeBase64Decode(publicKey))
+        });
+        const ec = new JSEncrypt();
+        ec.setPublicKey(urlSafeBase64Decode(publicKey));
         return run({ cipherStr: urlSateBase64Encode(ec.encrypt(data)) }).then(
-          (data) => {
-            if (data) {
-              formConfig.form.current?.resetFields()
+          (res) => {
+            if (res) {
+              formConfig.form.current?.resetFields();
 
-              const user = Auth.getUser()
+              const user = Auth.getUser();
               if (user?.needModifyPwd === true) {
-                message.success('修改成功')
-                user.needModifyPwd = false
-                Auth.setUser(user)
-                const { userAppInfo } = user
-                if (userAppInfo) {
-                  history.push(`/${userAppInfo.currentSystem.systemCode}`)
+                message.success('修改成功');
+                user.needModifyPwd = false;
+                Auth.setUser(user);
+                const { userAppInfo } = user;
+                if (userAppInfo && userAppInfo?.currentSystem?.systemCode) {
+                  history.push(`/${userAppInfo?.currentSystem?.systemCode}`);
                 } else {
-                  history.push(`/`)
+                  history.push(`/SelectDept`);
                 }
-                return
+                return;
               }
-              message.success('修改成功')
+              message.success('修改成功');
             }
-            return data
+            return res;
           }
-        )
-      })
-    })
-  }
+        );
+      });
+    });
+  };
 
   return (
     <div className={styles['user-current-base']}>
@@ -116,7 +118,7 @@ const Page: FC<any> = (props) => {
         修改
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default EditPage(Page, pagaConfig)
+export default EditPage(Page, pagaConfig);
