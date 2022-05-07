@@ -81,16 +81,19 @@ const services = {
     },
   },
 
-   /**
-   * 商品品目管理
-   */
+  /**
+  * 商品品目管理
+  */
   mallgoods_catalog: {
-     
-      list: {
-        url: '/goods/api/goods/opera/catalog/list',
-        method: 'post',
-      },  
+    list: {
+      url: '/goods/api/goods/opera/catalog/list',
+      method: 'post',
     },
+    treeList: {
+      url: '/goods/api/goods/opera/catalog/tree',
+      method: 'post',
+    },
+  },
   mall: {
     showCatalogList: {
       url: '/mallsys/api/mall/opera/mallcatalog/list',

@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { FC, PropsWithChildren } from 'react';
-import { useMemo } from 'react';
-import { ScSelectTable } from '@scboson/sc-element';
-import type { ScSelectTableProps } from '@scboson/sc-element/es/sc-select-table';
+import type { FC, PropsWithChildren } from "react";
+import { useMemo } from "react";
+import { ScSelectTable } from "@scboson/sc-element";
+import type { ScSelectTableProps } from "@scboson/sc-element/es/sc-select-table";
 import type {
   ScProColumn,
   ScTableProps,
-} from '@scboson/sc-element/es/sc-table';
+} from "@scboson/sc-element/es/sc-table";
 
 export type GoodsSelectTableProps = {
   dropdownRenderProps?: ScTableProps<any>;
   /** @name table 列属性 */
   columns?: ScProColumn<any>;
   unitDataIndexName?: string;
-} & Omit<ScSelectTableProps, 'dropdownRenderProps'>;
+} & Omit<ScSelectTableProps, "dropdownRenderProps">;
 
 const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
   props
@@ -21,9 +21,9 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
   const {
     dropdownRenderProps,
     params,
-    valueField = 'goodsId',
-    searchField = 'keyword',
-    textField = 'goodsName',
+    valueField = "goodsId",
+    searchField = "keyword",
+    textField = "goodsName",
     onLoad,
     columns = [],
     autoload = false,
@@ -32,28 +32,28 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
 
   const baseColumns = [
     {
-      title: '商品编码',
-      dataIndex: 'goodsCode',
+      title: "商品编码",
+      dataIndex: "goodsCode",
       width: 80,
     },
     {
-      title: '商品名称',
-      dataIndex: 'goodsName',
+      title: "商品名称",
+      dataIndex: "goodsName",
       width: 150,
     },
     {
-      title: '商品品目',
-      dataIndex: 'catalogName',
+      title: "商品品目",
+      dataIndex: "catalogName",
       width: 150,
     },
     {
-      title: '品牌',
-      dataIndex: 'brandName',
+      title: "品牌",
+      dataIndex: "brandName",
       width: 80,
     },
     {
-      title: '销售单位',
-      dataIndex: 'saleUnit',
+      title: "销售单位",
+      dataIndex: "saleUnit",
       width: 80,
     },
   ];
@@ -103,11 +103,11 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
       searchField={searchField}
       allowClear
       placeholder="请选择/请输入商品名称"
-      style={{ width: '400px' }}
-      dropdownStyle={{ minWidth: '580px' }}
+      style={{ width: "400px" }}
+      dropdownStyle={{ minWidth: "580px" }}
       dropdownRenderProps={{
         columns: newColumns,
-        scroll: { y: '300px' },
+        scroll: { y: "300px" },
       }}
       onLoad={handleLoad}
       params={newParams}

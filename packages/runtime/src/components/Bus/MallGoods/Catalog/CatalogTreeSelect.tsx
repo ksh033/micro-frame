@@ -1,39 +1,52 @@
-import React from 'react';
-import { ScTreeSelect } from '@scboson/sc-element';
+import React from "react";
+import { ScTreeSelect } from "@scboson/sc-element";
 
-import type { ScTreeSelectProps } from '@scboson/sc-element/es/sc-tree-select/ScTreeSelect';
+import type { ScTreeSelectProps } from "@scboson/sc-element/es/sc-tree-select/ScTreeSelect";
 
-import {  uesRequest } from '@/utils/service';
+import { uesRequest } from "../../../../utils/api";
 
-const CatalogTree: React.FC<ScTreeSelectProps> = ({ onSelect, params, ...restProps }) => {
-    const { run, loading } = uesRequest('mallgoods_catalog', 'list');
-    const loadDataPramsFormat = (item: any) => {
-        return {
-            //parentId: item.mallCatalogId,
-            parentId: item.catalogId || '0',
-        };
+const CatalogTreeSelect: React.FC<
+  ScTreeSelectProps & { selectLeaf: boolean }
+> = ({ params, selectLeaf = true, ...restProps }) => {
+  const { run, loading } = uesRequest("mallgoods_catalog", "treeList");
+  const loadDataPramsFormat = (item: any) => {
+    return {
+      //parentId: item.mallCatalogId,
+      parentId: item.catalogId || "0",
     };
+  };
 
-    return (
-        <ScTreeSelect
-            {...restProps}
-
-            loading={loading}
-            root={{
-                mallCatalogId: '0',
-                catalogName: '请选择品目',
-                key: '0',
-            }}
-            autoload={false}
-            pIdField="parentId"
-            loadDataPramsFormat={loadDataPramsFormat}
-            request={run}
-            params={params}
-            textField="catalogName"
-            valueField="catalogId"
-        // onSelect={onSelect}
-        />
-    );
+  return (
+    <ScTreeSelect
+      {...restProps}
+      loading={loading}
+      //   root={{
+      //     mallCatalogId: "0",
+      //     catalogName: "请选择品目",
+      //     key: "0",
+      //   }}
+      showSearch
+      treeNodeFilterProp={"title"}
+      nodeTransform={(nodeData: any) => {
+        if (selectLeaf) {
+          let selectable = true;
+          if (!nodeData.isLeaf) {
+            selectable = false;
+          }
+          return { selectable };
+        } else {
+          return {};
+        }
+      }}
+      treeDataSimpleMode
+      autoload={true}
+      // loadDataPramsFormat={loadDataPramsFormat}
+      request={run}
+      params={{}}
+      textField="catalogName"
+      valueField="catalogId"
+    />
+  );
 };
 
-export default CatalogTree;
+export default CatalogTreeSelect;

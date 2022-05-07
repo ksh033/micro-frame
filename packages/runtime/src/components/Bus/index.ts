@@ -22,7 +22,7 @@ import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect'
 import GoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree'
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect'
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree'
-import CatalogTreeSelect from './CatalogTreeSelect'
+//import CatalogTreeSelect from './CatalogTreeSelect'
 /**旧 商品组件 end*/
 import CooperateSupplierSelect from './CooperateSupplierSelect'
 import PrintButton from './PrintButton'
@@ -41,6 +41,10 @@ import CargoTableFooterSelect from './CargoTableFooterSelect'
 import CatalogTree from './MallGoods/Catalog/CatalogTree'
 import GoodsTable from './MallGoods/Goods/GoodsCenterTable'
 import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect'
+import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable'
+import CatalogTreeSelect from './MallGoods/Catalog/CatalogTreeSelect'
+
+
 
 
 const { regeditCmp } = PageSchema
@@ -90,6 +94,7 @@ export {
   ShowCatalogSelect,
   PrintButton,
   CatalogTreeSelect,
+  GoodsSelectTable,
   WarehouseTableSelect,
   Quantity,
   BrandSelect,
