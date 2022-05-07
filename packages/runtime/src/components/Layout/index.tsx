@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { ProSettings, MasterLayout } from '@scboson/sc-layout';
 // @ts-ignore
 import { Link, history, useModel } from 'umi';
-import { getUser, changeApp } from '../Auth';
+import {
+  getUser,
+  changeApp,
+  initWarnTimer,
+  clearTimer,
+  initInner,
+} from '../Auth';
 import './index.less';
 import RightContent from './GlobalHeader/RightContent';
 import logo from '../../assets/logo.svg';
@@ -47,21 +53,30 @@ export default (props: any) => {
   }));
   const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menus || [];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // 初始化内置值
+    initInner();
     // 加载枚举
     loadDict();
     // 加载计重单位
     loadWeight();
+
     if (!isMaster) {
       console.log(appSelected);
-      if (appSelected && userAppInfo?.currentSystem?.systemCode == null) {
+      if (appSelected) {
         if (!changeApp(appSelected)) {
           changeApp(appSelected);
           history.push('/');
         }
       }
     }
+    // 初始化定时器
+    initWarnTimer();
+    return () => {
+      clearTimer();
+    };
   }, []);
+
   useMount(() => {
     if (
       (whetherNotice === undefined || whetherNotice === null) &&

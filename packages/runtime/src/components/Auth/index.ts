@@ -1,3 +1,7 @@
+import { Modal } from 'antd';
+// @ts-ignore
+import { history } from 'umi';
+
 export interface DeptInfoProps {
   bizDeptId: string;
   bizDeptName: string;
@@ -55,6 +59,14 @@ const User_Key = 'CG-CURRENT-USER';
 const AppsUser_Key = 'APP-CURRENT-USERS';
 // 当前用户appCode
 let _userAppCode = '';
+// 当前的机构
+let _bizDeptId: string | null = null;
+// 当前用户id
+let _userId: string | null = null;
+// 定时器
+let _timer: any = null;
+// 是否显示弹窗
+let showWarn: boolean = true;
 
 const setStorage = (skey: string, value: any) => {
   localStorage.setItem(skey, JSON.stringify(value));
@@ -67,7 +79,7 @@ const getStorage = <T>(skey: string): T | null => {
   }
   return null;
 };
-
+// 重新登录
 const setUser = (user: User) => {
   let currentUser: User = user;
   const { currentDept, ...restUser } = currentUser;
@@ -91,10 +103,13 @@ const setUser = (user: User) => {
       currentDept: currentDept,
       currentSystem: currentSystem,
     });
+    // 设置当前机构和用户
+    _bizDeptId = currentDept.bizDeptId;
+    _userId = restUser.userId;
   }
   setStorage(User_Key, restUser);
 };
-
+// 切换机构
 const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
   const currentDept: CurrentDeptInfoProps = currentDeptVo;
   let currentSystem: CurrentSysInfoProps | undefined = void 0;
@@ -105,7 +120,13 @@ const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
     }
     const menus = Array.isArray(currentDeptVo.menus) ? currentDeptVo.menus : [];
     if (menus.length > 0) {
-      const firstMenu = menus[0];
+      let firstMenu = menus[0];
+      if (_userAppCode !== '') {
+        const findItem = menus.find((it) => it.pageUrl === _userAppCode);
+        if (findItem) {
+          firstMenu = findItem;
+        }
+      }
       currentSystem = {
         systemCode: firstMenu.pageUrl,
         systemName: firstMenu.name,
@@ -117,6 +138,8 @@ const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
       currentDept: currentDept,
     });
   }
+  // 当前的机构
+  _bizDeptId = currentDept.bizDeptId;
   return {
     currentSystem: currentSystem,
     currentDept: currentDept,
@@ -134,6 +157,9 @@ const changeApp = (sysCode: string) => {
     userAppInfos?.currentDept &&
     Array.isArray(userAppInfos.currentDept.menus)
   ) {
+    // 切换应用时内置bizDeptId
+    initInner();
+
     const index = userAppInfos.currentDept.menus.findIndex(
       (it) => it.pageUrl === sysCode
     );
@@ -174,6 +200,7 @@ const clearUser = () => {
   localStorage.removeItem(AppsUser_Key);
   sessionStorage.removeItem('CG-CURRENT-DICT');
   sessionStorage.removeItem('CG-WEIGHT-UNIT');
+  clearInner();
 };
 
 const getAppCode = () => {
@@ -196,8 +223,94 @@ const getUserAppCode = () => {
   return getAppCode();
 };
 
+const clearInner = () => {
+  _bizDeptId = null;
+  _userAppCode = '';
+  _userId = null;
+};
+
+const clearTimer = () => {
+  if (_timer) {
+    clearInterval(_timer);
+    _timer = null;
+  }
+};
+// 重新内置bizDeptId
+const initInner = () => {
+  const user = getUser();
+  if (user != null) {
+    const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId;
+    _userId = user.userId;
+    _bizDeptId = cacheBizDeptId;
+  }
+};
+
+const jump = (user: GetUser | null | undefined) => {
+  let systemCode = user?.chooseDeptVO.currentSystem?.systemCode;
+  if (systemCode) {
+    history.push(`/${systemCode}`);
+  } else {
+    const innermenus = Array.isArray(user?.userAppInfo.currentDept.menus)
+      ? user?.userAppInfo.currentDept.menus
+      : [];
+    if (innermenus && innermenus.length > 0) {
+      changeApp(innermenus[0].pageUrl);
+      history.push(`/${innermenus[0].pageUrl}`);
+    } else {
+      history.push(`/`);
+    }
+  }
+};
+
+const initWarnTimer = () => {
+  // 清除上次调用
+  clearTimer();
+
+  _timer = setInterval(() => {
+    const user = getUser();
+    const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
+    const cacheUserId = user?.userId;
+
+    if (cacheUserId != null && _userId != null && cacheUserId !== _userId) {
+      if (showWarn) {
+        showWarn = false;
+        Modal.warning({
+          title: '提示',
+          content: '你已切换到其他账号，需要刷新后才能继续操作。',
+          onOk() {
+            showWarn = true;
+            _userId = cacheUserId;
+            _bizDeptId = cacheBizDeptId;
+            jump(user);
+          },
+        });
+      }
+      return;
+    }
+    if (
+      cacheBizDeptId != null &&
+      _bizDeptId != null &&
+      cacheBizDeptId !== _bizDeptId
+    ) {
+      if (showWarn) {
+        showWarn = false;
+        Modal.warning({
+          title: '提示',
+          content: '你已切换到其他机构，需要刷新后才能继续操作。',
+          onOk() {
+            showWarn = true;
+            _bizDeptId = cacheBizDeptId;
+            jump(user);
+          },
+        });
+      }
+    }
+  }, 3000);
+};
+
 export {
   clearUser,
+  clearTimer,
   setUser,
   changeApp,
   getUser,
@@ -206,4 +319,6 @@ export {
   setUserAppCode,
   updateCurrentDept,
   getUserAppCode,
+  initWarnTimer,
+  initInner,
 };
