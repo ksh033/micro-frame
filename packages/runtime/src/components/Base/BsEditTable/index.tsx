@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { ScEditableTable } from "@scboson/sc-element";
-import defaultRenderText, { cacheRender } from "../../Dict/defaultRender";
-import userDictModel from "../../Dict/userDictModel";
-import { EditableProTableProps } from "@scboson/sc-element/es/sc-editable-table";
-import { Key } from "antd/es/table/interface";
-import { FormInstance } from "antd/es/form/Form";
-import Form from "antd/es/form";
-import useMergedState from "rc-util/es/hooks/useMergedState";
-import { ActionRenderFunction } from "@scboson/sc-element/es/sc-editable-table/typing";
-import style from "./index.less";
+import React, { useEffect } from 'react';
+import { ScEditableTable } from '@scboson/sc-element';
+import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
+import userDictModel from '../../Dict/userDictModel';
+import { EditableProTableProps } from '@scboson/sc-element/es/sc-editable-table';
+import { Key } from 'antd/es/table/interface';
+import { FormInstance } from 'antd/es/form/Form';
+import Form from 'antd/es/form';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing';
+import style from './index.less';
 
 export interface BsEditTableProps extends EditableProTableProps<any> {
-  type?: "multiple" | "single";
+  type?: 'multiple' | 'single';
   editableKeys?: Key[];
   setEditableRowKeys?: (editableKeys: Key[], editableRows: any) => void;
   innerForm?: FormInstance<any>;
@@ -28,12 +28,12 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
     readonly,
     editableKeys,
     setEditableRowKeys,
-    type = "multiple",
+    type = 'multiple',
     showIndex = true,
     pagination = {},
     clickEdit = true,
-    rowKey = "rowIndex",
-    scroll = { x: "max-content" },
+    rowKey = 'rowIndex',
+    scroll = { x: 'max-content' },
     actionRender = (row, config, defaultDoms) => {
       return [defaultDoms.delete];
     },
@@ -81,12 +81,20 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
 
   const newColumns = columnsFormat(columns);
 
+  const handleChange = (recordList: any[]) => {
+    let newList = recordList;
+    if (preformatValue) {
+      newList = preformatValue(recordList);
+    }
+    onChange?.(newList);
+  };
+
   return (
-    <div className={style["bs-edit-table"]}>
+    <div className={style['bs-edit-table']}>
       <ScEditableTable<any>
         columns={newColumns}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         rowKey={rowKey}
         clickEdit={clickEdit}
         pagination={pagination}
@@ -99,13 +107,6 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
           editableKeys: editableRowKey,
           onChange: setRowKeys,
           actionRender: actionRender,
-          onValuesChange: (record, recordList) => {
-            let newList = recordList;
-            if (preformatValue) {
-              newList = preformatValue(recordList);
-            }
-            onChange?.(newList);
-          },
         }}
         {...restProps}
       />
