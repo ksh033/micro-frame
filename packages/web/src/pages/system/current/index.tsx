@@ -1,59 +1,63 @@
 /* eslint-disable global-require */
-import React, { FC, useEffect } from 'react'
-import { useSetState } from 'ahooks'
-import BaseView from './base'
-import Password from './password'
-import styles from './style.less'
-import { Menu, Modal, Spin } from 'antd'
-import BindingView from './components/binding'
-import { useServiceRequest, Auth, PageContainer } from '@micro-frame/sc-runtime'
-import { setUser, User } from '@micro-frame/sc-runtime/es/components/Auth'
-import { CModal } from '@scboson/sc-element'
-import { openBindWx } from './components/BindWx'
-import { history } from 'umi'
+import type { FC } from 'react';
+import React, { useEffect } from 'react';
+import { useSetState } from 'ahooks';
+import BaseView from './base';
+import Password from './password';
+import styles from './style.less';
+import { Menu, Modal, Spin } from 'antd';
+import BindingView from './components/binding';
+import {
+  useServiceRequest,
+  Auth,
+  PageContainer,
+} from '@micro-frame/sc-runtime';
+import type { User } from '@micro-frame/sc-runtime/es/components/Auth';
+import { setUser } from '@micro-frame/sc-runtime/es/components/Auth';
+import { CModal } from '@scboson/sc-element';
+import { openBindWx } from './components/BindWx';
+import { history } from 'umi';
 
-type SettingsStateKeys = 'base' | 'password' | 'binding'
+type SettingsStateKeys = 'base' | 'password' | 'binding';
 interface SettingsState {
-  mode: 'inline' | 'horizontal'
-  menuMap: {
-    [key: string]: React.ReactNode
-  }
-  selectKey: SettingsStateKeys
-  user?: User | null
+  mode: 'inline' | 'horizontal';
+  menuMap: Record<string, React.ReactNode>;
+  selectKey: SettingsStateKeys;
+  user?: User | null;
 }
 
 const Page: FC<any> = (props) => {
-  const { location } = props
+  const { location } = props;
 
-  const pageParams = location.query
-  const defaultKey = pageParams.currentKey || 'base'
+  const pageParams = location.query;
+  const defaultKey = pageParams.currentKey || 'base';
 
-  const bindwx = useServiceRequest('user', 'bindwx')
-  const user = Auth.getUser()
+  const bindwx = useServiceRequest('user', 'bindwx');
+  const user = Auth.getUser();
 
   const menuMap = {
     base: '基础信息',
     password: '修改密码',
     binding: '绑定微信',
-  }
+  };
 
   const [state, setState] = useSetState<SettingsState>({
     mode: 'inline',
     menuMap: menuMap,
     selectKey: defaultKey,
     user: user,
-  })
+  });
   const setCurrentUser = (newUser: User) => {
     setState({
       user: newUser,
-    })
-    setUser(newUser)
-  }
+    });
+    setUser(newUser);
+  };
 
   // 绑定微信
   useEffect(() => {
     if (pageParams.code !== undefined && pageParams.code !== null) {
-      Modal.destroyAll()
+      Modal.destroyAll();
       bindwx
         .run(pageParams)
         .then((res: any) => {
@@ -63,26 +67,26 @@ const Page: FC<any> = (props) => {
               wechatAvatarUrl: res.wechatAvatarUrl,
               wechatNickname: res.wechatNickname,
               wechatUnionId: res.wechatUnionId,
-            }
-            setCurrentUser(newUser)
+            };
+            setCurrentUser(newUser);
             history.push({
               pathname: '/system/current',
               query: {
                 currentKey: 'binding',
               },
-            })
+            });
           }
         })
         .catch((error: any) => {
-          console.log(error)
+          console.log(error);
           if (error && error.data.errorCode === 'A100116') {
             CModal.confirm({
               title: error.data.errorShowTip,
               okText: '绑定其他微信',
               cancelText: '放弃绑定',
               onOk: () => {
-                Modal.destroyAll()
-                openBindWx({})
+                Modal.destroyAll();
+                openBindWx({});
               },
               onCancel() {
                 history.push({
@@ -90,39 +94,37 @@ const Page: FC<any> = (props) => {
                   query: {
                     currentKey: 'binding',
                   },
-                })
+                });
               },
-            })
+            });
           } else {
             history.push({
               pathname: '/system/current',
               query: {
                 currentKey: 'binding',
               },
-            })
+            });
           }
-        })
+        });
     }
-  }, [pageParams.code])
+  }, [pageParams.code]);
 
   const selectKey = (key: SettingsStateKeys) => {
     setState({
       selectKey: key,
-    })
-  }
+    });
+  };
 
   const getRightTitle = () => {
-    const { selectKey, menuMap } = state
-    return menuMap[selectKey]
-  }
+    return state.menuMap[state.selectKey];
+  };
 
   const renderChildren = () => {
-    const { selectKey } = state
-    switch (selectKey) {
+    switch (state.selectKey) {
       case 'base':
-        return <BaseView />
+        return <BaseView />;
       case 'password':
-        return <Password />
+        return <Password />;
       case 'binding':
         return (
           <BindingView
@@ -130,13 +132,13 @@ const Page: FC<any> = (props) => {
             setUser={setCurrentUser}
             autoOpenWxCode={Boolean(pageParams.autoOpen)}
           />
-        )
+        );
       default:
-        break
+        break;
     }
 
-    return null
-  }
+    return null;
+  };
 
   return (
     <PageContainer title={'个人设置'}>
@@ -160,7 +162,7 @@ const Page: FC<any> = (props) => {
         </div>
       </Spin>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

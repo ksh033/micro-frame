@@ -1,22 +1,22 @@
 // https://umijs.org/config/
 //import { layout } from '@/app';
-import { defineConfig } from 'umi'
-import { join, parse } from 'path'
-import copyWebpackPlugin from 'copy-webpack-plugin'
-import proxy from './proxy'
-const packageName = require('../package.json').name
+import { defineConfig } from 'umi';
+import { join, parse } from 'path';
+import copyWebpackPlugin from 'copy-webpack-plugin';
+import proxy from './proxy';
+const packageName = require('../package.json').name;
 
 // import defaultSettings from './defaultSettings';
 // import proxy from './proxy';
 // import routes from './routes';
 
-const { REACT_APP_ENV, NODE_ENV } = process.env
+const { REACT_APP_ENV, NODE_ENV } = process.env;
 
 export const EVN_CONFIG = {
   dev: {
     imgUrl: 'http://test.yumcat.cn/images',
     apiUrl: '/webapi-dev',
-    masterUrl: 'http://172.18.164.121/',
+    masterUrl: 'http://172.18.164.122/',
   },
   pro: {
     imgUrl: 'https://images.yumcat.cn',
@@ -33,30 +33,30 @@ export const EVN_CONFIG = {
     apiUrl: '/webapi-test',
     masterUrl: 'http://172.18.164.107/',
   },
-}
+};
 const externalCSS: any[] = [
   //"antd/dist/antd.min.css",
   // "@ant-design/pro-layout/dist/layout.min.css",
-]
+];
 
 const addScripts = () => {
-  const consolescript: any[] = []
+  const consolescript: any[] = [];
 
   consolescript.push(
     ' if(/Android|Windows Phone|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {'
-  )
-  consolescript.push('var fileObj=document.createElement("script");')
-  consolescript.push('fileObj.type = "text/javascript";')
+  );
+  consolescript.push('var fileObj=document.createElement("script");');
+  consolescript.push('fileObj.type = "text/javascript";');
   consolescript.push(
     'fileObj.src ="https://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js";'
-  )
-  consolescript.push('document.body.appendChild(fileObj);')
-  consolescript.push('}')
-  const s1 = consolescript.join('\r\n')
+  );
+  consolescript.push('document.body.appendChild(fileObj);');
+  consolescript.push('}');
+  const s1 = consolescript.join('\r\n');
 
-  return [s1]
-}
-const scripts = REACT_APP_ENV !== 'pro' ? addScripts() : []
+  return [s1];
+};
+const scripts = REACT_APP_ENV !== 'pro' ? addScripts() : [];
 
 const externalJS = [
   `react/umd/react.${
@@ -71,9 +71,9 @@ const externalJS = [
   `@ant-design/icons/dist/index.umd${
     NODE_ENV === 'production' ? '.min' : ''
   }.js`,
-]
-const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : './'
-const outputPath = NODE_ENV === 'development' ? './public' : './dist'
+];
+const publicPath = NODE_ENV === 'development' ? 'http://localhost:9000/' : './';
+const outputPath = NODE_ENV === 'development' ? './public' : './dist';
 
 export default defineConfig({
   // publicPath: '/sysweb/',
@@ -95,7 +95,7 @@ export default defineConfig({
   // loading: '@ant-design/pro-layout/es/PageLoading',
   // },
   devtool: REACT_APP_ENV === 'pro' ? false : 'source-map',
-  cssModulesTypescriptLoader:{},
+  cssModulesTypescriptLoader: {},
   targets: {
     ie: 11,
   },
@@ -191,7 +191,7 @@ export default defineConfig({
     //   ],
     // ]);
 
-    return memo
+    return memo;
   },
   proxy: proxy[REACT_APP_ENV || 'dev'],
-})
+});

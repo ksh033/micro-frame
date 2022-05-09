@@ -243,7 +243,7 @@ const clearTimer = () => {
 // 重新内置bizDeptId
 const initInner = () => {
   const user = getUser();
-  if (user != null) {
+  if (user != null && user?.userAppInfo != null) {
     const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId;
     _userId = user.userId;
     _bizDeptId = cacheBizDeptId;
@@ -273,41 +273,43 @@ const initWarnTimer = () => {
 
   _timer = setInterval(() => {
     const user = getUser();
-    const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
-    const cacheUserId = user?.userId;
+    if (user != null && user?.userAppInfo != null) {
+      const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
+      const cacheUserId = user?.userId;
 
-    if (cacheUserId != null && _userId != null && cacheUserId !== _userId) {
-      if (showWarn) {
-        showWarn = false;
-        Modal.warning({
-          title: '提示',
-          content: '你已切换到其他账号，需要刷新后才能继续操作。',
-          onOk() {
-            showWarn = true;
-            _userId = cacheUserId;
-            _bizDeptId = cacheBizDeptId;
-            jump(user);
-          },
-        });
+      if (cacheUserId != null && _userId != null && cacheUserId !== _userId) {
+        if (showWarn) {
+          showWarn = false;
+          Modal.warning({
+            title: '提示',
+            content: '你已切换到其他账号，需要刷新后才能继续操作。',
+            onOk() {
+              showWarn = true;
+              _userId = cacheUserId;
+              _bizDeptId = cacheBizDeptId;
+              jump(user);
+            },
+          });
+        }
+        return;
       }
-      return;
-    }
-    if (
-      cacheBizDeptId != null &&
-      _bizDeptId != null &&
-      cacheBizDeptId !== _bizDeptId
-    ) {
-      if (showWarn) {
-        showWarn = false;
-        Modal.warning({
-          title: '提示',
-          content: '你已切换到其他机构，需要刷新后才能继续操作。',
-          onOk() {
-            showWarn = true;
-            _bizDeptId = cacheBizDeptId;
-            jump(user);
-          },
-        });
+      if (
+        cacheBizDeptId != null &&
+        _bizDeptId != null &&
+        cacheBizDeptId !== _bizDeptId
+      ) {
+        if (showWarn) {
+          showWarn = false;
+          Modal.warning({
+            title: '提示',
+            content: '你已切换到其他机构，需要刷新后才能继续操作。',
+            onOk() {
+              showWarn = true;
+              _bizDeptId = cacheBizDeptId;
+              jump(user);
+            },
+          });
+        }
       }
     }
   }, 3000);
