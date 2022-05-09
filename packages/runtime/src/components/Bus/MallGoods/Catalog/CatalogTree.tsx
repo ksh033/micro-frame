@@ -1,48 +1,85 @@
-import React, { useMemo } from 'react';
-import { ScTree } from '@scboson/sc-element';
+import React, { useMemo } from "react";
+import { ScTree } from "@scboson/sc-element";
 
-import type { ScTreeProps } from '@scboson/sc-element/es/sc-tree/typing';
+import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
 
-import {  uesRequest } from '../../../../utils/service';
-
+import { uesRequest } from "../../../../utils/api";
+import { useSessionStorageState } from "ahooks";
 /**
- * 
  * 商品品目
- * @returns 
+ *
+ * @returns
  */
-const CatalogTree: React.FC<ScTreeProps> = ({ onSelect, params, ...restProps }) => {
-    const api = uesRequest('mallgoods_catalog','list');
-    const loadDataPramsFormat = (item: any) => {
+const CatalogTree: React.FC<
+  ScTreeProps & { selectKeysRef?: React.RefCallback<any> }
+> = ({ onSelect, selectKeysRef, params, ...restProps }) => {
+  //const api = uesRequest("mallgoods_catalog", "list");
 
+  const { run, loading } = uesRequest("mallgoods_catalog", "treeList");
 
-        return {
-            //parentId: item.catalogId,
-            parentId: item.catalogId || '0',
-        };
+  const [expandedKeys, setExpandedKeys] = useSessionStorageState<React.Key[]>(
+    `${window.location.pathname}_expandedKeys`,
+    ["0"]
+  );
+  const [catalogId, setCatalogId] = useSessionStorageState<string>(
+    `${window.location.pathname}_selectedKeys`,
+    ""
+  );
+
+  const loadDataPramsFormat = (item: any) => {
+    return {
+      //parentId: item.catalogId,
+      parentId: item.catalogId || "0",
     };
+  };
+  if (selectKeysRef) {
+    selectKeysRef(catalogId);
+  }
 
-    return (
-        <ScTree
-            {...restProps}
-            defaultExpandedKeys={['0']}
-            root={{
-                catalogId: '0',
-                catalogName: '请选择品目',
-                key: '0',
-            }}
-            autoload={false}
-            canSearch={false}
-            placeholder={'search'}
-            async={true}
-            showLine={true}
-            loadDataPramsFormat={loadDataPramsFormat}
-            request={api.run}
-            params={params}
-            textField="catalogName"
-            valueField="catalogId"
-            onSelect={onSelect}
-        />
-    );
+  return (
+    <ScTree
+      {...restProps}
+      expandedKeys={expandedKeys}
+      root={{
+        catalogId: "0",
+        catalogName: "请选择品目",
+        isLeaf: false,
+        key: "0",
+      }}
+      selectedKeys={[catalogId]}
+      onExpand={(expandedKeys) => {
+        setExpandedKeys(expandedKeys);
+      }}
+      onSelect={(selectedKeys: any, info) => {
+        let [key] = info.selectedNodes.map((node) => {
+          return node.key;
+        });
+
+        if (key) {
+          if (key == "0") {
+            key = "";
+          } else {
+            key = key + "";
+          }
+        } else {
+          key = "";
+        }
+
+        setCatalogId(key);
+
+        onSelect && onSelect(selectedKeys, info);
+      }}
+      autoload={true}
+      canSearch={false}
+      async={false}
+      params={{}}
+      placeholder={"search"}
+      // loadDataPramsFormat={loadDataPramsFormat}
+      request={run}
+      textField="catalogName"
+      valueField="catalogId"
+    />
+  );
 };
 
 export default CatalogTree;
