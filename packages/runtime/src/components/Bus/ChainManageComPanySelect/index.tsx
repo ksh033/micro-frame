@@ -9,23 +9,21 @@ import {
 import { useSetState, useUpdateEffect } from 'ahooks';
 import { getServiceApi } from '../../../utils/api';
 
-export interface UserDeptProp extends ScSelectProps, FormComponentProps {
+export interface ChainManageComPanySelectProp
+  extends ScSelectProps,
+    FormComponentProps {
   init?: boolean;
-  needCompany?: boolean;
   companyNeedInit?: boolean;
-  companyTypes?: (
-    | 'CHAIN_MANAGE_COMPANY'
-    | 'SUPPLY_CHAIN_COMPANY'
-    | 'SUPPLY_SUBCOMPANY'
-  )[]; // 集团底下要查询哪个组织机构
 }
 
-interface UserDeptPropState {
+interface ChainManageComPanySelectPropState {
   disabled: boolean;
   data: any[];
 }
 const queryAll = getServiceApi('system', 'company');
-const UserDept: FormComponent<UserDeptProp> = (props) => {
+const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
+  props
+) => {
   const {
     readonly,
     name,
@@ -34,27 +32,29 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     fieldProps,
     labelInValue = false,
     init = true,
-    needCompany = true,
     companyNeedInit = false,
-    companyTypes = ['CHAIN_MANAGE_COMPANY'],
     ...restProps
   } = props;
   const deptList = useRef<any[]>([]);
-  const [state, setState] = useSetState<UserDeptPropState>({
+  const [state, setState] = useSetState<ChainManageComPanySelectPropState>({
     disabled: false,
     data: [],
   });
+
+  const isNeddInitDeptType = (bizDeptType: string) => {
+    return (
+      bizDeptType !== 'COMPANY' &&
+      bizDeptType !== 'SUPPLY_SUBCOMPANY' &&
+      bizDeptType !== 'SUPPLY_CHAIN_COMPANY'
+    );
+  };
 
   const initValue = (currentDeptMsg: any) => {
     const { bizDeptName, bizDeptId, bizDeptType, companyId, companyName } =
       currentDeptMsg;
 
     if (init && props.value == null) {
-      if (
-        bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
-        bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-        bizDeptType === 'SUPPLY_SUBCOMPANY'
-      ) {
+      if (bizDeptType === 'CHAIN_MANAGE_COMPANY') {
         onChange?.(
           labelInValue
             ? { value: bizDeptId || '', text: bizDeptName }
@@ -85,7 +85,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       const {
         userAppInfo: { currentDept },
       } = user;
-      if (currentDept.bizDeptType !== 'COMPANY') {
+      if (isNeddInitDeptType(currentDept.bizDeptType)) {
         initValue(currentDept);
       } else {
         if (companyNeedInit && state.data.length > 0 && props.value == null) {
@@ -117,17 +117,14 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } = user;
       const { bizDeptType } = currentDept;
       if (deptList.current.length === 0) {
-        if (bizDeptType === 'COMPANY') {
+        if (
+          bizDeptType === 'COMPANY' ||
+          bizDeptType === 'SUPPLY_CHAIN_COMPANY'
+        ) {
           queryAll({
-            companyTypes: companyTypes,
+            companyTypes: ['CHAIN_MANAGE_COMPANY'],
           }).then((_data: any[]) => {
             if (_data) {
-              if (needCompany) {
-                _data.unshift({
-                  companyId: currentDept.bizDeptId,
-                  companyName: currentDept.bizDeptName,
-                });
-              }
               deptList.current = _data;
               setState({
                 disabled: false,
@@ -135,11 +132,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
               });
             }
           });
-        } else if (
-          bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
-          bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-          bizDeptType === 'SUPPLY_SUBCOMPANY'
-        ) {
+        } else if (bizDeptType === 'CHAIN_MANAGE_COMPANY') {
           deptList.current = [
             {
               companyId: currentDept.bizDeptId,
@@ -215,4 +208,4 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
   }
 };
 
-export default UserDept;
+export default ChainManageComPanySelect;

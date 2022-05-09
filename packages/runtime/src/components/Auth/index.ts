@@ -87,7 +87,13 @@ const setUser = (user: User) => {
     const menus = Array.isArray(currentDept.menus) ? currentDept.menus : [];
     let currentSystem: CurrentSysInfoProps | undefined = void 0;
     if (menus.length > 0) {
-      const firstMenu = menus[0];
+      let firstMenu = menus[0];
+      if (_userAppCode != null && _userAppCode !== '') {
+        const findItem = menus.find((it) => it.pageUrl === _userAppCode);
+        if (findItem) {
+          firstMenu = findItem;
+        }
+      }
       currentSystem = {
         systemCode: firstMenu.pageUrl,
         systemName: firstMenu.name,
@@ -121,7 +127,7 @@ const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
     const menus = Array.isArray(currentDeptVo.menus) ? currentDeptVo.menus : [];
     if (menus.length > 0) {
       let firstMenu = menus[0];
-      if (_userAppCode !== '') {
+      if (_userAppCode != null && _userAppCode !== '') {
         const findItem = menus.find((it) => it.pageUrl === _userAppCode);
         if (findItem) {
           firstMenu = findItem;
@@ -225,7 +231,6 @@ const getUserAppCode = () => {
 
 const clearInner = () => {
   _bizDeptId = null;
-  _userAppCode = '';
   _userId = null;
 };
 
