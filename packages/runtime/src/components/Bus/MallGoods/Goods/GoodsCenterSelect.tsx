@@ -17,7 +17,7 @@ import { Button } from "antd";
 import { ButtonProps } from "antd/es/button/button";
 import { CModalDialogProps } from "@scboson/sc-element/es/c-modal";
 import type { FormComponent } from "@scboson/sc-element/es/c-form";
-
+import { useSessionStorageState } from "ahooks";
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
     extraColumns?: ProColumn[];
@@ -48,8 +48,13 @@ const DlgContent = (porps: GoodsTransferProps) => {
     onTabelRow,
     header,
     customRef,
+    getCheckboxProps,
   } = porps;
-  const [catalogId, setCatalogId] = useState<string>("");
+  const [cacheCatalogId] = useSessionStorageState<string>(
+    `${window.location.pathname}_selectedKeys`,
+    ""
+  );
+  const [catalogId, setCatalogId] = useState<string>(cacheCatalogId);
   const tableParams = useMemo(() => {
     let newPrams = {
       catalogId,
@@ -88,6 +93,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
         >
           <GoodsCatalogTree
             height={490}
+            cache={false}
+            selectedKeys={[catalogId]}
             onSelect={(selectedKeys) => {
               let [key] = selectedKeys;
               if (key) {
@@ -97,6 +104,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
                   key = key + "";
                 }
                 setCatalogId(key);
+              } else {
+                setCatalogId("");
               }
             }}
             loadedKeys={[]}
@@ -114,6 +123,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
               onTabelRow && onTabelRow(keys, rows);
               setRightSelectRows(rows);
             }}
+            getCheckboxProps={getCheckboxProps}
             rowKey={rowKey}
             request={request}
           ></GoodsCenterTable>

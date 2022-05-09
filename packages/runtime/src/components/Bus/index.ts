@@ -22,10 +22,10 @@ import ChainManageComPanySelect from './ChainManageComPanySelect';
  * @deprecated Begin
  */
 import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect';
-import GoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree';
+import OldGoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree';
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect';
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree';
-//import CatalogTreeSelect from './CatalogTreeSelect'
+import CatalogTreeSelect from './CatalogTreeSelect'
 /** 旧 商品组件 end */
 import CooperateSupplierSelect from './CooperateSupplierSelect';
 import PrintButton from './PrintButton';
@@ -39,11 +39,11 @@ import Invalid from './Invalid';
 import CargoTableFooterSelect from './CargoTableFooterSelect';
 
 /** 新商品组件 */
-import CatalogTree from './MallGoods/Catalog/CatalogTree';
+import GoodsCatalogTree from './MallGoods/Catalog/CatalogTree';
 import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
 import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect';
 import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
-import CatalogTreeSelect from './MallGoods/Catalog/CatalogTreeSelect';
+import GoodsCatalogTreeSelect from './MallGoods/Catalog/CatalogTreeSelect';
 
 const { regeditCmp } = PageSchema;
 regeditCmp('CheckBoxDate', CheckBoxDate);
@@ -59,6 +59,8 @@ regeditCmp('SupplierTableSelect', SupplierTableSelect);
 regeditCmp('ShopTableSelect', ShopTableSelect);
 regeditCmp('UserDept', UserDept);
 regeditCmp('GoodsCatalogSelect', GoodsCatalogSelect);
+
+regeditCmp('GoodsCatalogSelect', GoodsCatalogTreeSelect);
 regeditCmp('ShowCatalogSelect', ShowCatalogSelect);
 regeditCmp('CooperateSupplierSelect', CooperateSupplierSelect);
 regeditCmp('WarehouseTableSelect', WarehouseTableSelect);
@@ -70,6 +72,7 @@ regeditCmp('BrandSelect', BrandSelect);
 regeditCmp('BatchCopyAddModal', BatchCopyAddModal);
 regeditCmp('Invalid', Invalid);
 regeditCmp('ChainManageComPanySelect', ChainManageComPanySelect);
+regeditCmp('GoodsCatalogTreeSelect', GoodsCatalogTreeSelect);
 
 export {
   CheckBoxDate,
@@ -88,9 +91,11 @@ export {
   PageTitle,
   UserDept,
   GoodsCatalogSelect,
-  GoodsCatalogTree,
   ShowCatalogTree,
   ShowCatalogSelect,
+  OldGoodsCatalogTree,
+  GoodsCatalogTree,
+
   PrintButton,
   CatalogTreeSelect,
   GoodsSelectTable,
@@ -103,6 +108,6 @@ export {
   CargoTableFooterSelect,
   GoodsModalSelect,
   GoodsTable,
-  CatalogTree,
   ChainManageComPanySelect,
+  GoodsCatalogTreeSelect
 };

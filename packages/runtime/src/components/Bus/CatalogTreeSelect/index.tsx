@@ -1,36 +1,37 @@
 /* eslint-disable no-param-reassign */
-import React, { useEffect, useMemo, useState } from 'react'
-import { ScTreeSelect } from '@scboson/sc-element'
+import React, { useEffect, useMemo, useState } from "react";
+import { ScTreeSelect } from "@scboson/sc-element";
 import type {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form'
-import { uesRequest } from '../../../utils/api'
+} from "@scboson/sc-element/es/c-form";
+import { uesRequest } from "../../../utils/api";
 
 export interface AreaDataProps {
-  areaCode: string
-  areaLevel: string
-  areaName: string
+  areaCode: string;
+  areaLevel: string;
+  areaName: string;
 }
 
 export interface AreaSelecthProps extends FormComponentProps {
-  placeholder?: string
-  form?: any
-  county?: boolean
-  style?: any
-  value?: any
-  onChange?: any
-  data: any
-  root: any
-  dispatch: any
-  modelKey: any
-  checkbox?: boolean
-  fieldProps?: any
+  placeholder?: string;
+  form?: any;
+  county?: boolean;
+  style?: any;
+  value?: any;
+  onChange?: any;
+  data: any;
+  root: any;
+  dispatch: any;
+  modelKey: any;
+  checkbox?: boolean;
+  fieldProps?: any;
 }
 /**
- * @deprecated 废弃
- * @param props 
- * @returns 
+ * 货品品目
+ *
+ * @param props
+ * @returns
  */
 const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   props: AreaSelecthProps = {
@@ -40,8 +41,8 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     modelKey: null,
   }
 ) => {
-  const { run } = uesRequest('catalog', 'treeData')
-  const [treeValue, setTreeValue] = useState<any>()
+  const { run } = uesRequest("catalog", "treeData");
+  const [treeValue, setTreeValue] = useState<any>();
   const {
     form,
     placeholder,
@@ -54,55 +55,55 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     fieldProps,
     initialValues,
     ...restProps
-  } = props
+  } = props;
 
   const params = useMemo(() => {
-    return { parentCatalogCode: '0' }
-  }, [])
+    return { parentCatalogCode: "0" };
+  }, []);
 
   const onSelectChange = (rvalue: any, option: any) => {
-    setTreeValue(rvalue)
+    setTreeValue(rvalue);
     if (onChange) {
       onChange({
         catalogCode: option.catalogCode,
         catalogId: option.catalogId,
         value: option.catalogId,
         label: option.catalogName,
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (value && !treeValue) {
-      onChange?.(value)
+      onChange?.(value);
       setTreeValue({
         ...value,
         value: value.catalogId,
         label: value.catalogName || value.label,
-      })
+      });
     }
-  }, [JSON.stringify(value)])
+  }, [JSON.stringify(value)]);
 
   const loadDataPramsFormat = (item: any) => {
     return {
       parentCatalogCode: item.catalogCode,
-    }
-  }
+    };
+  };
 
   const onValueChange = (rvalue: any) => {
     if (rvalue === undefined) {
-      onChange?.(rvalue)
-      setTreeValue(rvalue)
+      onChange?.(rvalue);
+      setTreeValue(rvalue);
     }
-  }
+  };
 
   const render = () => {
     if (readonly) {
-      let text = ''
+      let text = "";
       if (treeValue) {
-        text = treeValue.label
+        text = treeValue.label;
       }
-      return <>{text}</>
+      return <>{text}</>;
     }
     return (
       <ScTreeSelect
@@ -121,10 +122,10 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
         placeholder="请选择品目"
         {...restProps}
       ></ScTreeSelect>
-    )
-  }
-  return <>{render()}</>
-}
-CatalogTreeSelect.customView = true
+    );
+  };
+  return <>{render()}</>;
+};
+CatalogTreeSelect.customView = true;
 
-export default CatalogTreeSelect
+export default CatalogTreeSelect;

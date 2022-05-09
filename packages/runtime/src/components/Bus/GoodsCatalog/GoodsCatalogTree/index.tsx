@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { uesRequest } from "../../../../utils/api";
 import { ScTree } from "@scboson/sc-element";
 import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
@@ -9,8 +8,8 @@ import { ScCard } from "@scboson/sc-layout";
 
 /**
  * @deprecated 废弃
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
 const GoodsCatalogTree: React.FC<ScTreeProps> = (props) => {
   const api = uesRequest("mall", "goodsCatalogList");

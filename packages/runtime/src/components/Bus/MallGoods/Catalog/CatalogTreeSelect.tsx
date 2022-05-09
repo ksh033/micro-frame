@@ -5,6 +5,12 @@ import type { ScTreeSelectProps } from "@scboson/sc-element/es/sc-tree-select/Sc
 
 import { uesRequest } from "../../../../utils/api";
 
+/**
+ * 商品品目
+ *
+ * @param param0
+ * @returns
+ */
 const CatalogTreeSelect: React.FC<
   ScTreeSelectProps & { selectLeaf: boolean }
 > = ({ params, selectLeaf = true, ...restProps }) => {
