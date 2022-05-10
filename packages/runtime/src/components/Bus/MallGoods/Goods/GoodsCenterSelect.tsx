@@ -187,12 +187,15 @@ const DlgContent = (porps: GoodsTransferProps) => {
  * @param props
  * @returns
  */
-const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
+const GoodsCenterSelect: React.FC<
+  GoodsTransferProps & { preHandle?: () => any }
+> = (props) => {
   const {
     onOk,
     onSubmitGoods,
     buttonProps = { text: "新增", type: "primary" },
     modalProps,
+    preHandle,
     ...restProps
   } = props;
   const { text, ...otherProps } = buttonProps;
@@ -216,16 +219,19 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
         ...restProps,
       }))
     : undefined;
-  const showDlg = () => {
-    CModal.show({
-      title: "选择商品",
-      content: <DlgContent {...restProps} customRef={ref} />,
-      onOk: () => {
-        return customOnOk();
-      },
-      ...modalProps,
-      customToolbar: toolbar,
-    });
+  const showDlg = async () => {
+    const reval = preHandle ? await preHandle() : true;
+    if (reval) {
+      CModal.show({
+        title: "选择商品",
+        content: <DlgContent {...restProps} customRef={ref} />,
+        onOk: () => {
+          return customOnOk();
+        },
+        ...modalProps,
+        customToolbar: toolbar,
+      });
+    }
   };
   return (
     <Button onClick={showDlg} {...otherProps}>
@@ -240,18 +246,20 @@ const GoodModalSelect: FormComponent<GoodsTransferProps> =
   WithSelectTable<GoodsTransferProps>(GoodsCenterSelect, true, {
     normalize: (data: any[]) => {
       if (data)
-        return data.map(({ goodsId, deptGoodsId, goodsName }) => ({
+        return data.map(({ goodsId, deptGoodsId, goodsName, dataId }) => ({
           goodsId,
           deptGoodsId,
+          dataId,
           goodsName,
         }));
       return [];
     },
     getValueProps: (data: any[]) => {
       if (data)
-        return data.map(({ goodsId, deptGoodsId, goodsName }) => ({
+        return data.map(({ goodsId, deptGoodsId, goodsName, dataId }) => ({
           goodsId,
           deptGoodsId,
+          dataId,
           goodsName,
         }));
       return [];
