@@ -11,8 +11,15 @@ import { useSessionStorageState } from "ahooks";
  * @returns
  */
 const CatalogTree: React.FC<
-  ScTreeProps & { selectKeysRef?: React.RefCallback<any> }
-> = ({ onSelect, selectKeysRef, params, ...restProps }) => {
+  ScTreeProps & { selectKeysRef?: React.RefCallback<any>; cache?: boolean }
+> = ({
+  onSelect,
+  selectKeysRef,
+  params,
+  cache = true,
+  selectedKeys,
+  ...restProps
+}) => {
   //const api = uesRequest("mallgoods_catalog", "list");
 
   const { run, loading } = uesRequest("mallgoods_catalog", "treeList");
@@ -46,7 +53,7 @@ const CatalogTree: React.FC<
         isLeaf: false,
         key: "0",
       }}
-      selectedKeys={[catalogId]}
+      selectedKeys={selectedKeys || [catalogId]}
       onExpand={(expandedKeys) => {
         setExpandedKeys(expandedKeys);
       }}
@@ -64,8 +71,9 @@ const CatalogTree: React.FC<
         } else {
           key = "";
         }
-
-        setCatalogId(key);
+        if (cache) {
+          setCatalogId(key);
+        }
 
         onSelect && onSelect(selectedKeys, info);
       }}

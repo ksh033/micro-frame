@@ -17,7 +17,7 @@ import { Button } from "antd";
 import { ButtonProps } from "antd/es/button/button";
 import { CModalDialogProps } from "@scboson/sc-element/es/c-modal";
 import type { FormComponent } from "@scboson/sc-element/es/c-form";
-
+import { useSessionStorageState } from "ahooks";
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
     extraColumns?: ProColumn[];
@@ -48,8 +48,13 @@ const DlgContent = (porps: GoodsTransferProps) => {
     onTabelRow,
     header,
     customRef,
+    getCheckboxProps,
   } = porps;
-  const [catalogId, setCatalogId] = useState<string>("");
+  const [cacheCatalogId] = useSessionStorageState<string>(
+    `${window.location.pathname}_selectedKeys`,
+    ""
+  );
+  const [catalogId, setCatalogId] = useState<string>(cacheCatalogId);
   const tableParams = useMemo(() => {
     let newPrams = {
       catalogId,
@@ -88,6 +93,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
         >
           <GoodsCatalogTree
             height={490}
+            cache={false}
+            selectedKeys={[catalogId]}
             onSelect={(selectedKeys) => {
               let [key] = selectedKeys;
               if (key) {
@@ -97,6 +104,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
                   key = key + "";
                 }
                 setCatalogId(key);
+              } else {
+                setCatalogId("");
               }
             }}
             loadedKeys={[]}
@@ -114,6 +123,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
               onTabelRow && onTabelRow(keys, rows);
               setRightSelectRows(rows);
             }}
+            getCheckboxProps={getCheckboxProps}
             rowKey={rowKey}
             request={request}
           ></GoodsCenterTable>
@@ -177,12 +187,15 @@ const DlgContent = (porps: GoodsTransferProps) => {
  * @param props
  * @returns
  */
-const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
+const GoodsCenterSelect: React.FC<
+  GoodsTransferProps & { preHandle?: () => any }
+> = (props) => {
   const {
     onOk,
     onSubmitGoods,
     buttonProps = { text: "新增", type: "primary" },
     modalProps,
+    preHandle,
     ...restProps
   } = props;
   const { text, ...otherProps } = buttonProps;
@@ -206,16 +219,19 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
         ...restProps,
       }))
     : undefined;
-  const showDlg = () => {
-    CModal.show({
-      title: "选择商品",
-      content: <DlgContent {...restProps} customRef={ref} />,
-      onOk: () => {
-        return customOnOk();
-      },
-      ...modalProps,
-      customToolbar: toolbar,
-    });
+  const showDlg = async () => {
+    const reval = preHandle ? await preHandle() : true;
+    if (reval) {
+      CModal.show({
+        title: "选择商品",
+        content: <DlgContent {...restProps} customRef={ref} />,
+        onOk: () => {
+          return customOnOk();
+        },
+        ...modalProps,
+        customToolbar: toolbar,
+      });
+    }
   };
   return (
     <Button onClick={showDlg} {...otherProps}>
@@ -230,18 +246,20 @@ const GoodModalSelect: FormComponent<GoodsTransferProps> =
   WithSelectTable<GoodsTransferProps>(GoodsCenterSelect, true, {
     normalize: (data: any[]) => {
       if (data)
-        return data.map(({ goodsId, deptGoodsId, goodsName }) => ({
+        return data.map(({ goodsId, deptGoodsId, goodsName, dataId }) => ({
           goodsId,
           deptGoodsId,
+          dataId,
           goodsName,
         }));
       return [];
     },
     getValueProps: (data: any[]) => {
       if (data)
-        return data.map(({ goodsId, deptGoodsId, goodsName }) => ({
+        return data.map(({ goodsId, deptGoodsId, goodsName, dataId }) => ({
           goodsId,
           deptGoodsId,
+          dataId,
           goodsName,
         }));
       return [];
