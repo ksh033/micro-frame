@@ -62,7 +62,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         dictTypeCode: `${col.dataType || col.dataIndex}`,
       });
       if (!col.width) {
-        col.width = 180;
+        col.width = 150;
       }
 
       if (list && !col.render) {

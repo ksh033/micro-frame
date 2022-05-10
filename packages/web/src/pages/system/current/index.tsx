@@ -141,7 +141,12 @@ const Page: FC<any> = (props) => {
   };
 
   return (
-    <PageContainer title={'个人设置'}>
+    <PageContainer
+      title={'个人设置'}
+      header={{
+        onBack: () => history.goBack(),
+      }}
+    >
       <Spin spinning={bindwx.loading} tip="绑定中...">
         <div className={styles.main}>
           <div className={styles.leftMenu}>
