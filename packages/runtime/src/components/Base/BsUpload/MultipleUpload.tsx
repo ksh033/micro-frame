@@ -1,10 +1,11 @@
 /* eslint-disable consistent-return */
-import React, { useLayoutEffect, useState } from "react";
-import { ScUpload } from "@scboson/sc-element";
-import { UploadFile } from "@scboson/sc-element/es/sc-upload";
-import { PlusOutlined } from "@ant-design/icons";
-import { imageUrl } from "../../../utils/common";
-import { FileType } from "./index";
+import React, { useLayoutEffect, useState } from 'react';
+import { message } from 'antd';
+import { ScUpload } from '@scboson/sc-element';
+import { UploadFile } from '@scboson/sc-element/es/sc-upload';
+import { PlusOutlined } from '@ant-design/icons';
+import { imageUrl } from '../../../utils/common';
+import { FileType } from './index';
 interface MultipleUpload {
   action?: string;
   value?: any[];
@@ -36,21 +37,21 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     if (Array.isArray(newfileList)) {
       newfileList = newfileList
         .map((item, index) => {
-          if (typeof item === "string") {
+          if (typeof item === 'string') {
             return {
-              uid: index + "",
+              uid: index + '',
               url: imageUrl(item),
               fileUrl: item,
-              status: "done",
+              status: 'done',
             };
           } else {
             return {
-              uid: index + "",
+              uid: index + '',
               url: imageUrl(item.url),
               fileUrl: item.url,
               fileInfoId: item.fileId || item.fileInfoId,
               thumbnailUrl: item.thumb_url || item.thumbnailUrl,
-              status: "done",
+              status: 'done',
             };
           }
         })
@@ -80,7 +81,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     fileList: UploadFile[];
   }) => {
     const rfileList = _fileList.filter((item) => {
-      if (item.status === "done") {
+      if (item.status === 'done') {
         return true;
       } else {
         if (item.size && item.type) {
@@ -90,15 +91,18 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
       }
     });
 
-    const doneList = _fileList.filter((it) => it.status === "done");
+    const doneList = _fileList.filter((it) => it.status === 'done');
     if (doneList.length === _fileList.length) {
       const outList: any[] = [];
       for (let i = 0; i < _fileList.length; i++) {
         const file = _fileList[i];
-        if (file.status === "done") {
+        if (file.status === 'done') {
           let result: any = file;
           if (file.response && file.response.success) {
             result = file.response.data;
+          } else {
+            message.error('上传失败');
+            return;
           }
           if (valeFormat && result) {
             result = await valeFormat(result);

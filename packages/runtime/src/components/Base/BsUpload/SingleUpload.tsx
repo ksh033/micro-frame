@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable consistent-return */
-import React, { useState, useEffect } from "react";
-import { Upload } from "antd";
-import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { UploadFile } from "antd/es/upload/interface";
-import { imageUrl } from "../../../utils/common";
-import styles from "./index.less";
-import { FileType } from "./index";
+import React, { useState, useEffect } from 'react';
+import { Upload, message } from 'antd';
+import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { UploadFile } from 'antd/es/upload/interface';
+import { imageUrl } from '../../../utils/common';
+import styles from './index.less';
+import { FileType } from './index';
 
 function getBase64(file: any): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ interface SingleUploadProps {
   valeFormat?: (data: any) => Promise<string | FileType | null>;
 }
 const isImageFileType = (type?: string): boolean =>
-  type?.indexOf("image/") === 0;
+  type?.indexOf('image/') === 0;
 
 const SingleUpload: React.FC<SingleUploadProps> = (
   props: SingleUploadProps
@@ -62,7 +62,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   };
 
   useEffect(() => {
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       setPreviewImage(value);
     } else {
       setPreviewImage(value && value.url ? value.url : null);
@@ -75,22 +75,26 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     }
 
     if (uploadImmediately) {
-      if (file.status === "uploading") {
+      if (file.status === 'uploading') {
         setPreviewImage(null);
         setLoading(true);
         return;
       }
       setLoading(false);
-      if (file.status === "done") {
+      if (file.status === 'done') {
         handlePreview(file);
         let result = file;
         if (file.response && file.response.success) {
           result = file.response.data;
+        } else {
+          message.error('上传失败');
+          return;
         }
         if (valeFormat) {
           result = await valeFormat(result);
         }
-        if (typeof result === "string") {
+
+        if (typeof result === 'string') {
           setPreviewImage(result);
         } else {
           setPreviewImage(result && result.url ? result.url : null);
@@ -103,30 +107,30 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   };
 
   const preView = (_file: string) => {
-    if (_file.includes("base64")) {
+    if (_file.includes('base64')) {
       return (
         <img
           src={_file}
           alt="avatar"
-          style={{ width: "100%" }}
-          className={styles["bs-upload-view-img"]}
+          style={{ width: '100%' }}
+          className={styles['bs-upload-view-img']}
         />
       );
     } else {
       const file = imageUrl(_file);
-      if (file && file !== "") {
+      if (file && file !== '') {
         if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
           return (
             <img
               src={file}
               alt="avatar"
-              className={styles["bs-upload-view-img"]}
+              className={styles['bs-upload-view-img']}
             />
           );
         }
         if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
           return (
-            <video controls autoPlay className={styles["bs-upload-video"]}>
+            <video controls autoPlay className={styles['bs-upload-video']}>
               <source src={file} type="video/mp4" />
             </video>
           );
