@@ -60,6 +60,7 @@ export default function SlaveLayout(componentProps: any) {
         value={{
           breadcrumb: breadcrumbProps,
           menuData,
+          hasFooterToolbar: true,
         }}
       >
         {children}
