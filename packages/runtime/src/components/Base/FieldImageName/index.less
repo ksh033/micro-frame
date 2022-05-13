@@ -1,26 +1,37 @@
-.bg-field-line{
+@import "~antd/es/style/themes/default.less";
+
+.bg-field-line {
   display: flex;
   align-items: center;
   width: 100%;
   min-width: 100px;
 }
-.bg-field-image{
+.bg-field-link {
+  .bg-field-value {
+    color: @primary-color;
+    cursor: pointer;
+
+    :hover {
+      color: @primary-color-hover;
+    }
+  }
+}
+.bg-field-image {
   width: 50px;
   height: 50px;
   margin-right: 4px;
-  :global{
-    .ant-image{
-      width:100%;
+  :global {
+    .ant-image {
+      width: 100%;
       height: 100%;
     }
   }
 }
-.bg-field-value{
-  flex:1;
+.bg-field-value {
   display: flex;
+  flex: 1;
   flex-direction: column;
-
 }
-.bg-field-desc{
+.bg-field-desc {
   color: #969595;
 }

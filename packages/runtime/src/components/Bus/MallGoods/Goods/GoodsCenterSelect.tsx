@@ -37,7 +37,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     customRef?: React.RefObject<any>;
   };
 
-const DlgContent = (porps: GoodsTransferProps) => {
+const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
   const [rightSelectedRows, setRightSelectRows] = useState<any[]>();
   const {
     selectionType,
@@ -48,6 +48,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
     onTabelRow,
     header,
     customRef,
+    viewUrl,
     getCheckboxProps,
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
@@ -123,6 +124,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
               onTabelRow && onTabelRow(keys, rows);
               setRightSelectRows(rows);
             }}
+            viewUrl={viewUrl}
             getCheckboxProps={getCheckboxProps}
             rowKey={rowKey}
             request={request}
@@ -188,7 +190,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
  * @returns
  */
 const GoodsCenterSelect: React.FC<
-  GoodsTransferProps & { preHandle?: () => any }
+  GoodsTransferProps & { preHandle?: () => any; viewUrl?: string }
 > = (props) => {
   const {
     onOk,

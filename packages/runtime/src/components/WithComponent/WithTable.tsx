@@ -1,29 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { ComponentType} from 'react';
-import React, { useMemo, useRef } from 'react';
+import type { ComponentType } from "react";
+import React, { useMemo, useRef } from "react";
 
-import type { PageConfig} from '@scboson/sc-schema';
-import { ListPage, useListPageContext } from '@scboson/sc-schema';
+import type { PageConfig } from "@scboson/sc-schema";
+import { ListPage, useListPageContext } from "@scboson/sc-schema";
 
-import { ScCard } from '@scboson/sc-layout'
-import BsTable from '../Base/BsTable'
-import BsSearch from '../Base/BsSearch'
+import { ScCard } from "@scboson/sc-layout";
+import BsTable from "../Base/BsTable";
+import BsSearch from "../Base/BsSearch";
 
-import { Alert } from 'antd';
-import type { WithTableProps } from './interface';
-import isFunction from 'lodash/isFunction';
-import type {ProColumn, FormSearchItem } from '@scboson/sc-schema/es/interface';
+import { Alert } from "antd";
+import type { WithTableProps } from "./interface";
+import isFunction from "lodash/isFunction";
+import type {
+  ProColumn,
+  FormSearchItem,
+} from "@scboson/sc-schema/es/interface";
 
-import { useUpdate } from 'ahooks';
-import TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
-import SearchInfo from '@scboson/sc-schema/lib/page/SearchInfo';
-
-
+import { useUpdate } from "ahooks";
+import TableInfo from "@scboson/sc-schema/lib/page/TableInfo";
+import SearchInfo from "@scboson/sc-schema/lib/page/SearchInfo";
 
 export default function WithTable<P extends WithTableProps>(
   Component: React.ComponentType<any>,
   pageConfig: PageConfig,
-  extProps?: P | ((p: P,searchInfo: SearchInfo,pagetInfo: TableInfo) => P),
+  extProps?: P | ((p: P, searchInfo: SearchInfo, pagetInfo: TableInfo) => P)
 ): ComponentType<P> {
   const Cmp = (p: P) => {
     const update = useUpdate();
@@ -33,7 +34,7 @@ export default function WithTable<P extends WithTableProps>(
     let props = p;
     if (extProps) {
       if (isFunction(extProps)) {
-        props = extProps(p,search,pageTable);
+        props = extProps(p, search, pageTable);
       } else {
         props = { ...p, ...extProps };
       }
@@ -43,7 +44,7 @@ export default function WithTable<P extends WithTableProps>(
       extraQueryColumns,
       request,
       params,
-      selectionType = 'checkbox',
+      selectionType = "checkbox",
       onTabelRow,
       selectedRowKeys,
       selectedRows,
@@ -52,13 +53,9 @@ export default function WithTable<P extends WithTableProps>(
       //pagination,
       formatPrams,
       rowKey,
-      className='cmp-dlg-container',
+      className = "cmp-dlg-container",
       ...resProps
     } = props;
-    
-
-
-
 
     const ref = useRef<{ selectKeys?: any[] }>({});
     if (Array.isArray(extraQueryColumns) && extraQueryColumns.length > 0) {
@@ -69,7 +66,7 @@ export default function WithTable<P extends WithTableProps>(
         });
       });
     }
-  
+
     if (Array.isArray(extraColumns) && extraColumns.length > 0) {
       extraColumns.forEach((item: ProColumn) => {
         pageTable.addCol(item);
@@ -89,15 +86,16 @@ export default function WithTable<P extends WithTableProps>(
         ...params,
         ...pageInfo.params,
       };
-      if (typeof formatPrams === 'function') {
+      if (typeof formatPrams === "function") {
         newPrams = formatPrams(newPrams);
       }
       return newPrams;
-    }, [params,formatPrams,JSON.stringify(pageInfo.params)]);
+    }, [params, formatPrams, JSON.stringify(pageInfo.params)]);
 
     const selectKeys = useMemo(() => {
       ref.current.selectKeys =
-        selectedRowKeys || selectedRows?.map((item) => (rowKey ? item[rowKey] : ''));
+        selectedRowKeys ||
+        selectedRows?.map((item) => (rowKey ? item[rowKey] : ""));
       return ref.current.selectKeys;
     }, [selectedRowKeys, selectedRows, rowKey]);
     //const temSelecteds = uniq([...state.selectedRowKeys, ...selectedRowKeys]);
@@ -105,7 +103,7 @@ export default function WithTable<P extends WithTableProps>(
     //   Array.isArray(ref.current.selectKeys) ? ref.current.selectKeys.length : 0
     // }项`;
     const tableInfo: any = pageInfo;
-    const {pagination:_pagination,onChange,...restTableProps}=tableInfo
+    const { pagination: _pagination, onChange, ...restTableProps } = tableInfo;
 
     return (
       <Component>

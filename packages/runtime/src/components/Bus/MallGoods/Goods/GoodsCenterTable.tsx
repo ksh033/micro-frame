@@ -1,5 +1,6 @@
 import list from "./list";
 import type { PageConfig } from "@scboson/sc-schema";
+import { openWindow } from "../../../Auth";
 import { WithTable, WithTableProps } from "../../../WithComponent";
 const pageConfig: PageConfig = {
   service: {},
@@ -19,16 +20,27 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
 GoodsCenterTable.displayName = "GoodsCenterTable";
 
 /** 商品表格 */
-export default WithTable<WithTableProps>(
+export default WithTable<WithTableProps & { viewUrl?: string }>(
   GoodsCenterTable,
   pageConfig,
   (props, searchInfo, pagetInfo) => {
+    const { viewUrl, ...restProps } = props;
     pagetInfo.changeCol("saleModel", {
       render: (value, record, index) => {
         const { saleUnit } = record;
         //if (params.)
         //const [value,record,index,dictText]=
         return `${saleUnit}(${value})`;
+      },
+    });
+    pagetInfo.changeCol("goodsName", {
+      props: {
+        onClick: viewUrl
+          ? (record: any) => {
+              const key = props["rowKey"] || "dataId";
+              openWindow(`${viewUrl}` + record[key]);
+            }
+          : undefined,
       },
     });
 
@@ -39,7 +51,7 @@ export default WithTable<WithTableProps>(
       .toConfig();
     return {
       //request: defaultReq,
-      ...props,
+      ...restProps,
       bordered: false,
       size: "small",
       rowKey: "goodsId",

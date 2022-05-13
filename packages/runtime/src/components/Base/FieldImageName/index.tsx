@@ -1,29 +1,35 @@
-import React from 'react'
-import styles from './index.less'
-import BsImg from '../BsImg'
-import { BsTableComponentProps } from '../BsTable'
+import React from "react";
+import styles from "./index.less";
+import BsImg from "../BsImg";
+import { BsTableComponentProps } from "../BsTable";
 
 type FieldImageNameProps = BsTableComponentProps & {
-  fieldName: string
-  fieldImage: string
-  fildDesc?: string | React.ReactNode
-}
+  fieldName: string;
+  fieldImage: string;
+  fildDesc?: string | React.ReactNode;
+  onClick?: (record: any) => {};
+};
 
 const FieldImageName: React.FC<FieldImageNameProps> = (props) => {
-  const { fieldImage, fieldName, rowData, fildDesc } = props
+  const { fieldImage, fieldName, rowData, fildDesc, onClick } = props;
   return (
-    <div className={styles['bg-field-line']}>
-      <div className={styles['bg-field-image']}>
+    <div
+      className={`${styles["bg-field-line"]} ${onClick ? "bg-field-link" : ""}`}
+      onClick={() => {
+        onClick && onClick(rowData);
+      }}
+    >
+      <div className={styles["bg-field-image"]}>
         <BsImg src={rowData[fieldImage]}></BsImg>
       </div>
-      <div className={styles['bg-field-value']}>
+      <div className={styles["bg-field-value"]}>
         <span>{rowData[fieldName]}</span>
         {fildDesc ? (
-          <span className={styles['bg-field-desc']}>{fildDesc}</span>
+          <span className={styles["bg-field-desc"]}>{fildDesc}</span>
         ) : null}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FieldImageName
+export default FieldImageName;
