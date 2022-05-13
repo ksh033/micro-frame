@@ -273,24 +273,21 @@ const initWarnTimer = () => {
 
   _timer = setInterval(() => {
     const user = getUser();
-    if (user != null && user?.userAppInfo != null) {
+    if (user != null && user?.userAppInfo != null && showWarn) {
       const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
       const cacheUserId = user?.userId;
-
       if (cacheUserId != null && _userId != null && cacheUserId !== _userId) {
-        if (showWarn) {
-          showWarn = false;
-          Modal.warning({
-            title: '提示',
-            content: '你已切换到其他账号，需要刷新后才能继续操作。',
-            onOk() {
-              showWarn = true;
-              _userId = cacheUserId;
-              _bizDeptId = cacheBizDeptId;
-              jump(user);
-            },
-          });
-        }
+        showWarn = false;
+        Modal.warning({
+          title: '提示',
+          content: '你已切换到其他账号，需要刷新后才能继续操作。',
+          onOk() {
+            _userId = cacheUserId;
+            _bizDeptId = cacheBizDeptId;
+            jump(user);
+            showWarn = true;
+          },
+        });
         return;
       }
       if (
@@ -298,18 +295,16 @@ const initWarnTimer = () => {
         _bizDeptId != null &&
         cacheBizDeptId !== _bizDeptId
       ) {
-        if (showWarn) {
-          showWarn = false;
-          Modal.warning({
-            title: '提示',
-            content: '你已切换到其他机构，需要刷新后才能继续操作。',
-            onOk() {
-              showWarn = true;
-              _bizDeptId = cacheBizDeptId;
-              jump(user);
-            },
-          });
-        }
+        showWarn = false;
+        Modal.warning({
+          title: '提示',
+          content: '你已切换到其他机构，需要刷新后才能继续操作。',
+          onOk() {
+            _bizDeptId = cacheBizDeptId;
+            jump(user);
+            showWarn = true;
+          },
+        });
       }
     }
   }, 3000);
