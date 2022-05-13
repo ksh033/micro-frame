@@ -73,6 +73,15 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     if (!maxSizeCheck(file)) {
       return;
     }
+    if (
+      file.status === 'done' &&
+      file.response &&
+      !Boolean(file.response.success)
+    ) {
+      message.error('上传失败');
+      setLoading(false);
+      return;
+    }
 
     if (uploadImmediately) {
       if (file.status === 'uploading') {
@@ -86,9 +95,6 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         let result = file;
         if (file.response && file.response.success) {
           result = file.response.data;
-        } else {
-          message.error('上传失败');
-          return;
         }
         if (valeFormat) {
           result = await valeFormat(result);

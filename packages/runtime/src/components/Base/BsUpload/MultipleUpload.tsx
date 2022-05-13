@@ -34,7 +34,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   } = props;
   const formatList = (_fileList: any) => {
     let newfileList = JSON.parse(JSON.stringify(_fileList));
-    if (Array.isArray(newfileList)) {
+    if (Array.isArray(newfileList) && newfileList.length > 0) {
       newfileList = newfileList
         .map((item, index) => {
           if (typeof item === 'string') {
@@ -76,10 +76,32 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   );
 
   const handleChange = async ({
-    fileList: _fileList,
+    fileList: list,
   }: {
     fileList: UploadFile[];
   }) => {
+    if (list.length === 0) {
+      onChange?.([]);
+      setFileList([]);
+      return;
+    }
+
+    const _fileList = list.map((it: any) => {
+      if (
+        it.status === 'done' &&
+        it.response &&
+        !Boolean(it.response.success)
+      ) {
+        return {
+          ...it,
+          status: 'error',
+          url: null,
+          thumbUrl: null,
+        };
+      }
+      return it;
+    });
+
     const rfileList = _fileList.filter((item) => {
       if (item.status === 'done') {
         return true;
@@ -92,6 +114,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     });
 
     const doneList = _fileList.filter((it) => it.status === 'done');
+
     if (doneList.length === _fileList.length) {
       const outList: any[] = [];
       for (let i = 0; i < _fileList.length; i++) {
@@ -100,15 +123,14 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
           let result: any = file;
           if (file.response && file.response.success) {
             result = file.response.data;
+            if (valeFormat && result) {
+              result = await valeFormat(result);
+              outList.push(result);
+            } else {
+              outList.push(result);
+            }
           } else {
-            message.error('上传失败');
-            return;
-          }
-          if (valeFormat && result) {
-            result = await valeFormat(result);
-            outList.push(result);
-          } else {
-            outList.push(result);
+            message.warning('上传失败');
           }
         }
       }
