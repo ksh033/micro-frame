@@ -278,12 +278,12 @@ const initWarnTimer = () => {
       const cacheUserId = user?.userId;
       if (cacheUserId != null && _userId != null && cacheUserId !== _userId) {
         showWarn = false;
+        _bizDeptId = cacheBizDeptId;
         Modal.warning({
           title: '提示',
           content: '你已切换到其他账号，需要刷新后才能继续操作。',
           onOk() {
             _userId = cacheUserId;
-            _bizDeptId = cacheBizDeptId;
             jump(user);
             showWarn = true;
           },
@@ -296,11 +296,11 @@ const initWarnTimer = () => {
         cacheBizDeptId !== _bizDeptId
       ) {
         showWarn = false;
+        _bizDeptId = cacheBizDeptId;
         Modal.warning({
           title: '提示',
           content: '你已切换到其他机构，需要刷新后才能继续操作。',
           onOk() {
-            _bizDeptId = cacheBizDeptId;
             jump(user);
             showWarn = true;
           },
