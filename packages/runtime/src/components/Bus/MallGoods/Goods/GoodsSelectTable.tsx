@@ -44,13 +44,19 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
     {
       title: "商品品目",
       dataIndex: "catalogName",
-      width: 150,
+      width: 80,
+    },
+    {
+      title: "商品规格",
+      dataIndex: "specName",
+      width: 80,
     },
     {
       title: "品牌",
       dataIndex: "brandName",
       width: 80,
     },
+
     {
       title: "销售单位",
       dataIndex: "saleUnit",
@@ -107,7 +113,7 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
       dropdownStyle={{ minWidth: "580px" }}
       dropdownRenderProps={{
         columns: newColumns,
-        scroll: { y: "300px" },
+        scroll: { y: "400px" },
       }}
       onLoad={handleLoad}
       params={newParams}
