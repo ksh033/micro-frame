@@ -1,6 +1,7 @@
 import list from "./list";
 import type { PageConfig } from "@scboson/sc-schema";
 import { openWindow } from "../../../Auth";
+import { QuestionCircleFilled } from "@ant-design/icons";
 import { WithTable, WithTableProps } from "../../../WithComponent";
 const pageConfig: PageConfig = {
   service: {},
@@ -20,11 +21,11 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
 GoodsCenterTable.displayName = "GoodsCenterTable";
 
 /** 商品表格 */
-export default WithTable<WithTableProps & { viewUrl?: string }>(
+export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
   GoodsCenterTable,
   pageConfig,
   (props, searchInfo, pagetInfo) => {
-    const { viewUrl, ...restProps } = props;
+    const { viewUrl, help, ...restProps } = props;
     pagetInfo.changeCol("saleModel", {
       render: (value, record, index) => {
         const { saleUnit } = record;
@@ -35,6 +36,13 @@ export default WithTable<WithTableProps & { viewUrl?: string }>(
     });
     pagetInfo.changeCol("goodsName", {
       props: {
+        title: help ? (
+          <span>
+            商品名称<QuestionCircleFilled></QuestionCircleFilled>
+          </span>
+        ) : (
+          "商品名称	"
+        ),
         onClick: viewUrl
           ? (record: any) => {
               const key = props["rowKey"] || "dataId";
