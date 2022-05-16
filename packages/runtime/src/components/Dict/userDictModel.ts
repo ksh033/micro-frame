@@ -89,6 +89,16 @@ export default function useDictModel() {
               value: false,
             },
           ],
+          deptGoodsStatus: [
+            {
+              name: '上架',
+              value: true,
+            },
+            {
+              name: '下架',
+              value: false,
+            },
+          ],
         })
       }
     }
@@ -104,9 +114,9 @@ export default function useDictModel() {
     setdLocalDict(localDictMap)
   }
 
-  const getDistList = (config: { dictTypeCode: string,localDict?:boolean }) => {
-    let sysMap = config.localDict? localDict : dict
-    if(sysMap){
+  const getDistList = (config: { dictTypeCode: string, localDict?: boolean }) => {
+    let sysMap = config.localDict ? localDict : dict
+    if (sysMap) {
       return sysMap[config.dictTypeCode]
     }
     return []
