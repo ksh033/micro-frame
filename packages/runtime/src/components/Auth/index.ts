@@ -266,6 +266,7 @@ const jump = (user: GetUser | null | undefined) => {
   let systemCode = user?.chooseDeptVO.currentSystem?.systemCode;
   if (systemCode) {
     history.push(`/${systemCode}`);
+    window.location.reload();
   } else {
     const innermenus = Array.isArray(user?.userAppInfo.currentDept.menus)
       ? user?.userAppInfo.currentDept.menus
@@ -273,8 +274,9 @@ const jump = (user: GetUser | null | undefined) => {
     if (innermenus && innermenus.length > 0) {
       changeApp(innermenus[0].pageUrl);
       history.push(`/${innermenus[0].pageUrl}`);
+      window.location.reload();
     } else {
-      history.push(`/`);
+      window.location.reload();
     }
   }
 };
