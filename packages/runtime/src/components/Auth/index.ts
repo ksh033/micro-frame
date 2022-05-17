@@ -109,6 +109,7 @@ const setUser = (user: User) => {
       currentDept: currentDept,
       currentSystem: currentSystem,
     });
+    setUserAppCode(currentSystem?.systemCode || '');
     // 设置当前机构和用户
     _bizDeptId = currentDept.bizDeptId;
     _userId = restUser.userId;
@@ -146,6 +147,7 @@ const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
   }
   // 当前的机构
   _bizDeptId = currentDept.bizDeptId;
+  setUserAppCode(currentSystem?.systemCode || '');
   return {
     currentSystem: currentSystem,
     currentDept: currentDept,
@@ -226,7 +228,7 @@ const setUserAppCode = (userAppCode) => {
 };
 
 const getUserAppCode = () => {
-  return getAppCode();
+  return _userAppCode;
 };
 
 const clearInner = () => {
@@ -245,8 +247,18 @@ const initInner = () => {
   const user = getUser();
   if (user != null && user?.userAppInfo != null) {
     const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId;
+    let systemCode = user?.userAppInfo?.currentSystem?.systemCode || '';
+    if (systemCode == null || systemCode === '') {
+      const menus = Array.isArray(user?.chooseDeptVO?.currentDept.menus)
+        ? user?.chooseDeptVO?.currentDept.menus
+        : [];
+      if (Array.isArray(menus) && menus.length > 0) {
+        systemCode = menus[0].pageUrl;
+      }
+    }
     _userId = user.userId;
     _bizDeptId = cacheBizDeptId;
+    _userAppCode = systemCode;
   }
 };
 
@@ -254,6 +266,7 @@ const jump = (user: GetUser | null | undefined) => {
   let systemCode = user?.chooseDeptVO.currentSystem?.systemCode;
   if (systemCode) {
     history.push(`/${systemCode}`);
+    window.location.reload();
   } else {
     const innermenus = Array.isArray(user?.userAppInfo.currentDept.menus)
       ? user?.userAppInfo.currentDept.menus
@@ -261,10 +274,31 @@ const jump = (user: GetUser | null | undefined) => {
     if (innermenus && innermenus.length > 0) {
       changeApp(innermenus[0].pageUrl);
       history.push(`/${innermenus[0].pageUrl}`);
+      window.location.reload();
     } else {
-      history.push(`/`);
+      window.location.reload();
     }
   }
+};
+
+const warnCommit = () => {
+  const user = getUser();
+  const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
+  let systemCode = user?.userAppInfo?.currentSystem?.systemCode || '';
+  if (systemCode == null || systemCode === '') {
+    const menus = Array.isArray(user?.chooseDeptVO?.currentDept.menus)
+      ? user?.chooseDeptVO?.currentDept.menus
+      : [];
+    if (Array.isArray(menus) && menus.length > 0) {
+      systemCode = menus[0].pageUrl;
+    }
+  }
+  const cacheUserId = user?.userId || null;
+  _userId = cacheUserId;
+  _bizDeptId = cacheBizDeptId;
+  _userAppCode = systemCode;
+  jump(user);
+  showWarn = true;
 };
 
 const initWarnTimer = () => {
@@ -283,9 +317,7 @@ const initWarnTimer = () => {
           title: '提示',
           content: '你已切换到其他账号，需要刷新后才能继续操作。',
           onOk() {
-            _userId = cacheUserId;
-            jump(user);
-            showWarn = true;
+            warnCommit();
           },
         });
         return;
@@ -296,13 +328,11 @@ const initWarnTimer = () => {
         cacheBizDeptId !== _bizDeptId
       ) {
         showWarn = false;
-        _bizDeptId = cacheBizDeptId;
         Modal.warning({
           title: '提示',
           content: '你已切换到其他机构，需要刷新后才能继续操作。',
           onOk() {
-            jump(user);
-            showWarn = true;
+            warnCommit();
           },
         });
       }
