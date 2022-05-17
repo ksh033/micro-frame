@@ -83,7 +83,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
           padding: "0px",
           maxWidth: "1150px",
           height: "580px",
-          overflow: "auto",
+          overflow: "hidden",
         }}
         gutter={4}
       >
@@ -137,7 +137,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
         >
           <BsTable
             rowKey={rowKey}
-            scroll={{ y: 420 }}
+            scroll={{ y: 420, x: "100%" }}
             pagination={false}
             title={() => {
               return <div style={{ marginTop: "10px" }}>已选商品</div>;

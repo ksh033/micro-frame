@@ -15,17 +15,27 @@ const FieldImageName: React.FC<FieldImageNameProps> = (props) => {
   return (
     <div
       className={`${styles["bg-field-line"]} ${onClick ? "bg-field-link" : ""}`}
-      onClick={() => {
-        onClick && onClick(rowData);
-      }}
     >
       <div className={styles["bg-field-image"]}>
         <BsImg src={rowData[fieldImage]}></BsImg>
       </div>
       <div className={styles["bg-field-value"]}>
-        <span>{rowData[fieldName]}</span>
+        <span
+          onClick={() => {
+            onClick && onClick(rowData);
+          }}
+        >
+          {rowData[fieldName]}
+        </span>
         {fildDesc ? (
-          <span className={styles["bg-field-desc"]}>{fildDesc}</span>
+          <span
+            onClick={() => {
+              onClick && onClick(rowData);
+            }}
+            className={styles["bg-field-desc"]}
+          >
+            {fildDesc}
+          </span>
         ) : null}
       </div>
     </div>
