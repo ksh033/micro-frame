@@ -9,6 +9,7 @@ import {
   clearTimer,
   initInner,
   getUserAppCode,
+  getAppCode,
 } from '../Auth';
 import './index.less';
 import RightContent from './GlobalHeader/RightContent';
@@ -44,7 +45,7 @@ export default (props: any) => {
     useModel('@@qiankunStateFromMaster') ||
     {};
 
-  const appSelectedKeys = getUserAppCode();
+  const appSelectedKeys = getUserAppCode() || getAppCode();
   const apps = systemList.map((sys) => ({
     name: sys.name || sys.systemName,
     code: sys.pageUrl || sys.systemCode,
