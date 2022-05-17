@@ -16,13 +16,12 @@ const pageConfig: PageConfig = {
       title: "商品名称",
       dataIndex: "goodsName",
       component: "FieldImageName",
-
       props: {
         fieldName: "goodsName",
         fieldImage: "goodsThumb",
       },
 
-      width: 180,
+      width: 170,
     },
 
     {
@@ -48,7 +47,7 @@ const pageConfig: PageConfig = {
       align: "center",
       dataIndex: "cargoList",
       ellipsis: true,
-      width: 120,
+      width: 100,
     },
   ],
 };
