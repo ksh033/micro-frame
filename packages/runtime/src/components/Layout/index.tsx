@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useMemo } from 'react';
 import { ProSettings, MasterLayout } from '@scboson/sc-layout';
 // @ts-ignore
 import { Link, history, useModel } from 'umi';
@@ -8,6 +8,7 @@ import {
   initWarnTimer,
   clearTimer,
   initInner,
+  getUserAppCode,
 } from '../Auth';
 import './index.less';
 import RightContent from './GlobalHeader/RightContent';
@@ -43,7 +44,7 @@ export default (props: any) => {
     useModel('@@qiankunStateFromMaster') ||
     {};
 
-  const appSelectedKeys = userAppInfo?.currentSystem?.systemCode || '';
+  const appSelectedKeys = getUserAppCode();
   const apps = systemList.map((sys) => ({
     name: sys.name || sys.systemName,
     code: sys.pageUrl || sys.systemCode,
@@ -51,7 +52,25 @@ export default (props: any) => {
     isApp: true,
     path: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
   }));
-  const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menus || [];
+  // const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menus || [];
+
+  const mdata = useMemo(() => {
+    let newMenuData = menuData;
+    if (newMenuData == null) {
+      const menuList = Array.isArray(userAppInfo?.currentDept.menus)
+        ? userAppInfo?.currentDept.menus
+        : [];
+      if (menuList) {
+        const currentSystem = menuList.find(
+          (it) => it.pageUrl === appSelectedKeys
+        );
+        if (currentSystem && Array.isArray(currentSystem.children)) {
+          newMenuData = currentSystem.children;
+        }
+      }
+    }
+    return newMenuData;
+  }, [menuData, appSelectedKeys]);
 
   useLayoutEffect(() => {
     // 初始化内置值
@@ -65,7 +84,6 @@ export default (props: any) => {
       console.log(appSelected);
       if (appSelected) {
         if (!changeApp(appSelected)) {
-          changeApp(appSelected);
           history.push('/');
         }
       }

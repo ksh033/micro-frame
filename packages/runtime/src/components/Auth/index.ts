@@ -226,7 +226,7 @@ const setUserAppCode = (userAppCode) => {
 };
 
 const getUserAppCode = () => {
-  return getAppCode();
+  return _userAppCode;
 };
 
 const clearInner = () => {
@@ -267,6 +267,16 @@ const jump = (user: GetUser | null | undefined) => {
   }
 };
 
+const warnCommit = () => {
+  const user = getUser();
+  const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
+  const cacheUserId = user?.userId || null;
+  _userId = cacheUserId;
+  _bizDeptId = cacheBizDeptId;
+  jump(user);
+  showWarn = true;
+};
+
 const initWarnTimer = () => {
   // 清除上次调用
   clearTimer();
@@ -283,9 +293,7 @@ const initWarnTimer = () => {
           title: '提示',
           content: '你已切换到其他账号，需要刷新后才能继续操作。',
           onOk() {
-            _userId = cacheUserId;
-            jump(user);
-            showWarn = true;
+            warnCommit();
           },
         });
         return;
@@ -296,13 +304,11 @@ const initWarnTimer = () => {
         cacheBizDeptId !== _bizDeptId
       ) {
         showWarn = false;
-        _bizDeptId = cacheBizDeptId;
         Modal.warning({
           title: '提示',
           content: '你已切换到其他机构，需要刷新后才能继续操作。',
           onOk() {
-            jump(user);
-            showWarn = true;
+            warnCommit();
           },
         });
       }
