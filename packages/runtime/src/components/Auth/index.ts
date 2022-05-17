@@ -109,6 +109,7 @@ const setUser = (user: User) => {
       currentDept: currentDept,
       currentSystem: currentSystem,
     });
+    setUserAppCode(currentSystem?.systemCode || '');
     // 设置当前机构和用户
     _bizDeptId = currentDept.bizDeptId;
     _userId = restUser.userId;
@@ -146,6 +147,7 @@ const updateCurrentDept = (currentDeptVo: CurrentDeptInfoProps) => {
   }
   // 当前的机构
   _bizDeptId = currentDept.bizDeptId;
+  setUserAppCode(currentSystem?.systemCode || '');
   return {
     currentSystem: currentSystem,
     currentDept: currentDept,
@@ -270,9 +272,19 @@ const jump = (user: GetUser | null | undefined) => {
 const warnCommit = () => {
   const user = getUser();
   const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId || null;
+  let systemCode = user?.userAppInfo?.currentSystem?.systemCode || '';
+  if (systemCode == null || systemCode === '') {
+    const menus = Array.isArray(user?.chooseDeptVO?.currentDept.menus)
+      ? user?.chooseDeptVO?.currentDept.menus
+      : [];
+    if (Array.isArray(menus) && menus.length > 0) {
+      systemCode = menus[0].pageUrl;
+    }
+  }
   const cacheUserId = user?.userId || null;
   _userId = cacheUserId;
   _bizDeptId = cacheBizDeptId;
+  _userAppCode = systemCode;
   jump(user);
   showWarn = true;
 };
