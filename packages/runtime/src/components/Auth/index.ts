@@ -247,8 +247,18 @@ const initInner = () => {
   const user = getUser();
   if (user != null && user?.userAppInfo != null) {
     const cacheBizDeptId = user?.userAppInfo.currentDept?.bizDeptId;
+    let systemCode = user?.userAppInfo?.currentSystem?.systemCode || '';
+    if (systemCode == null || systemCode === '') {
+      const menus = Array.isArray(user?.chooseDeptVO?.currentDept.menus)
+        ? user?.chooseDeptVO?.currentDept.menus
+        : [];
+      if (Array.isArray(menus) && menus.length > 0) {
+        systemCode = menus[0].pageUrl;
+      }
+    }
     _userId = user.userId;
     _bizDeptId = cacheBizDeptId;
+    _userAppCode = systemCode;
   }
 };
 
