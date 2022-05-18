@@ -1,20 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { Switch } from 'antd'
-import { BsTableComponentProps } from '../../Base/BsTable'
-import { SwitchChangeEventHandler } from 'antd/es/switch'
-import { useRequest } from 'ahooks'
-import { CModal } from '@scboson/sc-element'
-import Authority from '../../Auth/Authority'
+import React, { useState, useMemo, useEffect } from 'react';
+import { Switch } from 'antd';
+import { BsTableComponentProps } from '../../Base/BsTable';
+import { SwitchChangeEventHandler } from 'antd/es/switch';
+import { useRequest } from 'ahooks';
+import { CModal } from '@scboson/sc-element';
+import Authority from '../../Auth/Authority';
 
 type EnabledProps = BsTableComponentProps & {
-  request: (params: any) => Promise<any> // 请求数据的远程方法
-  rowKeyName?: string
-  warning?: string
-  enabledName?: string
-  funcode?: string
-  disabled?: boolean
-  disabledCallback?: (rowData: any) => boolean
-}
+  request: (params: any) => Promise<any>; // 请求数据的远程方法
+  rowKeyName?: string;
+  warning?: string;
+  enabledName?: string;
+  funcode?: string;
+  disabled?: boolean;
+  disabledCallback?: (rowData: any) => boolean;
+};
 
 const Enabled: React.FC<EnabledProps> = (props) => {
   const {
@@ -26,15 +26,15 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     enabledName = 'enabled',
     disabled,
     disabledCallback,
-  } = props
+  } = props;
   const { loading, run } = useRequest(request, {
     manual: true,
-  })
-  const [state, setState] = useState<boolean>(!!value)
+  });
+  const [state, setState] = useState<boolean>(!!value);
 
   useEffect(() => {
-    setState(value)
-  }, [value])
+    setState(value);
+  }, [value]);
 
   const handleChange: SwitchChangeEventHandler = (checked: boolean) => {
     if (checked === false) {
@@ -48,34 +48,34 @@ const Enabled: React.FC<EnabledProps> = (props) => {
             [rowKeyName]: rowData[rowKeyName],
             [enabledName]: checked,
           }).then((data) => {
-            setState(checked)
-            rowData[enabledName] = checked
-            return data
-          })
+            setState(checked);
+            rowData[enabledName] = checked;
+            return true;
+          });
         },
-      })
+      });
     } else {
       run({
         [rowKeyName]: rowData[rowKeyName],
         [enabledName]: checked,
       }).then(() => {
-        setState(checked)
-        rowData[enabledName] = checked
-      })
+        setState(checked);
+        rowData[enabledName] = checked;
+      });
     }
-  }
+  };
 
   let backDisabled: any = useMemo(() => {
-    let rbackDisabled = false
+    let rbackDisabled = false;
     if (disabled !== undefined && disabled !== null) {
-      rbackDisabled = disabled
+      rbackDisabled = disabled;
     }
     if (typeof disabledCallback === 'function') {
-      rbackDisabled = disabledCallback(rowData)
+      rbackDisabled = disabledCallback(rowData);
     }
 
-    return rbackDisabled
-  }, [JSON.stringify(rowData), disabled, disabledCallback])
+    return rbackDisabled;
+  }, [JSON.stringify(rowData), disabled, disabledCallback]);
 
   if (disabled !== undefined || disabled !== null) {
   }
@@ -88,7 +88,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
       loading={loading}
       disabled={backDisabled}
     />
-  )
-}
+  );
+};
 
-export default Authority(Enabled, 'Enabled')
+export default Authority(Enabled, 'Enabled');
