@@ -14,6 +14,7 @@ type EnabledProps = BsTableComponentProps & {
   funcode?: string;
   disabled?: boolean;
   disabledCallback?: (rowData: any) => boolean;
+  callback?: (res: any) => void;
 };
 
 const Enabled: React.FC<EnabledProps> = (props) => {
@@ -25,6 +26,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     warning = '您是否确定禁用?',
     enabledName = 'enabled',
     disabled,
+    callback,
     disabledCallback,
   } = props;
   const { loading, run } = useRequest(request, {
@@ -50,6 +52,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
           }).then((data) => {
             setState(checked);
             rowData[enabledName] = checked;
+            callback?.(true);
             return true;
           });
         },
@@ -61,6 +64,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
       }).then(() => {
         setState(checked);
         rowData[enabledName] = checked;
+        callback?.(true);
       });
     }
   };
