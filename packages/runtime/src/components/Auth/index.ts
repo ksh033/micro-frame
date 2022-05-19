@@ -234,6 +234,7 @@ const getUserAppCode = () => {
 const clearInner = () => {
   _bizDeptId = null;
   _userId = null;
+  _userAppCode = '';
 };
 
 const clearTimer = () => {
