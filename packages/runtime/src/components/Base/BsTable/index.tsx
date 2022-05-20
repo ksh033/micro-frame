@@ -32,6 +32,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   const columnsFormat = (list: any[]) => {
     list.forEach((col: any, index: number) => {
+      if (index < 2) {
+        col.fixed = true;
+      }
       if (Array.isArray(col.children) && col.children.length > 0) {
         col.children = columnsFormat(col.children);
       }

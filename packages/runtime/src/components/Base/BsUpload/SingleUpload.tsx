@@ -1,8 +1,13 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
-import { Upload, message } from 'antd';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Upload, message, Button, Modal } from 'antd';
+import {
+  PlusOutlined,
+  LoadingOutlined,
+  EyeOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 import { UploadFile } from 'antd/es/upload/interface';
 import { imageUrl } from '../../../utils/common';
 import styles from './index.less';
@@ -20,7 +25,7 @@ function getBase64(file: any): Promise<any> {
 interface SingleUploadProps {
   action?: string;
   value?: any;
-  onChange?: (value: any[]) => void;
+  onChange?: (value: any) => void;
   disabled?: boolean; // 是否禁用
   uploadImmediately?: boolean; // 是否立即上传
   maxSize?: number; // 上传文件大小
@@ -51,6 +56,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
 
   const [previewImage, setPreviewImage] = useState<any>(null);
   const [loading, setLoading] = useState<any>(null);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const handlePreview = async (file: UploadFile) => {
     if (isImageFileType(file.type)) {
@@ -113,37 +119,40 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   };
 
   const preView = (_file: string) => {
-    if (_file.includes('base64')) {
-      return (
-        <img
-          src={_file}
-          alt="avatar"
-          style={{ width: '100%' }}
-          className={styles['bs-upload-view-img']}
-        />
-      );
-    } else {
-      const file = imageUrl(_file);
-      if (file && file !== '') {
-        if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
-          return (
-            <img
-              src={file}
-              alt="avatar"
-              className={styles['bs-upload-view-img']}
-            />
-          );
+    if (_file) {
+      if (_file.includes('base64')) {
+        return (
+          <img
+            src={_file}
+            alt="avatar"
+            style={{ width: '100%' }}
+            className={styles['bs-upload-view-img']}
+          />
+        );
+      } else {
+        const file = imageUrl(_file);
+        if (file && file !== '') {
+          if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
+            return (
+              <img
+                src={file}
+                alt="avatar"
+                className={styles['bs-upload-view-img']}
+              />
+            );
+          }
+          if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
+            return (
+              <video controls autoPlay className={styles['bs-upload-video']}>
+                <source src={file} type="video/mp4" />
+              </video>
+            );
+          }
         }
-        if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
-          return (
-            <video controls autoPlay className={styles['bs-upload-video']}>
-              <source src={file} type="video/mp4" />
-            </video>
-          );
-        }
+        return null;
       }
-      return null;
     }
+    return null;
   };
 
   const uploadExtraProps: any = {};
@@ -153,15 +162,44 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   }
 
   const uploadButton = loading ? (
-    <div>
+    <>
       <LoadingOutlined />
       <div style={{ marginTop: 8 }}>上传中</div>
-    </div>
+    </>
   ) : (
-    <div>
+    <>
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>上传</div>
-    </div>
+    </>
+  );
+  const previewStyle: React.CSSProperties = {
+    pointerEvents: 'none',
+    opacity: 0.5,
+  };
+  const previewIcon = (
+    <Button
+      type="text"
+      size="small"
+      className="anticon-delete"
+      onClick={() => setVisible(true)}
+    >
+      <EyeOutlined />
+    </Button>
+  );
+
+  const removeIcon = (
+    <Button
+      type="text"
+      size="small"
+      className="anticon-delete"
+      onClick={() => {
+        onChange?.(null);
+      }}
+    >
+      <span>
+        <DeleteOutlined />
+      </span>
+    </Button>
   );
 
   return (
@@ -172,12 +210,35 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         onChange={handleChange}
         beforeUpload={beforeUpload}
         disabled={disabled}
+        openFileDialogOnClick={previewImage == null}
         accept={accept}
         headers={headers}
         {...uploadExtraProps}
       >
-        {previewImage ? preView(previewImage) : uploadButton}
+        <div className="bs-signle-picture-card">
+          {previewImage ? (
+            <div className="bs-signle-picture-card-info">
+              <div className=" bs-signle-upload-span">
+                {preView(previewImage)}
+              </div>
+              <span className="bs-signle-upload-actions">
+                {previewIcon}
+                {removeIcon}
+              </span>
+            </div>
+          ) : (
+            uploadButton
+          )}
+        </div>
       </Upload>
+      <Modal
+        visible={visible}
+        footer={null}
+        onCancel={() => setVisible(false)}
+        bodyStyle={{ padding: 0 }}
+      >
+        {preView(previewImage)}
+      </Modal>
     </div>
   );
 };
