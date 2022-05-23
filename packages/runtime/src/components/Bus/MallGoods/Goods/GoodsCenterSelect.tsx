@@ -1,23 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useMemo, useState, useRef, PropsWithRef } from "react";
+import React, { useMemo, useState, useRef, PropsWithRef } from 'react';
 
-import type { ProColumn } from "@scboson/sc-schema/es/interface";
-import BsTable from "../../../Base/BsTable";
+import type { ProColumn } from '@scboson/sc-schema/es/interface';
+import BsTable from '../../../Base/BsTable';
 
-import { ScCard } from "@scboson/sc-layout";
-import GoodsCatalogTree from "../../../Bus/MallGoods/Catalog/CatalogTree";
+import { ScCard } from '@scboson/sc-layout';
+import GoodsCatalogTree from '../../../Bus/MallGoods/Catalog/CatalogTree';
 import {
   WithSelectTable,
   WithSelectTableProps,
   WithTableProps,
-} from "../../../WithComponent";
-import GoodsCenterTable from "./GoodsCenterTable";
-import { CModal } from "@scboson/sc-element";
-import { Button } from "antd";
-import { ButtonProps } from "antd/es/button/button";
-import { CModalDialogProps } from "@scboson/sc-element/es/c-modal";
-import type { FormComponent } from "@scboson/sc-element/es/c-form";
-import { useSessionStorageState } from "ahooks";
+} from '../../../WithComponent';
+import GoodsCenterTable from './GoodsCenterTable';
+import { CModal } from '@scboson/sc-element';
+import { Button } from 'antd';
+import { ButtonProps } from 'antd/es/button/button';
+import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
+import type { FormComponent } from '@scboson/sc-element/es/c-form';
+import { useSessionStorageState } from 'ahooks';
+import AuthButton from '../../../Auth/AuthButton';
+
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
     extraColumns?: ProColumn[];
@@ -43,7 +45,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
     selectionType,
     extraColumns,
     request,
-    rowKey = "goodsId",
+    rowKey = 'goodsId',
     params,
     onTabelRow,
     header,
@@ -53,7 +55,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
-    ""
+    ''
   );
   const [catalogId, setCatalogId] = useState<string>(cacheCatalogId);
   const tableParams = useMemo(() => {
@@ -69,7 +71,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
     onTabelRow && onTabelRow([], []);
   };
   if (customRef !== null && customRef !== undefined) {
-    if (typeof customRef === "object") {
+    if (typeof customRef === 'object') {
       customRef.current.clearSelectRow = clearSelectRow;
     }
   }
@@ -79,18 +81,18 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
       {header}
       <ScCard
         bodyStyle={{
-          margin: "0px",
-          padding: "0px",
-          maxWidth: "1150px",
-          height: "580px",
-          overflow: "hidden",
+          margin: '0px',
+          padding: '0px',
+          maxWidth: '1150px',
+          height: '580px',
+          overflow: 'hidden',
         }}
         gutter={4}
       >
         <ScCard
           colSpan="170px"
           // style={{ height: '100%' }}
-          bodyStyle={{ padding: "0px", overflow: "auto" }}
+          bodyStyle={{ padding: '0px', overflow: 'auto' }}
         >
           <GoodsCatalogTree
             height={490}
@@ -99,21 +101,21 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
             onSelect={(selectedKeys) => {
               let [key] = selectedKeys;
               if (key) {
-                if (key == "0") {
-                  key = "";
+                if (key == '0') {
+                  key = '';
                 } else {
-                  key = key + "";
+                  key = key + '';
                 }
                 setCatalogId(key);
               } else {
-                setCatalogId("");
+                setCatalogId('');
               }
             }}
             loadedKeys={[]}
             autoload={false}
           />
         </ScCard>
-        <ScCard bodyStyle={{ padding: "0px" }} style={{ height: "100%" }}>
+        <ScCard bodyStyle={{ padding: '0px' }} style={{ height: '100%' }}>
           <GoodsCenterTable
             size="small"
             params={tableParams}
@@ -132,26 +134,26 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
         </ScCard>
         <ScCard
           colSpan="280px"
-          style={{ height: "100%" }}
-          bodyStyle={{ padding: "0px" }}
+          style={{ height: '100%' }}
+          bodyStyle={{ padding: '0px' }}
         >
           <BsTable
             rowKey={rowKey}
-            scroll={{ y: 420, x: "100%" }}
+            scroll={{ y: 420, x: '100%' }}
             pagination={false}
             title={() => {
-              return <div style={{ marginTop: "10px" }}>已选商品</div>;
+              return <div style={{ marginTop: '10px' }}>已选商品</div>;
             }}
             dataSource={rightSelectedRows}
             size="small"
             columns={[
               {
-                title: "商品",
-                dataIndex: "goodsName",
+                title: '商品',
+                dataIndex: 'goodsName',
                 width: 160,
               },
               {
-                title: "操作",
+                title: '操作',
                 width: 60,
                 render: (v, record) => {
                   const id = record[rowKey];
@@ -195,7 +197,7 @@ const GoodsCenterSelect: React.FC<
   const {
     onOk,
     onSubmitGoods,
-    buttonProps = { text: "新增", type: "primary" },
+    buttonProps = { text: '新增', type: 'primary' },
     modalProps,
     preHandle,
     ...restProps
@@ -216,7 +218,7 @@ const GoodsCenterSelect: React.FC<
     ? modalProps?.customToolbar.map(({ onClick, ...restProps }, index) => ({
         onClick: () => {
           onClick && onClick();
-          return customOnOk("button" + index);
+          return customOnOk('button' + index);
         },
         ...restProps,
       }))
@@ -225,7 +227,7 @@ const GoodsCenterSelect: React.FC<
     const reval = preHandle ? await preHandle() : true;
     if (reval) {
       CModal.show({
-        title: "选择商品",
+        title: '选择商品',
         content: <DlgContent {...restProps} customRef={ref} />,
         onOk: () => {
           return customOnOk();
@@ -236,9 +238,9 @@ const GoodsCenterSelect: React.FC<
     }
   };
   return (
-    <Button onClick={showDlg} {...otherProps}>
+    <AuthButton onClick={showDlg} {...otherProps}>
       {text}
-    </Button>
+    </AuthButton>
   );
 };
 

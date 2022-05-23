@@ -25,6 +25,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     data,
     toolBarRender,
     onLoad,
+    scroll = { x: 'max-content' },
     ...restProps
   } = props;
 
@@ -151,12 +152,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     <>
       <div className={'bs-table-list'}>
         <ScTable
-          {...restProps}
+          scroll={scroll}
+          size="small"
           onLoad={dataLoad}
           data={data}
           columns={newColumns}
-          size="small"
           toolBarRender={newToolBarRender}
+          {...restProps}
         />
       </div>
     </>
