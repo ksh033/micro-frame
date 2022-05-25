@@ -67,6 +67,7 @@ export function getService<
   if (funName && funName.length > 0) {
     funName.forEach((item) => {
       const serviceItem: any = services[mcode][item];
+      // @ts-ignore
       const itemReq = createRequest(serviceItem, `${item}`);
       mservices = { ...mservices, ...itemReq };
     });
