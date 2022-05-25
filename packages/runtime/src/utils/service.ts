@@ -77,6 +77,7 @@ export function getService<
 
     Object.keys(serviceItems).forEach((key) => {
       const item = services[mcode][key];
+      // @ts-ignore
       const itemReq = createRequest(item, `${key}`);
       mservices = { ...mservices, ...itemReq };
     });
