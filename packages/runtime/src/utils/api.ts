@@ -1,3 +1,4 @@
+// @ts-ignore
 import { request, useRequest as umiUesRequest } from './request';
 
 interface MethodProps {
@@ -147,6 +148,7 @@ export function getService<
   if (funName) {
     funName.forEach((item) => {
       const serviceItem: any = services[mcode][item];
+      // @ts-ignore
       const itemReq = createRequest(serviceItem, `${item}`);
       mservices = { ...mservices, ...itemReq };
     });
@@ -156,6 +158,7 @@ export function getService<
 
     Object.keys(serviceItems).forEach((key) => {
       const item = services[mcode][key];
+      // @ts-ignore
       const itemReq = createRequest(item, `${key}`);
       mservices = { ...mservices, ...itemReq };
     });
