@@ -39,7 +39,7 @@ export const qiankun = new Promise((resolve) => {
       // entry: `${masterUrl}${systemCode}/`,
       // activeRule: `/micro-${systemCode}`,
     });
-    moment.f;
+
     routes.push({
       path: `/${systemCode}`,
       microApp: systemCode,
