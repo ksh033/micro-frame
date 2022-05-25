@@ -32,9 +32,7 @@ export const qiankun = new Promise((resolve) => {
     apps.push({
       name: systemCode,
       to: `/${systemCode}`,
-      entry: `${masterUrl}micro-${systemCode}/?version=${moment().format(
-        "YYYYMMDD"
-      )}`,
+      entry: `${masterUrl}micro-${systemCode}/`,
       activeRule: `/${systemCode}`,
       // entry: `${masterUrl}${systemCode}/`,
       // activeRule: `/micro-${systemCode}`,
