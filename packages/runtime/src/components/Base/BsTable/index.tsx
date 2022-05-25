@@ -33,9 +33,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   const columnsFormat = (list: any[]) => {
     list.forEach((col: any, index: number) => {
-      if (index < 2) {
-        col.fixed = true;
-      }
       if (Array.isArray(col.children) && col.children.length > 0) {
         col.children = columnsFormat(col.children);
       }
@@ -92,7 +89,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     return list;
   };
 
-  const newColumns = columnsFormat(columns);
+  const newColumns = columnsFormat(columns).map((it, index) => {
+    if (index < 2) {
+      it.fixed = true;
+    }
+    return {
+      ...it,
+    };
+  });
 
   let newToolBarRender: any;
 
