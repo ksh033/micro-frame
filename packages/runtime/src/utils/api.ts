@@ -1,3 +1,4 @@
+// @ts-ignore
 import { request, useRequest as umiUesRequest } from './request';
 
 interface MethodProps {
