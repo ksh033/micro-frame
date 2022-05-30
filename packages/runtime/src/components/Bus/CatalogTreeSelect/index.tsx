@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
-import React, { useEffect, useMemo, useState } from "react";
-import { ScTreeSelect } from "@scboson/sc-element";
+import React, { useEffect, useMemo, useState } from 'react';
+import { ScTreeSelect } from '@scboson/sc-element';
 import type {
   FormComponent,
   FormComponentProps,
-} from "@scboson/sc-element/es/c-form";
-import { uesRequest } from "../../../utils/api";
+} from '@scboson/sc-element/es/c-form';
+import { uesRequest } from '../../../utils/api';
 
 export interface AreaDataProps {
   areaCode: string;
@@ -41,7 +41,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     modelKey: null,
   }
 ) => {
-  const { run } = uesRequest("catalog", "treeData");
+  const { run } = uesRequest('catalog', 'treeData');
   const [treeValue, setTreeValue] = useState<any>();
   const {
     form,
@@ -58,7 +58,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   } = props;
 
   const params = useMemo(() => {
-    return { parentCatalogCode: "0" };
+    return { parentCatalogCode: '0' };
   }, []);
 
   const onSelectChange = (rvalue: any, option: any) => {
@@ -99,7 +99,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
 
   const render = () => {
     if (readonly) {
-      let text = "";
+      let text = '';
       if (treeValue) {
         text = treeValue.label;
       }
@@ -113,7 +113,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
         onSelect={onSelectChange}
         onChange={onValueChange}
         multiple={false}
-        labelInValue
+        labelInValue={initialValues}
         value={treeValue}
         loadDataPramsFormat={loadDataPramsFormat}
         request={run}
