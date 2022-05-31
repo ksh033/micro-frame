@@ -26,6 +26,7 @@ export interface AreaSelecthProps extends FormComponentProps {
   modelKey: any;
   checkbox?: boolean;
   fieldProps?: any;
+  multiple?: boolean;
 }
 /**
  * 货品品目
@@ -54,6 +55,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     readonly,
     fieldProps,
     initialValues = true,
+    multiple = false,
     ...restProps
   } = props;
 
@@ -112,7 +114,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
         params={params}
         onSelect={onSelectChange}
         onChange={onValueChange}
-        multiple={false}
+        multiple={multiple}
         labelInValue={initialValues}
         value={treeValue}
         loadDataPramsFormat={loadDataPramsFormat}
