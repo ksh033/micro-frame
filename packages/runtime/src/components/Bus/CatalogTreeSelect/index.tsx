@@ -53,7 +53,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     onChange,
     readonly,
     fieldProps,
-    initialValues,
+    initialValues = true,
     ...restProps
   } = props;
 
