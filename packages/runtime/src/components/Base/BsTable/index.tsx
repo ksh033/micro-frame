@@ -74,7 +74,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     scroll = { x: 'max-content' },
     options,
     exportExeclConfig = false,
-    groupLabels = false,
+    groupLabels: groupLabelsProps = false,
     params = {},
     saveRef,
     ...restProps
@@ -82,6 +82,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const location = useLocation();
   const { getDistList, getDictText } = userDictModel();
   let defaultActiveKey = '';
+  // 默认的tab切换配置
+  const defaultLabelsProps = {
+    needAll: true,
+  };
+  const groupLabels =
+    groupLabelsProps !== false
+      ? Object.assign({}, defaultLabelsProps, groupLabelsProps)
+      : false;
 
   if (groupLabels !== false) {
     defaultActiveKey = groupLabels && groupLabels.needAll ? 'all' : '';
