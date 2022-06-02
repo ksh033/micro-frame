@@ -12,7 +12,7 @@ import { Badge } from 'antd';
 import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
 import { execlColumnsFormat } from './execlUtil';
 // @ts-ignore
-import { useLocation } from 'umi';
+import { history } from 'umi';
 import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 
 export type ExcelColumn = {
@@ -79,7 +79,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     saveRef,
     ...restProps
   } = props;
-  const location = useLocation();
+
   const { getDistList, getDictText } = userDictModel();
   let defaultActiveKey = '';
   // 默认的tab切换配置
@@ -315,12 +315,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           activeKey: _activeKey,
           items: list,
           onChange: (key) => {
-            const { pathname, search } = location;
-            const pathKey = pathname + search;
-            if (pathKey) {
-              setLocalSearchParams(pathKey, {
-                [groupLabels.queryDataIndex || '']: key,
-              });
+            if (history && history.location) {
+              const { pathname, search } = history.location;
+              const pathKey = pathname + search;
+              if (pathKey) {
+                setLocalSearchParams(pathKey, {
+                  [groupLabels.queryDataIndex || '']: key,
+                });
+              }
             }
             setActiveKey(key as string);
           },
