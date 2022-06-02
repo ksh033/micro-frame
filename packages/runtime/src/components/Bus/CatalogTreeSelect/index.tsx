@@ -67,12 +67,16 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   const onSelectChange = (rvalue: any, option: any) => {
     setTreeValue(rvalue);
     if (onChange) {
-      onChange({
-        catalogCode: option.catalogCode,
-        catalogId: option.catalogId,
-        value: option.catalogId,
-        label: option.catalogName,
-      });
+      onChange(
+        labelInValue
+          ? {
+              catalogCode: option.catalogCode,
+              catalogId: option.catalogId,
+              value: option.catalogId,
+              label: option.catalogName,
+            }
+          : option.catalogId
+      );
     }
   };
 
