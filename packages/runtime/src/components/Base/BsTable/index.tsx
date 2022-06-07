@@ -107,13 +107,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     saveRef.current = actionRef.current;
   }
   /** 绑定 action ref */
-  React.useImperativeHandle(
-    saveRef,
-    () => {
-      return actionRef.current;
-    },
-    []
-  );
+  React.useImperativeHandle(saveRef, () => {
+    return actionRef.current;
+  });
 
   const request = restProps.request;
 
@@ -355,14 +351,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           columns={newColumns}
           toolBarRender={newToolBarRender}
           toolbar={getToolbarProps(activeKey, groupLabelsMap)}
-          options={options}
-          // options={
-          //   options || {
-          //     reload: true,
-          //     setting: true,
-          //     fullScreen: false,
-          //   }
-          // }
+          // options={options}
+          options={
+            options || {
+              reload: true,
+              setting: true,
+            }
+          }
           saveRef={actionRef}
           params={newParams}
           {...restProps}
