@@ -351,13 +351,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           columns={newColumns}
           toolBarRender={newToolBarRender}
           toolbar={getToolbarProps(activeKey, groupLabelsMap)}
-          // options={options}
-          options={
-            options || {
-              reload: true,
-              setting: true,
-            }
-          }
+          options={options}
+          // options={
+          //   options || {
+          //     reload: true,
+          //     setting: true,
+          //   }
+          // }
           saveRef={actionRef}
           params={newParams}
           {...restProps}
