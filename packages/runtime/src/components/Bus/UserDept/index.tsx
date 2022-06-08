@@ -174,7 +174,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
   const handleChange = (value: any, option: any) => {
     const deptId = typeof value === 'object' ? value.value : value;
     const index = state.data.findIndex((item) => {
-      return item.deptId === deptId;
+      return item.companyId === deptId;
     });
     onChange &&
       onChange(value, {
@@ -187,11 +187,11 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     let res = '';
     if (_value !== undefined && _value !== null && Array.isArray(list)) {
       const index = list.findIndex((item) => {
-        return item.deptId === _value;
+        return item.companyId === _value;
       });
 
       if (index > -1) {
-        res = list[index] ? list[index].deptName : '';
+        res = list[index] ? list[index].companyName : '';
       }
     }
     return <div>{res}</div>;
@@ -214,5 +214,6 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     );
   }
 };
+UserDept.customView = true;
 
 export default UserDept;
