@@ -38,6 +38,51 @@ interface SingleUploadProps {
 const isImageFileType = (type?: string): boolean =>
   type?.indexOf('image/') === 0;
 
+export const preView = (_file: string, isModal) => {
+  if (_file) {
+    if (_file.includes('base64')) {
+      return (
+        <img
+          src={_file}
+          alt="avatar"
+          style={{ width: '100%' }}
+          className={styles['bs-upload-view-img']}
+        />
+      );
+    } else {
+      const file = imageUrl(_file);
+      if (file && file !== '') {
+        if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
+          return (
+            <img
+              src={file}
+              alt="avatar"
+              className={styles['bs-upload-view-img']}
+            />
+          );
+        }
+        if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
+          return (
+            <video
+              controls
+              autoPlay
+              className={
+                isModal
+                  ? styles['bs-upload-modal-video']
+                  : styles['bs-upload-video']
+              }
+            >
+              <source src={file} type="video/mp4" />
+            </video>
+          );
+        }
+      }
+      return null;
+    }
+  }
+  return null;
+};
+
 const SingleUpload: React.FC<SingleUploadProps> = (
   props: SingleUploadProps
 ) => {
@@ -116,51 +161,6 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     } else {
       onChange && onChange(file);
     }
-  };
-
-  const preView = (_file: string, isModal) => {
-    if (_file) {
-      if (_file.includes('base64')) {
-        return (
-          <img
-            src={_file}
-            alt="avatar"
-            style={{ width: '100%' }}
-            className={styles['bs-upload-view-img']}
-          />
-        );
-      } else {
-        const file = imageUrl(_file);
-        if (file && file !== '') {
-          if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
-            return (
-              <img
-                src={file}
-                alt="avatar"
-                className={styles['bs-upload-view-img']}
-              />
-            );
-          }
-          if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
-            return (
-              <video
-                controls
-                autoPlay
-                className={
-                  isModal
-                    ? styles['bs-upload-modal-video']
-                    : styles['bs-upload-video']
-                }
-              >
-                <source src={file} type="video/mp4" />
-              </video>
-            );
-          }
-        }
-        return null;
-      }
-    }
-    return null;
   };
 
   const uploadExtraProps: any = {};
