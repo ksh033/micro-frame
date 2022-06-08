@@ -118,7 +118,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     }
   };
 
-  const preView = (_file: string) => {
+  const preView = (_file: string, isModal) => {
     if (_file) {
       if (_file.includes('base64')) {
         return (
@@ -143,7 +143,15 @@ const SingleUpload: React.FC<SingleUploadProps> = (
           }
           if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
             return (
-              <video controls autoPlay className={styles['bs-upload-video']}>
+              <video
+                controls
+                autoPlay
+                className={
+                  isModal
+                    ? styles['bs-upload-modal-video']
+                    : styles['bs-upload-video']
+                }
+              >
                 <source src={file} type="video/mp4" />
               </video>
             );
@@ -219,7 +227,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
           {previewImage ? (
             <div className="bs-signle-picture-card-info">
               <div className=" bs-signle-upload-span">
-                {preView(previewImage)}
+                {preView(previewImage, false)}
               </div>
               <span className="bs-signle-upload-actions">
                 {previewIcon}
@@ -234,10 +242,11 @@ const SingleUpload: React.FC<SingleUploadProps> = (
       <Modal
         visible={visible}
         footer={null}
+        width={400}
         onCancel={() => setVisible(false)}
         bodyStyle={{ padding: 0 }}
       >
-        {preView(previewImage)}
+        {preView(previewImage, true)}
       </Modal>
     </div>
   );
