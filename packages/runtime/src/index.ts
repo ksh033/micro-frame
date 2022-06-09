@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import SlaveLayout from './components/Layout/SlaveLayout';
 import NoMenuLayout from './components/Layout/NoMenuLayout';
 import Login from './components/Login';
+import RetrievePassword from './components/Login/retrievepassword';
 import Loading from './components/Loading';
 import SelectDept from './components/SelectDept';
 import * as AllAuth from './components/Auth';
@@ -78,4 +79,5 @@ export {
   openWindow,
   createWxLoginQr,
   NoMenuLayout,
+  RetrievePassword,
 };

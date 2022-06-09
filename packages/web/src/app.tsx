@@ -1,25 +1,30 @@
-import { useState } from "react";
-import { Auth, Login, SelectDept } from "@micro-frame/sc-runtime";
-import { history } from "umi";
-import moment from "moment";
+import { useState } from 'react';
+//@ts-ignore
+import {
+  Auth,
+  Login,
+  SelectDept,
+  RetrievePassword,
+} from '@micro-frame/sc-runtime';
+import { history } from 'umi';
 const { getUser, getUserAppCode } = Auth;
 
 window.masterHistory = history;
 
-let masterUrl = SC_MASTER_URL || "";
+let masterUrl = SC_MASTER_URL || '';
 // @ts-ignore
 window.masterWindow = window;
 
 export const qiankun = new Promise((resolve) => {
   const data = [
-    { systemCode: "basesys", systemName: "基础数据应用" },
-    { systemCode: "mallsys", systemName: "商城管理应用" },
-    { systemCode: "purchasesys", systemName: "采购应用" },
-    { systemCode: "wmssys", systemName: "仓库应用" },
-    { systemCode: "shopsys", systemName: "门店应用" },
-    { systemCode: "factorysys", systemName: "加工中心应用" },
-    { systemCode: "financesys", systemName: "财务应用" },
-    { systemCode: "bisys", systemName: "数据中心" },
+    { systemCode: 'basesys', systemName: '基础数据应用' },
+    { systemCode: 'mallsys', systemName: '商城管理应用' },
+    { systemCode: 'purchasesys', systemName: '采购应用' },
+    { systemCode: 'wmssys', systemName: '仓库应用' },
+    { systemCode: 'shopsys', systemName: '门店应用' },
+    { systemCode: 'factorysys', systemName: '加工中心应用' },
+    { systemCode: 'financesys', systemName: '财务应用' },
+    { systemCode: 'bisys', systemName: '数据中心' },
   ];
   const apps: any[] = [];
   const routes: any[] = [];
@@ -52,7 +57,7 @@ export const qiankun = new Promise((resolve) => {
     routes,
 
     excludeAssetFilter: (assetUrl: string) => {
-      if (assetUrl.indexOf("127.0.0.1") > -1) {
+      if (assetUrl.indexOf('127.0.0.1') > -1) {
         return true;
       }
       return false;
@@ -77,11 +82,11 @@ export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  if (location.pathname !== "/system/current/initpassword") {
+  if (location.pathname !== '/system/current/initpassword') {
     const currentUser = getUser();
     if (currentUser) {
       if (currentUser.needModifyPwd) {
-        history.push("/system/current/initpassword");
+        history.push('/system/current/initpassword');
       }
     }
   }
@@ -93,7 +98,7 @@ export function render(oldRender: any) {
     oldRender();
   } else {
     history.push({
-      pathname: "/login",
+      pathname: '/login',
       query: history.location.query,
     });
     oldRender();
@@ -128,7 +133,7 @@ export function render(oldRender: any) {
 //const temCode = restUserAppCode()
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
-    currentMenu: "null",
+    currentMenu: 'null',
     //currentApp: temCode,
   });
 
@@ -140,19 +145,24 @@ export const useQiankunStateForSlave = () => {
 
 // eslint-disable-next-line func-names
 window.onunload = function () {
-  console.log("restUserAppCode");
+  console.log('restUserAppCode');
   //restUserAppCode(getUserAppCode())
 };
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
   routes.unshift({
-    path: "/selectDept",
+    path: '/retrievepassword',
+    exact: true,
+    component: RetrievePassword,
+  });
+  routes.unshift({
+    path: '/selectDept',
     exact: true,
     component: SelectDept,
   });
   routes.unshift({
-    path: "/login",
+    path: '/login',
     exact: true,
     component: Login,
   });

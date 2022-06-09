@@ -75,6 +75,20 @@ const services = {
       method: 'get',
     },
   },
+  forgetpwd: {
+    smscode: {
+      url: '/user/api/anony/user/forgetpwd/smscode',
+      method: 'get',
+    },
+    checkcode: {
+      url: '/user/api/anony/user/forgetpwd/checkcode',
+      method: 'post',
+    },
+    modify: {
+      url: '/user/api/anony/user/forgetpwd/modify',
+      method: 'post',
+    },
+  },
   catalog: {
     treeData: {
       url: '/base/api/catalog/downlist',

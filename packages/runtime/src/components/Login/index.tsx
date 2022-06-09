@@ -161,7 +161,11 @@ const Login: React.FC<any> = (props: any) => {
                         },
                       ]}
                     >
-                      <Input placeholder="请输入手机号" size="large" />
+                      <Input
+                        placeholder="请输入手机号"
+                        size="large"
+                        style={{ width: '100%' }}
+                      />
                     </Form.Item>
                     {state === 1 ? (
                       <Form.Item
@@ -197,6 +201,20 @@ const Login: React.FC<any> = (props: any) => {
                       >
                         登&nbsp;&nbsp;录
                       </Button>
+
+                      <div>
+                        <div
+                          className={styles['login-container-links-actions']}
+                        >
+                          <a
+                            onClick={() => {
+                              history.push('/retrievepassword');
+                            }}
+                          >
+                            忘记密码
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </Form>
                 </div>
