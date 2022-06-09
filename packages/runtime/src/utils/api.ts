@@ -113,7 +113,7 @@ const services = {
       method: 'POST',
     },
     goodsCatalogList: {
-      url: '/mallsys/api/mall/opera/goodscatalog/list',
+      url: '/goods/api/goods/opera/catalog/tree',
       method: 'POST',
     },
   },
