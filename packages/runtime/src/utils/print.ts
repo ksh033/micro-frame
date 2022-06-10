@@ -1,7 +1,6 @@
-import { Print, BasePluginvoke } from '@scboson/client-plugin';
+import { BasePluginvoke, Print } from '@scboson/client-plugin';
 import { message } from 'antd';
 import { request } from './request';
-import { getAppCode } from '../components/Auth/index';
 
 export const getHostUrl = () => {
   //@ts-ignore
@@ -95,7 +94,7 @@ const printList: { [key: string]: PrintCfg } = {
     moduleId: '000000041',
     moduleName: '收货单',
     tplName: 'receiverOrder_zhen.grf',
-    dataUrl: '/purchase/api/stock/order/print',
+    dataUrl: '/transportsys/api/transport/order/print',
     method: 'get',
   },
   '000000051': {
