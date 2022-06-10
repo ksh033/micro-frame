@@ -178,7 +178,7 @@ export const print = async (moduleId: string, options: PrintProps) => {
         : loadReportURL;
 
       const printParams = {
-        ModuleId: printCfg.moduleId,
+        ModuleId: isZhen ? printCfg.moduleId + '1' : printCfg.moduleId,
         ModuleName: printCfg.moduleName,
       };
       const printData = await printObject.getPrintSet(printParams);
