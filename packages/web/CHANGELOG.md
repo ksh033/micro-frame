@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<<<<<<< HEAD
+=======
+# [1.0.0-beta.44](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.0-beta.43...@micro-frame/sc-web@1.0.0-beta.44) (2022-06-10)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+>>>>>>> dev
 # [1.0.0-beta.43](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.0-beta.42...@micro-frame/sc-web@1.0.0-beta.43) (2022-06-10)
 
 **Note:** Version bump only for package @micro-frame/sc-web
