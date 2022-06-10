@@ -38,6 +38,7 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
       isZhen: zhen,
     });
     if (result) {
+      close?.();
       callback?.();
     }
   };
