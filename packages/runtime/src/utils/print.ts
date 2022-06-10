@@ -49,6 +49,10 @@ export enum PrintTplType {
   receiverOrder = '00000004',
   /** 出库单 */
   stockOutOrder = '00000005',
+  /** 收货单针式 */
+  receiverOrderZhen = '000000041',
+  /** 出库单针式 */
+  stockOutOrderZhen = '000000051',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -84,6 +88,20 @@ const printList: { [key: string]: PrintCfg } = {
     moduleId: '00000005',
     moduleName: '出库单',
     tplName: 'stockOutOrder.grf',
+    dataUrl: '/purchase/api/stock/order/print',
+    method: 'get',
+  },
+  '000000041': {
+    moduleId: '000000041',
+    moduleName: '收货单',
+    tplName: 'receiverOrder_zhen.grf',
+    dataUrl: '/purchase/api/stock/order/print',
+    method: 'get',
+  },
+  '000000051': {
+    moduleId: '000000051',
+    moduleName: '出库单',
+    tplName: 'stockOutOrder_zhen.grf',
     dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
   },
@@ -160,25 +178,10 @@ export const print = async (moduleId: string, options: PrintProps) => {
         method = printCfg.method || 'get',
         preview,
         loadReportURL = `${getHostUrl()}/grf_file/${printCfg.tplName}`,
-        isZhen,
       } = options;
 
-      const zhenTplName = printCfg.tplName
-        .split('.')
-        .map((it, index) => {
-          if (index === 0) {
-            return `${it}_zhen`;
-          }
-          return it;
-        })
-        .join('.');
-
-      const newLoadReportURL = isZhen
-        ? `${getHostUrl()}/grf_file/${zhenTplName}`
-        : loadReportURL;
-
       const printParams = {
-        ModuleId: isZhen ? printCfg.moduleId + '1' : printCfg.moduleId,
+        ModuleId: printCfg.moduleId,
         ModuleName: printCfg.moduleName,
       };
       const printData = await printObject.getPrintSet(printParams);
@@ -191,7 +194,7 @@ export const print = async (moduleId: string, options: PrintProps) => {
         }
         const data = await request(url, { method, ...temData });
         printObject.doPreview({
-          LoadReportURL: newLoadReportURL,
+          LoadReportURL: loadReportURL,
           PrintPreview: preview || false,
           PrintData: data,
           PrintSet: printData,

@@ -12,7 +12,6 @@ export interface PrintButtonProp {
   preview: boolean;
   callBack?: Function;
   getParams?: () => {};
-  isZhen?: boolean;
 }
 /**
  * 字典控件
@@ -27,7 +26,6 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
     children,
     getParams,
     callBack,
-    isZhen = false,
     ...restProps
   } = pros;
 
@@ -52,7 +50,7 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
     const params = await getParam();
 
     if (obj.key === 'priview') {
-      print(printType, { params, preview: true, isZhen: isZhen });
+      print(printType, { params, preview: true });
     }
 
     if (obj.key === 'setting') {

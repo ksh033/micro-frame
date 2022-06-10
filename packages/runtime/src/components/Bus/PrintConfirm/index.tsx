@@ -33,9 +33,13 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
   } = pageProps;
 
   const onPrint = async (zhen: boolean) => {
-    const result = await print(moduleId, {
+    let newModuleId = moduleId;
+    if (zhen) {
+      newModuleId = newModuleId + '1';
+    }
+
+    const result = await print(newModuleId, {
       params: params,
-      isZhen: zhen,
     });
     if (result) {
       close?.();
