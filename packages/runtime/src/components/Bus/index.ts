@@ -25,7 +25,7 @@ import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect';
 import OldGoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree';
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect';
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree';
-import CatalogTreeSelect from './CatalogTreeSelect'
+import CatalogTreeSelect from './CatalogTreeSelect';
 /** 旧 商品组件 end */
 import CooperateSupplierSelect from './CooperateSupplierSelect';
 import PrintButton from './PrintButton';
@@ -44,6 +44,7 @@ import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
 import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect';
 import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
 import GoodsCatalogTreeSelect from './MallGoods/Catalog/CatalogTreeSelect';
+import PrintConfirm, { openPrintConfirm } from './PrintConfirm';
 
 const { regeditCmp } = PageSchema;
 regeditCmp('CheckBoxDate', CheckBoxDate);
@@ -95,7 +96,8 @@ export {
   ShowCatalogSelect,
   OldGoodsCatalogTree,
   GoodsCatalogTree,
-
+  PrintConfirm,
+  openPrintConfirm,
   PrintButton,
   CatalogTreeSelect,
   GoodsSelectTable,
@@ -109,5 +111,5 @@ export {
   GoodsModalSelect,
   GoodsTable,
   ChainManageComPanySelect,
-  GoodsCatalogTreeSelect
+  GoodsCatalogTreeSelect,
 };
