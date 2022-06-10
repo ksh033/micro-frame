@@ -1,10 +1,6 @@
 {
   "name": "@micro-frame/sc-runtime",
-<<<<<<< HEAD
-  "version": "1.0.5-beta.22",
-=======
   "version": "1.0.5-beta.23",
->>>>>>> dev
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
