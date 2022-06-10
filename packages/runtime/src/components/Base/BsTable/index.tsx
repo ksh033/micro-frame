@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ScTable } from '@scboson/sc-element';
 import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
@@ -6,17 +6,63 @@ import userDictModel from '../../Dict/userDictModel';
 import ToolBar from '../ToolBar';
 import Authority from '../../Auth/Authority';
 import styles from './index.less';
-import { isArray } from 'lodash';
+import { isArray, isObject } from 'lodash';
 import Operation from './Operation';
+import { Badge } from 'antd';
+import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
+import { execlColumnsFormat } from './execlUtil';
+// @ts-ignore
+import { history } from 'umi';
+import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 
-export interface BsTableProps extends Omit<ScTableProps<any>, 'toolbar'> {
+export type ExcelColumn = {
+  text: string;
+  field: string;
+  dataType: 'STRING' | 'CURRENCY' | 'NUMBER';
+  pattern: string;
+  expression: string;
+  children: ExcelColumn[];
+};
+
+export type ExportExeclConfig = {
+  excelColumn?: ExcelColumn[];
+  fileName: string;
+  queryParams?: any;
+  btnText?: string;
+};
+
+export interface BsTableProps
+  extends Omit<ScTableProps<any>, 'toolbar' | 'request'> {
   toolbar?: any;
+  request?: (params: any, options?: any) => Promise<any>;
+  exportExeclConfig?: false | ExportExeclConfig;
+  groupLabels?:
+    | false
+    | {
+        queryDataIndex?: string;
+        dictType?: string;
+        needAll?: boolean;
+      };
 }
 export interface BsTableComponentProps {
   dataIndex?: string;
   rowData?: any;
   value?: any;
 }
+
+const renderBadge = (count: number, active = false) => {
+  return (
+    <Badge
+      count={count}
+      style={{
+        marginTop: -2,
+        marginLeft: 4,
+        color: active ? '#1890FF' : '#999',
+        backgroundColor: active ? '#E6F7FF' : '#eee',
+      }}
+    />
+  );
+};
 
 const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const {
@@ -26,10 +72,79 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     toolBarRender,
     onLoad,
     scroll = { x: 'max-content' },
+    options,
+    exportExeclConfig = false,
+    groupLabels: groupLabelsProps = false,
+    params = {},
+    saveRef,
     ...restProps
   } = props;
 
-  const { getDistList } = userDictModel();
+  const { getDistList, getDictText } = userDictModel();
+  let defaultActiveKey = '';
+  // 默认的tab切换配置
+  const defaultLabelsProps = {
+    needAll: true,
+  };
+  const groupLabels =
+    groupLabelsProps !== false
+      ? Object.assign({}, defaultLabelsProps, groupLabelsProps)
+      : false;
+
+  if (groupLabels !== false) {
+    defaultActiveKey = groupLabels && groupLabels.needAll ? 'all' : '';
+    if (params[groupLabels.queryDataIndex || '']) {
+      defaultActiveKey = params[groupLabels.queryDataIndex || ''];
+    }
+  }
+
+  const [activeKey, setActiveKey] = useState<React.Key>(defaultActiveKey);
+  const [groupLabelsMap, setGroupLabelsMap] = useState<any>({});
+
+  const actionRef = useRef<any>();
+  if (saveRef) {
+    // @ts-ignore
+    saveRef.current = actionRef.current;
+  }
+  /** 绑定 action ref */
+  React.useImperativeHandle(saveRef, () => {
+    return actionRef.current;
+  });
+
+  const request = restProps.request;
+
+  const onExportExecl = () => {
+    if (exportExeclConfig !== false) {
+      const execlParams = {
+        columns: execlColumnsFormat(
+          columns,
+          actionRef.current.columnsMap,
+          exportExeclConfig
+        ),
+        queryParams: {
+          ...params,
+          size: 10,
+          current: 1,
+          ...(exportExeclConfig.queryParams || {}),
+        },
+        fileName: exportExeclConfig.fileName || Date.now() + '',
+      };
+      request?.(execlParams, {
+        headers: {
+          excelMeta: 1,
+        },
+      });
+    }
+  };
+
+  if (exportExeclConfig !== false) {
+    toolbar.unshift({
+      text: exportExeclConfig.btnText || '导出execl',
+      funcode: 'EXPORT',
+      onClick: onExportExecl,
+      type: 'primary',
+    });
+  }
 
   const columnsFormat = (list: any[]) => {
     list.forEach((col: any, index: number) => {
@@ -94,6 +209,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       it.fixed = true;
     }
     return {
+      key: it.dataIndex || index,
       ...it,
     };
   });
@@ -149,9 +265,81 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     }
 
     onLoad && onLoad(newData);
-
+    if (groupLabels !== false && isObject(data.groupLabels)) {
+      setGroupLabelsMap(data.groupLabels);
+      if (groupLabels.needAll !== true) {
+        const key = Object.keys(data.groupLabels)[0];
+        setActiveKey(key);
+      }
+    }
     return newData;
   };
+  // 初始化tab栏
+  const getToolbarProps = (
+    _activeKey: React.Key,
+    map: any
+  ): ListToolBarProps | undefined => {
+    if (groupLabels !== false) {
+      const list: any[] = [];
+      if (groupLabels.needAll) {
+        list.push({
+          key: 'all',
+          label: '全部',
+        });
+      }
+      Object.keys(map).forEach((key) => {
+        const text = getDictText(
+          {
+            dictTypeCode:
+              groupLabels.dictType || groupLabels.queryDataIndex || '',
+          },
+          key
+        );
+        list.push({
+          key: key,
+          label: (
+            <span>
+              {text}
+              {renderBadge(map[key] || 0, _activeKey === key)}
+            </span>
+          ),
+        });
+      });
+      return {
+        menu: {
+          type: 'tab',
+          activeKey: _activeKey,
+          items: list,
+          onChange: (key) => {
+            if (history && history.location) {
+              const { pathname, search } = history.location;
+              const pathKey = pathname + search;
+              if (pathKey) {
+                setLocalSearchParams(pathKey, {
+                  [groupLabels.queryDataIndex || '']: key,
+                });
+              }
+            }
+            setActiveKey(key as string);
+          },
+        },
+      };
+    }
+    return void 0;
+  };
+
+  const newParams = useMemo(() => {
+    if (groupLabels !== false) {
+      const rparams = params || {};
+      rparams.needGroupLabel = true;
+      rparams[groupLabels.queryDataIndex || ''] =
+        activeKey !== 'all' ? activeKey : null;
+      return rparams;
+    } else {
+      return params;
+    }
+  }, [params, activeKey, groupLabels]);
+
   return (
     <>
       <div className={'bs-table-list'}>
@@ -162,6 +350,16 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           data={data}
           columns={newColumns}
           toolBarRender={newToolBarRender}
+          toolbar={getToolbarProps(activeKey, groupLabelsMap)}
+          options={options}
+          // options={
+          //   options || {
+          //     reload: true,
+          //     setting: true,
+          //   }
+          // }
+          saveRef={actionRef}
+          params={newParams}
           {...restProps}
         />
       </div>

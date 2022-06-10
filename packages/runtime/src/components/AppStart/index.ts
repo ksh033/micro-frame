@@ -1,8 +1,9 @@
-import SelectDept from '../SelectDept'
-import Login from '../Login'
-import { getUser } from '../Auth'
+import SelectDept from '../SelectDept';
+import Login from '../Login';
+import RetrievePassword from '../Login/retrievepassword';
+import { getUser } from '../Auth';
 // @ts-ignore
-import { history } from 'umi'
+import { history } from 'umi';
 export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
@@ -19,33 +20,38 @@ export function onRouteChange({ location }: any) {
 }
 
 export function render(oldRender: any) {
-  const currentUser = getUser()
+  const currentUser = getUser();
   if (currentUser) {
     //if (currentUser && currentUser.userAppInfo.currentDept) {
     // currentUser.currentSystem.
     //history.push(`/${currentUser.userAppInfo.currentSystem.systemCode}`);
     // }
     //console.log(getRoutes().)
-    oldRender()
+    oldRender();
   } else {
     history.push({
       pathname: '/login',
       query: history.location.query,
-    })
-    oldRender()
+    });
+    oldRender();
   }
 }
 
 // 动态加载登录
 export function patchRoutes({ routes }: any) {
   routes.unshift({
+    path: '/retrievepassword',
+    exact: true,
+    component: RetrievePassword,
+  });
+  routes.unshift({
     path: '/selectDept',
     exact: true,
     component: SelectDept,
-  })
+  });
   routes.unshift({
     path: '/login',
     exact: true,
     component: Login,
-  })
+  });
 }

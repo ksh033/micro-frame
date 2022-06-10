@@ -1,18 +1,25 @@
-
 .bs-table-list {
   position: relative;
   width: 100%;
   margin-top: 0px;
   overflow-x: auto;
+
+  :global {
+    .ant-tabs-tab {
+      padding: 6px 0
+    }
+  }
 }
+
 .bs-table-toolbar {
   padding: 10px 0;
+
   .bs-table-toolbar-btn {
     margin-right: 10px;
   }
 }
 
-.sc-table .ant-table-tbody > tr.ant-table-row:hover > td {
+.sc-table .ant-table-tbody>tr.ant-table-row:hover>td {
   background-color: #edf4ff;
 }
 
