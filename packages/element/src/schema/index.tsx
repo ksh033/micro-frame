@@ -3,6 +3,7 @@ import Title from './title';
 import NearbyShop from './NearbyShop';
 import MagicCube from './MagicCube';
 import PageInfo from './PageInfo';
+import Goods from './Goods';
 
 export { Title, NearbyShop, PageInfo };
 
@@ -10,7 +11,7 @@ const BaseCompClassGroup: CompsClassGroup[] = [
   {
     id: 'base-coms',
     name: '基础组件',
-    list: [Title, NearbyShop, MagicCube],
+    list: [Title, NearbyShop, MagicCube, Goods],
   },
   {
     id: 'ump-coms',

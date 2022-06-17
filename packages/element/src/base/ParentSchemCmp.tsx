@@ -1,4 +1,5 @@
 import { ProFormColumnsType } from '@ant-design/pro-form';
+import { FormSchema } from '@ant-design/pro-form/es/components/SchemaForm';
 
 import { ReactNode, ReactElement } from 'react';
 import {
@@ -9,6 +10,8 @@ import {
 } from '../interface';
 import { genNonDuplicateId } from '../utils';
 
+export type FormProps = Omit<FormSchema<any, any>, 'layoutType' | 'columns'>;
+
 class ParentSchemCmp implements ComponentSchemaType, Mixin {
   // 基础配置
   static info: CmpInfo = {
@@ -18,6 +21,7 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
     status: 'success',
     cmpKey: 'ParentSchemCmp',
   };
+  formProps: FormProps = {};
 
   propsConfig: VdProFormColumnsType[] = [];
   cmpKey: string = '';

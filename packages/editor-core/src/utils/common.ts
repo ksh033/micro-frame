@@ -1,9 +1,14 @@
-import _ from 'lodash';
+import isNil from 'lodash/isNil';
+import cloneDeep from 'lodash/cloneDeep';
 // @ts-ignore
 import { VdProFormColumnsType } from '@scvisual/element';
 import { Rules } from 'async-validator/dist-types/interface';
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import { valueTypelist } from '../index';
+
+const defaultFormItemProps = {
+  className: 'deco-control-group',
+};
 
 export function genNonDuplicateId(randomLength: number | undefined = 10) {
   let idStr = Date.now().toString(36);
@@ -28,30 +33,51 @@ const converFormItem = (
         converFormItem(columns, newColumns);
         newItem.columns = newColumns;
       }
-      if (_.isNil(newItem.formItemProps)) {
+      if (isNil(newItem.formItemProps)) {
         newItem.formItemProps = {};
       }
+      if (isNil(newItem.fieldProps)) {
+        newItem.fieldProps = {};
+      }
+
+      const formItemProps = Object.assign(
+        {},
+        defaultFormItemProps,
+        newItem.formItemProps,
+      );
+      newItem.formItemProps = formItemProps;
       if (isNoStyle(it.valueType)) {
         newItem.formItemProps = {
-          ...newItem.formItemProps,
-          noStyle: true,
+          ...formItemProps,
+          label: undefined,
         };
-        newItem.fieldProps = {
-          ...(newItem.fieldProps || {}),
-          formItemTitle: it.title,
+        newItem.fieldProps['formItem'] = {
+          name: it.dataIndex,
+          label: it.title,
         };
+        if (it.valueType === 'VdDivider') {
+          newItem.formItemProps.noStyle = true;
+        }
       }
       columnList.push(newItem);
     });
   }
 };
+export function isPromise(obj: any) {
+  return (
+    !!obj && //有实际含义的变量才执行方法，变量null，undefined和''空串都为false
+    (typeof obj === 'object' || typeof obj === 'function') && // 初始promise 或 promise.then返回的
+    typeof obj.then === 'function'
+  );
+}
 
 export const filterPageConfig = (
   propsConfig: VdProFormColumnsType<any>[],
 ): ProFormColumnsType[] => {
-  let itemInfos: VdProFormColumnsType<any>[] = _.cloneDeep(propsConfig);
+  let itemInfos: VdProFormColumnsType<any>[] = cloneDeep(propsConfig);
   const newColumn: ProFormColumnsType[] = [];
   converFormItem(itemInfos, newColumn);
+
   return newColumn;
 };
 

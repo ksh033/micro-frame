@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
-import VdFormItem, { VdFormItemProps } from '../VdFormItem';
+import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { InputNumber, Slider, SliderSingleProps, Space } from 'antd';
+import './index.less';
 
-export type VdSliderProps = SliderSingleProps & VdFormItemProps;
+export type VdSliderProps = SliderSingleProps & ExtendVdFormItemProps;
 
 const VdSlider: React.FC<VdSliderProps> = (props) => {
-  const { formItemTitle, min = 0, max = 60, defaultValue = 0, ...rest } = props;
+  const { formItem, min = 0, max = 60, defaultValue = 0, ...rest } = props;
 
   const [inputValue, setInputValue] = useMergedState(defaultValue, {
     value: props.value,
@@ -18,7 +19,7 @@ const VdSlider: React.FC<VdSliderProps> = (props) => {
   };
 
   return (
-    <VdFormItem formItemTitle={formItemTitle} showValue={false}>
+    <VdFormItem formItem={formItem} showValue={false}>
       <Space>
         <Slider
           min={min}

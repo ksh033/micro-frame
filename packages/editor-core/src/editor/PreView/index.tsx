@@ -2,7 +2,7 @@ import { CopyOutlined, HomeOutlined } from '@ant-design/icons';
 import { useEventListener } from 'ahooks';
 import { Button } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStore } from '../../stores';
 import { ModalType } from '../../stores/editor';
 import { iframeId } from '../../index';
@@ -12,12 +12,11 @@ import useIframeLoad from './useIframeLoad';
 
 const defaultHeight = 600;
 
-const PreView: React.FC<any> = (props) => {
+const PreView: React.FC<any> = () => {
   const { comsStore, editorStore, previewStore } = useStore();
   const contentIFrameRef = useRef<HTMLIFrameElement>(null);
   const modalType = editorStore.modalType;
   const [height, setHeight] = useState<Number>(defaultHeight);
-
   const handleClick = (type: ModalType) => {
     editorStore.changeModalType(type);
   };
@@ -112,7 +111,7 @@ const PreView: React.FC<any> = (props) => {
       <div className="preview">
         <div className="preview-head">
           <div className="preview-header-title">
-            {editorStore.pageinfo.pageName}
+            {editorStore.pageinfo.values.pageName}
           </div>
         </div>
         <div className="preview-content drop-content">

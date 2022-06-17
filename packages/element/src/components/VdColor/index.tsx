@@ -1,21 +1,21 @@
-import _ from 'lodash'
-import React, { useMemo } from 'react'
-import VdFormItem, { VdFormItemProps } from '../VdFormItem'
-import type { SketchPickerProps } from '@chenshuai2144/sketch-color'
-import { SketchPicker } from '@chenshuai2144/sketch-color'
-import useMergedState from 'rc-util/lib/hooks/useMergedState'
-import { Button, PopoverProps, Space } from 'antd'
-import { ConfigProvider } from 'antd'
-import { Popover } from 'antd'
+import _ from 'lodash';
+import React, { useMemo } from 'react';
+import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
+import type { SketchPickerProps } from '@chenshuai2144/sketch-color';
+import { SketchPicker } from '@chenshuai2144/sketch-color';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { Button, PopoverProps, Space } from 'antd';
+import { ConfigProvider } from 'antd';
+import { Popover } from 'antd';
 
 export type VdColorProps = SketchPickerProps &
-  VdFormItemProps & {
-    value?: string
-    defaultColor: string
-    popoverProps?: PopoverProps
-    onChange?: (color: string) => void
-    colors?: string[]
-  }
+  ExtendVdFormItemProps & {
+    value?: string;
+    defaultColor: string;
+    popoverProps?: PopoverProps;
+    onChange?: (color: string) => void;
+    colors?: string[];
+  };
 
 export const DEFAULT_COLORS = [
   '#FF9D4E', // 0 - 橘黄色
@@ -28,23 +28,18 @@ export const DEFAULT_COLORS = [
   '#6DC8EC', // 7 - 浅蓝色
   '#667796', // 8 - 黛蓝色
   '#F6BD16', // 9 - 黄色
-]
+];
 
 const VdColor: React.FC<VdColorProps> = (props) => {
-  const {
-    formItemTitle,
-    popoverProps,
-    defaultColor = '#1890ff',
-    ...rest
-  } = props
+  const { formItem, popoverProps, defaultColor = '#1890ff', ...rest } = props;
 
   const [color, setColor] = useMergedState(defaultColor, {
     value: props.value,
     onChange: props.onChange,
-  })
+  });
   const handleClick = () => {
-    setColor(defaultColor)
-  }
+    setColor(defaultColor);
+  };
 
   const readDom = (
     <div
@@ -65,10 +60,10 @@ const VdColor: React.FC<VdColorProps> = (props) => {
         }}
       />
     </div>
-  )
+  );
 
   return (
-    <VdFormItem formItemTitle={formItemTitle} valueName={color}>
+    <VdFormItem formItem={formItem} valueName={color}>
       <Space>
         <Button type="link" onClick={handleClick}>
           重置
@@ -91,9 +86,9 @@ const VdColor: React.FC<VdColorProps> = (props) => {
                 color={color}
                 onChange={({ hex, rgb: { r, g, b, a } }) => {
                   if (a && a < 1) {
-                    setColor(`rgba(${r}, ${g}, ${b}, ${a})`)
+                    setColor(`rgba(${r}, ${g}, ${b}, ${a})`);
                   }
-                  setColor(hex)
+                  setColor(hex);
                 }}
               />
             </div>
@@ -103,7 +98,7 @@ const VdColor: React.FC<VdColorProps> = (props) => {
         </Popover>
       </Space>
     </VdFormItem>
-  )
-}
+  );
+};
 
-export default VdColor
+export default VdColor;

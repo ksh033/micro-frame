@@ -1,0 +1,81 @@
+.deco-goods-list {
+  position: relative;
+}
+
+.deco-goods-list-item {
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 12px;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 rgba(10, 42, 97, 0.2);
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 50px;
+  height: 50px;
+  margin: 5px 10px 5px 0;
+  display: block;
+  float: left;
+}
+
+.deco-goods-list-item:after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #155bd4;
+  border-radius: 2px;
+  z-index: 1;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+
+.deco-goods-list-add-item {
+  float: left;
+  flex-direction: column;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 10px 5px 0;
+  padding: 9px 16px;
+  border-radius: 2px;
+  background: #fff;
+  color: #155bd4;
+  font-size: 14px;
+  line-height: 20px;
+  box-shadow: 0 0 4px 0 rgba(10, 42, 97, 0.2);
+}
+
+
+.deco-editor-list-item__delete {
+  position: absolute;
+  cursor: pointer;
+  font-size: 20px;
+  right: -10px;
+  top: -10px;
+  color: #bbb;
+  background: #fff;
+  border-radius: 50%;
+  visibility: hidden;
+  z-index: 2;
+}
+
+.deco-goods-list .deco-goods-list-item:hover:after {
+  visibility: visible;
+}
+
+.deco-goods-list-item:hover .deco-editor-list-item__delete {
+  visibility: visible;
+}

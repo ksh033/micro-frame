@@ -1,8 +1,3 @@
-import {
-  AlignCenterOutlined,
-  AlignLeftOutlined,
-  AlignRightOutlined,
-} from '@ant-design/icons';
 import { VdProFormColumnsType } from '../interface/index';
 
 const location: VdProFormColumnsType = {
@@ -11,9 +6,9 @@ const location: VdProFormColumnsType = {
   valueType: 'VdRadioIcon',
   fieldProps: {
     options: [
-      { text: '居左显示', value: 'left', icon: AlignLeftOutlined },
-      { text: '居中显示', value: 'center', icon: AlignCenterOutlined },
-      { text: '居右显示', value: 'right', icon: AlignRightOutlined },
+      { text: '居左显示', value: 'left', icon: 'deco-icon-align-left' },
+      { text: '居中显示', value: 'center', icon: 'deco-icon-align-center' },
+      { text: '居右显示', value: 'right', icon: 'deco-icon-align-right' },
     ],
   },
 };

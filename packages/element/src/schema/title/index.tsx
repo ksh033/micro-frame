@@ -23,6 +23,12 @@ class Title extends ParentSchemCmp {
     {
       valueType: 'VdTabs',
       dataIndex: 'styleType',
+      formItemProps: {
+        className: 'deco-control-group',
+        style: {
+          marginBottom: '0px',
+        },
+      },
       fieldProps: {
         options: [
           {
@@ -40,6 +46,7 @@ class Title extends ParentSchemCmp {
       title: '标题内容',
       dataIndex: 'title',
       formItemProps: {
+        className: 'deco-control-group',
         rules: [
           {
             required: true,
@@ -120,14 +127,14 @@ class Title extends ParentSchemCmp {
     },
   ];
 
-  getPropsConfig(columns: ProFormColumnsType[], record: any) {
-    const columnsMap = new Map<any, ProFormColumnsType>();
+  getPropsConfig(columns: ProFormColumnsType<any>[], record: any) {
+    const columnsMap = new Map<any, ProFormColumnsType<any>>();
     columns.forEach((it) => {
       if (it.dataIndex) {
         columnsMap.set(it.dataIndex, it);
       }
     });
-    const newColumns: ProFormColumnsType[] = [];
+    const newColumns: ProFormColumnsType<any>[] = [];
     const styleType = columnsMap.get('styleType');
     if (styleType) {
       newColumns.push(styleType);
@@ -153,14 +160,20 @@ class Title extends ParentSchemCmp {
         const itemColumns = columnsMap.get(it);
         if (itemColumns) {
           if (record['styleType'] === 'old' && it === 'location') {
-            const options = Array.isArray(itemColumns.fieldProps.options)
-              ? itemColumns.fieldProps.options
-              : [];
-            itemColumns.fieldProps.options = options.filter(
-              (it: any) => it.value !== 'right',
-            );
+            if (itemColumns.fieldProps) {
+              let options = itemColumns.fieldProps['options'];
+              options = Array.isArray(options) ? options : [];
+              itemColumns.fieldProps['options'] = options.filter(
+                (it: any) => it.value !== 'right',
+              );
+            }
           }
           newColumns.push(itemColumns);
+        }
+        if (record['styleType'] === 'old' && it === 'description') {
+          newColumns.push({
+            valueType: 'divider',
+          });
         }
       });
     }

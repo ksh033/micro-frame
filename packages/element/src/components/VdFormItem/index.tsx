@@ -1,38 +1,48 @@
-import { Form } from 'antd';
+import { Form, FormItemProps } from 'antd';
 import _ from 'lodash';
 import React from 'react';
 import './index.less';
 
 export type VdFormItemProps = {
-  formItemTitle?: string;
-  valueName?: React.Key;
+  formItem?: FormItemProps;
+  valueName?: React.Key | React.ReactNode;
   showValue?: boolean;
   block?: boolean;
+  showFormItemTitle?: boolean;
+};
+
+export type ExtendVdFormItemProps = {
+  formItem?: FormItemProps;
+  block?: boolean;
+  showValue?: boolean;
 };
 
 const VdFormItem: React.FC<VdFormItemProps> = (props) => {
-  const { formItemTitle, valueName, showValue = true, block = false } = props;
-
+  const {
+    formItem,
+    valueName,
+    showValue = true,
+    block = false,
+    showFormItemTitle = true,
+  } = props;
   return (
-    <Form.Item>
-      <div
-        className={
-          block
-            ? 'vd-component-warp vd-component-warp-block'
-            : 'vd-component-warp'
-        }
-      >
-        <div className="vd-component-warp-header">
-          <span className="vd-component-warp__label">
-            {formItemTitle || ''}
-          </span>
-          {showValue ? (
-            <span className="vd-component-warp__value">{valueName}</span>
-          ) : null}
-        </div>
-        <div className="vd-component-warp-content">{props.children}</div>
+    <div
+      className={
+        block
+          ? 'vd-component-warp vd-component-warp-block'
+          : 'vd-component-warp'
+      }
+    >
+      <div className="vd-component-warp-header">
+        <span className="vd-component-warp__label">
+          {showFormItemTitle ? formItem?.label || '' : ''}
+        </span>
+        {showValue ? (
+          <span className="vd-component-warp__value">{valueName}</span>
+        ) : null}
       </div>
-    </Form.Item>
+      <div className="vd-component-warp-content">{props.children}</div>
+    </div>
   );
 };
 

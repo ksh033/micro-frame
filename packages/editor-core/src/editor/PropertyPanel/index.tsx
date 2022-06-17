@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'antd';
 import { useStore } from '../../stores';
 import { ModalType } from '../../stores/editor';
@@ -34,7 +34,7 @@ const PropertyPanel: React.FC<any> = (props) => {
   useEffect(() => {
     form.validateFields();
     editCmp?.setImmediatelyCheck(false);
-  }, [editCmp?.immediatelyCheck]);
+  }, [Boolean(editCmp?.immediatelyCheck)]);
 
   const columns = React.useMemo(() => {
     if (editCmp?.propsConfig) {
@@ -53,22 +53,26 @@ const PropertyPanel: React.FC<any> = (props) => {
   };
 
   const onValuesChange = (values: any, allValues: any) => {
-    let newValues = allValues;
+    let newValues = { ...initialValues, ...allValues };
     // 修改表单
     if (editCmp?.onValuesChange) {
       newValues = editCmp?.onValuesChange(values, newValues);
       form.setFieldsValue(newValues);
     }
-    setValues({
-      ...values,
-      ...newValues,
-    });
+    console.log(newValues);
+    setValues(newValues);
+    if (editCmp?.formatValues) {
+      editorStore.updateCurrentEditCmpValues(editCmp?.formatValues(newValues));
+    } else {
+      editorStore.updateCurrentEditCmpValues(newValues);
+    }
     // 更新数据
-    editorStore.updateCurrentEditCmpValues(newValues);
   };
 
   const renderByType = (type: ModalType) => {
     if ((type === 'component' || type === 'pageSet') && editCmp) {
+      const formProps = editCmp.formProps || {};
+
       const baseProps = {
         id: editCmp.id,
         form: form,
@@ -78,6 +82,7 @@ const PropertyPanel: React.FC<any> = (props) => {
         onValuesChange:
           type === 'component' ? onValuesChange : onPageValuesChange,
         'data-row': values,
+        ...formProps,
       };
 
       if (editCmp.render) {

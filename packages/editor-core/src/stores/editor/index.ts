@@ -1,9 +1,10 @@
-import { observable, action } from 'mobx';
 // @ts-ignore
 import type { ComponentSchemaProps } from '@scvisual/element';
 // @ts-ignore
-import { ClassType, BaseCompMap, PageInfo } from '@scvisual/element';
+import { BaseCompMap, ClassType, PageInfo } from '@scvisual/element';
 import { arrayMoveImmutable } from 'array-move';
+import cloneDeep from 'lodash/cloneDeep';
+import { action, observable } from 'mobx';
 import sendToIframe from '../../utils/sendToIframe';
 
 export type ModalType = 'component' | 'componentList' | 'pageSet';
@@ -15,7 +16,7 @@ export type editorStoreType = {
   currentEditCmp: ComponentSchemaProps | null; // 正在编辑的数据
   editList: ComponentSchemaProps[]; // 所有的编辑列表
   updateCurrentEditCmpValues: (newValues: any) => void; // 更新正在编辑的组件的内容
-  switchEditCmp: (id: string) => void; // 切换编辑的组件
+  switchEditCmp: (id: string, immediatelyCheck?: boolean) => void; // 切换编辑的组件
   addToEdit: (item: ClassType, index?: number, noticed?: boolean) => void; // 添加组件并编辑
   addCmp: (record: ComponentSchemaProps, index: number) => void; // 纯粹添加组件
   deleteCmp: (id: string, noticed?: boolean) => void; // 删除组件
@@ -140,7 +141,7 @@ class EditorClass {
 
   // 切换编辑的组件
   @action.bound
-  switchEditCmp(id: string): void {
+  switchEditCmp(id: string, immediatelyCheck: boolean = false): void {
     // 先更新当前的 list 下的数据
     this.updeteEditList();
 
@@ -150,7 +151,10 @@ class EditorClass {
       const Clas = BaseCompMap.get(item.cmpKey);
       if (Clas) {
         const newItem = new Clas();
-        newItem.initClass(item);
+        newItem.initClass({
+          ...item,
+          immediatelyCheck: immediatelyCheck,
+        });
         this.currentEditCmp = newItem;
         this.modalType = 'component';
       }
@@ -161,7 +165,7 @@ class EditorClass {
   @action.bound
   updeteEditList() {
     if (this.currentEditCmp && this.currentKey) {
-      const editCmp = JSON.parse(JSON.stringify(this.currentEditCmp));
+      const editCmp = cloneDeep(this.currentEditCmp);
       const index = this.editList.findIndex((it) => it.id === editCmp?.id);
       if (index !== -1) {
         this.editList.splice(index, 1, editCmp);
@@ -175,8 +179,8 @@ class EditorClass {
   @action.bound
   updeteEditListItem(record: ComponentSchemaProps) {
     if (record) {
-      const editCmp = JSON.parse(JSON.stringify(record));
-      const index = this.editList.findIndex((it) => it.id === editCmp?.id);
+      const editCmp = cloneDeep(record);
+      const index = this.editList.findIndex((it) => it.id === record?.id);
       if (index !== -1) {
         this.editList.splice(index, 1, editCmp);
       }
