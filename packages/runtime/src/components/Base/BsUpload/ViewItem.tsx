@@ -62,7 +62,6 @@ const ViewItem: React.FC<ViewItemProps> = (props) => {
   };
 
   const fileFormat = (files: (FileType | string)[]): UploadFile[] => {
-    console.log(files);
     return files
       .filter((it) => it != null)
       .map((item, index: number) => {
