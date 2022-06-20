@@ -1,24 +1,26 @@
-import React from 'react';
-import { message } from 'antd';
-import { baseApi, imageUrl } from '../../../utils/common';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import {
-  FormComponentProps,
   FormComponent,
+  FormComponentProps,
 } from '@scboson/sc-element/es/c-form';
-import { getUser } from '../../Auth';
-import SingleUpload from './SingleUpload';
-import MultipleUpload from './MultipleUpload';
-import BsImg from '../BsImg';
+import { Button, message } from 'antd';
+import { UploadListType } from 'antd/es/upload/interface';
+import React from 'react';
+import { baseApi, imageUrl } from '../../../utils/common';
 import compute from '../../../utils/compute';
-import styles from './index.less';
+import { getUser } from '../../Auth';
+import MultipleUpload from './MultipleUpload';
+import SingleUpload from './SingleUpload';
+import { isImageFileType } from './utils';
 import ViewItem from './ViewItem';
 
 export type FileType = {
   url: string | null;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   fileId: string;
   thumb_url?: string;
+  fileName: string;
 };
 
 interface BsUploadProps extends FormComponentProps {
@@ -36,9 +38,23 @@ interface BsUploadProps extends FormComponentProps {
   imgWidth?: { maxWidth?: number; minWidth?: number; width?: number };
   imgHeight?: { maxHeight?: number; minHeight?: number; height?: number };
   valueType?: 'string' | 'object';
+  listType?: UploadListType;
 }
 
-const isImageFileType = (type: string): boolean => type.indexOf('image/') > -1;
+export const uploadBtn = (listType: UploadListType) => {
+  if (listType === 'picture-card') {
+    return (
+      <div>
+        <PlusOutlined />
+        <div>上传</div>
+      </div>
+    );
+  }
+  if (listType === 'picture') {
+    return <Button icon={<UploadOutlined />}>上传</Button>;
+  }
+  return null;
+};
 
 const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   const {
@@ -56,6 +72,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     imgHeight = undefined,
     initialValues,
     valueType = 'string',
+    listType: propListType = 'picture-card',
     name,
     ...restProps
   } = props;
@@ -67,6 +84,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   } else {
     headers['sys-code'] = 'common';
   }
+  const listType = propListType === 'text' ? 'picture-card' : propListType;
 
   const maxSizeM = compute.divide(maxSize, 1024 * 1024);
   const videoMaxSizeM = compute.divide(videoMaxSize, 1024 * 1024);
@@ -77,12 +95,11 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
       return file.size <= maxSize;
     }
     const isVideo = file.type.indexOf('video') > -1;
-
     if (isVideo) {
       return file.size <= videoMaxSize;
     }
 
-    return false;
+    return file.size <= maxSize;
   };
   const loadImg = (file) => {
     return new Promise((resolve, reject) => {
@@ -190,8 +207,18 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
         return false;
       }
     }
+    const isLt2M = file.size <= maxSize;
 
-    return false;
+    if (!isLt2M) {
+      message.error(`文件大小必须小于${maxSizeM}M!`);
+      return false;
+    }
+
+    if (uploadImmediately) {
+      return isLt2M;
+    } else {
+      return false;
+    }
   };
 
   const checkImgWidth = (fileUrl: string | null) => {
@@ -221,58 +248,52 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
       if (valueType === 'string') {
         return fileUrl;
       } else {
-        if (result.width && result.height) {
-          return {
-            fileId: result.fileInfoId,
-            url: fileUrl ? fileUrl : null,
-            width: result.width,
-            height: result.height,
-            thumb_url: result.thumbnailUrl,
-          };
-        } else {
-          const imgInfo: any = await checkImgWidth(fileUrl);
-          return {
-            fileId: result.fileInfoId,
-            url: fileUrl ? fileUrl : null,
-            width: imgInfo && imgInfo.width ? imgInfo.width : null,
-            height: imgInfo && imgInfo.height ? imgInfo.height : null,
-            thumb_url: result.thumbnailUrl,
-          };
+        if (result.type?.indexOf('image/') === 0) {
+          if (result.width && result.height) {
+            return {
+              fileId: result.fileInfoId,
+              fileName: result.fileName,
+              url: fileUrl ? fileUrl : null,
+              width: result.width,
+              height: result.height,
+              thumb_url: result.thumbnailUrl,
+            };
+          } else {
+            const imgInfo: any = await checkImgWidth(fileUrl);
+            return {
+              fileId: result.fileInfoId,
+              fileName: result.fileName,
+              url: fileUrl ? fileUrl : null,
+              width: imgInfo && imgInfo.width ? imgInfo.width : null,
+              height: imgInfo && imgInfo.height ? imgInfo.height : null,
+              thumb_url: result.thumbnailUrl,
+            };
+          }
         }
+        return {
+          fileId: result.fileInfoId,
+          fileName: result.fileName,
+          url: fileUrl ? fileUrl : null,
+          thumb_url: result.thumbnailUrl,
+        };
       }
     } catch (error) {
       return null;
     }
   };
 
-  const renderImg = (item: FileType | string) => {
-    if (typeof item === 'string') {
-      return <ViewItem src={item}></ViewItem>;
-    } else {
-      return <ViewItem src={item?.thumb_url || item.url}></ViewItem>;
-    }
-  };
-
   if (readonly) {
-    if (Array.isArray(restProps.value)) {
+    if (restProps.value) {
       return (
-        <div className={styles['bs-upload-img-list']}>
-          {restProps.value.map((item, index: number) => {
-            return item ? (
-              <div className={styles['bs-upload-img']} key={index}>
-                {renderImg(item)}
-              </div>
-            ) : null;
-          })}
-        </div>
+        <ViewItem
+          files={
+            Array.isArray(restProps.value) ? restProps.value : [restProps.value]
+          }
+          listType={listType}
+        ></ViewItem>
       );
-    } else {
-      return restProps.value ? (
-        <div className={styles['bs-upload-img']}>
-          {renderImg(restProps.value)}
-        </div>
-      ) : null;
     }
+    return null;
   }
 
   return (
@@ -288,6 +309,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           headers={headers}
           valeFormat={valeFormat}
           maxSizeCheck={maxSizeCheck}
+          listType={listType}
           {...restProps}
         ></SingleUpload>
       ) : (
@@ -300,6 +322,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           headers={headers}
           valeFormat={valeFormat}
           maxSizeCheck={maxSizeCheck}
+          listType={listType}
           {...restProps}
           value={Array.isArray(props.value) ? props.value : []}
         ></MultipleUpload>
