@@ -121,12 +121,7 @@ async function release() {
 
   // Publish
   // Umi must be the latest.
-  let pkgs = args.publishOnly ? getPackages() : updated;
-
-  if (Array.isArray(pkgs)) {
-    pkgs = pkgs.filter((it) => it !== 'editor-core' && it !== 'element');
-  }
-
+  const pkgs = args.publishOnly ? getPackages() : updated;
   logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
   // 获取 opt 的输入
