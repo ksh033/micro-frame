@@ -24,10 +24,10 @@ export function chenkPwdStrength(newPassword: string): number {
   const cscore = charScore(char);
   /** 额外分数 */
   const existscore = addScore(password);
-  console.log('lscore', lscore);
-  console.log('nscore', nscore);
-  console.log('sscore', sscore);
-  console.log('cscore', cscore);
+  // console.log('lscore', lscore);
+  // console.log('nscore', nscore);
+  // console.log('sscore', sscore);
+  // console.log('cscore', cscore);
   return lscore + nscore + sscore + cscore + existscore;
 }
 

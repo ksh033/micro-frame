@@ -215,7 +215,6 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
       );
     }
-    console.log(file);
     return (
       <div className="bs-signle-picture-card">
         <div className="bs-signle-picture-card-info">
