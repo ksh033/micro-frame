@@ -1,8 +1,8 @@
-import list from "./list";
-import type { PageConfig } from "@scboson/sc-schema";
-import { openWindow } from "../../../Auth";
-import { QuestionCircleFilled } from "@ant-design/icons";
-import { WithTable, WithTableProps } from "../../../WithComponent";
+import { QuestionCircleFilled } from '@ant-design/icons';
+import type { PageConfig } from '@scboson/sc-schema';
+import { openWindow } from '../../../Auth';
+import { WithTable, WithTableProps } from '../../../WithComponent';
+import list from './list';
 const pageConfig: PageConfig = {
   service: {},
   ...list,
@@ -18,7 +18,7 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
   const { children } = props;
   return <> {children}</>;
 };
-GoodsCenterTable.displayName = "GoodsCenterTable";
+GoodsCenterTable.displayName = 'GoodsCenterTable';
 
 /** 商品表格 */
 export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
@@ -26,7 +26,7 @@ export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
   pageConfig,
   (props, searchInfo, pagetInfo) => {
     const { viewUrl, help, ...restProps } = props;
-    pagetInfo.changeCol("saleModel", {
+    pagetInfo.changeCol('saleModel', {
       render: (value, record, index) => {
         const { saleUnit } = record;
         //if (params.)
@@ -34,18 +34,18 @@ export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
         return `${saleUnit}(${value})`;
       },
     });
-    pagetInfo.changeCol("goodsName", {
+    pagetInfo.changeCol('goodsName', {
       props: {
         title: help ? (
           <span>
             商品名称<QuestionCircleFilled></QuestionCircleFilled>
           </span>
         ) : (
-          "商品名称	"
+          '商品名称	'
         ),
         onClick: viewUrl
           ? (record: any) => {
-              const key = props["rowKey"] || "dataId";
+              const key = props['rowKey'] || 'dataId';
               openWindow(`${viewUrl}` + record[key]);
             }
           : undefined,
@@ -53,7 +53,7 @@ export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
     });
 
     searchInfo
-      .changeSearchItem("goodsSearchKey", {
+      .changeSearchItem('goodsSearchKey', {
         width: 630,
       })
       .toConfig();
@@ -61,8 +61,8 @@ export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
       //request: defaultReq,
       ...restProps,
       bordered: false,
-      size: "small",
-      rowKey: "goodsId",
+      size: 'small',
+      rowKey: 'goodsId',
       pageSize: 5,
       //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
       scroll: { y: 420, x: 560 },

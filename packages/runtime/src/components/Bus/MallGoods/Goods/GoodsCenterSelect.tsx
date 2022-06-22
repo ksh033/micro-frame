@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useMemo, useState, useRef, PropsWithRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
-import type { ProColumn } from '@scboson/sc-schema/es/interface';
-import BsTable from '../../../Base/BsTable';
-
+import type { FormComponent } from '@scboson/sc-element/es/c-form';
+import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
+import ActionButton from '@scboson/sc-element/es/c-modal/ActionButton';
 import { ScCard } from '@scboson/sc-layout';
+import type { ProColumn } from '@scboson/sc-schema/es/interface';
+import { useSessionStorageState } from 'ahooks';
+import { Button, Modal } from 'antd';
+import { ButtonProps } from 'antd/es/button/button';
+import AuthButton from '../../../Auth/AuthButton';
+import BsTable from '../../../Base/BsTable';
 import GoodsCatalogTree from '../../../Bus/MallGoods/Catalog/CatalogTree';
 import {
   WithSelectTable,
@@ -12,13 +18,6 @@ import {
   WithTableProps,
 } from '../../../WithComponent';
 import GoodsCenterTable from './GoodsCenterTable';
-import { CModal } from '@scboson/sc-element';
-import { Button } from 'antd';
-import { ButtonProps } from 'antd/es/button/button';
-import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
-import type { FormComponent } from '@scboson/sc-element/es/c-form';
-import { useSessionStorageState } from 'ahooks';
-import AuthButton from '../../../Auth/AuthButton';
 
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
@@ -35,11 +34,12 @@ export type GoodsTransferProps = WithSelectTableProps &
     buttonProps?: ButtonProps & { text: string };
     modalProps?: CModalDialogProps;
     header?: React.ReactNode;
-
+    viewUrl?: string;
     customRef?: React.RefObject<any>;
+    preHandle?: () => any;
   };
 
-const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
+const DlgContent = (porps: GoodsTransferProps) => {
   const [rightSelectedRows, setRightSelectRows] = useState<any[]>();
   const {
     selectionType,
@@ -52,6 +52,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
     customRef,
     viewUrl,
     getCheckboxProps,
+    autoload = true,
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
@@ -130,6 +131,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
             getCheckboxProps={getCheckboxProps}
             rowKey={rowKey}
             request={request}
+            autoload={autoload}
           ></GoodsCenterTable>
         </ScCard>
         <ScCard
@@ -191,9 +193,7 @@ const DlgContent = (porps: GoodsTransferProps & { viewUrl?: string }) => {
  * @param props
  * @returns
  */
-const GoodsCenterSelect: React.FC<
-  GoodsTransferProps & { preHandle?: () => any; viewUrl?: string }
-> = (props) => {
+const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
   const {
     onOk,
     onSubmitGoods,
@@ -203,7 +203,7 @@ const GoodsCenterSelect: React.FC<
     ...restProps
   } = props;
   const { text, ...otherProps } = buttonProps;
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const ref = useRef<any>({});
   //const {customToolbar,...restModalProps}=modalProps;
 
@@ -214,33 +214,79 @@ const GoodsCenterSelect: React.FC<
       onSubmitGoods(selectData, buttonIndex, ref?.current?.clearSelectRow);
     return result;
   };
+
+  const close = () => {
+    ref?.current?.clearSelectRow();
+    setIsModalVisible(false);
+  };
+
   const toolbar: any = modalProps?.customToolbar
-    ? modalProps?.customToolbar.map(({ onClick, ...restProps }, index) => ({
-        onClick: () => {
-          onClick && onClick();
-          return customOnOk('button' + index);
-        },
-        ...restProps,
-      }))
-    : undefined;
+    ? modalProps?.customToolbar.map(({ onClick, ...restProps }, index) => {
+        return (
+          <ActionButton
+            key={`extra-btn-${index}`}
+            actionFn={() => {
+              onClick && onClick();
+              return customOnOk('button' + index);
+            }}
+            closeModal={close}
+            buttonProps={restProps.buttonProps}
+          >
+            {restProps.text}
+          </ActionButton>
+        );
+      })
+    : [];
+
   const showDlg = async () => {
     const reval = preHandle ? await preHandle() : true;
     if (reval) {
-      CModal.show({
-        title: '选择商品',
-        content: <DlgContent {...restProps} customRef={ref} />,
-        onOk: () => {
-          return customOnOk();
-        },
-        ...modalProps,
-        customToolbar: toolbar,
-      });
+      setIsModalVisible(true);
+      // CModal.show({
+      //   title: '选择商品',
+      //   content: Dlg,
+      //   onOk: () => {
+      //     return customOnOk();
+      //   },
+      //   ...modalProps,
+      //   customToolbar: toolbar,
+      // });
     }
   };
+
   return (
-    <AuthButton onClick={showDlg} {...otherProps}>
-      {text}
-    </AuthButton>
+    <div>
+      <AuthButton onClick={showDlg} {...otherProps}>
+        {text}
+      </AuthButton>
+      <Modal
+        title="选择商品"
+        visible={isModalVisible}
+        onCancel={close}
+        width={1200}
+        onOk={() => {
+          return customOnOk();
+        }}
+        footer={[
+          <Button key="back" onClick={close}>
+            取消
+          </Button>,
+          <ActionButton
+            key="submit"
+            actionFn={() => {
+              return customOnOk();
+            }}
+            closeModal={close}
+            buttonProps={modalProps?.okButtonProps || { type: 'primary' }}
+          >
+            {modalProps?.okText || '确定'}
+          </ActionButton>,
+          ...toolbar,
+        ]}
+      >
+        <DlgContent {...restProps} customRef={ref} />
+      </Modal>
+    </div>
   );
 };
 
