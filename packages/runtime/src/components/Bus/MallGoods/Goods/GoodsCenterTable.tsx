@@ -1,5 +1,6 @@
 import { QuestionCircleFilled } from '@ant-design/icons';
 import type { PageConfig } from '@scboson/sc-schema';
+import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
 import { openWindow } from '../../../Auth';
 import { WithTable, WithTableProps } from '../../../WithComponent';
 import list from './list';
@@ -21,51 +22,58 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
 GoodsCenterTable.displayName = 'GoodsCenterTable';
 
 /** 商品表格 */
-export default WithTable<WithTableProps & { viewUrl?: string; help?: string }>(
-  GoodsCenterTable,
-  pageConfig,
-  (props, searchInfo, pagetInfo) => {
-    const { viewUrl, help, ...restProps } = props;
-    pagetInfo.changeCol('saleModel', {
-      render: (value, record, index) => {
-        const { saleUnit } = record;
-        //if (params.)
-        //const [value,record,index,dictText]=
-        return `${saleUnit}(${value})`;
-      },
-    });
-    pagetInfo.changeCol('goodsName', {
-      props: {
-        title: help ? (
-          <span>
-            商品名称<QuestionCircleFilled></QuestionCircleFilled>
-          </span>
-        ) : (
-          '商品名称	'
-        ),
-        onClick: viewUrl
-          ? (record: any) => {
-              const key = props['rowKey'] || 'dataId';
-              openWindow(`${viewUrl}` + record[key]);
-            }
-          : undefined,
-      },
-    });
-
-    searchInfo
-      .changeSearchItem('goodsSearchKey', {
-        width: 630,
-      })
-      .toConfig();
-    return {
-      //request: defaultReq,
-      ...restProps,
-      bordered: false,
-      size: 'small',
-      rowKey: 'goodsId',
-      pageSize: 5,
-      //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
-      scroll: { y: 420, x: 560 },
-    };
+export default WithTable<
+  WithTableProps & {
+    viewUrl?: string;
+    help?: string;
+    formatTableInfo?: (tableInfo: TableInfo) => TableInfo;
   }
-);
+>(GoodsCenterTable, pageConfig, (props, searchInfo, pagetInfo) => {
+  const { viewUrl, help, formatTableInfo, ...restProps } = props;
+
+  pagetInfo.changeCol('saleModel', {
+    render: (value, record, index) => {
+      const { saleUnit } = record;
+      //if (params.)
+      //const [value,record,index,dictText]=
+      return `${saleUnit}(${value})`;
+    },
+  });
+  pagetInfo.changeCol('goodsName', {
+    props: {
+      title: help ? (
+        <span>
+          商品名称<QuestionCircleFilled></QuestionCircleFilled>
+        </span>
+      ) : (
+        '商品名称	'
+      ),
+      onClick: viewUrl
+        ? (record: any) => {
+            const key = props['rowKey'] || 'dataId';
+            openWindow(`${viewUrl}` + record[key]);
+          }
+        : undefined,
+    },
+  });
+
+  if (formatTableInfo) {
+    pagetInfo = formatTableInfo(pagetInfo);
+  }
+
+  searchInfo
+    .changeSearchItem('goodsSearchKey', {
+      width: 630,
+    })
+    .toConfig();
+  return {
+    //request: defaultReq,
+    ...restProps,
+    bordered: false,
+    size: 'small',
+    rowKey: 'goodsId',
+    pageSize: 5,
+    //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
+    scroll: { y: 420, x: 560 },
+  };
+});

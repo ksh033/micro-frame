@@ -6,6 +6,7 @@ import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
 import ActionButton from '@scboson/sc-element/es/c-modal/ActionButton';
 import { ScCard } from '@scboson/sc-layout';
 import type { ProColumn } from '@scboson/sc-schema/es/interface';
+import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
 import { useSessionStorageState } from 'ahooks';
 import { Button, Modal } from 'antd';
 import { ButtonProps } from 'antd/es/button/button';
@@ -37,6 +38,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     viewUrl?: string;
     customRef?: React.RefObject<any>;
     preHandle?: () => any;
+    formatTableInfo?: (tableInfo: TableInfo) => TableInfo;
   };
 
 const DlgContent = (porps: GoodsTransferProps) => {
@@ -53,6 +55,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
     viewUrl,
     getCheckboxProps,
     autoload = true,
+    formatTableInfo,
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
@@ -132,6 +135,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
             rowKey={rowKey}
             request={request}
             autoload={autoload}
+            formatTableInfo={formatTableInfo}
           ></GoodsCenterTable>
         </ScCard>
         <ScCard

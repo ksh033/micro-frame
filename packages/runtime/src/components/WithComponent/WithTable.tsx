@@ -13,12 +13,11 @@ import type {
   FormSearchItem,
   ProColumn,
 } from '@scboson/sc-schema/es/interface';
+import SearchInfo from '@scboson/sc-schema/es/page/SearchInfo';
+import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
+import { useUpdate } from 'ahooks';
 import isFunction from 'lodash/isFunction';
 import type { WithTableProps } from './interface';
-
-import SearchInfo from '@scboson/sc-schema/lib/page/SearchInfo';
-import TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
-import { useUpdate } from 'ahooks';
 
 export default function WithTable<P extends WithTableProps>(
   Component: React.ComponentType<any>,
