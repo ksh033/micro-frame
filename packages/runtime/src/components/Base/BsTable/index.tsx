@@ -1,19 +1,20 @@
-import React, { useMemo, useRef, useState } from 'react';
 import { ScTable } from '@scboson/sc-element';
 import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
+import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
+import { Badge } from 'antd';
+import { isArray, isObject } from 'lodash';
+import React, { useMemo, useRef, useState } from 'react';
+import Authority from '../../Auth/Authority';
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
 import userDictModel from '../../Dict/userDictModel';
 import ToolBar from '../ToolBar';
-import Authority from '../../Auth/Authority';
-import styles from './index.less';
-import { isArray, isObject } from 'lodash';
-import Operation from './Operation';
-import { Badge } from 'antd';
-import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
 import { execlColumnsFormat } from './execlUtil';
+import styles from './index.less';
+import Operation from './Operation';
+// @ts-ignore
+import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
-import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 
 export type ExcelColumn = {
   text: string;
@@ -205,7 +206,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   };
 
   const newColumns = columnsFormat(columns).map((it, index) => {
-    if (index < 2) {
+    if (index < 2 && it.fixed == null) {
       it.fixed = true;
     }
     return {
