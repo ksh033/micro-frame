@@ -1,6 +1,6 @@
 import { QuestionCircleFilled } from '@ant-design/icons';
 import type { PageConfig } from '@scboson/sc-schema';
-import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
+import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
 import { openWindow } from '../../../Auth';
 import { WithTable, WithTableProps } from '../../../WithComponent';
 import list from './list';

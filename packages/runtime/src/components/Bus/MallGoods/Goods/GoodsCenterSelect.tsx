@@ -6,7 +6,7 @@ import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
 import ActionButton from '@scboson/sc-element/es/c-modal/ActionButton';
 import { ScCard } from '@scboson/sc-layout';
 import type { ProColumn } from '@scboson/sc-schema/es/interface';
-import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
+import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
 import { useSessionStorageState } from 'ahooks';
 import { Button, Modal } from 'antd';
 import { ButtonProps } from 'antd/es/button/button';

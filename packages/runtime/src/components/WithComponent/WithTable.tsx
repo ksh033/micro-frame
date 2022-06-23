@@ -1,22 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { ComponentType } from 'react';
-import React, { useMemo, useRef } from 'react';
-
+import { ScCard } from '@scboson/sc-layout';
 import type { PageConfig } from '@scboson/sc-schema';
 import { ListPage, useListPageContext } from '@scboson/sc-schema';
-
-import { ScCard } from '@scboson/sc-layout';
-import BsSearch from '../Base/BsSearch';
-import BsTable from '../Base/BsTable';
-
 import type {
   FormSearchItem,
   ProColumn,
 } from '@scboson/sc-schema/es/interface';
-import SearchInfo from '@scboson/sc-schema/es/page/SearchInfo';
-import type TableInfo from '@scboson/sc-schema/es/page/TableInfo';
+import type SearchInfo from '@scboson/sc-schema/lib/page/SearchInfo';
+import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
 import { useUpdate } from 'ahooks';
 import isFunction from 'lodash/isFunction';
+import type { ComponentType } from 'react';
+import React, { useMemo, useRef } from 'react';
+import BsSearch from '../Base/BsSearch';
+import BsTable from '../Base/BsTable';
 import type { WithTableProps } from './interface';
 
 export default function WithTable<P extends WithTableProps>(

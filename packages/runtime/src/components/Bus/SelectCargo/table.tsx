@@ -1,7 +1,7 @@
 import { ScTree } from '@scboson/sc-element';
 import { ListPage, PageConfig, useListPageContext } from '@scboson/sc-schema';
 import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface';
-import TableInfo from '@scboson/sc-schema/es/page/TableInfo';
+import TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
 import { CheckboxProps } from 'antd';
 import { RowSelectionType } from 'antd/es/table/interface';
 import React, { Key, useMemo, useState } from 'react';
