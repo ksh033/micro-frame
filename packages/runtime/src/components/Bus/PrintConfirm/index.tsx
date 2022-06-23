@@ -1,6 +1,6 @@
-import type { FC } from 'react';
-import { Button } from 'antd';
 import { CModal } from '@scboson/sc-element';
+import { Button } from 'antd';
+import type { FC } from 'react';
 import { print } from '../../../utils/print';
 
 type PrintConfirmPageProps = {
@@ -97,7 +97,7 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                onPrint(true);
+                onPrint(false);
               }}
             >
               {okText}
@@ -107,7 +107,7 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                onPrint(false);
+                onPrint(true);
               }}
             >
               针式打印
