@@ -4,11 +4,13 @@ import { Button, Space, Spin } from 'antd';
 import React, { Key, useEffect, useRef, useState } from 'react';
 import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
 import { uesRequest } from '../../../utils/api';
+import style from './index.less';
 
 type EditCatalogRefProps = {
   close: () => void;
   pageProps: {
     params?: any;
+    reload?: () => void;
     occupyRequest?: (params: any) => Promise<any>; // 请求数据的远程方法
     saveRequest?: (params: any) => Promise<any>; // 请求数据的远程方法
   };
@@ -28,8 +30,8 @@ const defaultOptions = { manual: true };
 
 const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   const allCatalog = uesRequest('catalog', 'allCatalog');
-  const { pageProps } = props;
-  const { occupyRequest, params = {}, saveRequest } = pageProps;
+  const { pageProps, close } = props;
+  const { occupyRequest, params = {}, saveRequest, reload } = pageProps;
 
   const occupyRequestRun = useRequest(
     occupyRequest || defaultRequest,
@@ -67,12 +69,12 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
 
   useEffect(() => {
     allCatalog.run().then((res) => {
-      if (Array.isArray(res)) {
+      if (res && Array.isArray(res.children)) {
         const keys: Key[] = [];
-        getAllKeys(res, keys);
+        getAllKeys(res.children, keys);
         allKeys.current = keys;
         setState({
-          treeData: res,
+          treeData: res.children,
         });
       }
     });
@@ -139,14 +141,20 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
     }
   };
   const isLeafFormat = (data: any) => {
-    return data.leaf;
+    if (Array.isArray(data.children)) {
+      if (data.children.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   };
-
   const modalButtons = [
     {
       text: '取消',
       onClick() {
-        close();
+        close?.();
       },
     },
     {
@@ -159,7 +167,8 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
             ...params,
           })
           .then(() => {
-            close();
+            reload?.();
+            close?.();
           });
       },
     },
@@ -168,29 +177,31 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   return (
     <Spin tip="Loading..." spinning={allCatalog.loading}>
       <ModalPageContainer title="修改关联品目" toolbar={modalButtons}>
-        <Space>
-          <Button type="primary" onClick={handleClick}>
-            {state.expandAll ? '收起全部品目' : '展开全部品目'}
-          </Button>
-        </Space>
-        <ScTree
-          checkable
-          canSearch={false}
-          placeholder={'search'}
-          isLeafFormat={isLeafFormat}
-          defaultExpandParent
-          textField="name"
-          valueField="id"
-          data={state.treeData}
-          onCheck={onCheck}
-          checkedKeys={selectedKeys}
-          expandedKeys={state.expandedKeys}
-          onExpand={(expandedKeys: Key[]) => {
-            setState({
-              expandedKeys: expandedKeys,
-            });
-          }}
-        />
+        <div className={style['bs-edit-catalog-ref']}>
+          <Space>
+            <Button type="primary" onClick={handleClick}>
+              {state.expandAll ? '收起全部品目' : '展开全部品目'}
+            </Button>
+          </Space>
+          <ScTree
+            checkable
+            canSearch={false}
+            placeholder={'search'}
+            isLeafFormat={isLeafFormat}
+            defaultExpandParent
+            textField="catalogName"
+            valueField="catalogId"
+            data={state.treeData}
+            onCheck={onCheck}
+            checkedKeys={selectedKeys}
+            expandedKeys={state.expandedKeys}
+            onExpand={(expandedKeys: Key[]) => {
+              setState({
+                expandedKeys: expandedKeys,
+              });
+            }}
+          />
+        </div>
       </ModalPageContainer>
     </Spin>
   );

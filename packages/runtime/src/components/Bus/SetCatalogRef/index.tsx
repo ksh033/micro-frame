@@ -47,6 +47,10 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
   const pageParams = page.getPageParam();
   const searchConfig = search.toConfig();
 
+  const reload = () => {
+    loadChildren(params);
+  };
+
   const [state, setState] = useSetState<{
     expandedRowKeys: any[];
     dataSouce: any[];
@@ -87,6 +91,7 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
             occupyRequest,
             saveRequest,
             params: pageParams,
+            reload,
           },
         });
       },
@@ -101,8 +106,6 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
     loadChildren(params);
   }, [params]);
 
-  // const params = { ...pageInfo.params, parentId: '0' };
-  console.log(pageInfo);
   return (
     <PageContainer title="关联货品品目">
       <Alert
@@ -118,7 +121,7 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
           autoload={false}
           {...pageInfo}
           dataSource={state.dataSouce}
-          treeDataIndex={'catalogName'}
+          treeDataIndex={'catalogId'}
           request={undefined}
           rowKey="catalogId"
           pagination={false}
