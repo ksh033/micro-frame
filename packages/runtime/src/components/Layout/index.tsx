@@ -1,24 +1,26 @@
-import React, { useState, useLayoutEffect, useMemo } from 'react';
-import { ProSettings, MasterLayout } from '@scboson/sc-layout';
+import { MasterLayout, ProSettings } from '@scboson/sc-layout';
+import { useLayoutEffect, useMemo, useState } from 'react';
 // @ts-ignore
-import { Link, history, useModel } from 'umi';
-import {
-  getUser,
-  changeApp,
-  initWarnTimer,
-  clearTimer,
-  initInner,
-  getUserAppCode,
-  getAppCode,
-} from '../Auth';
-import './index.less';
-import RightContent from './GlobalHeader/RightContent';
-import logo from '../../assets/logo.svg';
-import { useExternal, useMount } from 'ahooks';
-import useWeightUnit from '../Dict/weightUnit';
-import menuFormat from './menuFormat';
-import userDictModel from '../Dict/userDictModel';
 import { CModal } from '@scboson/sc-element';
+import { useExternal, useMount } from 'ahooks';
+// @ts-ignore
+import { history, Link, useModel } from 'umi';
+import logo from '../../assets/logo.svg';
+import {
+  changeApp,
+  clearTimer,
+  getAppCode,
+  getUser,
+  getUserAppCode,
+  initInner,
+  initWarnTimer,
+} from '../Auth';
+import userDictModel from '../Dict/userDictModel';
+import userLocationarea from '../Dict/userLocationarea';
+import useWeightUnit from '../Dict/weightUnit';
+import RightContent from './GlobalHeader/RightContent';
+import './index.less';
+import menuFormat from './menuFormat';
 // 是否通知key
 const WhetherNoticeKey = 'WHETHER-NOTICE-KEY';
 
@@ -34,9 +36,11 @@ export default (props: any) => {
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
   const userAppInfo = user?.chooseDeptVO;
+  const userLocation = user?.userAppInfo.currentDept?.userLocation || false;
 
   const { loadDict } = userDictModel();
   const { loadWeight } = useWeightUnit();
+  const { loadLocationarae } = userLocationarea();
   const systemList = appData || user?.chooseDeptVO?.currentDept.menus || [];
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
@@ -80,6 +84,11 @@ export default (props: any) => {
     loadDict();
     // 加载计重单位
     loadWeight();
+
+    if (userLocation) {
+      // 加载库区或者档口
+      loadLocationarae();
+    }
 
     if (!isMaster) {
       console.log(appSelected);

@@ -18,6 +18,7 @@ export interface CurrentDeptInfoProps extends DeptInfoProps {
   companyId: string;
   companyName: string;
   staffId: string;
+  userLocation?: boolean; // 是否分区
 }
 
 export interface CurrentSysInfoProps {
@@ -208,6 +209,7 @@ const clearUser = () => {
   localStorage.removeItem(AppsUser_Key);
   sessionStorage.removeItem('CG-CURRENT-DICT');
   sessionStorage.removeItem('CG-WEIGHT-UNIT');
+  sessionStorage.removeItem('CG-LOCATIONAREA');
   clearInner();
 };
 

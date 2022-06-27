@@ -52,6 +52,10 @@ const services = {
       url: '/base/api/brand/list/bysize',
       method: 'get',
     },
+    locationAreaList: {
+      url: '/wms/api/locationarea/belong',
+      method: 'get',
+    },
   },
   user: {
     getPublicKey: {
@@ -92,6 +96,10 @@ const services = {
   catalog: {
     treeData: {
       url: '/base/api/catalog/downlist',
+      method: 'get',
+    },
+    allCatalog: {
+      url: '/base/api/catalog/get/all',
       method: 'get',
     },
   },

@@ -48,6 +48,7 @@ export default function WithTable<P extends WithTableProps>(
       //pagination,
       formatPrams,
       rowKey,
+      lightFilter = true,
       className = 'cmp-dlg-container',
       ...resProps
     } = props;
@@ -103,7 +104,7 @@ export default function WithTable<P extends WithTableProps>(
     return (
       <Component>
         <ScCard className={className}>
-          <BsSearch {...searchConfig} lightFilter />
+          <BsSearch lightFilter={lightFilter} {...searchConfig} />
           {/* <Alert message={title} type="info" style={{ marginBottom: '12px' }} showIcon /> */}
           <BsTable
             bordered
