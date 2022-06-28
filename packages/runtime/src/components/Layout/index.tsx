@@ -36,7 +36,7 @@ export default (props: any) => {
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
   const userAppInfo = user?.chooseDeptVO;
-  const userLocation = user?.userAppInfo.currentDept?.userLocation || false;
+  const useLocation = user?.userAppInfo.currentDept?.useLocation || false;
 
   const { loadDict } = userDictModel();
   const { loadWeight } = useWeightUnit();
@@ -85,7 +85,7 @@ export default (props: any) => {
     // 加载计重单位
     loadWeight();
 
-    if (userLocation) {
+    if (useLocation) {
       // 加载库区或者档口
       loadLocationarae();
     }

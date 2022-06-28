@@ -18,7 +18,7 @@ export interface CurrentDeptInfoProps extends DeptInfoProps {
   companyId: string;
   companyName: string;
   staffId: string;
-  userLocation?: boolean; // 是否分区
+  useLocation?: boolean; // 是否分区
 }
 
 export interface CurrentSysInfoProps {
