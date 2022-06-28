@@ -106,8 +106,17 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
     loadChildren(params);
   }, [params]);
 
+  const modalButtons = [
+    {
+      text: '返回',
+      onClick() {
+        history.back();
+      },
+    },
+  ];
+
   return (
-    <PageContainer title="关联货品品目">
+    <PageContainer title="关联货品品目" footer={modalButtons}>
       <Alert
         message="收货时，将根据货品所属品目，默认入库到相关联的档口；若货品所属品目未关联档口的，则手动选择；"
         type="info"
