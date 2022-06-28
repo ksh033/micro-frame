@@ -86,15 +86,17 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     }
   }, [JSON.stringify(value)]);
 
-  const fileFormatObjet: any = (file: any) => {
+  const fileFormatObjet: any = (file: any, index: number) => {
     let result: any = file;
     if (file.response && file.response.success) {
       result = file.response.data;
       return {
-        uid: result.fileInfoId,
+        uid: result.fileInfoId + index,
         name: result.fileName,
         url: imageUrl(result.fileUrl || ''),
         thumbUrl: imageUrl(result.thumbnailUrl),
+        thumbnailUrl: result.thumbnailUrl,
+        fileUrl: result.fileUrl,
         status: 'done',
       };
     } else {
@@ -159,6 +161,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
             //   setPreviewName(result && result.fileName ? result.fileName : null);
             //   setPreviewImage(result && result.url ? result.url : null);
             // }
+            console.log(result);
             result = await valeFormat(result);
             outList.push(result);
           } else {
@@ -166,7 +169,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
           }
         }
       }
-      setFileList(doneList.map((it) => fileFormatObjet(it)));
+      setFileList(doneList.map((it, index) => fileFormatObjet(it, index)));
       onChange?.(outList);
     } else {
       setFileList(rfileList);
