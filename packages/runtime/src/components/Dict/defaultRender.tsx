@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
-import { Badge } from 'antd'
-import BsImg from '../Base/BsImg'
+import { Badge } from 'antd';
+import React from 'react';
+import { decimalPoint } from '../../utils/common';
+import BsImg from '../Base/BsImg';
 import {
   dataTime,
   defaultNumber,
@@ -9,37 +10,36 @@ import {
   money,
   rate,
   unitprice,
-} from './format'
-import useWeightUnit from './weightUnit'
-import { decimalPoint } from '../../utils/common'
+} from './format';
+import useWeightUnit from './weightUnit';
 
-export const formatMoneyQuery = fmq
+export const formatMoneyQuery = fmq;
 
 const UnitFormat: React.FC<any> = (props) => {
-  const { valueType, text, record } = props
-  const { has } = useWeightUnit()
-  const unitName = valueType.split('_')[1]
+  const { valueType, text, record } = props;
+  const { has } = useWeightUnit();
+  const unitName = valueType.split('_')[1];
 
   if (text !== undefined && text !== null) {
     const value = has(record[unitName])
       ? Number(decimalPoint(text, 3)).toFixed(3)
-      : text
+      : text;
 
-    return <span>{value}</span>
+    return <span>{value}</span>;
   }
-  return null
-}
+  return null;
+};
 
 const status = (text: any) => {
-  let result: any = '--'
+  let result: any = '--';
   if (text === true) {
-    result = <Badge color="#73D13D" text="启用" />
+    result = <Badge color="#73D13D" text="启用" />;
   }
   if (text === false) {
-    result = <Badge color="#FFA940" text="停用" />
+    result = <Badge color="#FFA940" text="停用" />;
   }
-  return result
-}
+  return result;
+};
 
 /**
  * 根据不同的类型来转化数值
@@ -52,31 +52,34 @@ const defaultRenderText = <T, U>(
   valueType: string,
   record: any = {}
 ): React.ReactNode => {
-  let newText: any = text
+  let newText: any = text;
   switch (valueType) {
     case 'defaultNumber':
-      newText = defaultNumber(text)
-      break
+      newText = defaultNumber(text);
+      break;
     case 'unitprice':
-      newText = unitprice(text)
-      break
+      newText = unitprice(text);
+      break;
     case 'money':
-      newText = money(text)
-      break
+      newText = money(text);
+      break;
     case 'status':
-      newText = status(text)
-      break
+      newText = status(text);
+      break;
     case 'dataTime':
-      newText = dataTime(text)
-      break
+      newText = dataTime(text);
+      break;
     case 'media':
-      newText = <BsImg src={text} />
-      break
+      newText = <BsImg src={text} />;
+      break;
     case 'rate':
-      newText = rate(text)
-      break
+      newText = rate(text);
+      break;
+    case 'empty':
+      newText = text != null ? text : '--';
+      break;
     default:
-      break
+      break;
   }
   if (
     valueType === 'un_cargoUnit' ||
@@ -90,26 +93,26 @@ const defaultRenderText = <T, U>(
         text={text}
         record={record}
       ></UnitFormat>
-    )
+    );
   }
 
-  return newText
-}
+  return newText;
+};
 
 export const cacheRender = (
-  text: string | number ,
+  text: string | number,
   list: any[]
 ): React.ReactNode => {
   if (Array.isArray(list)) {
     const index = list.findIndex((item: any) => {
-      return item.value === `${text}`
-    })
+      return item.value === `${text}`;
+    });
     if (index > -1) {
-      return list[index].name
+      return list[index].name;
     }
   }
 
-  return text
-}
+  return text;
+};
 
-export default defaultRenderText
+export default defaultRenderText;

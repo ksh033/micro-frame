@@ -241,6 +241,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const dataLoad = (data: any) => {
     let newData = {};
     if (data) {
+      if (onLoad) {
+        newData = onLoad(data);
+      }
       if (!isArray(data)) {
         let rows = data.records || data.rows || [];
         const { current = 1, size = 10 } = data;
@@ -264,8 +267,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         rows: [],
       };
     }
-
-    onLoad && onLoad(newData);
     if (groupLabels !== false && isObject(data.groupLabels)) {
       setGroupLabelsMap(data.groupLabels);
       if (groupLabels.needAll !== true) {
