@@ -12,6 +12,7 @@ type LocationAreaSelectProps = FormComponentProps &
   ScSelectProps & {
     filterData?: (list: any[]) => any[];
     extProps?: (record) => LocationAreaSelectProps;
+    rowData?: any;
   };
 
 const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
@@ -22,10 +23,11 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     initialValues,
     filterData,
     extProps,
+    rowData,
     ...resProps
   } = props;
 
-  const record = props['data-row'] || initialValues || {};
+  const record = props['data-row'] || rowData || initialValues || {};
 
   let newdata = Array.isArray(locationareaList) ? locationareaList : [];
 

@@ -20,5 +20,15 @@ export default function userLocation() {
     }
   };
 
-  return { locationareaList, loadLocationarae };
+  const getLocationaraeMap = () => {
+    const map = new Map<string, string>();
+    if (Array.isArray(locationareaList)) {
+      locationareaList.forEach((it) => {
+        map.set(it.locationAreaId, it.locationAreaName);
+      });
+    }
+    return map;
+  };
+
+  return { locationareaList, loadLocationarae, getLocationaraeMap };
 }

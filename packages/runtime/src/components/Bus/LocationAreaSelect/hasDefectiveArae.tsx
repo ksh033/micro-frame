@@ -13,14 +13,22 @@ type LocationAreaSelectProps = FormComponentProps &
   ScSelectProps & {
     filterData?: (list: any[]) => any[];
     extProps?: (record) => LocationAreaSelectProps;
+    rowData?: any;
   };
 
 const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   const { run } = uesRequest('system', 'locationAreaList');
-  const { readonly, initialValues, filterData, extProps, ...resProps } = props;
+  const {
+    readonly,
+    initialValues,
+    filterData,
+    extProps,
+    rowData,
+    ...resProps
+  } = props;
 
   const [dataSource, setDataSource] = useState<any[]>([]);
-  const record = props['data-row'] || initialValues || {};
+  const record = props['data-row'] || props.rowData || initialValues || {};
 
   useEffect(() => {
     run({
