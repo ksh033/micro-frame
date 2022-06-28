@@ -22,6 +22,7 @@ type SetCatalogRefProps = {
   saveRequest?: (params: any) => Promise<any>; // 请求数据的远程方法
   nameField?: string;
   valueField?: string;
+  showAddRefBtn?: boolean;
 };
 
 const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
@@ -31,6 +32,7 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
     valueField = 'stallId',
     occupyRequest,
     saveRequest,
+    showAddRefBtn = true,
   } = props;
   const { loading, run } = useRequest(
     request ||
@@ -75,11 +77,13 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
     });
   };
 
-  const pageInfo = page
-    .getTable()
-    .addButton({
+  const pageInfoConfig = page.getTable();
+
+  if (showAddRefBtn) {
+    pageInfoConfig.addButton({
       text: '修改关联品目',
       type: 'primary',
+      funcode: 'EDIT',
       onClick() {
         CModal.show({
           title: '修改关联品目',
@@ -95,8 +99,10 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
           },
         });
       },
-    })
-    .toConfig();
+    });
+  }
+
+  const pageInfo = pageInfoConfig.toConfig();
 
   const params = useMemo(() => {
     return { [valueField]: pageParams[valueField], ...pageInfo.params };
