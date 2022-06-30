@@ -1,5 +1,5 @@
 import { ScTree } from '@scboson/sc-element';
-import { useRequest, useSetState, useUpdateEffect } from 'ahooks';
+import { useRequest, useSetState } from 'ahooks';
 import { Button, Space, Spin } from 'antd';
 import React, { Key, useEffect, useRef, useState } from 'react';
 import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
@@ -67,46 +67,56 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
     }
   };
 
+  const init = async () => {
+    const allTreeRes = await allCatalog.run();
+    const res = await occupyRequestRun.run(params);
+    let allTree: any[] = [];
+    if (allTreeRes && Array.isArray(allTreeRes.children)) {
+      const keys: Key[] = [];
+      getAllKeys(allTreeRes.children, keys);
+      allKeys.current = keys;
+      allTree = allTreeRes.children;
+    }
+    const selectList = Array.isArray(res.selectList) ? res.selectList : [];
+    const disableList = Array.isArray(res.disableList) ? res.disableList : [];
+    const setMap = new Set<Key>(disableList);
+    setDisabled(allTree, setMap);
+    setSelectedKeys(selectList);
+    setDisableList(disableList);
+    setState({
+      treeData: allTree,
+    });
+  };
+
   useEffect(() => {
-    allCatalog.run().then((res) => {
-      if (res && Array.isArray(res.children)) {
-        const keys: Key[] = [];
-        getAllKeys(res.children, keys);
-        allKeys.current = keys;
-        setState({
-          treeData: res.children,
-        });
-      }
-    });
-    occupyRequestRun.run(params).then((res) => {
-      if (res) {
-        if (Array.isArray(res.selectList)) {
-          setSelectedKeys(res.selectList);
-        }
-        if (Array.isArray(res.disableList)) {
-          setDisableList(res.disableList);
-        }
-      }
-    });
+    init();
   }, []);
 
   const setDisabled = (list: any[], setMap: Set<React.Key>) => {
     if (Array.isArray(list)) {
       return (list = list.map((item: any) => {
-        item.disabled = setMap.has(item.catalogId);
+        let disabled = setMap.has(item.catalogId);
         if (Array.isArray(item.children) && item.children.length > 0) {
           item.children = setDisabled(item.children, setMap);
+          const disabledList = item.children.filter((it) => it.disabled);
+          if (item.children.length === disabledList.length) {
+            disabled = true;
+          }
         }
+        item.disabled = disabled;
         return item;
       }));
     }
     return [];
   };
-  useUpdateEffect(() => {
-    const setMap = new Set(disableList);
-    let newTreeData = JSON.parse(JSON.stringify(state.treeData));
-    setDisabled(newTreeData, setMap);
-  }, [disableList, state.treeData]);
+  // useUpdateEffect(() => {
+  //   const setMap = new Set(disableList);
+  //   let newTreeData = JSON.parse(JSON.stringify(state.treeData));
+  //   setDisabled(newTreeData, setMap);
+  //   setState({
+  //     treeData: newTreeData,
+  //   });
+  // }, [disableList, JSON.stringify(state.treeData)]);
 
   const handleClick = () => {
     if (!state.expandAll) {

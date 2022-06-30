@@ -73,6 +73,11 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
           dataSouce: data.children,
           expandedRowKeys: [],
         });
+      } else {
+        setState({
+          dataSouce: [],
+          expandedRowKeys: [],
+        });
       }
     });
   };
