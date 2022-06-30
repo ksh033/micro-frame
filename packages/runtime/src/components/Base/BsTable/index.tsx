@@ -103,14 +103,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const [groupLabelsMap, setGroupLabelsMap] = useState<any>({});
 
   const actionRef = useRef<any>();
-  if (saveRef) {
-    // @ts-ignore
-    saveRef.current = actionRef.current;
-  }
-  /** 绑定 action ref */
-  React.useImperativeHandle(saveRef, () => {
-    return actionRef.current;
-  });
 
   const request = restProps.request;
 
@@ -130,11 +122,12 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         },
         fileName: exportExeclConfig.fileName || Date.now() + '',
       };
-      request?.(execlParams, {
-        headers: {
-          excelMeta: 1,
-        },
-      });
+      console.log(actionRef.current.columnsMap);
+      // request?.(execlParams, {
+      //   headers: {
+      //     excelMeta: 1,
+      //   },
+      // });
     }
   };
 
@@ -360,7 +353,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           //     setting: true,
           //   }
           // }
-          saveRef={actionRef}
+          saveRef={(action: any) => {
+            if (saveRef) {
+              // @ts-ignore
+              saveRef.current = action;
+            }
+            actionRef.current = action;
+          }}
           params={newParams}
           {...restProps}
         />
