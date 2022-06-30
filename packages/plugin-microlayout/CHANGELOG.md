@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.26](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/plugin-microlayout@1.0.0-beta.25...@micro-frame/plugin-microlayout@1.0.0-beta.26) (2022-06-30)
+
+**Note:** Version bump only for package @micro-frame/plugin-microlayout
+
+
+
+
+
 # [1.0.0-beta.25](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/plugin-microlayout@1.0.0-beta.24...@micro-frame/plugin-microlayout@1.0.0-beta.25) (2022-06-30)
 
 **Note:** Version bump only for package @micro-frame/plugin-microlayout
