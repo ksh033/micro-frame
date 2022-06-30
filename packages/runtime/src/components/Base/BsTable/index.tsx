@@ -122,12 +122,11 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         },
         fileName: exportExeclConfig.fileName || Date.now() + '',
       };
-      console.log(actionRef.current.columnsMap);
-      // request?.(execlParams, {
-      //   headers: {
-      //     excelMeta: 1,
-      //   },
-      // });
+      request?.(execlParams, {
+        headers: {
+          excelMeta: 1,
+        },
+      });
     }
   };
 
