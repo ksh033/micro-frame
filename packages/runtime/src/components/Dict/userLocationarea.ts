@@ -30,5 +30,10 @@ export default function userLocation() {
     return map;
   };
 
-  return { locationareaList, loadLocationarae, getLocationaraeMap };
+  return {
+    locationareaList,
+    loadLocationarae,
+    getLocationaraeMap,
+    request: run,
+  };
 }
