@@ -32,6 +32,7 @@ export type SelectCargoTableProps = {
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>;
   formatTableInfo: (tableInfo: TableInfo) => TableInfo;
+  waringFn?: () => React.ReactNode;
 };
 
 const SelectCargoTable: React.FC<SelectCargoTableProps> = (
@@ -51,6 +52,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     formatPrams,
     formatTableInfo,
     rowKey = 'cargoId',
+    waringFn,
   } = props;
   const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
@@ -155,6 +157,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       ) : null}
       <div className={styles['catalog-table']}>
         <BsSearch {...searchConfig}></BsSearch>
+        {waringFn ? waringFn() : null}
         <div>
           已选货品：
           {Array.isArray(selectedRowKeys) ? selectedRowKeys.length : 0}
