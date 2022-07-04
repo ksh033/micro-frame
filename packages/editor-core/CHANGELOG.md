@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4-beta.23](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.22...@scvisual/editor-core@1.0.4-beta.23) (2022-07-04)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
 ## [1.0.4-beta.22](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.21...@scvisual/editor-core@1.0.4-beta.22) (2022-07-01)
 
 **Note:** Version bump only for package @scvisual/editor-core
