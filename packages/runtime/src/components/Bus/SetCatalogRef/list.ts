@@ -7,7 +7,7 @@ const pageConfig: PageConfig = {
       name: 'catalogName',
       component: 'Input',
       props: {
-        placeholder: '输入名称/编码/助记码',
+        placeholder: '输入名称/编码',
       },
     },
   ],
