@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-web",
-  "version": "1.0.1-beta.17",
+  "version": "1.0.1-beta.18",
   "description": "@micro-frame/sc-web",
   "module": "es/index.js",
   "main": "lib/index.js",
