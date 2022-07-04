@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4-beta.24](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/element@1.0.4-beta.23...@scvisual/element@1.0.4-beta.24) (2022-07-04)
+
+**Note:** Version bump only for package @scvisual/element
+
+
+
+
+
 ## [1.0.4-beta.23](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/element@1.0.4-beta.22...@scvisual/element@1.0.4-beta.23) (2022-07-04)
 
 **Note:** Version bump only for package @scvisual/element
