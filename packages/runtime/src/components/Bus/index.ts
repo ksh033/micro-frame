@@ -48,6 +48,7 @@ import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect';
 import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
 import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
 import PrintConfirm, { openPrintConfirm } from './PrintConfirm';
+import PrintOptButton from './PrintOptButton';
 
 const { regeditCmp } = PageSchema;
 regeditCmp('CheckBoxDate', CheckBoxDate);
@@ -120,4 +121,5 @@ export {
   SetCatalogRef,
   LocationAreaSelect,
   DefectiveLocationAreaSelect,
+  PrintOptButton,
 };

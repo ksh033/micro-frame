@@ -1,6 +1,6 @@
-import React from 'react';
-import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
+import React from 'react';
 import { print, PrintTplType, setPrintSetting } from '../../../utils/print';
 import style from './index.less';
 
@@ -11,7 +11,7 @@ export interface PrintButtonProp {
   children?: any;
   preview: boolean;
   callBack?: Function;
-  getParams?: () => {};
+  getParams?: () => any;
 }
 /**
  * 字典控件
