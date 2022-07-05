@@ -13,8 +13,8 @@ export default function userLocation() {
 
   const { run } = uesRequest('system', 'locationAreaList');
 
-  const loadLocationarae = async () => {
-    const result = await run();
+  const loadLocationarae = async (params = {}) => {
+    const result = await run(params);
     if (Array.isArray(result)) {
       setLocationareaList(result);
     }

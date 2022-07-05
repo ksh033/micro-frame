@@ -7,7 +7,6 @@ import CheckBoxDate from './CheckBoxDate';
 import Enabled from './Enabled';
 import ForEverDate from './ForEverDate';
 import LocationAreaSelect from './LocationAreaSelect';
-import DefectiveLocationAreaSelect from './LocationAreaSelect/hasDefectiveArae';
 import LocationSearch from './LocationSearch';
 import PageTitle from './PageTitle';
 import RailMap from './RailMap';
@@ -64,7 +63,6 @@ regeditCmp('SupplierTableSelect', SupplierTableSelect);
 regeditCmp('ShopTableSelect', ShopTableSelect);
 regeditCmp('UserDept', UserDept);
 regeditCmp('LocationAreaSelect', LocationAreaSelect);
-regeditCmp('DefectiveLocationAreaSelect', DefectiveLocationAreaSelect);
 regeditCmp('GoodsCatalogSelect', GoodsCatalogSelect);
 
 regeditCmp('GoodsCatalogSelect', GoodsCatalogTreeSelect);
@@ -120,6 +118,5 @@ export {
   GoodsCatalogTreeSelect,
   SetCatalogRef,
   LocationAreaSelect,
-  DefectiveLocationAreaSelect,
   PrintOptButton,
 };

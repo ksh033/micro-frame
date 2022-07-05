@@ -14,7 +14,6 @@ export interface OperationProps {
 
 const Operation: React.FC<PropsWithChildren<OperationProps>> = (props) => {
   const { buttons, max = 4 } = props;
-  console.log(buttons);
   const renderChild = useCallback(() => {
     const children: any[] = [];
     const moreButtons: any[] = [];
