@@ -50,6 +50,7 @@ export default function WithTable<P extends WithTableProps>(
       rowKey,
       lightFilter = true,
       className = 'cmp-dlg-container',
+      alertFn,
       ...resProps
     } = props;
 
@@ -105,6 +106,7 @@ export default function WithTable<P extends WithTableProps>(
       <Component>
         <ScCard className={className}>
           <BsSearch lightFilter={lightFilter} {...searchConfig} />
+          {alertFn ? alertFn(ref.current.selectKeys || []) : null}
           {/* <Alert message={title} type="info" style={{ marginBottom: '12px' }} showIcon /> */}
           <BsTable
             bordered

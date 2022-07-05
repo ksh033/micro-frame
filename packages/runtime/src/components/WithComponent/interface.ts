@@ -17,6 +17,7 @@ export type WithTableProps = {
   children?: any;
   lightFilter?: boolean;
   formatPrams?: (params: any) => any;
+  alertFn?: (selectRowKeys: any[]) => React.ReactElement;
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<any, 'defaultChecked' | 'checked'>>;
