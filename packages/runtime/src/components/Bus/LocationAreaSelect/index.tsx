@@ -36,7 +36,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     onChange,
     needWarned = false,
     hasDisable = false,
-    hasDefectiveArea = true,
+    hasDefectiveArea = false,
     changeWarngingMsg,
     local = false,
     ...resProps
