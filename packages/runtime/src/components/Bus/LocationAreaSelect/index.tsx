@@ -115,8 +115,6 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
       valueField="locationAreaId"
       allowClear
       data={newdata}
-      filterOption={false}
-      defaultActiveFirstOption={false}
       onChange={onHandleChange}
       {...resProps}
       {...otherExtProps}

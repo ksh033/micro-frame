@@ -17,7 +17,9 @@ export default function userLocation() {
     const result = await run(params);
     if (Array.isArray(result)) {
       setLocationareaList(result);
+      return result;
     }
+    return [];
   };
 
   const getLocationaraeMap = () => {
