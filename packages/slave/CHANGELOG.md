@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.14-beta.35](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.34...@micro-frame/sc-slave@1.0.14-beta.35) (2022-07-11)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
 ## [1.0.14-beta.34](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.33...@micro-frame/sc-slave@1.0.14-beta.34) (2022-07-07)
 
 **Note:** Version bump only for package @micro-frame/sc-slave
