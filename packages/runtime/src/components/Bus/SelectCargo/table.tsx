@@ -8,6 +8,7 @@ import React, { Key, useMemo, useState } from 'react';
 import { uesRequest } from '../../../utils/api';
 import BsSearch from '../../Base/BsSearch';
 import BsTable from '../../Base/BsTable';
+import BrandSelect from '../BrandSelect';
 import styles from './index.less';
 import list from './list';
 
@@ -25,6 +26,7 @@ export type SelectCargoTableProps = {
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void;
   selectedRowKeys?: string[];
   isNeedLeft?: boolean;
+  isNeddBrand?: boolean;
   rowKey?: string;
   onLoad?: (data: any) => any;
   formatPrams?: (params: any) => any;
@@ -47,6 +49,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     onTabelRow,
     selectedRowKeys,
     isNeedLeft = true,
+    isNeddBrand = false,
     getCheckboxProps,
     onLoad,
     formatPrams,
@@ -57,6 +60,18 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
   const search = page.getSearch({});
+  if (isNeddBrand) {
+    search.addSearchItem({
+      label: '品牌',
+      name: 'brandName',
+      component: BrandSelect,
+      formItemProps: {},
+      props: {
+        allowClear: true,
+        placeholder: '请选择品牌',
+      },
+    });
+  }
 
   if (Array.isArray(extraQueryColumns) && extraQueryColumns.length > 0) {
     extraQueryColumns.forEach((item: FormSearchItem) => {
@@ -75,6 +90,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       pageTable.addCol(item);
     });
   }
+
   if (formatTableInfo) {
     pageTable = formatTableInfo(pageTable);
   }
@@ -93,7 +109,6 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   }, []);
 
   const onSelectRow = (_selectedRowKeys: any[], _selectedRows: any[]) => {
-    console.log(_selectedRowKeys, _selectedRows);
     onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows);
   };
 
