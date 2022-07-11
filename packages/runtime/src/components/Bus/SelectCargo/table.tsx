@@ -93,6 +93,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   }, []);
 
   const onSelectRow = (_selectedRowKeys: any[], _selectedRows: any[]) => {
+    console.log(_selectedRowKeys, _selectedRows);
     onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows);
   };
 
@@ -177,6 +178,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           request={request}
           onLoad={onLoad}
           scroll={{ y: '300px' }}
+          cardProps={{ bodyStyle: { padding: '0' } }}
         ></BsTable>
       </div>
     </div>

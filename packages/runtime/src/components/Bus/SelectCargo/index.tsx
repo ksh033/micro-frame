@@ -12,18 +12,19 @@ type SelectCargoProps = {
 
 const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
   const { title = '添加货品', pageProps, close, ...restProps } = props;
-
+  const defaultRowKeys = pageProps.selectedRowKeys || [];
   const [state, setState] = useSetState<{
     selectedRowKeys: string[];
     selectedRows: any[];
   }>({
-    selectedRowKeys: pageProps.selectedRowKeys || [],
+    selectedRowKeys: defaultRowKeys,
     selectedRows: [],
   });
 
   const onTabelRow = (selectedRowKeys: string[], selectedRows: any[]) => {
+    const keys = Array.from(new Set([...defaultRowKeys, ...selectedRowKeys]));
     setState({
-      selectedRowKeys,
+      selectedRowKeys: keys,
       selectedRows,
     });
     pageProps?.onTabelRow?.(selectedRowKeys, selectedRows);
