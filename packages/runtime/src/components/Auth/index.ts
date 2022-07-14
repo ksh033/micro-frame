@@ -1,4 +1,4 @@
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 // @ts-ignore
 import { history } from 'umi';
 
@@ -18,6 +18,8 @@ export interface CurrentDeptInfoProps extends DeptInfoProps {
   companyId: string;
   companyName: string;
   staffId: string;
+  useLocation?: boolean; // 是否分区
+  enabled?: boolean;
 }
 
 export interface CurrentSysInfoProps {
@@ -208,6 +210,7 @@ const clearUser = () => {
   localStorage.removeItem(AppsUser_Key);
   sessionStorage.removeItem('CG-CURRENT-DICT');
   sessionStorage.removeItem('CG-WEIGHT-UNIT');
+  sessionStorage.removeItem('CG-LOCATIONAREA');
   clearInner();
 };
 
@@ -341,6 +344,18 @@ const initWarnTimer = () => {
   }, 3000);
 };
 
+const getDeptEnabled = (warnstr: string = '该仓库已被禁用，无法创建') => {
+  const user = getUser();
+  const bizDeptType = user?.userAppInfo.currentDept?.bizDeptType;
+  const enabled = user?.userAppInfo.currentDept?.enabled;
+  if (bizDeptType === 'WAREHOUSE' && enabled === false) {
+    message.warn(warnstr);
+    return false;
+  }
+
+  return true;
+};
+
 export {
   clearUser,
   clearTimer,
@@ -354,4 +369,5 @@ export {
   getUserAppCode,
   initWarnTimer,
   initInner,
+  getDeptEnabled,
 };

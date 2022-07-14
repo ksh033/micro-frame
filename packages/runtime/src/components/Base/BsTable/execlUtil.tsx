@@ -23,6 +23,9 @@ const execlColumnsFormat = (
         field: col.dataIndex,
         text: col.title,
       };
+      if (col.dataType && col.dataType === 'money') {
+        column.dataType = 'CURRENCY';
+      }
       if (Array.isArray(exportExeclConfig.excelColumn)) {
         const item = exportExeclConfig.excelColumn.find(
           (it) => it.field === column.field

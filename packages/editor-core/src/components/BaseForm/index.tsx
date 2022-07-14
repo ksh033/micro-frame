@@ -12,14 +12,17 @@ const BaseForm: React.FC<FormSchema<any>> = (props) => {
   const values = useContext(ProProvider);
 
   const valueTypeMap: Record<string, ProRenderFieldPropsType> = {};
-
   valueTypelist.forEach((warpCom) => {
     const cmpkey = warpCom.charAt(0).toUpperCase() + warpCom.substring(1);
     const WarpCommponent = Components[cmpkey];
     valueTypeMap[warpCom] = {
-      renderFormItem: (text, props) => {
+      renderFormItem: (text, rprops) => {
         return (
-          <WarpCommponent {...props} {...props?.fieldProps} rowData={rowData} />
+          <WarpCommponent
+            {...rprops}
+            {...rprops?.fieldProps}
+            rowData={rowData}
+          />
         );
       },
     };

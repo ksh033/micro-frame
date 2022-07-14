@@ -1,38 +1,47 @@
-import { Form } from 'antd';
-import _ from 'lodash';
-import React from 'react';
+import { FormItemProps } from 'antd';
+import React, { PropsWithChildren } from 'react';
 import './index.less';
 
 export type VdFormItemProps = {
-  formItemTitle?: string;
-  valueName?: React.Key;
+  formItem?: FormItemProps;
+  valueName?: React.Key | React.ReactNode;
   showValue?: boolean;
   block?: boolean;
+  showFormItemTitle?: boolean;
 };
 
-const VdFormItem: React.FC<VdFormItemProps> = (props) => {
-  const { formItemTitle, valueName, showValue = true, block = false } = props;
+export type ExtendVdFormItemProps = {
+  formItem?: FormItemProps;
+  block?: boolean;
+  showValue?: boolean;
+};
 
+const VdFormItem: React.FC<PropsWithChildren<VdFormItemProps>> = (props) => {
+  const {
+    formItem,
+    valueName,
+    showValue = true,
+    block = false,
+    showFormItemTitle = true,
+  } = props;
   return (
-    <Form.Item>
-      <div
-        className={
-          block
-            ? 'vd-component-warp vd-component-warp-block'
-            : 'vd-component-warp'
-        }
-      >
-        <div className="vd-component-warp-header">
-          <span className="vd-component-warp__label">
-            {formItemTitle || ''}
-          </span>
-          {showValue ? (
-            <span className="vd-component-warp__value">{valueName}</span>
-          ) : null}
-        </div>
-        <div className="vd-component-warp-content">{props.children}</div>
+    <div
+      className={
+        block
+          ? 'vd-component-warp vd-component-warp-block'
+          : 'vd-component-warp'
+      }
+    >
+      <div className="vd-component-warp-header">
+        <span className="vd-component-warp__label">
+          {showFormItemTitle ? formItem?.label || '' : ''}
+        </span>
+        {showValue ? (
+          <span className="vd-component-warp__value">{valueName}</span>
+        ) : null}
       </div>
-    </Form.Item>
+      <div className="vd-component-warp-content">{props.children}</div>
+    </div>
   );
 };
 

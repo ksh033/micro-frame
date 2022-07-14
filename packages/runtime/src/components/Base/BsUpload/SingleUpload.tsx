@@ -1,26 +1,19 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable consistent-return */
-import React, { useState, useEffect } from 'react';
-import { Upload, message, Button, Modal } from 'antd';
 import {
-  PlusOutlined,
-  LoadingOutlined,
-  EyeOutlined,
   DeleteOutlined,
+  EyeOutlined,
+  FileOutlined,
+  LoadingOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
-import { UploadFile } from 'antd/es/upload/interface';
+import { Button, message, Space, Spin, Upload } from 'antd';
+import { UploadFile, UploadListType } from 'antd/es/upload/interface';
+import React, { useEffect, useState } from 'react';
 import { imageUrl } from '../../../utils/common';
+import { FileType, uploadBtn } from './index';
 import styles from './index.less';
-import { FileType } from './index';
-
-function getBase64(file: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
+import { getFileName } from './utils';
 
 interface SingleUploadProps {
   action?: string;
@@ -34,52 +27,40 @@ interface SingleUploadProps {
   accept?: string;
   headers?: object;
   valeFormat?: (data: any) => Promise<string | FileType | null>;
+  listType?: UploadListType;
 }
-const isImageFileType = (type?: string): boolean =>
-  type?.indexOf('image/') === 0;
 
-export const preView = (_file: string, isModal) => {
-  if (_file) {
-    if (_file.includes('base64')) {
-      return (
-        <img
-          src={_file}
-          alt="avatar"
-          style={{ width: '100%' }}
-          className={styles['bs-upload-view-img']}
-        />
-      );
-    } else {
-      const file = imageUrl(_file);
-      if (file && file !== '') {
-        if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
-          return (
-            <img
-              src={file}
-              alt="avatar"
-              className={styles['bs-upload-view-img']}
-            />
-          );
-        }
-        if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
-          return (
-            <video
-              controls
-              autoPlay
-              className={
-                isModal
-                  ? styles['bs-upload-modal-video']
-                  : styles['bs-upload-video']
-              }
-            >
-              <source src={file} type="video/mp4" />
-            </video>
-          );
-        }
+export const preView = (_file: UploadFile<any>) => {
+  if (_file != null) {
+    const file = imageUrl(_file?.url || '');
+    if (file && file !== '') {
+      if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
+        return (
+          <img
+            src={file}
+            alt="avatar"
+            className={styles['bs-upload-view-img']}
+          />
+        );
       }
-      return null;
+      if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
+        return (
+          <video controls autoPlay className="bs-upload-video">
+            <source src={file} type="video/mp4" />
+          </video>
+        );
+      }
+      return (
+        <Space direction="vertical">
+          <FileOutlined
+            style={{ width: '100%', color: '#40a9ff', fontSize: '32px' }}
+          />
+          <span>{_file.name}</span>
+        </Space>
+      );
     }
   }
+
   return null;
 };
 
@@ -97,30 +78,42 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     headers,
     maxSizeCheck,
     valeFormat,
+    listType = 'picture-card',
   } = props;
 
-  const [previewImage, setPreviewImage] = useState<any>(null);
-  const [loading, setLoading] = useState<any>(null);
-  const [visible, setVisible] = useState<boolean>(false);
+  const [file, setFile] = useState<UploadFile | undefined>(void 0);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handlePreview = async (file: UploadFile) => {
-    if (isImageFileType(file.type)) {
-      if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
-      }
-      setPreviewImage(file.url || file.preview);
+  const fileFormat = (itfile: any) => {
+    if (typeof itfile === 'string') {
+      setFile({
+        uid: '1',
+        url: imageUrl(itfile) || '',
+        status: 'done',
+        name: getFileName(itfile),
+      });
+    } else {
+      setFile({
+        uid: '1',
+        url: imageUrl(itfile.url || itfile.fileUrl) || '',
+        name: itfile.fileName || '',
+        status: 'done',
+      });
     }
   };
 
   useEffect(() => {
-    if (typeof value === 'string') {
-      setPreviewImage(value);
-    } else {
-      setPreviewImage(value && value.url ? value.url : null);
+    if (value != null && file == null) {
+      fileFormat(value);
     }
   }, [JSON.stringify(value)]);
 
   const handleChange = async ({ file }: any) => {
+    if (file.status === 'removed') {
+      setFile(void 0);
+      onChange?.(null);
+      return;
+    }
     if (!maxSizeCheck(file)) {
       return;
     }
@@ -130,43 +123,50 @@ const SingleUpload: React.FC<SingleUploadProps> = (
       !Boolean(file.response.success)
     ) {
       message.error('上传失败');
+      setFile(void 0);
       setLoading(false);
       return;
     }
 
     if (uploadImmediately) {
       if (file.status === 'uploading') {
-        setPreviewImage(null);
+        setFile(file);
         setLoading(true);
         return;
       }
       setLoading(false);
       if (file.status === 'done') {
-        handlePreview(file);
+        // handlePreview(file);
         let result = file;
+        let resultData = file;
         if (file.response && file.response.success) {
           result = file.response.data;
+          resultData = file.response.data;
         }
         if (valeFormat) {
           result = await valeFormat(result);
         }
-
-        if (typeof result === 'string') {
-          setPreviewImage(result);
-        } else {
-          setPreviewImage(result && result.url ? result.url : null);
-        }
+        fileFormat(resultData);
         onChange && onChange(result);
+      } else {
+        setFile(file);
       }
     } else {
+      setFile(file);
       onChange && onChange(file);
     }
   };
 
-  const uploadExtraProps: any = {};
+  const uploadExtraProps: any = { showUploadList: false };
 
   if (action) {
     uploadExtraProps.action = action;
+  }
+
+  if (listType === 'picture') {
+    uploadExtraProps.fileList = file != null ? [file] : [];
+    uploadExtraProps.className = 'upload-list-inline';
+    uploadExtraProps.showUploadList = true;
   }
 
   const uploadButton = loading ? (
@@ -180,18 +180,16 @@ const SingleUpload: React.FC<SingleUploadProps> = (
       <div style={{ marginTop: 8 }}>上传</div>
     </>
   );
-  const previewStyle: React.CSSProperties = {
-    pointerEvents: 'none',
-    opacity: 0.5,
-  };
   const previewIcon = (
-    <Button
-      type="text"
-      size="small"
-      className="anticon-delete"
-      onClick={() => setVisible(true)}
-    >
-      <EyeOutlined />
+    <Button type="text" size="small" className="anticon-delete">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        title="预览文件"
+        href={file?.url || ''}
+      >
+        <EyeOutlined />
+      </a>
     </Button>
   );
 
@@ -201,6 +199,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
       size="small"
       className="anticon-delete"
       onClick={() => {
+        setFile(void 0);
         onChange?.(null);
       }}
     >
@@ -210,44 +209,64 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     </Button>
   );
 
+  const iconRender = (file: UploadFile<any>) => {
+    if (file.status === 'uploading') {
+      return (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+      );
+    }
+    return (
+      <div className="bs-signle-picture-card">
+        <div className="bs-signle-picture-card-info">
+          <div className=" bs-signle-upload-span">{preView(file)}</div>
+          <span className="bs-signle-upload-actions">
+            {previewIcon}
+            {removeIcon}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  const showRender = (itfile: UploadFile<any>) => {
+    if (listType === 'picture') {
+      return null;
+    }
+    return iconRender(itfile);
+  };
+
   return (
     <div className="bs-signle-img clearfix">
       <Upload
-        listType="picture-card"
-        showUploadList={false}
         onChange={handleChange}
+        listType={listType}
         beforeUpload={beforeUpload}
         disabled={disabled}
-        openFileDialogOnClick={previewImage == null}
+        openFileDialogOnClick={file == null}
         accept={accept}
         headers={headers}
         {...uploadExtraProps}
       >
-        <div className="bs-signle-picture-card">
-          {previewImage ? (
-            <div className="bs-signle-picture-card-info">
-              <div className=" bs-signle-upload-span">
-                {preView(previewImage, false)}
-              </div>
-              <span className="bs-signle-upload-actions">
-                {previewIcon}
-                {removeIcon}
-              </span>
-            </div>
+        {file == null ? uploadBtn(listType) : showRender(file)}
+        {/* <div className="bs-signle-picture-card">
+          {file != null ? (
+            <UploadList
+              locale={{ previewFile: '预览图片', removeFile: '删除图片' }}
+              showDownloadIcon={false}
+              listType={listType}
+              iconRender={iconRender}
+              onRemove={(file: any) => {
+                console.log(file);
+                setFile(void 0);
+                onChange?.(null);
+              }}
+              items={[file]}
+            />
           ) : (
-            uploadButton
+            uploadBtn(listType)
           )}
-        </div>
+        </div> */}
       </Upload>
-      <Modal
-        visible={visible}
-        footer={null}
-        width={400}
-        onCancel={() => setVisible(false)}
-        bodyStyle={{ padding: 0 }}
-      >
-        {preView(previewImage, true)}
-      </Modal>
     </div>
   );
 };

@@ -1,14 +1,14 @@
-const { utils } = require("umi");
-const { join } = require("path");
-const exec = require("./utils/exec");
-const inquirer = require("inquirer");
-const getPackages = require("./utils/getPackages");
-const isNextVersion = require("./utils/isNextVersion");
+const { utils } = require('umi');
+const { join } = require('path');
+const exec = require('./utils/exec');
+const inquirer = require('inquirer');
+const getPackages = require('./utils/getPackages');
+const isNextVersion = require('./utils/isNextVersion');
 
 const { yParser, execa, chalk } = utils;
 const cwd = process.cwd();
 const args = yParser(process.argv);
-const lernaCli = require.resolve("lerna/cli");
+const lernaCli = require.resolve('lerna/cli');
 
 function printErrorAndExit(message) {
   console.error(chalk.red(message));
@@ -16,35 +16,35 @@ function printErrorAndExit(message) {
 }
 
 function logStep(name) {
-  console.log(`${chalk.gray(">> Release:")} ${chalk.magenta.bold(name)}`);
+  console.log(`${chalk.gray('>> Release:')} ${chalk.magenta.bold(name)}`);
 }
 
 function packageExists({ name, version }) {
-  const { stdout } = execa.sync("npm", ["info", `${name}@${version}`]);
+  const { stdout } = execa.sync('npm', ['info', `${name}@${version}`]);
   return stdout.length > 0;
 }
 
 async function release() {
   // Check git status
   if (!args.skipGitStatusCheck) {
-    const gitStatus = execa.sync("git", ["status", "--porcelain"]).stdout;
+    const gitStatus = execa.sync('git', ['status', '--porcelain']).stdout;
     if (gitStatus.length) {
       printErrorAndExit(`Your git status is not clean. Aborting.`);
     }
   } else {
     logStep(
-      "git status check is skipped, since --skip-git-status-check is supplied"
+      'git status check is skipped, since --skip-git-status-check is supplied'
     );
   }
 
   // Check npm registry
-  logStep("check npm registry");
-  const userRegistry = execa.sync("npm", ["config", "get", "registry"]).stdout;
+  logStep('check npm registry');
+  const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
   // if (userRegistry.includes('http://172.18.169.70:8081/repository/npm')) {
   //   printErrorAndExit(`Release failed, please use ${chalk.blue('npm run release')}.`);
   // }
-  if (!userRegistry.includes("http://172.18.164.116:4873")) {
-    const registry = chalk.blue("http://172.18.116.103:4873");
+  if (!userRegistry.includes('http://172.18.164.116:4873')) {
+    const registry = chalk.blue('http://172.18.116.103:4873');
     printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
   }
 
@@ -52,77 +52,77 @@ async function release() {
 
   if (!args.publishOnly) {
     // Get updated packages
-    logStep("check updated packages");
-    const updatedStdout = execa.sync(lernaCli, ["changed"]).stdout;
+    logStep('check updated packages');
+    const updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
     updated = updatedStdout
-      .split("\n")
+      .split('\n')
       .map((pkg) => {
-        return pkg.split("/")[1];
+        return pkg.split('/')[1];
       })
       .filter(Boolean);
     if (!updated.length) {
-      printErrorAndExit("Release failed, no updated package is updated.");
+      printErrorAndExit('Release failed, no updated package is updated.');
     }
 
     // Clean
-    logStep("clean");
+    logStep('clean');
 
     // Build
     if (!args.skipBuild) {
-      logStep("build");
-      await exec("npm", ["run", "build"]);
+      logStep('build');
+      await exec('npm', ['run', 'build']);
     } else {
-      logStep("build is skipped, since args.skipBuild is supplied");
+      logStep('build is skipped, since args.skipBuild is supplied');
     }
 
     // Bump version
     // Commit
     // Git Tag
     // Push
-    logStep("bump version with lerna version");
+    logStep('bump version with lerna version');
 
     const conventionalGraduate = args.conventionalGraduate
-      ? ["--conventional-graduate"].concat(
+      ? ['--conventional-graduate'].concat(
           Array.isArray(args.conventionalGraduate)
-            ? args.conventionalGraduate.join(",")
+            ? args.conventionalGraduate.join(',')
             : []
         )
       : [];
     const conventionalPrerelease = args.conventionalPrerelease
-      ? ["--conventional-prerelease"].concat(
+      ? ['--conventional-prerelease'].concat(
           Array.isArray(args.conventionalPrerelease)
-            ? args.conventionalPrerelease.join(",")
+            ? args.conventionalPrerelease.join(',')
             : []
         )
       : [];
 
-      await exec(
-        'node',
-        [
-          [lernaCli],
-          'version',
-          '--yes',
-          '--exact',
-          //'--no-git-tag-version',
-          // '--no-commit-hooks',
-          // '--no-git-tag-version',
-          // '--no-push',
-          '--message',
-          '🎨 chore(release): Publish',
-          '--conventional-commits',
-        ]
-          .concat(conventionalGraduate)
-          .concat(conventionalPrerelease),
-        {
-          shell: false,
-        },
-      );
+    await exec(
+      'node',
+      [
+        [lernaCli],
+        'version',
+        '--yes',
+        '--exact',
+        //'--no-git-tag-version',
+        // '--no-commit-hooks',
+        // '--no-git-tag-version',
+        // '--no-push',
+        '--message',
+        '🎨 chore(release): Publish',
+        '--conventional-commits',
+      ]
+        .concat(conventionalGraduate)
+        .concat(conventionalPrerelease),
+      {
+        shell: false,
+      }
+    );
   }
 
   // Publish
   // Umi must be the latest.
   const pkgs = args.publishOnly ? getPackages() : updated;
-  logStep(`publish packages: ${chalk.blue(pkgs.join(", "))}`);
+  logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
   // 获取 opt 的输入
   // const { otp } = await inquirer.prompt([
@@ -136,15 +136,15 @@ async function release() {
   //process.env.NPM_CONFIG_OTP = otp;
 
   pkgs.forEach((pkg, index) => {
-    if (pkg !== "web") {
+    if (pkg !== 'web') {
       const pkgPath = join(
         cwd,
-        "packages",
-        pkg !== "plugin-microlayout"
-          ? pkg.replace("sc-", "")
-          : "plugin-microlayout"
+        'packages',
+        pkg !== 'plugin-microlayout'
+          ? pkg.replace('sc-', '')
+          : 'plugin-microlayout'
       );
-      const { name, version } = require(join(pkgPath, "package.json"));
+      const { name, version } = require(join(pkgPath, 'package.json'));
       const isNext = isNextVersion(version);
       let isPackageExist = null;
       if (args.publishOnly) {
@@ -158,11 +158,11 @@ async function release() {
       if (!args.publishOnly || !isPackageExist) {
         console.log(
           `[${index + 1}/${pkgs.length}] Publish package ${name} ${
-            isNext ? "with next tag" : ""
+            isNext ? 'with next tag' : ''
           }`
         );
-        const cliArgs = isNext ? ["publish", "--tag", "beta"] : ["publish"];
-        const { stdout } = execa.sync("npm", cliArgs, {
+        const cliArgs = isNext ? ['publish', '--tag', 'beta'] : ['publish'];
+        const { stdout } = execa.sync('npm', cliArgs, {
           cwd: pkgPath,
         });
         logStep(stdout);
@@ -170,7 +170,7 @@ async function release() {
     }
   });
 
-  logStep("done");
+  logStep('done');
 }
 
 release().catch((err) => {

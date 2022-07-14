@@ -1,10 +1,13 @@
-import { useStore } from '../../stores';
+// @ts-ignore
+import { ComponentSchemaProps } from '@scvisual/element';
 import { Button, message } from 'antd';
+import cloneDeep from 'lodash/cloneDeep';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import { ComponentSchemaProps } from '@scvisual/element';
+import { useStore } from '../../stores';
 import { filterPageConfig } from '../../utils/common';
 import { validateRules } from '../../utils/validateUtil';
+
 const PropertyPanel: React.FC<any> = (props) => {
   const { editorStore } = useStore();
 
@@ -14,10 +17,11 @@ const PropertyPanel: React.FC<any> = (props) => {
     if (Array.isArray(editList)) {
       for (let i = 0; i < editList.length; i++) {
         const item: ComponentSchemaProps = editList[i];
-        let newcolumns = filterPageConfig(item?.propsConfig);
+        let newcolumns = cloneDeep(filterPageConfig(item?.propsConfig));
         if (item?.getPropsConfig) {
           newcolumns = item?.getPropsConfig(newcolumns, item.values);
         }
+
         const itemFlag = await validateRules(newcolumns, item.values);
         if (flag && itemFlag === false) {
           flag = false;
@@ -25,7 +29,7 @@ const PropertyPanel: React.FC<any> = (props) => {
             ...item,
             immediatelyCheck: true,
           });
-          editorStore.switchEditCmp(item.id);
+          editorStore.switchEditCmp(item.id, true);
           break;
         }
       }

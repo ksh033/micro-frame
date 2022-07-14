@@ -1,27 +1,28 @@
-import React, { useMemo } from 'react'
-import BsNumberInput from '../../Base/BsNumberInput'
-import useWeightUnit from '../../Dict/weightUnit'
 import type {
-  TableComponentProps,
   TableComponent,
-} from '@scboson/sc-element/es/sc-editable-table/typing'
+  TableComponentProps,
+} from '@scboson/sc-element/es/sc-editable-table/typing';
+import React, { useMemo } from 'react';
+import BsNumberInput from '../../Base/BsNumberInput';
+import useWeightUnit from '../../Dict/weightUnit';
 
 interface QuantityProps extends TableComponentProps {
-  onChange?: (val: any) => any
-  value?: any
-  unitName?: string
-  getMax?: (record: any) => number
-  getMin?: (record: any) => number
-  getSuffix?: (record: any) => React.ReactNode
-  promptRender?: (value: any, record: any) => React.ReactNode
-  style?: any
-  id?: any
-  disabled?: boolean | ((record: any) => boolean)
+  onChange?: (val: any) => any;
+  value?: any;
+  unitName?: string;
+  getMax?: (record: any) => number;
+  getMin?: (record: any) => number;
+  getSuffix?: (record: any) => React.ReactNode;
+  promptRender?: (value: any, record: any) => React.ReactNode;
+  style?: any;
+  id?: any;
+  disabled?: boolean | ((record: any) => boolean);
+  getComplement?: (complement: number, record: any) => number;
 }
 
 const Quantity: TableComponent<QuantityProps> = (props) => {
   const {
-    rowData = {},
+    rowData: proRowData,
     value,
     onChange,
     getMax,
@@ -31,28 +32,35 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
     promptRender,
     form,
     disabled = false,
+    getComplement,
     ...resProps
-  } = props
+  } = props;
 
-  const { weightUnit, has } = useWeightUnit()
+  const { weightUnit, has } = useWeightUnit();
 
-  const max = getMax?.(rowData) || undefined
+  const rowData = props.rowData || props['data-row'] || {};
 
-  const min = getMin?.(rowData) || undefined
+  const max = getMax?.(rowData) || undefined;
+
+  const min = getMin?.(rowData) || undefined;
 
   const newDisabled =
-    typeof disabled === 'function' ? disabled?.(rowData) : disabled
+    typeof disabled === 'function' ? disabled?.(rowData) : disabled;
 
   const IsWeightUnit = useMemo(() => {
-    return has(rowData[unitName])
-  }, [unitName, JSON.stringify(rowData)])
+    return has(rowData[unitName]);
+  }, [unitName, JSON.stringify(rowData)]);
 
   const complement = useMemo(() => {
+    let newComplement = 0;
     if (IsWeightUnit) {
-      return 3
+      newComplement = 3;
     }
-    return 0
-  }, [IsWeightUnit])
+    if (getComplement) {
+      newComplement = getComplement(newComplement, rowData);
+    }
+    return newComplement;
+  }, [IsWeightUnit]);
 
   return (
     <>
@@ -68,8 +76,8 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
       />
       {promptRender ? promptRender(value, rowData) : null}
     </>
-  )
-}
-Quantity.customView = true
+  );
+};
+Quantity.customView = true;
 
-export default Quantity
+export default Quantity;

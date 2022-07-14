@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
-import React, { useLayoutEffect, useState } from 'react';
-import { message } from 'antd';
 import { ScUpload } from '@scboson/sc-element';
 import { UploadFile } from '@scboson/sc-element/es/sc-upload';
-import { PlusOutlined } from '@ant-design/icons';
+import { UploadListType } from 'antd/es/upload/interface';
+import React, { useLayoutEffect, useState } from 'react';
 import { imageUrl } from '../../../utils/common';
-import { FileType } from './index';
+import { FileType, uploadBtn } from './index';
+import { getFileName, isMultimedia } from './utils';
+
 interface MultipleUpload {
   action?: string;
   value?: any[];
@@ -18,6 +19,7 @@ interface MultipleUpload {
   accept?: string;
   headers?: any;
   valeFormat?: (data: any) => Promise<string | FileType | null>;
+  listType?: UploadListType;
 }
 
 const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
@@ -30,8 +32,17 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     headers,
     valeFormat,
     maxSizeCheck,
+    listType = 'picture-card',
     ...restProps
   } = props;
+
+  const getItemFileName = (url: string, name: string) => {
+    if (listType === 'picture') {
+      return name;
+    }
+    return isMultimedia(url) ? '' : name;
+  };
+
   const formatList = (_fileList: any) => {
     let newfileList = JSON.parse(JSON.stringify(_fileList));
     if (Array.isArray(newfileList) && newfileList.length > 0) {
@@ -43,6 +54,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
               url: imageUrl(item),
               fileUrl: item,
               status: 'done',
+              name: getItemFileName(imageUrl(item) || '', getFileName(item)),
             };
           } else {
             return {
@@ -51,6 +63,10 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
               fileUrl: item.url,
               fileInfoId: item.fileId || item.fileInfoId,
               thumbnailUrl: item.thumb_url || item.thumbnailUrl,
+              name: getItemFileName(
+                imageUrl(item.url) || '',
+                getFileName(item.fileName)
+              ),
               status: 'done',
             };
           }
@@ -65,15 +81,28 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useLayoutEffect(() => {
-    setFileList(formatList(value));
+    if (Array.isArray(value) && fileList.length === 0) {
+      setFileList(formatList(value));
+    }
   }, [JSON.stringify(value)]);
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div>上传</div>
-    </div>
-  );
+  const fileFormatObjet: any = (file: any, index: number) => {
+    let result: any = file;
+    if (file.response && file.response.success) {
+      result = file.response.data;
+      return {
+        uid: result.fileInfoId + index,
+        name: result.fileName,
+        url: imageUrl(result.fileUrl || ''),
+        thumbUrl: imageUrl(result.thumbnailUrl),
+        thumbnailUrl: result.thumbnailUrl,
+        fileUrl: result.fileUrl,
+        status: 'done',
+      };
+    } else {
+      return result;
+    }
+  };
 
   const handleChange = async ({
     fileList: list,
@@ -125,6 +154,14 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
             result = file.response.data;
           }
           if (valeFormat && result) {
+            // if (typeof result === 'string') {
+            //   setPreviewImage(result);
+            //   setPreviewImage(resultData.fileName);
+            // } else {
+            //   setPreviewName(result && result.fileName ? result.fileName : null);
+            //   setPreviewImage(result && result.url ? result.url : null);
+            // }
+            console.log(result);
             result = await valeFormat(result);
             outList.push(result);
           } else {
@@ -132,6 +169,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
           }
         }
       }
+      setFileList(doneList.map((it, index) => fileFormatObjet(it, index)));
       onChange?.(outList);
     } else {
       setFileList(rfileList);
@@ -141,7 +179,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   return (
     <ScUpload
       action={action}
-      listType="picture-card"
+      listType={listType}
       fileList={fileList}
       onChange={handleChange}
       accept={accept}
@@ -149,7 +187,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
       headers={headers}
       {...restProps}
     >
-      {fileList.length >= 9 ? null : uploadButton}
+      {fileList.length >= 9 ? null : uploadBtn(listType)}
     </ScUpload>
   );
 };

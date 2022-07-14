@@ -1,53 +1,66 @@
-import { ProFormColumnsType } from '@ant-design/pro-form/es'
-import { message } from 'antd'
-import Schema from 'async-validator'
-export function validateRules(
-  columns: ProFormColumnsType<any>[],
-  record: any
-): Promise<Boolean> {
-  const descriptor: any = {}
-  columns.forEach((item: ProFormColumnsType) => {
-    // @ts-ignore
-    const rules = item.formItemProps?.rules
+import { ProFormColumnsType } from '@ant-design/pro-form/es';
+import { message } from 'antd';
+import Schema from 'async-validator';
+import { isPromise } from './common';
 
-    if (item.dataIndex && rules) {
-      const name = JSON.stringify(item.dataIndex) || ''
+export function validateRules(
+  columns: ProFormColumnsType[],
+  record: any,
+): Promise<Boolean> {
+  const getFieldsValue = (name: string) => {
+    return record[name];
+  };
+
+  const descriptor: any = {};
+  console.log(record);
+  columns.forEach((item: ProFormColumnsType) => {
+    if (item.formItemProps) {
+      let rules = item.formItemProps['rules'];
       if (Array.isArray(rules)) {
+        rules = rules.filter((it) => it != null);
+      } else {
+        rules = [];
+      }
+
+      if (item.dataIndex && rules.length > 0) {
+        const name = JSON.stringify(item.dataIndex) || '';
         descriptor[`${name.replace(/"/g, '')}`] = rules.map((it: any) => {
-          if (it.required) {
-            return {
-              ...it,
-              type: it.type ? it.type : 'string',
-              transform(val: any) {
-                if (val !== undefined && val !== null && val !== '') {
-                  return String(val).trim()
-                }
-                return val
-              },
+          if (typeof it === 'function') {
+            const item = it({
+              getFieldsValue,
+            });
+            if (isPromise(item.validator)) {
+              const itemValidator = item.validator;
+              delete item.validator;
+              return {
+                ...item,
+                asyncValidator: itemValidator,
+              };
+            } else {
+              return item;
             }
           }
-          return {
-            ...it,
-            type: it.type ? it.type : 'string',
-          }
-        })
+          return it;
+        });
       }
     }
-  })
-  const validator = new Schema(descriptor)
+  });
+  console.log(descriptor);
+  const validator = new Schema(descriptor);
+
   return new Promise((resolve, rejust) => {
     validator
       .validate(record, { first: true })
       .then(() => {
-        resolve(true)
+        resolve(true);
       })
       .catch(({ errors, fields }) => {
         if (Array.isArray(errors) && errors.length > 0) {
-          message.error(`${errors[0].message}`)
+          message.error(`${errors[0].message}`);
         }
 
-        console.log(errors)
-        resolve(false)
-      })
-  })
+        console.log(errors);
+        resolve(false);
+      });
+  });
 }

@@ -2,6 +2,7 @@ import { BasePluginvoke, Print } from '@scboson/client-plugin';
 import { message } from 'antd';
 import { request } from './request';
 
+// 针式打印的id 是在 普通打印的基础上增加一位为1的数字
 export const getHostUrl = () => {
   //@ts-ignore
   const { location, publicPath } = window;
@@ -37,6 +38,8 @@ export type PrintCfg = {
   dataUrl: string;
   method?: string;
 };
+// 针式打印的id 是在 普通打印的基础上增加一位为1的数字
+// A4 打印为 8位 针式为 9位并且以1结尾
 export enum PrintTplType {
   /** 溯源码 */
   traceSource = '00000001',
@@ -48,10 +51,14 @@ export enum PrintTplType {
   receiverOrder = '00000004',
   /** 出库单 */
   stockOutOrder = '00000005',
+  /** 拣货单 */
+  pickOrder = '00000006',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
   stockOutOrderZhen = '000000051',
+  /** 出库单针式 */
+  pickOrderZhen = '000000061',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -90,6 +97,13 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
   },
+  '00000006': {
+    moduleId: '00000006',
+    moduleName: '拣货单',
+    tplName: 'pickOrder.grf',
+    dataUrl: '/purchase/api/pick/order/print',
+    method: 'get',
+  },
   '000000041': {
     moduleId: '000000041',
     moduleName: '收货单',
@@ -102,6 +116,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleName: '出库单',
     tplName: 'stockOutOrder_zhen.grf',
     dataUrl: '/purchase/api/stock/order/print',
+    method: 'get',
+  },
+  '000000061': {
+    moduleId: '000000061',
+    moduleName: '拣货单',
+    tplName: 'pickOrder_zhen.grf',
+    dataUrl: '/purchase/api/pick/order/print',
     method: 'get',
   },
 };

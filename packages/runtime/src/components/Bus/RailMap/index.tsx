@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useRef, useState, useCallback } from 'react'
-import { Button, Input } from 'antd'
-import { Map, Polygon, PolyEditor, PolygonPath, Marker } from 'react-amap'
-import { useMap, useFullscreen, useSetState, useUpdateEffect } from 'ahooks'
-import { getCenterOfGravityPoint, colorRgba } from '../../../utils/common'
-import compute from '../../../utils/compute'
 import {
   CloseCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
-} from '@ant-design/icons'
-import styles from './index.less'
-import { CModal } from '@scboson/sc-element'
+} from '@ant-design/icons';
+import { CModal } from '@scboson/sc-element';
+import { useFullscreen, useMap, useSetState, useUpdateEffect } from 'ahooks';
+import { Button, Input } from 'antd';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Map, Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
+import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
+import compute from '../../../utils/compute';
+import styles from './index.less';
 
 const colorList = [
   '#096dd9',
@@ -26,30 +26,30 @@ const colorList = [
   '#7cb305',
   '#7cb305',
   '#1d39c4',
-]
+];
 
 export interface RailItemProps {
-  path: PolygonPath
-  title?: string
-  color?: string
+  path: PolygonPath;
+  title?: string;
+  color?: string;
 }
 
 interface RailProps {
-  value?: RailItemProps[]
-  onChange?: (list: RailItemProps[]) => void
-  distance?: number // 单位米
-  initMarker?: { px: number; py: number } // 初始化的点
+  value?: RailItemProps[];
+  onChange?: (list: RailItemProps[]) => void;
+  distance?: number; // 单位米
+  initMarker?: { px: number; py: number }; // 初始化的点
 }
 
 interface RailState {
-  maxSize: number
-  active: string
+  maxSize: number;
+  active: string;
 }
 
 function GenNonDuplicateID(randomLength: number | undefined) {
-  let idStr = Date.now().toString(36)
-  idStr += Math.random().toString(36).substr(3, randomLength)
-  return idStr
+  let idStr = Date.now().toString(36);
+  idStr += Math.random().toString(36).substr(3, randomLength);
+  return idStr;
 }
 
 export default (props: RailProps) => {
@@ -58,31 +58,31 @@ export default (props: RailProps) => {
     distance = 3000,
     onChange,
     value,
-  } = props
-  const mapPlugins: any[] = ['ToolBar', 'Scale']
-  const map = useRef<any>(null)
+  } = props;
+  const mapPlugins: any[] = ['ToolBar', 'Scale'];
+  const map = useRef<any>(null);
   const [overlays, overlaysMap] = useMap<
     string | number,
     {
-      path: PolygonPath
-      color: string
+      path: PolygonPath;
+      color: string;
     }
-  >([])
-  const [editor, editorMap] = useMap<string | number, any>([])
+  >([]);
+  const [editor, editorMap] = useMap<string | number, any>([]);
 
-  const [titleMap, titleMapFn] = useMap<string | number, string>([])
+  const [titleMap, titleMapFn] = useMap<string | number, string>([]);
   const [mapCenter, setMapCenter] = useState({
     longitude: 119.330221,
     latitude: 26.0471254,
-  })
+  });
 
-  const fullRef = useRef<any>()
-  const [isFullscreen, { toggleFull }] = useFullscreen(fullRef)
+  const fullRef = useRef<any>();
+  const [isFullscreen, { toggleFull }] = useFullscreen(fullRef);
 
   const [state, setState] = useSetState<RailState>({
     maxSize: 0,
     active: '',
-  })
+  });
 
   const formatPxPy = (list: any[]): any[] => {
     if (Array.isArray(list)) {
@@ -90,35 +90,35 @@ export default (props: RailProps) => {
         return {
           px: item['longitude'],
           py: item['latitude'],
-        }
-      })
+        };
+      });
     } else {
-      return []
+      return [];
     }
-  }
+  };
 
   const formatList = () => {
-    const list: any[] = []
+    const list: any[] = [];
     Array.from(overlays).forEach((item: any) => {
-      const title = titleMapFn.get(item[0])
+      const title = titleMapFn.get(item[0]);
       list.push({
         path: formatPxPy(item[1].path),
         title,
         color: item[1].color,
-      })
-    })
+      });
+    });
 
-    onChange && onChange(list)
-  }
+    onChange && onChange(list);
+  };
 
   // 输入事件
   const handleChange = (target: { value: string; key: string }) => {
-    const item: any = titleMapFn.get(target.key)
+    const item: any = titleMapFn.get(target.key);
     if (item !== null || item !== undefined) {
-      titleMapFn.set(target.key, target.value)
+      titleMapFn.set(target.key, target.value);
       // overlaysMap.set(target.key, item);
     }
-  }
+  };
 
   const formatLngLat = (list: any[]): PolygonPath => {
     if (Array.isArray(list)) {
@@ -126,135 +126,135 @@ export default (props: RailProps) => {
         return {
           longitude: item['lng'] || item['px'],
           latitude: item['lat'] || item['py'],
-        }
-      })
+        };
+      });
     } else {
-      return []
+      return [];
     }
-  }
+  };
 
   useUpdateEffect(() => {
-    formatList()
+    formatList();
   }, [
     JSON.stringify(Array.from(overlays)),
     JSON.stringify(Array.from(titleMap)),
-  ])
+  ]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (Array.isArray(value) && Array.from(overlays).length === 0) {
-      overlaysMap.reset()
-      titleMapFn.reset()
-      let activeKey = ''
+      overlaysMap.reset();
+      titleMapFn.reset();
+      let activeKey = '';
       value.forEach((item, index: number) => {
-        const key = GenNonDuplicateID(10)
+        const key = GenNonDuplicateID(10);
         if (index === 0) {
-          activeKey = key
+          activeKey = key;
         }
         overlaysMap.set(key, {
           path: formatLngLat(item.path),
           color: colorList[index % 12],
-        })
-        titleMapFn.set(key, item.title || '')
-      })
+        });
+        titleMapFn.set(key, item.title || '');
+      });
 
       setState({
         maxSize: value.length,
         active: activeKey,
-      })
+      });
     }
-  }, [JSON.stringify(value)])
+  }, [JSON.stringify(value)]);
 
   const addPolygon = () => {
-    const marker = initMarker
-    const real: number = compute.multiply(0.00001, distance)
-    const maxSize = state.maxSize + 1
-    const key = GenNonDuplicateID(10)
+    const marker = initMarker;
+    const real: number = compute.multiply(0.00001, distance);
+    const maxSize = state.maxSize + 1;
+    const key = GenNonDuplicateID(10);
     if (marker.px && marker.py) {
       const leftTop = {
         longitude: compute.subtract(marker.px, real),
         latitude: marker.py + real,
-      }
+      };
       const rightTop = {
         longitude: compute.add(marker.px, real),
         latitude: compute.add(marker.py, real),
-      }
+      };
       const leftBottom = {
         longitude: compute.subtract(marker.px, real),
         latitude: compute.subtract(marker.py, real),
-      }
+      };
       const rightBottom = {
         longitude: compute.add(marker.px, real),
         latitude: compute.subtract(marker.py, real),
-      }
+      };
       overlaysMap.set(key, {
         path: [leftTop, rightTop, rightBottom, leftBottom],
         color: colorList[(maxSize - 1) % 12],
-      })
-      titleMapFn.set(key, '')
+      });
+      titleMapFn.set(key, '');
       setState({
         maxSize,
         active: key,
-      })
+      });
     }
-  }
+  };
 
   useUpdateEffect(() => {
     if (initMarker.px && initMarker.py) {
       setMapCenter({
         longitude: initMarker.px,
         latitude: initMarker.py,
-      })
+      });
     }
-  }, [JSON.stringify(initMarker)])
+  }, [JSON.stringify(initMarker)]);
 
   const mapEvents = {
     created: (ins: any) => {
-      map.current = ins
+      map.current = ins;
     },
-  }
+  };
 
   const editorEvents = {
     created: (ins: any) => {
-      let extData: any = null
+      let extData: any = null;
       if (ins.Rc && ins.Rc.getExtData) {
-        extData = ins.Rc.getExtData()
+        extData = ins.Rc.getExtData();
       }
 
       if (ins.Sc && ins.Sc.De && ins.Sc.De.extData) {
-        extData = ins.Sc.De.extData
+        extData = ins.Sc.De.extData;
       }
       if (!editorMap.get(extData) && extData !== null) {
-        editorMap.set(extData, ins)
+        editorMap.set(extData, ins);
       }
-      const center = getCenterOfGravityPoint(ins.Sc.De.path)
-      setMapCenter(center)
+      const center = getCenterOfGravityPoint(ins.Sc.De.path);
+      setMapCenter(center);
     },
     adjust: ({ target }: any) => {
-      const key = target.getExtData()
-      const obj: any = overlaysMap.get(key)
+      const key = target.getExtData();
+      const obj: any = overlaysMap.get(key);
       if (obj) {
-        obj.path = formatLngLat(target.getPath())
-        overlaysMap.set(key, obj)
+        obj.path = formatLngLat(target.getPath());
+        overlaysMap.set(key, obj);
       }
     },
-  }
+  };
 
   const event = {
     mouseup: ({ target }: any) => {
-      const key = target.getExtData()
-      const obj: any = overlaysMap.get(key)
+      const key = target.getExtData();
+      const obj: any = overlaysMap.get(key);
       if (obj) {
-        obj.path = formatLngLat(target.getPath())
-        overlaysMap.set(key, obj)
+        obj.path = formatLngLat(target.getPath());
+        overlaysMap.set(key, obj);
       }
     },
-  }
+  };
 
   const changeActive = (key: any) => {
     setState({
       active: key,
-    })
-  }
+    });
+  };
 
   function removeNode(key: any) {
     CModal.confirm({
@@ -263,41 +263,41 @@ export default (props: RailProps) => {
       okType: 'danger',
       cancelText: '取消',
       onOk: async (res: any) => {
-        const remvoeObj = overlaysMap.get(key)
+        const remvoeObj = overlaysMap.get(key);
         if (remvoeObj) {
-          overlaysMap.remove(key)
-          titleMapFn.remove(key)
-          const editRemoveObj = editorMap.get(key)
+          overlaysMap.remove(key);
+          titleMapFn.remove(key);
+          const editRemoveObj = editorMap.get(key);
           if (editRemoveObj) {
-            editRemoveObj.close()
-            editorMap.remove(key)
+            editRemoveObj.close();
+            editorMap.remove(key);
           }
-          const newActive: any = Array.from(overlays)[0]
+          const newActive: any = Array.from(overlays)[0];
           if (newActive) {
             setState({
               active: newActive[0],
-            })
+            });
           }
         }
       },
-    })
+    });
   }
 
   // 地图内的多边形生成
   const getPolyEditor = useCallback(() => {
-    const polyEditors: React.ReactNode[] = []
+    const polyEditors: React.ReactNode[] = [];
     Array.from(overlays).forEach((item: any) => {
-      const path = JSON.parse(JSON.stringify(item[1].path))
-      const key = item[0]
-      const _color = item[1].color
+      const path = JSON.parse(JSON.stringify(item[1].path));
+      const key = item[0];
+      const _color = item[1].color;
       const style = {
         strokeColor: _color,
         strokeWeight: 2,
         fillOpacity: 0.2,
         fillColor: _color,
         extData: key,
-      }
-      const active = state.active === key
+      };
+      const active = state.active === key;
       polyEditors.push(
         <Polygon path={path} key={key} style={style} draggable events={event}>
           <PolyEditor
@@ -306,32 +306,32 @@ export default (props: RailProps) => {
             active={active}
           />
         </Polygon>
-      )
-    })
-    return polyEditors
-  }, [JSON.stringify(overlays), state.active])
+      );
+    });
+    return polyEditors;
+  }, [JSON.stringify(overlays), state.active]);
   // 左上角浮层
   const getCardList = () => {
-    const list: React.ReactNode[] = []
+    const list: React.ReactNode[] = [];
     Array.from(titleMap).forEach((item: any, index: number) => {
-      const active = state.active === item[0]
-      const oitem: any = overlaysMap.get(item[0])
+      const active = state.active === item[0];
+      const oitem: any = overlaysMap.get(item[0]);
       const _style = {
         backgroundColor: colorRgba(oitem.color, 0.4),
         border: `1px solid ${oitem.color}`,
-      }
+      };
       const mainStyle = active
         ? {
             border: '1px solid #155bD4',
           }
-        : {}
+        : {};
       list.push(
         <div
           className={styles['rail-item']}
           key={index}
           style={mainStyle}
           onClick={() => {
-            changeActive(item[0])
+            changeActive(item[0]);
           }}
         >
           <div className={styles['rail-item-color']} style={_style}></div>
@@ -340,7 +340,7 @@ export default (props: RailProps) => {
               handleChange({
                 value: e.target.value,
                 key: item[0],
-              })
+              });
             }}
             value={item[1]}
           ></Input>
@@ -348,17 +348,17 @@ export default (props: RailProps) => {
             className={styles['rail-item-remove']}
             type="link"
             onClick={() => {
-              removeNode(item[0])
+              removeNode(item[0]);
             }}
           >
             <CloseCircleOutlined />
           </Button>
           {active ? <div className={styles['rail-item-active']}></div> : null}
         </div>
-      )
-    })
-    return list
-  }
+      );
+    });
+    return list;
+  };
 
   return (
     <div className={styles['rail-map']} ref={fullRef}>
@@ -387,5 +387,5 @@ export default (props: RailProps) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};

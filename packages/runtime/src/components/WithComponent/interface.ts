@@ -1,12 +1,11 @@
 import type { BsEditTableProps } from '../Base/BsEditTable';
 import type { BsTableProps } from '../Base/BsTable';
-import type { CheckboxProps } from 'antd';
 //import type { RowSelectionType } from 'antd/es/table/interface';
+import type { ScSelectProps } from '@scboson/sc-element/es/sc-select';
 import type {
   FormSearchItem,
   ProColumn,
 } from '@scboson/sc-schema/es/interface';
-import type { ScSelectProps } from '@scboson/sc-element/es/sc-select';
 import type { MutableRefObject } from 'react';
 
 export type WithTableProps = {
@@ -16,8 +15,9 @@ export type WithTableProps = {
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void;
   ref?: React.Ref<any>;
   children?: any;
-
+  lightFilter?: boolean;
   formatPrams?: (params: any) => any;
+  alertFn?: (selectRowKeys: any[]) => React.ReactElement;
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<any, 'defaultChecked' | 'checked'>>;

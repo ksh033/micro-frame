@@ -1,7 +1,7 @@
 import type { FormInstance, ProFormColumnsType } from '@ant-design/pro-form';
 import React from 'react';
 import ParentSchemCmp from '../base/ParentSchemCmp';
-import { componentItem } from './enum';
+import { ComponentItemType } from './enum';
 
 // 组件展示基础信息
 export interface CmpInfo {
@@ -17,7 +17,7 @@ export interface CmpInfo {
 
 export type VdProFormColumnsType<RecordType = any> = ProFormColumnsType<
   RecordType,
-  componentItem
+  ComponentItemType
 >;
 
 export interface Mixin {
@@ -49,6 +49,7 @@ export interface ComponentSchemaType {
     props: any,
   ) => React.ReactNode | React.ReactElement<any, any> | null;
   onValuesChange?: (changedValues: any, allValues: any) => any;
+  formatValues?: (allValues: any) => void;
   initClass: (record: ComponentSchemaType) => void;
 }
 

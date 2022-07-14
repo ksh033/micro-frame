@@ -1,50 +1,53 @@
 import PageSchema from '@scboson/sc-schema';
-import CheckBoxDate from './CheckBoxDate';
 import Address from './Address';
-import ForEverDate from './ForEverDate';
 import AreaSelect from './Address/AreaSelect';
 import AreaSelectTree from './Address/AreaSelectTree';
-import SelectCargoTable from './SelectCargo/table';
+import ChainManageComPanySelect from './ChainManageComPanySelect';
+import CheckBoxDate from './CheckBoxDate';
+import Enabled from './Enabled';
+import ForEverDate from './ForEverDate';
+import LocationAreaSelect from './LocationAreaSelect';
+import LocationSearch from './LocationSearch';
+import PageTitle from './PageTitle';
+import RailMap from './RailMap';
 import SelectCargo from './SelectCargo/index';
 import CargoSelect from './SelectCargo/select';
-import Enabled from './Enabled';
-import LocationSearch from './LocationSearch';
-import SupplierTableSelect from './SupplierTableSelect';
+import SelectCargoTable from './SelectCargo/table';
+import SetCatalogRef from './SetCatalogRef';
 import ShopTableSelect from './ShopTableSelect';
-import RailMap from './RailMap';
-import PageTitle from './PageTitle';
+import SupplierTableSelect from './SupplierTableSelect';
 import UserDept from './UserDept';
-import ChainManageComPanySelect from './ChainManageComPanySelect';
 
 /**
  * 旧 商品组件
  *
  * @deprecated Begin
  */
+import CatalogTreeSelect from './CatalogTreeSelect';
 import GoodsCatalogSelect from './GoodsCatalog/GoodsCatalogSelect';
 import OldGoodsCatalogTree from './GoodsCatalog/GoodsCatalogTree';
 import ShowCatalogSelect from './ShowCatalog/ShowCatalogSelect';
 import ShowCatalogTree from './ShowCatalog/ShowCatalogTree';
-import CatalogTreeSelect from './CatalogTreeSelect';
 /** 旧 商品组件 end */
-import CooperateSupplierSelect from './CooperateSupplierSelect';
-import PrintButton from './PrintButton';
-import WarehouseTableSelect from './WarehouseTableSelect';
-import UserInfo from './UserInfo';
-import OrgSelect from './OrgSelect';
-import Quantity from './Quantity';
-import BrandSelect from './BrandSelect';
 import BatchCopyAddModal from './BatchCopyAddModal';
-import Invalid from './Invalid';
+import BrandSelect from './BrandSelect';
 import CargoTableFooterSelect from './CargoTableFooterSelect';
+import CooperateSupplierSelect from './CooperateSupplierSelect';
+import Invalid from './Invalid';
+import OrgSelect from './OrgSelect';
+import PrintButton from './PrintButton';
+import Quantity from './Quantity';
+import UserInfo from './UserInfo';
+import WarehouseTableSelect from './WarehouseTableSelect';
 
 /** 新商品组件 */
 import GoodsCatalogTree from './MallGoods/Catalog/CatalogTree';
-import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
-import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect';
-import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
 import GoodsCatalogTreeSelect from './MallGoods/Catalog/CatalogTreeSelect';
+import GoodsModalSelect from './MallGoods/Goods/GoodsCenterSelect';
+import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
+import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
 import PrintConfirm, { openPrintConfirm } from './PrintConfirm';
+import PrintOptButton from './PrintOptButton';
 
 const { regeditCmp } = PageSchema;
 regeditCmp('CheckBoxDate', CheckBoxDate);
@@ -59,6 +62,7 @@ regeditCmp('CargoSelect', CargoSelect);
 regeditCmp('SupplierTableSelect', SupplierTableSelect);
 regeditCmp('ShopTableSelect', ShopTableSelect);
 regeditCmp('UserDept', UserDept);
+regeditCmp('LocationAreaSelect', LocationAreaSelect);
 regeditCmp('GoodsCatalogSelect', GoodsCatalogSelect);
 
 regeditCmp('GoodsCatalogSelect', GoodsCatalogTreeSelect);
@@ -112,4 +116,7 @@ export {
   GoodsTable,
   ChainManageComPanySelect,
   GoodsCatalogTreeSelect,
+  SetCatalogRef,
+  LocationAreaSelect,
+  PrintOptButton,
 };

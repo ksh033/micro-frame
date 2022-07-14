@@ -11,9 +11,8 @@ import { Button, Popconfirm, Space } from 'antd';
 import { CopyOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons';
 // @ts-ignore
 import { ComponentSchemaProps } from '@scvisual/element';
-import sendToIframe from '../../utils/sendToIframe';
 
-const SortableItem = SortableElement((props: any) => {
+const SortableItem: any = SortableElement((props: any) => {
   const { value, onCopy, onDelete, indexNmu } = props;
 
   return (
@@ -44,7 +43,7 @@ const SortableItem = SortableElement((props: any) => {
   );
 });
 
-const SortableList = SortableContainer(
+const SortableList: any = SortableContainer(
   (props: { children?: any; confirm?: any; showClearAction: boolean }) => {
     const { confirm, showClearAction = false } = props;
     return (

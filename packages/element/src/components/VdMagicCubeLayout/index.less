@@ -1,0 +1,135 @@
+.vd-magicCube-layout{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.vd-cube-density{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.vd-cube-density-header{
+  margin-right: 16px;
+  font-size: 14px;
+  color: #969799;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.vd-cube-density-content{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+
+
+.vd-magicCube-layout-help-desc{
+  font-size: 12px;
+  line-height: 18px;
+  color: #969799;
+}
+.vd-magicCube-group-content{
+  display: block;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.vd-decorate-cube{
+  position: relative;
+  width: 325px;
+  display: flex;
+}
+.vd-decorate-cube .cube-row {
+  float: left;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+.vd-decorate-cube .cube-item {
+  background: #f8f8f8;
+  border-left: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  text-align: center;
+}
+
+.vd-decorate-cube .cube-item:first-child {
+  border-top: 1px solid #e5e5e5;
+}
+
+.vd-decorate-cube .cube-item.item-selected {
+  background: #e0edff;
+  border-color: #155bd4;
+}
+
+.vd-decorate-cube .cube-item.item-selecting {
+  background: #e0edff;
+  border-color: transparent;
+}
+
+.vd-decorate-cube .cube-row:last-of-type .cube-item {
+  border-right: 1px solid #e5e5e5;
+}
+
+.vd-decorate-cube .cube-selected {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ebedf0;
+  text-align: center;
+  color: #7d7e80;
+  cursor: pointer;
+}
+
+.vd-decorate-cube .cube-item .plus-icon {
+  font-size: 20px;
+  color: #bbb;
+}
+
+.vd-decorate-cube .cube-selected.cube-selected-click {
+  background: #e0edff;
+  border: 1px solid #155bd4;
+  color: #155bd4;
+  cursor: auto;
+}
+
+
+.vd-decorate-cube .cube-selected-text {
+  font-size: 12px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+
+.vd-decorate-cube .card-item-delete{
+  display: none!important;
+  position: absolute;
+  cursor: pointer;
+  font-size: 20px;
+  right: -10px;
+  top: -10px;
+  color: #bbb;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.vd-decorate-cube .cube-selected.cube-selected-click:hover .card-item-delete {
+  display: block!important;
+  color: #000;
+  opacity: .3;
+}
+
