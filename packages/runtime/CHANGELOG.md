@@ -227,8 +227,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-<<<<<<< HEAD
-=======
 ## [1.0.5-beta.23](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.5-beta.22...@micro-frame/sc-runtime@1.0.5-beta.23) (2022-06-10)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime
@@ -237,7 +235,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
->>>>>>> dev
 ## [1.0.5-beta.22](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.5-beta.21...@micro-frame/sc-runtime@1.0.5-beta.22) (2022-06-10)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime
