@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/plugin-microlayout",
-  "version": "1.0.0-beta.35",
+  "version": "1.0.0-beta.36",
   "description": "子应用Layout插件",
   "module": "es/index.js",
   "main": "lib/index.js",
