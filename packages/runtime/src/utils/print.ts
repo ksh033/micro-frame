@@ -53,12 +53,20 @@ export enum PrintTplType {
   stockOutOrder = '00000005',
   /** 拣货单 */
   pickOrder = '00000006',
+  /** 总拣单 */
+  sortOrder = '00000007',
+  /** 总拣单货品详情 */
+  sortOrderDetail = '00000008',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
   stockOutOrderZhen = '000000051',
   /** 出库单针式 */
   pickOrderZhen = '000000061',
+  /** 总拣单针式 */
+  sortOrderZhen = '000000071',
+  /** 总拣单货品详情针式 */
+  sortOrderDetailZhen = '000000081',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -104,6 +112,18 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/purchase/api/pick/order/print',
     method: 'get',
   },
+  '00000007': {
+    moduleId: '00000007',
+    moduleName: '总拣单',
+    tplName: 'sortOrder.grf',
+    dataUrl: '',
+  },
+  '00000008': {
+    moduleId: '00000008',
+    moduleName: '总拣单货品详情',
+    tplName: 'sortOrderDetail.grf',
+    dataUrl: '',
+  },
   '000000041': {
     moduleId: '000000041',
     moduleName: '收货单',
@@ -125,6 +145,18 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/purchase/api/pick/order/print',
     method: 'get',
   },
+  '000000071': {
+    moduleId: '000000071',
+    moduleName: '总拣单',
+    tplName: 'sortOrder_zhen.grf',
+    dataUrl: '',
+  },
+  '000000081': {
+    moduleId: '000000081',
+    moduleName: '总拣单货品详情',
+    tplName: 'sortOrderDetail_zhen.grf',
+    dataUrl: '',
+  },
 };
 
 export interface PrintProps {
@@ -135,7 +167,6 @@ export interface PrintProps {
   url?: string;
   method?: string;
   params?: any;
-  isZhen?: boolean;
 }
 const checkClient = (): Promise<Boolean> => {
   const key = 'updatable';
@@ -213,6 +244,43 @@ export const print = async (moduleId: string, options: PrintProps) => {
           temData = { data: params };
         }
         const data = await request(url, { method, ...temData });
+        printObject.doPreview({
+          LoadReportURL: loadReportURL,
+          PrintPreview: preview || false,
+          PrintData: data,
+          PrintSet: printData,
+          ShowForm: true,
+        });
+        return Promise.resolve(data);
+      } else {
+        return Promise.reject();
+      }
+    }
+  }
+  return Promise.reject();
+};
+
+export const printByData = async (
+  moduleId: string,
+  data: any,
+  options: PrintProps = { preview: false }
+) => {
+  const printObject = getPrintObject();
+  const start = await checkClient();
+  if (!start) {
+    return Promise.reject();
+  }
+  if (moduleId && printList[moduleId]) {
+    const printCfg = printList[moduleId];
+    if (printCfg) {
+      const { preview = false } = options;
+      const loadReportURL = `${getHostUrl()}/grf_file/${printCfg.tplName}`;
+      const printParams = {
+        ModuleId: printCfg.moduleId,
+        ModuleName: printCfg.moduleName,
+      };
+      const printData = await printObject.getPrintSet(printParams);
+      if (printData) {
         printObject.doPreview({
           LoadReportURL: loadReportURL,
           PrintPreview: preview || false,
