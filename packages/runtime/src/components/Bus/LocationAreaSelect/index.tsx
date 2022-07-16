@@ -95,17 +95,17 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     }
   };
 
+  let newdata = dataSource;
+
+  if (filterData) {
+    newdata = filterData(newdata);
+  }
+
   if (readonly) {
     const areaName = dataSource.find(
       (it) => it.locationAreaId === resProps.value
     );
     return <div>{areaName ? areaName.locationAreaName : ''}</div>;
-  }
-
-  let newdata = dataSource;
-
-  if (filterData) {
-    newdata = filterData(newdata);
   }
 
   return (
