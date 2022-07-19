@@ -58,7 +58,7 @@ export const uploadBtn = (listType: UploadListType) => {
 
 const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   const {
-    maxFiles = 1,
+    maxFiles = 999,
     mode = 'single',
     disabled = false,
     maxSize = 3 * 1024 * 1024,
@@ -316,6 +316,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
         <MultipleUpload
           disabled={disabled}
           maxSize={maxSize}
+          maxFiles={maxFiles}
           action={action}
           beforeUpload={beforeUpload}
           accept={accept}
