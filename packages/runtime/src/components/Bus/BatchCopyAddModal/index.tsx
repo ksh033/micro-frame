@@ -131,7 +131,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
 
 export const openBatchCopyAddModal = (pageProps) => {
   CModal.show({
-    title: '批量添加货品',
+    title: pageProps.title ? pageProps.title : '批量添加货品',
     width: 800,
     content: BatchCopyAddModal,
     okCancel: false,
