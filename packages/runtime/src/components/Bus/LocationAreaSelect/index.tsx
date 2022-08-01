@@ -38,6 +38,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     needWarned = false,
     hasDisable = false,
     hasDefectiveArea = false,
+    params = {},
     hasYdc = false,
     changeWarngingMsg,
     local = false,
@@ -57,6 +58,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   useEffect(() => {
     if (!local) {
       run({
+        ...params,
         hasDefectiveArea: hasDefectiveArea,
         hasDisable: hasDisable,
         hasYdc: hasYdc,
@@ -66,7 +68,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
         }
       });
     }
-  }, [hasDisable, hasDefectiveArea, hasYdc]);
+  }, [hasDisable, hasDefectiveArea, hasYdc, JSON.stringify(params)]);
 
   useEffect(() => {
     if (local) {
