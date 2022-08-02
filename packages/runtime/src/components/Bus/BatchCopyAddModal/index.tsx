@@ -39,18 +39,20 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     const line = content.split('\n');
     if (Array.isArray(line)) {
       line.forEach((it: string) => {
-        const rows = it.split('\t');
-        if (Array.isArray(rows)) {
-          if (rows.length === 1) {
-            list.push({
-              code: rows[0],
-              num: null,
-            });
-          } else if (rows.length >= 2) {
-            list.push({
-              code: rows[0],
-              num: rows[1],
-            });
+        if (String(it).trim() !== '') {
+          const rows = it.split('\t');
+          if (Array.isArray(rows)) {
+            if (rows.length === 1) {
+              list.push({
+                code: rows[0],
+                num: null,
+              });
+            } else if (rows.length >= 2) {
+              list.push({
+                code: rows[0],
+                num: rows[1],
+              });
+            }
           }
         }
       });
