@@ -11,7 +11,9 @@ const SelectDept: React.FC<any> = (props) => {
   const user = getUser();
   const { run } = uesRequest('user', 'chooseDept');
   const selectOrg = async (deptId: any) => {
+    message.loading('切换机构中..', 0);
     let data = await run({ deptId });
+    message.destroy();
     if (data) {
       const userAppInfos = updateCurrentDept(data);
       if (userAppInfos.currentSystem?.systemCode) {
