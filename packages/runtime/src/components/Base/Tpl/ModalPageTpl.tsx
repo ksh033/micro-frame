@@ -1,19 +1,19 @@
 import React, { useCallback } from 'react';
 import { Button } from 'antd';
 import styles from './ModalPageTpl.less';
+import debounce from 'lodash/debounce';
 
-const ModalEditPageTpl: React.FC<any> = props => {
-  const { toolbar, children,...restProps } = props;
+const ModalEditPageTpl: React.FC<any> = (props) => {
+  const { toolbar, children, ...restProps } = props;
 
-  /**
-   * 表单顶部合并 以及通用方法引入
-   */
+  /** 表单顶部合并 以及通用方法引入 */
   const mergedFormButtons = useCallback(() => {
     return toolbar.map((item: any, index: number) => {
       const buttonProps = item;
-      const { buttonType, text, ...resprops } = buttonProps;
+      const { buttonType, text, onClick, ...resprops } = buttonProps;
+      const newOnClick = onClick ? debounce(onClick, 250) : undefined;
       return (
-        <Button key={`formButton${index}`} {...resprops}>
+        <Button key={`formButton${index}`} {...resprops} onClick={newOnClick}>
           {text}
         </Button>
       );

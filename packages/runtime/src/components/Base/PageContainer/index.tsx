@@ -5,6 +5,7 @@ import type { PageContainerProps } from '@scboson/sc-layout';
 import AuthButton from '../../Auth/AuthButton';
 import './index.less';
 import { HButtonType } from '@scboson/sc-schema/es/interface';
+import debounce from 'lodash/debounce';
 
 export type ScPageContainerProps = Omit<PageContainerProps, 'footer'> & {
   footer?: HButtonType[];
@@ -23,9 +24,14 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
           const newProps = { key: `formButton${index}` };
           return React.cloneElement(item, { ...newProps });
         }
-        const { buttonType, text, ...resprops } = buttonProps;
+        const { buttonType, text, onClick, ...resprops } = buttonProps;
+        const newOnClick = onClick ? debounce(onClick, 250) : undefined;
         return (
-          <AuthButton key={`formButton${index}`} {...resprops}>
+          <AuthButton
+            key={`formButton${index}`}
+            {...resprops}
+            onClick={newOnClick}
+          >
             {text}
           </AuthButton>
         );
