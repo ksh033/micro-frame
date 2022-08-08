@@ -48,6 +48,7 @@ import GoodsTable from './MallGoods/Goods/GoodsCenterTable';
 import GoodsSelectTable from './MallGoods/Goods/GoodsSelectTable';
 import PrintConfirm, { openPrintConfirm } from './PrintConfirm';
 import PrintOptButton from './PrintOptButton';
+import SupplierSelect from './SupplierSelect';
 
 const { regeditCmp } = PageSchema;
 regeditCmp('CheckBoxDate', CheckBoxDate);
@@ -60,6 +61,7 @@ regeditCmp('LocationSearch', LocationSearch);
 regeditCmp('RailMap', RailMap);
 regeditCmp('CargoSelect', CargoSelect);
 regeditCmp('SupplierTableSelect', SupplierTableSelect);
+regeditCmp('SupplierSelect', SupplierSelect);
 regeditCmp('ShopTableSelect', ShopTableSelect);
 regeditCmp('UserDept', UserDept);
 regeditCmp('LocationAreaSelect', LocationAreaSelect);
@@ -91,6 +93,7 @@ export {
   LocationSearch,
   CargoSelect,
   SupplierTableSelect,
+  SupplierSelect,
   ShopTableSelect,
   Enabled,
   PageTitle,
