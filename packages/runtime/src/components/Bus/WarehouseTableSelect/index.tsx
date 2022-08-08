@@ -146,7 +146,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
           disabled={disabled}
         ></Select>
         <Button disabled={disabled} onClick={handleClick}>
-          请选择
+          选择
         </Button>
       </Input.Group>
     );
@@ -158,9 +158,15 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         value={formatInputValue(value)}
         readOnly
         disabled={disabled}
+        onClick={handleClick}
         addonAfter={
-          <Button disabled={disabled} onClick={handleClick}>
-            请选择
+          <Button
+            disabled={disabled}
+            size="small"
+            type="link"
+            onClick={handleClick}
+          >
+            选择
           </Button>
         }
         {...resProps}

@@ -43,6 +43,8 @@ export type PrintCfg = {
 export enum PrintTplType {
   /** 溯源码 */
   traceSource = '00000001',
+  /** 溯源码-大张 */
+  traceSourceBig = '00000008',
   /** 商品价签码 */
   priceTag = '00000002',
   /** 盘点单 */
@@ -55,8 +57,6 @@ export enum PrintTplType {
   pickOrder = '00000006',
   /** 总拣单 */
   sortOrder = '00000007',
-  /** 总拣单货品详情 */
-  sortOrderDetail = '00000008',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
@@ -65,8 +65,6 @@ export enum PrintTplType {
   pickOrderZhen = '000000061',
   /** 总拣单针式 */
   sortOrderZhen = '000000071',
-  /** 总拣单货品详情针式 */
-  sortOrderDetailZhen = '000000081',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -74,6 +72,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleId: '00000001',
     moduleName: '溯源码',
     tplName: 'traceSourceCode.grf',
+    dataUrl: '/code/api/trace/code/print',
+    method: 'post',
+  },
+  '00000008': {
+    moduleId: '00000008',
+    moduleName: '溯源码',
+    tplName: 'traceSourceCode_BIG.grf',
     dataUrl: '/code/api/trace/code/print',
     method: 'post',
   },
@@ -118,12 +123,6 @@ const printList: { [key: string]: PrintCfg } = {
     tplName: 'sortOrder.grf',
     dataUrl: '',
   },
-  '00000008': {
-    moduleId: '00000008',
-    moduleName: '总拣单货品详情',
-    tplName: 'sortOrderDetail.grf',
-    dataUrl: '',
-  },
   '000000041': {
     moduleId: '000000041',
     moduleName: '收货单',
@@ -149,12 +148,6 @@ const printList: { [key: string]: PrintCfg } = {
     moduleId: '000000071',
     moduleName: '总拣单',
     tplName: 'sortOrder_zhen.grf',
-    dataUrl: '',
-  },
-  '000000081': {
-    moduleId: '000000081',
-    moduleName: '总拣单货品详情',
-    tplName: 'sortOrderDetail_zhen.grf',
     dataUrl: '',
   },
 };
@@ -273,8 +266,10 @@ export const printByData = async (
   if (moduleId && printList[moduleId]) {
     const printCfg = printList[moduleId];
     if (printCfg) {
-      const { preview = false } = options;
-      const loadReportURL = `${getHostUrl()}/grf_file/${printCfg.tplName}`;
+      const {
+        preview = false,
+        loadReportURL = `${getHostUrl()}grf_file/${printCfg.tplName}`,
+      } = options;
       const printParams = {
         ModuleId: printCfg.moduleId,
         ModuleName: printCfg.moduleName,

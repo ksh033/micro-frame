@@ -192,7 +192,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           params={tableParams}
           request={request}
           onLoad={onLoad}
-          scroll={{ y: '300px' }}
+          scroll={{ y: '400px' }}
           cardProps={{ bodyStyle: { padding: '0' } }}
         ></BsTable>
       </div>

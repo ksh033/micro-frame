@@ -316,10 +316,13 @@ export default (props: RailProps) => {
     Array.from(titleMap).forEach((item: any, index: number) => {
       const active = state.active === item[0];
       const oitem: any = overlaysMap.get(item[0]);
-      const _style = {
-        backgroundColor: colorRgba(oitem.color, 0.4),
-        border: `1px solid ${oitem.color}`,
-      };
+      let _style = {};
+      if(oitem){
+        _style = {
+          backgroundColor: colorRgba(oitem.color, 0.4),
+          border: `1px solid ${oitem.color}`,
+        }
+      }
       const mainStyle = active
         ? {
             border: '1px solid #155bD4',

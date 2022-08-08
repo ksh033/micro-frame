@@ -33,6 +33,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
     valeFormat,
     maxSizeCheck,
     listType = 'picture-card',
+    maxFiles = 999,
     ...restProps
   } = props;
 
@@ -187,7 +188,7 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
       headers={headers}
       {...restProps}
     >
-      {fileList.length >= 9 ? null : uploadBtn(listType)}
+      {fileList.length >= maxFiles ? null : uploadBtn(listType)}
     </ScUpload>
   );
 };

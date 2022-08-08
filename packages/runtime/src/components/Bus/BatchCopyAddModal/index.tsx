@@ -1,25 +1,26 @@
-import type { FC } from 'react'
-import { Form, Input, message } from 'antd'
-import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl'
-import { CModal } from '@scboson/sc-element'
+import type { FC } from 'react';
+import { Form, Input, message } from 'antd';
+import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
+import { CModal } from '@scboson/sc-element';
 
-const { TextArea } = Input
+const { TextArea } = Input;
 type AddExpenseModalProps = {
-  close: () => void
+  close: () => void;
   pageProps: {
-    warning?: string
-    title?: string
-    params?: {}
-    listValueFiled?: string
-    quantityFiled?: string
-    valueFiled?: string
-    addList?: (list: any[]) => void
-    request: (params: any) => Promise<any> // 请求数据的远程方法
-  }
-}
+    errorMsg?: string;
+    warning?: string;
+    title?: string;
+    params?: {};
+    listValueFiled?: string;
+    quantityFiled?: string;
+    valueFiled?: string;
+    addList?: (list: any[]) => void;
+    request: (params: any) => Promise<any>; // 请求数据的远程方法
+  };
+};
 
 const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
-  const { close, pageProps = { request: Promise.resolve, params: {} } } = props
+  const { close, pageProps = { request: Promise.resolve, params: {} } } = props;
   const {
     request = Promise.resolve,
     params = {},
@@ -29,71 +30,74 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     listValueFiled = 'cargoCodeList',
     quantityFiled = 'quantity',
     valueFiled = 'cargoCode',
-  } = pageProps
-  const [form] = Form.useForm()
+    errorMsg = '未查询到相关货品，无法添加',
+  } = pageProps;
+  const [form] = Form.useForm();
 
   const formatContent = (content: string) => {
-    const list: any[] = []
-    const line = content.split('\n')
+    const list: any[] = [];
+    const line = content.split('\n');
     if (Array.isArray(line)) {
       line.forEach((it: string) => {
-        const rows = it.split('\t')
-        if (Array.isArray(rows)) {
-          if (rows.length === 1) {
-            list.push({
-              code: rows[0],
-              num: null,
-            })
-          } else if (rows.length >= 2) {
-            list.push({
-              code: rows[0],
-              num: rows[1],
-            })
+        if (String(it).trim() !== '') {
+          const rows = it.split('\t');
+          if (Array.isArray(rows)) {
+            if (rows.length === 1) {
+              list.push({
+                code: rows[0],
+                num: null,
+              });
+            } else if (rows.length >= 2) {
+              list.push({
+                code: rows[0],
+                num: rows[1],
+              });
+            }
           }
         }
-      })
+      });
     }
     if (list.length > 0) {
-      const map = {}
+      const map = {};
       list.forEach((it) => {
         if (it.num !== null) {
-          map[it.code] = it.num
+          map[it.code] = it.num;
         }
-      })
+      });
       request({
         [listValueFiled]: list.map((it) => it.code),
         ...params,
       }).then((res) => {
-        let list: any = []
+        let list: any = [];
         if (Object.prototype.toString.call(res) === '[object Object]') {
-          list = res.records || res.rows || []
+          list = res.records || res.rows || [];
         }
         if (Array.isArray(res)) {
-          list = res
+          list = res;
         }
         if (Array.isArray(list) && list.length > 0) {
           const newList = list.map((it: any) => {
             return {
               ...it,
               [quantityFiled]: map[it[valueFiled]],
-            }
-          })
-          addList?.(newList)
-          close()
+            };
+          });
+          addList?.(newList);
+          close();
         } else {
-          message.warning('未查询到相关货品，无法添加')
+          message.warning(errorMsg);
         }
-      })
+      });
     } else {
-      message.warning('格式不正确，无法解析')
+      message.warning('格式不正确，无法解析');
     }
-  }
+  };
 
   const modalButtons = [
     {
       text: '取消',
       onClick() {
-        close()
+        close();
       },
     },
     {
@@ -101,11 +105,11 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
       type: 'primary',
       onClick() {
         form?.validateFields().then((values: any) => {
-          formatContent(values.content)
-        })
+          formatContent(values.content);
+        });
       },
     },
-  ]
+  ];
 
   return (
     <ModalPageContainer title={title} toolbar={modalButtons}>
@@ -124,18 +128,18 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
         </Form.Item>
       </Form>
     </ModalPageContainer>
-  )
-}
+  );
+};
 
 export const openBatchCopyAddModal = (pageProps) => {
   CModal.show({
-    title: '批量添加货品',
+    title: pageProps.title ? pageProps.title : '批量添加货品',
     width: 800,
     content: BatchCopyAddModal,
     okCancel: false,
     footer: null,
     pageProps: pageProps,
-  })
-}
+  });
+};
 
-export default BatchCopyAddModal
+export default BatchCopyAddModal;
