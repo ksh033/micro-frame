@@ -152,6 +152,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
         value={formatInputValue(value)}
         readOnly
         disabled={disabled}
+        onClick={handleClick}
         addonAfter={
           <Button
             disabled={disabled}

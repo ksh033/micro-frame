@@ -177,6 +177,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
         value={formatInputValue(value)}
         readOnly
         disabled={disabled}
+        onClick={handleClick}
         addonAfter={
           <Button
             disabled={disabled}
