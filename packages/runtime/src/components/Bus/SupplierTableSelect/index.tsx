@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React, { useRef, useEffect } from 'react';
-import { Input, message, Select } from 'antd';
+import { Button, Input, message, Select } from 'antd';
 import { CModal } from '@scboson/sc-element';
 import TableModal from './table';
 import type {
@@ -41,6 +41,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
     form,
     preClick,
     params = {},
+    disabled = false,
     ...resProps
   } = props;
 
@@ -78,7 +79,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
   };
 
   const handleClick = () => {
-    if (resProps.disabled) {
+    if (disabled) {
       return;
     }
     const preFlag = typeof preClick === 'function' ? preClick?.() : true;
@@ -151,30 +152,45 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
   }
   if (selectionType === 'checkbox') {
     return (
-      <div onClick={handleClick}>
+      <Input.Group>
         <Select
           mode="multiple"
           placeholder={placeholder}
           value={formatSelectValue(value)}
-          style={{ width: '100%' }}
+          style={{ width: '70%' }}
           labelInValue
           open={false}
           onChange={handleChange}
-          allowClear
           {...resProps}
+          disabled={disabled}
         ></Select>
-      </div>
+        <Button disabled={disabled} onClick={handleClick}>
+          选择
+        </Button>
+      </Input.Group>
     );
   }
   return (
-    <div onClick={handleClick}>
+    <Input.Group>
       <Input
         placeholder={placeholder}
         value={formatInputValue(value)}
         readOnly
+        disabled={disabled}
+        onClick={handleClick}
+        addonAfter={
+          <Button
+            disabled={disabled}
+            size="small"
+            type="link"
+            onClick={handleClick}
+          >
+            选择
+          </Button>
+        }
         {...resProps}
       />
-    </div>
+    </Input.Group>
   );
 };
 SupplierTableSelect.customView = true;
