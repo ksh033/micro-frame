@@ -15,6 +15,8 @@ type AddExpenseModalProps = {
     quantityFiled?: string;
     valueFiled?: string;
     addList?: (list: any[]) => void;
+    paramsFormat?: (list: any[], params: any) => false | any;
+    formatResponse?: (res: any, close: () => void) => false | any[];
     request: (params: any) => Promise<any>; // 请求数据的远程方法
   };
 };
@@ -31,6 +33,8 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     quantityFiled = 'quantity',
     valueFiled = 'cargoCode',
     errorMsg = '未查询到相关货品，无法添加',
+    formatResponse,
+    paramsFormat,
   } = pageProps;
   const [form] = Form.useForm();
 
@@ -64,28 +68,37 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
           map[it.code] = it.num;
         }
       });
-      request({
+      let newParams = {
         [listValueFiled]: list.map((it) => it.code),
         ...params,
-      }).then((res) => {
-        let list: any = [];
-        if (Object.prototype.toString.call(res) === '[object Object]') {
-          list = res.records || res.rows || [];
-        }
-        if (Array.isArray(res)) {
-          list = res;
-        }
-        if (Array.isArray(list) && list.length > 0) {
-          const newList = list.map((it: any) => {
-            return {
-              ...it,
-              [quantityFiled]: map[it[valueFiled]],
-            };
-          });
-          addList?.(newList);
-          close();
+      };
+      if (paramsFormat) {
+        newParams = paramsFormat(list, params);
+      }
+      request(newParams).then((res) => {
+        if (formatResponse) {
+          formatResponse(res, close);
         } else {
-          message.warning(errorMsg);
+          let list: any = [];
+
+          if (Object.prototype.toString.call(res) === '[object Object]') {
+            list = res.records || res.rows || [];
+          }
+          if (Array.isArray(res)) {
+            list = res;
+          }
+          if (Array.isArray(list) && list.length > 0) {
+            const newList = list.map((it: any) => {
+              return {
+                ...it,
+                [quantityFiled]: map[it[valueFiled]],
+              };
+            });
+            addList?.(newList);
+            close();
+          } else {
+            message.warning(errorMsg);
+          }
         }
       });
     } else {
