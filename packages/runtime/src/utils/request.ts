@@ -137,7 +137,10 @@ const getRequestMethod = () => {
       }
       errorInfo = error.info;
 
-      if (errorInfo && errorInfo.errorCode === 'A100002') {
+      if (
+        errorInfo &&
+        (errorInfo.errorCode === 'A100002' || errorInfo.errorCode === 'B000001')
+      ) {
         // window.location="/login";
 
         //@ts-ignore

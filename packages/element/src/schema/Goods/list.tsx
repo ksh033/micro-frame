@@ -55,7 +55,10 @@ const propsConfig: VdProFormColumnsType[] = [
       className: 'deco-control-style-group',
     },
   },
-
+  {
+    dataIndex: 'line',
+    valueType: 'divider',
+  },
   {
     ...tagListTemplate,
     dataIndex: 'tag_list_template',
@@ -116,7 +119,7 @@ const propsConfig: VdProFormColumnsType[] = [
     },
   },
   {
-    valueType: 'VdDivider',
+    valueType: 'divider',
   },
   {
     title: '列表样式',
@@ -157,6 +160,9 @@ const propsConfig: VdProFormColumnsType[] = [
         },
       ],
     },
+  },
+  {
+    valueType: 'divider',
   },
   {
     title: '商品样式',
@@ -271,7 +277,7 @@ const propsConfig: VdProFormColumnsType[] = [
     },
   },
   {
-    valueType: 'VdDivider',
+    valueType: 'divider',
   },
   {
     dataIndex: 'goods_name',

@@ -8,9 +8,13 @@ import React from 'react';
 import './index.less';
 type VdIconProps = {
   type: string;
+  onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  style?: React.CSSProperties;
 };
 
 const VdIcon: React.FC<VdIconProps> = (props) => {
-  return <i className={props.type}></i>;
+  return (
+    <i className={props.type} onClick={props.onClick} style={props.style}></i>
+  );
 };
 export default VdIcon;

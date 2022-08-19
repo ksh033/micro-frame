@@ -1,22 +1,45 @@
 import { ClassType, CompsClassGroup, CompsGroup } from '../interface';
-import Title from './title';
-import NearbyShop from './NearbyShop';
+import Title from './Title';
 import MagicCube from './MagicCube';
 import PageInfo from './PageInfo';
 import Goods from './Goods';
+import AdImage from './AdImage';
+import ElevatorNav from './ElevatorNav';
+import CrowdImage from './CrowdImage';
+import ImageTextNav from './ImageTextNav';
+import White from './White';
+import Search from './Search';
+import Store from './Store';
+import Notice from './Notice';
+import Video from './VideoCmp';
+import Coupon from './Coupon';
 
-export { Title, NearbyShop, PageInfo };
+export { Title, PageInfo };
 
 const BaseCompClassGroup: CompsClassGroup[] = [
   {
     id: 'base-coms',
     name: '基础组件',
-    list: [Title, NearbyShop, MagicCube, Goods],
+    list: [
+      Title,
+      ElevatorNav,
+      Goods,
+      CrowdImage,
+      AdImage,
+      ImageTextNav,
+      MagicCube,
+      White,
+      Search,
+      Store,
+      Notice,
+      Video,
+      // NearbyShop,
+    ],
   },
   {
     id: 'ump-coms',
     name: '营销组件',
-    list: [],
+    list: [Coupon],
   },
 ];
 

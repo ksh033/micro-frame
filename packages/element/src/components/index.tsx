@@ -6,10 +6,13 @@ import VdSlider from './VdSlider';
 import VdMagicCubeLayout from './VdMagicCubeLayout';
 import VdCheckBox from './VdCheckBox';
 import VdStyleRadio from './VdStyleRadio';
-import VdDivider from './VdDivider';
 import VdRadioGroup from './VdRadioGroup';
 import VdGoodsList from './VdGoodsList';
 import VdGoodsGroup from './VdGoodsGroup';
+import VdAddList from './VdAddList';
+import VdSelect from './VdSelect';
+import VdCouponSet from './VdCouponSet';
+import VdColorRadioGroup from './VdColorRadioGroup';
 
 export {
   VdRadioIcon,
@@ -19,8 +22,11 @@ export {
   VdMagicCubeLayout,
   VdCheckBox,
   VdStyleRadio,
-  VdDivider,
   VdRadioGroup,
   VdGoodsList,
   VdGoodsGroup,
+  VdAddList,
+  VdSelect,
+  VdCouponSet,
+  VdColorRadioGroup,
 };

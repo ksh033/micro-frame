@@ -16,15 +16,16 @@ export type VdImgLinkState = {
   link_url?: string;
 };
 
-type VdImgLinkProps = {
+export type VdImgLinkProps = {
   styleType?: 'write' | 'grep';
   needTitle?: boolean;
+  needImage?: boolean;
   value?: VdImgLinkState;
   onChange?: (val: VdImgLinkState) => void;
 };
 
 const VdImgLink: React.FC<VdImgLinkProps> = (props) => {
-  const { styleType = 'grep', needTitle = true } = props;
+  const { styleType = 'grep', needTitle = true, needImage = true } = props;
 
   const [value, setValue] = useMergedState(
     {},
@@ -71,7 +72,12 @@ const VdImgLink: React.FC<VdImgLinkProps> = (props) => {
       className="vd-img-link-warp"
       style={{ backgroundColor: styleTypeMap[styleType].backgroundColor }}
     >
-      <div className="has-choosed-image"></div>
+      {needImage ? (
+        <div className="has-choosed-image">
+          <img src={value?.image_url} className="vd-link-image"></img>
+        </div>
+      ) : null}
+
       <div className="vd-img-link-warp-content">
         <Space direction="vertical">
           {needTitle ? (

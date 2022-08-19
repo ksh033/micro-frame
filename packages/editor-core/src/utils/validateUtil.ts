@@ -7,12 +7,11 @@ export function validateRules(
   columns: ProFormColumnsType[],
   record: any,
 ): Promise<Boolean> {
-  const getFieldsValue = (name: string) => {
+  const getFieldValue = (name: string) => {
     return record[name];
   };
 
   const descriptor: any = {};
-  console.log(record);
   columns.forEach((item: ProFormColumnsType) => {
     if (item.formItemProps) {
       let rules = item.formItemProps['rules'];
@@ -27,7 +26,7 @@ export function validateRules(
         descriptor[`${name.replace(/"/g, '')}`] = rules.map((it: any) => {
           if (typeof it === 'function') {
             const item = it({
-              getFieldsValue,
+              getFieldValue,
             });
             if (isPromise(item.validator)) {
               const itemValidator = item.validator;
@@ -45,9 +44,8 @@ export function validateRules(
       }
     }
   });
-  console.log(descriptor);
   const validator = new Schema(descriptor);
-
+  console.log('descriptor', descriptor);
   return new Promise((resolve, rejust) => {
     validator
       .validate(record, { first: true })
@@ -55,12 +53,13 @@ export function validateRules(
         resolve(true);
       })
       .catch(({ errors, fields }) => {
+        console.log('errors', errors);
+        console.log('fields', fields);
         if (Array.isArray(errors) && errors.length > 0) {
           message.error(`${errors[0].message}`);
+          console.log(errors);
+          resolve(false);
         }
-
-        console.log(errors);
-        resolve(false);
       });
   });
 }

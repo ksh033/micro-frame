@@ -27,10 +27,11 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   cmpKey: string = '';
   cmpName: string = '';
   id: string = '';
-  values = {};
+  values: any = {};
   immediatelyCheck: boolean = false;
 
-  constructor() {
+  constructor(values = {}) {
+    this.values = values;
     this.id = genNonDuplicateId();
   }
 
@@ -56,10 +57,7 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   }
   setFieldsValue(record: any) {
     if (Object.prototype.toString.call(record) === '[object Object]') {
-      this.values = {
-        ...this.values,
-        ...record,
-      };
+      this.values = record;
     }
   }
   setImmediatelyCheck(check: boolean) {

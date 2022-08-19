@@ -35,7 +35,7 @@ const BaseForm: React.FC<FormSchema<any>> = (props) => {
         valueTypeMap: valueTypeMap,
       }}
     >
-      <BetaSchemaForm {...props}></BetaSchemaForm>
+      <BetaSchemaForm {...props} layoutType="Form"></BetaSchemaForm>
     </ProProvider.Provider>
   );
 };

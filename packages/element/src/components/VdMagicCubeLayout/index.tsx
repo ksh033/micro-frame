@@ -46,7 +46,7 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
 
     if (Array.isArray(value.sub_entry) && value.sub_entry.length > 0) {
       newList = newList.map((item, index) => {
-        const valitem = value.sub_entry[index];
+        const valitem: any = value.sub_entry[index];
         if (valitem) {
           return {
             ...valitem,

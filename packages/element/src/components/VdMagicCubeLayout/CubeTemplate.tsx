@@ -367,7 +367,6 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
                     {templateId === MethodLength && (
                       <VdIcon
                         type="vd-closecircle"
-                        className="card-item-delete"
                         onClick={(e) => {
                           handleDeleteSubEntry(e);
                         }}

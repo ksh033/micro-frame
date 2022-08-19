@@ -13,12 +13,15 @@ import { CopyOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons';
 import { ComponentSchemaProps } from '@scvisual/element';
 
 const SortableItem: any = SortableElement((props: any) => {
-  const { value, onCopy, onDelete, indexNmu } = props;
+  const { value, onCopy, onDelete, indexNmu, changeEditCmp } = props;
 
   return (
     <div className="deco-editor-card-item">
       <div className="decorate-component-coms-manager-child">
-        <div className="decorate-component-coms-manager-child-layout">
+        <div
+          className="decorate-component-coms-manager-child-layout"
+          onClick={changeEditCmp}
+        >
           <MenuOutlined className="child-icons" />
           <span className="name-layout">
             {indexNmu + 1}.{value.cmpName}
@@ -90,6 +93,10 @@ const PanelList: React.FC<any> = (props) => {
       editorStore.deleteCmp(value.id);
     }
   };
+
+  const changeEditCmp = (id: string) => {
+    editorStore.switchEditCmp(id);
+  };
   // 清空组件
   const clearConfirm = () => {
     comsStore.clearNum();
@@ -102,6 +109,7 @@ const PanelList: React.FC<any> = (props) => {
       distance={10}
       confirm={clearConfirm}
       showClearAction={editList.length > 0}
+      helperClass="property-panel-list"
     >
       {editList.map((value, index) => (
         <SortableItem
@@ -114,6 +122,9 @@ const PanelList: React.FC<any> = (props) => {
           }}
           onDelete={() => {
             onDelete(value);
+          }}
+          changeEditCmp={() => {
+            changeEditCmp(value.id);
           }}
         />
       ))}
