@@ -13,14 +13,13 @@ import Store from './Store';
 import Notice from './Notice';
 import Video from './VideoCmp';
 import Coupon from './Coupon';
-import Title from './Title';
+// import Title from './Title';
 
 const BaseCompClassGroup: CompsClassGroup[] = [
   {
     id: 'base-coms',
     name: '基础组件',
     list: [
-      Title,
       ElevatorNav,
       Goods,
       CrowdImage,

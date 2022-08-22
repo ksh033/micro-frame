@@ -15,7 +15,7 @@ export default {
     type: 'babel',
     importLibToEs: true,
   },
-  pkgs: ['slave', 'runtime', 'plugin-microlayout'],
+  pkgs: ['element', 'editor-core', 'slave', 'runtime', 'plugin-microlayout'],
   extraBabelPlugins: [
     [
       'babel-plugin-import',
