@@ -1,6 +1,6 @@
 import { Button, Input, Space } from 'antd';
 import React from 'react';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import './index.less';
 // import { BsUpload } from '@micro-frame/sc-runtime';
 
@@ -32,7 +32,7 @@ const VdImgLink: React.FC<VdImgLinkProps> = (props) => {
     {
       value: props.value,
       onChange: props.onChange,
-    },
+    }
   );
 
   const styleTypeMap = {

@@ -6,7 +6,15 @@ export default class extends React.PureComponent<any> {
     console.log(this.props);
     const { location } = this.props;
     const { pathname } = location;
-    if (pathname.indexOf('/system/current') > -1) {
+
+    if (pathname === '/preview') {
+      return this.props.children;
+    }
+
+    if (
+      pathname.indexOf('/system/current') > -1 ||
+      pathname.indexOf('/decorate') > -1
+    ) {
       return <NoMenuLayout {...this.props} isMaster={true} />;
     }
     // const { name, apps } = base;

@@ -15,6 +15,7 @@ const BaseForm: React.FC<FormSchema<any>> = (props) => {
   valueTypelist.forEach((warpCom) => {
     const cmpkey = warpCom.charAt(0).toUpperCase() + warpCom.substring(1);
     const WarpCommponent = Components[cmpkey];
+    // console.log('WarpCommponent', WarpCommponent);
     valueTypeMap[warpCom] = {
       renderFormItem: (text, rprops) => {
         return (

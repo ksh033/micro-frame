@@ -22,10 +22,11 @@ const isNoStyle = (valueType: string) => {
 
 const converFormItem = (
   list: VdProFormColumnsType[],
-  columnList: ProFormColumnsType[],
+  columnList: ProFormColumnsType[]
 ) => {
   if (Array.isArray(list)) {
     list.forEach((it: VdProFormColumnsType) => {
+      const valueType = it.valueType;
       const { columns, ...restIt } = it;
       let newItem: ProFormColumnsType<any, any> = restIt;
       let newColumns: ProFormColumnsType[] = [];
@@ -43,22 +44,26 @@ const converFormItem = (
       const formItemProps = Object.assign(
         {},
         defaultFormItemProps,
-        newItem.formItemProps,
+        newItem.formItemProps
       );
       newItem.formItemProps = formItemProps;
-      if (isNoStyle(it.valueType)) {
-        newItem.formItemProps = {
-          ...formItemProps,
-          label: undefined,
-        };
-        newItem.fieldProps['formItem'] = {
-          name: it.dataIndex,
-          label: it.title,
-        };
-        if (it.valueType === 'VdDivider') {
-          newItem.formItemProps.noStyle = true;
+      if (it && typeof it.valueType === 'string') {
+        const valueType: string = it.valueType || '';
+        if (isNoStyle(valueType)) {
+          newItem.formItemProps = {
+            ...formItemProps,
+            label: undefined,
+          };
+          newItem.fieldProps['formItem'] = {
+            name: it.dataIndex,
+            label: it.title,
+          };
+          if (valueType === 'VdDivider') {
+            newItem.formItemProps.noStyle = true;
+          }
         }
       }
+
       columnList.push(newItem);
     });
   }
@@ -72,7 +77,7 @@ export function isPromise(obj: any) {
 }
 
 export const filterPageConfig = (
-  propsConfig: VdProFormColumnsType<any>[],
+  propsConfig: VdProFormColumnsType<any>[]
 ): ProFormColumnsType[] => {
   let itemInfos: VdProFormColumnsType<any>[] = cloneDeep(propsConfig);
   const newColumn: ProFormColumnsType[] = [];

@@ -5,6 +5,7 @@ import { BaseCompMap, ClassType, PageInfo } from '@scvisual/element';
 import { arrayMoveImmutable } from 'array-move';
 import cloneDeep from 'lodash/cloneDeep';
 import { action, observable } from 'mobx';
+import { genNonDuplicateId } from '../../utils/common';
 import sendToIframe from '../../utils/sendToIframe';
 
 export type ModalType = 'component' | 'componentList' | 'pageSet';
@@ -69,6 +70,9 @@ class EditorClass {
     // this.updeteEditList();
     const newItem = new item();
 
+    if (newItem.setId) {
+      newItem.setId(genNonDuplicateId());
+    }
     if (newItem.getInitialValue) {
       console.log('newItem.getInitialValue()', newItem.getInitialValue());
       newItem.setFieldsValue(newItem.getInitialValue());

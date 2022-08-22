@@ -1,6 +1,6 @@
 import { Button, Input, Select, Space, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import './index.less';
 import { useUpdateEffect } from 'ahooks';
 // import { BsUpload } from '@micro-frame/sc-runtime';
@@ -31,10 +31,10 @@ const TagItem: React.FC<TagItemProps> = (props) => {
     {
       value: props.value,
       onChange: props.onChange,
-    },
+    }
   );
   const [switchVal, setSwitchVal] = useState<boolean>(
-    Boolean(value?.use_link) || false,
+    Boolean(value?.use_link) || false
   );
 
   useUpdateEffect(() => {

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
 import type { SketchPickerProps } from '@chenshuai2144/sketch-color';
 import { SketchPicker } from '@chenshuai2144/sketch-color';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { Button, PopoverProps, Space } from 'antd';
 import { ConfigProvider } from 'antd';
 import { Popover } from 'antd';

@@ -1,6 +1,6 @@
 import { Form, FormItemProps } from 'antd';
 import _ from 'lodash';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import './index.less';
 
 export type VdFormItemProps = {
@@ -17,7 +17,7 @@ export type ExtendVdFormItemProps = {
   showValue?: boolean;
 };
 
-const VdFormItem: React.FC<VdFormItemProps> = (props) => {
+const VdFormItem: React.FC<PropsWithChildren<VdFormItemProps>> = (props) => {
   const {
     formItem,
     valueName,

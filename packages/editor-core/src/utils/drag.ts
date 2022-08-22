@@ -69,9 +69,9 @@ class Drag {
     // 根据定位决定要不要加
     const { offsetTop: iframeTop } = this.getIframeOffset();
     const { offsetTop: targetOffsetTop } = this.getRealOffset(el);
-    // const  targetOffset = targetOffsetTop + iframeTop;
+    const targetOffset = targetOffsetTop + iframeTop;
 
-    const targetOffset = targetOffsetTop;
+    // const targetOffset = targetOffsetTop;
     return {
       midLine: (el.clientHeight || 0) / 2 + targetOffset,
       topLine: targetOffset,
@@ -124,10 +124,11 @@ class Drag {
 
   //插入占位元素
   insertPlaceholderEle = (sourceMidLine: number) => {
+    //console.log('sourceMidLine', sourceMidLine);
     const dropOffset = this.getDropOffset(); //释放区的位置属性
     const insertEl = this.createElePlaceholder();
     const { dropEleItems, dropEle } = this.params;
-
+    //console.log('dropOffset', dropOffset);
     if (dropEleItems && dropEle) {
       const dropEleChild = dropEleItems;
       const dropOffsetLength = dropOffset.length;
@@ -135,6 +136,7 @@ class Drag {
       if (dropOffset && dropOffset.length) {
         dropOffset.map((item, i) => {
           const Ele = dropEleChild[i];
+
           //在元素前面插入占位元素
           if (sourceMidLine > item.topLine && sourceMidLine < item.midLine) {
             this.index = i;
@@ -193,10 +195,10 @@ class Drag {
       }
     }
   };
-  /****** 事件处理 ******/
+  /** 事件处理 ***** */
   dragStartEvent = (ev: any) => {
     // @ts-ignore
-    document.getElementsByClassName('drop-content')[0].style.zIndex = '-1';
+    // document.getElementsByClassName('drop-content')[0].style.zIndex = '-1';
     //获得鼠标距离拖拽元素的下边的距离
     this.mouseOffsetBottom = ev.currentTarget.clientHeight - ev.offsetY;
     //获得鼠标距离拖拽元素的右边的距离

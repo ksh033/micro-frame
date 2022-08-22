@@ -1,7 +1,7 @@
 import { Checkbox, CheckboxProps } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import _ from 'lodash';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
 
 type VdRadioIconProps = Omit<CheckboxProps, 'onChange'> &

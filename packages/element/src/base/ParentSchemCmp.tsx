@@ -40,16 +40,20 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   getInitialValue?(): any;
   getPropsConfig?(
     columns: ProFormColumnsType[],
-    record: any,
+    record: any
   ): ProFormColumnsType[];
   render?(props: any): ReactNode | ReactElement<any, any>;
   onValuesChange?(changedValues: any, allValues: any): any;
 
   onFilter(
     columns: ProFormColumnsType[],
-    fn: (item: ProFormColumnsType) => boolean,
+    fn: (item: ProFormColumnsType) => boolean
   ) {
     return columns.filter(fn);
+  }
+
+  setId(id: string) {
+    this.id = id;
   }
 
   getFieldsValue() {

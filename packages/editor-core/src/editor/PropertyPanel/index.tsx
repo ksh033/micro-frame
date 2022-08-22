@@ -80,7 +80,7 @@ const PropertyPanel: React.FC<any> = (props) => {
       ? editCmp?.getFieldsValue()
       : {};
     if ((type === 'component' || type === 'pageSet') && editCmp) {
-      const formProps = editCmp.formProps || {};
+      const formProps = editCmp?.formProps || {};
       const baseProps = {
         id: editCmp.id,
         form: form,

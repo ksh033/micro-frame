@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { useLayoutEffect, useMemo, useState } from 'react';
-import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { ExtendVdFormItemProps } from '../VdFormItem';
 import {
   CompontentItem,
   getDefaultTemplateCompontents,
@@ -11,35 +10,36 @@ import './index.less';
 import CubeTemplate from './CubeTemplate';
 import VdImgLink, { VdImgLinkState } from '../VdImgLink';
 
-export type VdMagicCubeLayoutProps = ExtendVdFormItemProps & {
-  value: any;
-  onChange: (val: any) => void;
-  rowData: any;
-  templateDataIndex: string;
-};
-
 type ValueState = {
   sub_entry: CompontentItem[];
   width: number;
   height: number;
 };
+
+export type VdMagicCubeLayoutProps = ExtendVdFormItemProps & {
+  value: ValueState;
+  onChange: (val: ValueState) => void;
+  rowData: any;
+  templateDataIndex: string;
+};
+
 export const MethodLength = 8 - 1;
 const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
-  const { formItem, rowData, templateDataIndex, ...rest } = props;
-  const templateId = rowData[templateDataIndex] || '0';
-  const templateItemMap = templateMap[templateId];
-  const [subEntryIndex, setSubEntryIndex] = useState<number>(0);
-  const [value, setValue] = useMergedState<ValueState>(
-    {
+  const {
+    formItem,
+    rowData,
+    templateDataIndex,
+    value = {
       sub_entry: [],
       width: 0,
       height: 0,
     },
-    {
-      value: props.value,
-      onChange: props.onChange,
-    },
-  );
+    onChange,
+    ...rest
+  } = props;
+  const templateId = rowData[templateDataIndex] || '0';
+  const templateItemMap = templateMap[templateId];
+  const [subEntryIndex, setSubEntryIndex] = useState<number>(0);
 
   useLayoutEffect(() => {
     let newList = getDefaultTemplateCompontents(templateId);
@@ -60,7 +60,7 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
       });
     }
 
-    setValue({
+    onChange?.({
       width: templateItemMap.rowSpan,
       height: templateItemMap.colSpan,
       sub_entry: newList,
@@ -74,7 +74,7 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
   const setList = (newList: CompontentItem[]) => {
     console.log(newList);
     if (Array.isArray(newList)) {
-      setValue({
+      onChange?.({
         ...value,
         sub_entry: newList,
       });
@@ -83,7 +83,7 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
 
   const setDensity = (density: number) => {
     console.log(density);
-    setValue({
+    onChange?.({
       ...value,
       width: density,
       height: density,
@@ -96,7 +96,7 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
       let newItem = newList[subEntryIndex];
       newItem = Object.assign({}, newItem, val || {});
       newList.splice(subEntryIndex, 1, newItem);
-      setValue({
+      onChange?.({
         ...value,
         sub_entry: newList,
       });
@@ -104,27 +104,25 @@ const VdMagicCubeLayout: React.FC<VdMagicCubeLayoutProps> = (props) => {
   };
 
   return (
-    <>
-      <React.Fragment>
-        <CubeTemplate
-          formItemName={formItem?.label}
-          density={value.width}
-          setDensity={setDensity}
-          list={list}
-          value={value}
-          setList={setList}
-          subEntryIndex={subEntryIndex}
-          setSubEntryIndex={setSubEntryIndex}
-          templateId={Number(templateId)}
-        />
-        {Array.isArray(list) && list.length > 0 ? (
-          <VdImgLink
-            onChange={onSubEnterHandleChange}
-            value={list[subEntryIndex]}
-          ></VdImgLink>
-        ) : null}
-      </React.Fragment>
-    </>
+    <React.Fragment>
+      <CubeTemplate
+        formItemName={formItem?.label}
+        density={value.width}
+        setDensity={setDensity}
+        list={list}
+        value={value}
+        setList={setList}
+        subEntryIndex={subEntryIndex}
+        setSubEntryIndex={setSubEntryIndex}
+        templateId={Number(templateId)}
+      />
+      {Array.isArray(list) && list.length > 0 ? (
+        <VdImgLink
+          onChange={onSubEnterHandleChange}
+          value={list[subEntryIndex]}
+        ></VdImgLink>
+      ) : null}
+    </React.Fragment>
   );
 };
 
