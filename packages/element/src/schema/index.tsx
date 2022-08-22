@@ -13,7 +13,7 @@ import Store from './Store';
 import Notice from './Notice';
 import Video from './VideoCmp';
 import Coupon from './Coupon';
-import Title from './Title';
+import Title from './PTitle';
 
 const BaseCompClassGroup: CompsClassGroup[] = [
   {
