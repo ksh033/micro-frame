@@ -62,4 +62,4 @@ BaseCompClassGroup.forEach((it: CompsClassGroup) => {
   });
 });
 
-export { BaseCompMap, BaseCompGroup, PageInfo, Title };
+export { BaseCompMap, BaseCompGroup, PageInfo };
