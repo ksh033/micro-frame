@@ -1,5 +1,5 @@
 import { ClassType, CompsClassGroup, CompsGroup } from '../interface';
-import Title from './Title';
+
 import MagicCube from './MagicCube';
 import PageInfo from './PageInfo';
 import Goods from './Goods';
@@ -13,8 +13,7 @@ import Store from './Store';
 import Notice from './Notice';
 import Video from './VideoCmp';
 import Coupon from './Coupon';
-
-export { Title, PageInfo };
+import Title from './Title';
 
 const BaseCompClassGroup: CompsClassGroup[] = [
   {
@@ -53,7 +52,7 @@ const BaseCompGroup: CompsGroup[] = BaseCompClassGroup.map(
       name: it.name,
       list: list,
     };
-  },
+  }
 );
 
 const BaseCompMap = new Map<String, ClassType>();
