@@ -1,6 +1,6 @@
 {
   "name": "@scvisual/editor-core",
-  "version": "1.0.0",
+  "version": "1.0.4-beta.33",
   "description": "@scvisual/editor-core",
   "main": "lib/index.js",
   "module": "es/index.js",
