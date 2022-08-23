@@ -49,8 +49,8 @@
     "use-media-antd-query": "^1.0.1"
   },
   "sideEffects": [
-    "es/**/style/*",
-    "lib/**/style/*"
+    "es/**/*.less",
+    "lib/**/*.less"
   ],
   "peerDependencies": {
     "ahooks": "^2.9.6",
