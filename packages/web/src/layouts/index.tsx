@@ -11,10 +11,7 @@ export default class extends React.PureComponent<any> {
       return this.props.children;
     }
 
-    if (
-      pathname.indexOf('/system/current') > -1 ||
-      pathname.indexOf('/decorate') > -1
-    ) {
+    if (pathname.indexOf('/system/current') > -1 || pathname === '/decorate') {
       return <NoMenuLayout {...this.props} isMaster={true} />;
     }
     // const { name, apps } = base;
