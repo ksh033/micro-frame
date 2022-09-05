@@ -222,8 +222,12 @@ const getAppCode = () => {
   return 'common';
 };
 
-const openWindow = (url: string) => {
-  window.open(url);
+const openWindow = (
+  url?: string | URL | undefined,
+  target?: string | undefined,
+  features?: string | undefined
+) => {
+  window.open(url, target, features);
 };
 
 const setUserAppCode = (userAppCode) => {
