@@ -1,26 +1,27 @@
-import React, { useMemo } from 'react'
-import { Alert, Form, Input } from 'antd'
-import { CModal } from '@scboson/sc-element'
-import type { DialogOptions } from '@scboson/sc-schema/es/interface'
-import type { BaseResult } from '@scboson/sc-schema/es/event/BindEventUtil'
-import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl'
+import React, { useMemo } from 'react';
+import { Alert, Form, Input } from 'antd';
+import { CModal } from '@scboson/sc-element';
+import type { DialogOptions } from '@scboson/sc-schema/es/interface';
+import type { BaseResult } from '@scboson/sc-schema/es/event/BindEventUtil';
+import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
+import debounce from 'lodash/debounce';
 
-const { TextArea } = Input
+const { TextArea } = Input;
 type InvalidProps = {
-  close: () => void
+  close: () => void;
   pageProps: {
-    request: BaseResult<any, [params?: any, options?: any]> // 请求数据的远程方法
-    rowData: any
-    rowKey: string
-    reload?: () => void
-    errorClose?: boolean
-    extraMessage?: string
-  }
-}
+    request: BaseResult<any, [params?: any, options?: any]>; // 请求数据的远程方法
+    rowData: any;
+    rowKey: string;
+    reload?: () => void;
+    errorClose?: boolean;
+    extraMessage?: string;
+  };
+};
 
 const Invalid: React.FC<InvalidProps> = (props) => {
-  const { pageProps, close } = props
-  const [form] = Form.useForm()
+  const { pageProps, close } = props;
+  const [form] = Form.useForm();
 
   const {
     request,
@@ -29,20 +30,20 @@ const Invalid: React.FC<InvalidProps> = (props) => {
     reload,
     errorClose = false,
     extraMessage,
-  } = pageProps
-  const { run, loading } = request
+  } = pageProps;
+  const { run, loading } = request;
 
   const initialValues = useMemo(() => {
     return {
       [`${rowKey}`]: rowData[`${rowKey}`],
-    }
-  }, [rowData, rowKey])
+    };
+  }, [rowData, rowKey]);
 
   const modalButtons = [
     {
       text: '取消',
       onClick: () => {
-        close?.()
+        close?.();
       },
     },
     {
@@ -54,23 +55,23 @@ const Invalid: React.FC<InvalidProps> = (props) => {
           if (errorClose) {
             run(values)
               .then(() => {
-                reload?.()
-                close?.()
+                reload?.();
+                close?.();
               })
               .catch(() => {
-                reload?.()
-                close?.()
-              })
+                reload?.();
+                close?.();
+              });
           } else {
             run(values).then(() => {
-              reload?.()
-              close?.()
-            })
+              reload?.();
+              close?.();
+            });
           }
-        })
+        });
       },
     },
-  ]
+  ];
 
   return (
     <ModalPageContainer toolbar={modalButtons}>
@@ -88,8 +89,8 @@ const Invalid: React.FC<InvalidProps> = (props) => {
         </Form.Item>
       </Form>
     </ModalPageContainer>
-  )
-}
+  );
+};
 
 export function openInvalid(newOptions: DialogOptions) {
   CModal.show({
@@ -100,7 +101,7 @@ export function openInvalid(newOptions: DialogOptions) {
     width: 400,
     ...newOptions,
     content: Invalid,
-  })
+  });
 }
 
-export default Invalid
+export default Invalid;

@@ -11,7 +11,7 @@ const ModalEditPageTpl: React.FC<any> = (props) => {
     return toolbar.map((item: any, index: number) => {
       const buttonProps = item;
       const { buttonType, text, onClick, ...resprops } = buttonProps;
-      const newOnClick = onClick ? debounce(onClick, 250) : undefined;
+      const newOnClick = onClick ? debounce(onClick, 300) : undefined;
       return (
         <Button key={`formButton${index}`} {...resprops} onClick={newOnClick}>
           {text}
