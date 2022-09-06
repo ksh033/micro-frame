@@ -57,6 +57,8 @@ export enum PrintTplType {
   pickOrder = '00000006',
   /** 总拣单 */
   sortOrder = '00000007',
+  /** 库存移动拣货单 */
+  relocatePickOrder = '00000009',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
@@ -122,6 +124,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleName: '总拣单',
     tplName: 'sortOrder.grf',
     dataUrl: '',
+  },
+  '00000009': {
+    moduleId: '00000009',
+    moduleName: '库存移动拣货单',
+    tplName: 'relocatePickOrder.grf',
+    dataUrl: '/wms/api/relocationorder/pickprint',
+    method: 'get',
   },
   '000000041': {
     moduleId: '000000041',
