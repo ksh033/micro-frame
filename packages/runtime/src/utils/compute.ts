@@ -5,6 +5,29 @@ function isInteger(obj: number) {
   return Math.floor(obj) === obj;
 }
 
+function isSymbol(value: null) {
+  const type = typeof value;
+  return (
+    type == 'symbol' ||
+    (type === 'object' &&
+      value != null &&
+      Object.prototype.toString.call(value) == '[object Symbol]')
+  );
+}
+
+function baseToNumber(value: any) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return 0 / 0;
+  }
+  if (value == null) {
+    return 0;
+  }
+  return +value;
+}
+
 /*
  * 将一个浮点数转成整数，返回整数和倍数。如 3.14 >> 314，倍数是 100
  * @param floatNum {number} 小数
@@ -73,8 +96,10 @@ function operation(a: any, b: any, op: string) {
 
 // 加减乘除的四个接口
 // 加
-function add(arg1, arg2) {
-  let r1, r2, m;
+function add(a: any, b: any) {
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
+  let r1: number, r2: number, m: number;
   try {
     r1 = arg1.toString().split('.')[1].length;
   } catch (e) {
@@ -89,8 +114,10 @@ function add(arg1, arg2) {
   return (arg1 * m + arg2 * m) / m;
 }
 // 减
-function subtract(arg1, arg2) {
-  var r1, r2, m, n;
+function subtract(a: any, b: any) {
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
+  var r1: number, r2: number, m: number, n: number | undefined;
   try {
     r1 = arg1.toString().split('.')[1].length;
   } catch (e) {
@@ -114,9 +141,11 @@ function subtract(arg1, arg2) {
 }
 // 乘
 function multiply(a: any, b: any) {
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
   var m = 0,
-    s1 = a.toString(),
-    s2 = b.toString();
+    s1 = arg1.toString(),
+    s2 = arg2.toString();
   try {
     m += s1.split('.')[1].length;
   } catch (e) {}
