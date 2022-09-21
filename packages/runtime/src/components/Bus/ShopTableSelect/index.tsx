@@ -16,7 +16,7 @@ interface TableSelectProps extends FormComponentProps {
   onChange?: (value: any) => void;
   selectionType?: 'checkbox' | 'radio';
   textField?: any;
-  disabled: boolean;
+  disabled?: boolean;
   valueField?: string;
 }
 
