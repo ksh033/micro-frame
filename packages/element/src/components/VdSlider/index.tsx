@@ -14,7 +14,7 @@ const VdSlider: React.FC<VdSliderProps> = (props) => {
     value: props.value,
     onChange: props.onChange,
   });
-  const handleChange = (val: number) => {
+  const handleChange = (val: any) => {
     setInputValue(val);
   };
 

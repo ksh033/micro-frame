@@ -45,7 +45,7 @@ const VdCouponSet: React.FC<VdCouponSetProps> = (props) => {
               controls={false}
               value={value?.coupon_num}
               max={10}
-              onChange={(num: number) => {
+              onChange={(num: any) => {
                 onHandleChange('coupon_num', num);
               }}
               parser={(text) => (/^\d+$/.test(text || '') ? Number(text) : 0)}
