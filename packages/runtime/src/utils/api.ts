@@ -82,6 +82,10 @@ const services = {
       url: '/user/api/staff/todo/list',
       method: 'get',
     },
+    deptlist: {
+      url: '/user/api/currentuser/deptlist',
+      method: 'post',
+    },
   },
   forgetpwd: {
     smscode: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getUser, updateCurrentDept, clearUser, DeptInfoProps } from '../Auth';
 import { uesRequest } from '../../utils/api';
 // @ts-ignore
@@ -10,6 +10,18 @@ import NotMenuLayouy from '../Layout/NoMenuLayout';
 const SelectDept: React.FC<any> = (props) => {
   const user = getUser();
   const { run } = uesRequest('user', 'chooseDept');
+  const deptlistApi = uesRequest('user', 'deptlist');
+
+  const [userDeptlist, setDeptlist] = useState<any[]>([]);
+
+  useEffect(() => {
+    deptlistApi.run().then((res) => {
+      if (Array.isArray(res)) {
+        setDeptlist(res);
+      }
+    });
+  }, []);
+
   const selectOrg = async (deptId: any) => {
     message.loading('切换机构中..', 0);
     let data = await run({ deptId });
@@ -28,7 +40,8 @@ const SelectDept: React.FC<any> = (props) => {
 
   const renderDept = () => {
     if (user && user.optionalDepts) {
-      const depList = user.optionalDepts;
+      const depList =
+        userDeptlist.length > 0 ? userDeptlist : user.optionalDepts;
       const currentDept = user.chooseDeptVO?.currentDept;
       return (
         <List<DeptInfoProps>
