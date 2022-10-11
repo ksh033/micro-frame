@@ -84,7 +84,7 @@ const services = {
     },
     deptlist: {
       url: '/user/api/currentuser/deptlist',
-      method: 'post',
+      method: 'get',
     },
   },
   forgetpwd: {
