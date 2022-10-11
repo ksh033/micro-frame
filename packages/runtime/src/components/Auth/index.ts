@@ -10,6 +10,7 @@ export interface DeptInfoProps {
   bizDeptCode: string;
   contactName: string;
   contactPhone: string;
+  todoNumber?: number;
 }
 
 export interface CurrentDeptInfoProps extends DeptInfoProps {

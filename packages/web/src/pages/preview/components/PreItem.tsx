@@ -42,7 +42,7 @@ const PreItem: React.FC<PreItemProps> = (props) => {
       }}
     >
       <div>
-        {item.cmpName}: {JSON.stringify(item.values)}
+        {item.cmpName}({item.cmpKey}): {JSON.stringify(item.values)}
       </div>
       <div className="pre-com-widget">
         <div className="widget-name tooltip">

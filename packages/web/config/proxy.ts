@@ -6,7 +6,7 @@
 export default {
   dev: {
     '/webapi-dev/': {
-      target: 'http://172.18.164.122:8031/',
+      target: 'http://172.18.164.121:8031/',
       changeOrigin: true,
       pathRewrite: { '/webapi-dev': '' },
     },

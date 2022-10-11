@@ -78,6 +78,10 @@ const services = {
       url: '/user/api/anony/operator/web/login/wechat/webapp',
       method: 'get',
     },
+    todoList: {
+      url: '/user/api/staff/todo/list',
+      method: 'get',
+    },
   },
   forgetpwd: {
     smscode: {

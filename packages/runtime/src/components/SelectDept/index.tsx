@@ -4,7 +4,7 @@ import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message, Card, List } from 'antd';
+import { message, Card, List, Badge } from 'antd';
 import NotMenuLayouy from '../Layout/NoMenuLayout';
 
 const SelectDept: React.FC<any> = (props) => {
@@ -45,21 +45,48 @@ const SelectDept: React.FC<any> = (props) => {
           dataSource={depList}
           renderItem={(item) => (
             <List.Item key={item.bizDeptId}>
-              <Card
-                className={
-                  currentDept?.bizDeptId === item.bizDeptId ? 'card-action' : ''
-                }
-                hoverable
-                bodyStyle={{ paddingBottom: 20 }}
-                onClick={() => {
-                  selectOrg(item.bizDeptId);
-                }}
-              >
-                <Card.Meta
-                  title={item.bizDeptName}
-                  description={`机构类型:${item.bizDeptTypeName || ''}`}
-                />
-              </Card>
+              {Number(item.todoNumber || 0) > 0 ? (
+                <Badge.Ribbon
+                  text={`${Number(item.todoNumber || 0)}`}
+                  color="#cf1322"
+                >
+                  <Card
+                    className={
+                      currentDept?.bizDeptId === item.bizDeptId
+                        ? 'card-action'
+                        : ''
+                    }
+                    hoverable
+                    bodyStyle={{ paddingBottom: 20 }}
+                    onClick={() => {
+                      selectOrg(item.bizDeptId);
+                    }}
+                  >
+                    <Card.Meta
+                      title={item.bizDeptName}
+                      description={`机构类型:${item.bizDeptTypeName || ''}`}
+                    />
+                  </Card>
+                </Badge.Ribbon>
+              ) : (
+                <Card
+                  className={
+                    currentDept?.bizDeptId === item.bizDeptId
+                      ? 'card-action'
+                      : ''
+                  }
+                  hoverable
+                  bodyStyle={{ paddingBottom: 20 }}
+                  onClick={() => {
+                    selectOrg(item.bizDeptId);
+                  }}
+                >
+                  <Card.Meta
+                    title={item.bizDeptName}
+                    description={`机构类型:${item.bizDeptTypeName || ''}`}
+                  />
+                </Card>
+              )}
             </List.Item>
           )}
         />
