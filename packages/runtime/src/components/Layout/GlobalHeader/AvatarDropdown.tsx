@@ -9,6 +9,7 @@ import {
 import { Avatar, Menu, Spin } from 'antd';
 import { GetUser } from '../../Auth';
 import HeaderDropdown from '../HeaderDropdown';
+import logo from '../../../assets/BiazfanxmamNRoxxVxka.png';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
@@ -84,7 +85,7 @@ class AvatarDropdown extends React.Component<
             style={{ marginRight: '8px' }}
             size="small"
             className="avatar"
-            icon={<UserOutlined></UserOutlined>}
+            src={logo}
             alt="avatar"
           />
           <span className="name">
