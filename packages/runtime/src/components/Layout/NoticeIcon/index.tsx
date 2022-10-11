@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Tag, message } from 'antd';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import { uesRequest } from '../../../utils/api';
+import { changeApp } from '../../Auth';
 
 export type GlobalHeaderRightProps = {
   fetchingNotices?: boolean;
@@ -28,6 +29,15 @@ const NoticeIconView: React.FC = () => {
 
   const goUrl = (item) => {
     if (item.todoListUrl) {
+      if (item.todoListUrl.startsWith('/')) {
+        const apps = item.todoListUrl.substr(1).split('/');
+        if (apps.length > 0) {
+          if (!changeApp(apps[0])) {
+            changeApp(apps[0]);
+          }
+        }
+      }
+
       window.location.href = item.todoListUrl;
     }
   };
@@ -61,10 +71,14 @@ const NoticeIconView: React.FC = () => {
     getTodoList(false);
   }, []);
 
+  const number = notices.reduce(function (prev, curr) {
+    return prev + Number(curr.todoNumber || 0);
+  }, 0);
+
   return (
     <NoticeIcon
       className={styles.action}
-      count={notices.length}
+      count={number}
       onItemClick={(item) => {
         goUrl(item);
       }}
