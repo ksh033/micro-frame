@@ -1,6 +1,6 @@
-import { useSetState, useUpdateEffect } from 'ahooks';
+import { useSetState } from 'ahooks';
 import { Select } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import VdFormItem from '../VdFormItem';
 import classnames from 'classnames';
 import {
@@ -105,19 +105,19 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
     const pointStart = configRef.current.pointStart;
     const minRowIdx: number = Math.min(
       Number(pointStart.row),
-      Number(clickEv.row),
+      Number(clickEv.row)
     );
     const maxRowIdx: number = Math.max(
       Number(pointStart.row),
-      Number(clickEv.row),
+      Number(clickEv.row)
     );
     const minColIdx: number = Math.min(
       Number(pointStart.col),
-      Number(clickEv.col),
+      Number(clickEv.col)
     );
     const maxColIdx: number = Math.max(
       Number(pointStart.col),
-      Number(clickEv.col),
+      Number(clickEv.col)
     );
     if (type === 'hover') {
       matrixData = clearMatrix(matrixData);
@@ -201,7 +201,7 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
       return (
         <React.Fragment>
           <span>{`${Math.round(designItemWidth * item.width)}x${Math.round(
-            designItemWidth * item.height,
+            designItemWidth * item.height
           )}像素`}</span>
           <div>或同等比例</div>
         </React.Fragment>
@@ -226,7 +226,7 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
   };
 
   const handleDeleteSubEntry = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.stopPropagation();
     const sub_entry = list;
@@ -284,7 +284,7 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
             {templateId === MethodLength
               ? '移动鼠标选定布局区域大小'
               : '选定布局区域，在下方添加图片'.concat(
-                  templateId < 3 ? '，建议添加比例一致的图片' : '',
+                  templateId < 3 ? '，建议添加比例一致的图片' : ''
                 )}
           </div>
           <div className="vd-magicCube-group-content">
@@ -367,7 +367,6 @@ const CustomTemplate: React.FC<CustomTemplateProps> = (props) => {
                     {templateId === MethodLength && (
                       <VdIcon
                         type="vd-closecircle"
-                        className="card-item-delete"
                         onClick={(e) => {
                           handleDeleteSubEntry(e);
                         }}

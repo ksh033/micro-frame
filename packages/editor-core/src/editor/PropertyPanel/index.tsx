@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Form } from 'antd';
 import { useStore } from '../../stores';
 import { ModalType } from '../../stores/editor';
@@ -7,6 +7,7 @@ import './index.less';
 import PanelList from './PanelList';
 import BaseForm from '../../components/BaseForm';
 import { filterPageConfig } from '../../utils/common';
+import { useUpdate } from 'ahooks';
 
 const PropertyPanel: React.FC<any> = (props) => {
   const { editorStore, comsStore } = useStore();
@@ -17,14 +18,14 @@ const PropertyPanel: React.FC<any> = (props) => {
     modalType === 'pageSet' ? editorStore.pageinfo : editorStore.currentEditCmp;
 
   const [form] = Form.useForm();
+  const update = useUpdate();
 
   const [values, setValues] = useState<any>(editCmp?.getFieldsValue() || {});
-  const initialValues = editCmp?.getInitialValue
-    ? editCmp?.getFieldsValue()
-    : {};
+
   const editCmpInfo = comsStore.getCompInfoByKey(editCmp?.cmpKey || '');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    update();
     const newValues = editCmp?.getFieldsValue() || {};
     setValues(newValues);
     form.setFieldsValue(newValues);
@@ -52,14 +53,19 @@ const PropertyPanel: React.FC<any> = (props) => {
     editorStore.updatePageInfoValues(allValues);
   };
 
-  const onValuesChange = (values: any, allValues: any) => {
-    let newValues = { ...initialValues, ...allValues };
+  const onValuesChange = (values: any) => {
+    const initialValues = editCmp?.getInitialValue
+      ? editCmp?.getFieldsValue()
+      : {};
+    let newValues = { ...initialValues, ...values };
+    console.log('newValues', newValues);
     // 修改表单
     if (editCmp?.onValuesChange) {
       newValues = editCmp?.onValuesChange(values, newValues);
-      form.setFieldsValue(newValues);
     }
-    console.log(newValues);
+    // todo
+    // console.log(newValues);
+    console.log(columns);
     setValues(newValues);
     if (editCmp?.formatValues) {
       editorStore.updateCurrentEditCmpValues(editCmp?.formatValues(newValues));
@@ -70,9 +76,11 @@ const PropertyPanel: React.FC<any> = (props) => {
   };
 
   const renderByType = (type: ModalType) => {
+    const initialValues = editCmp?.getInitialValue
+      ? editCmp?.getFieldsValue()
+      : {};
     if ((type === 'component' || type === 'pageSet') && editCmp) {
-      const formProps = editCmp.formProps || {};
-
+      const formProps = editCmp?.formProps || {};
       const baseProps = {
         id: editCmp.id,
         form: form,

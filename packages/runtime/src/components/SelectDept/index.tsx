@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getUser, updateCurrentDept, clearUser, DeptInfoProps } from '../Auth';
 import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message, Card, List } from 'antd';
+import { message, Card, List, Badge } from 'antd';
 import NotMenuLayouy from '../Layout/NoMenuLayout';
 
 const SelectDept: React.FC<any> = (props) => {
   const user = getUser();
   const { run } = uesRequest('user', 'chooseDept');
+  const deptlistApi = uesRequest('user', 'deptlist');
+
+  const [userDeptlist, setDeptlist] = useState<any[]>([]);
+
+  useEffect(() => {
+    deptlistApi.run().then((res) => {
+      if (Array.isArray(res)) {
+        setDeptlist(res);
+      }
+    });
+  }, []);
+
   const selectOrg = async (deptId: any) => {
     message.loading('切换机构中..', 0);
     let data = await run({ deptId });
@@ -28,7 +40,8 @@ const SelectDept: React.FC<any> = (props) => {
 
   const renderDept = () => {
     if (user && user.optionalDepts) {
-      const depList = user.optionalDepts;
+      const depList =
+        userDeptlist.length > 0 ? userDeptlist : user.optionalDepts;
       const currentDept = user.chooseDeptVO?.currentDept;
       return (
         <List<DeptInfoProps>
@@ -45,21 +58,48 @@ const SelectDept: React.FC<any> = (props) => {
           dataSource={depList}
           renderItem={(item) => (
             <List.Item key={item.bizDeptId}>
-              <Card
-                className={
-                  currentDept?.bizDeptId === item.bizDeptId ? 'card-action' : ''
-                }
-                hoverable
-                bodyStyle={{ paddingBottom: 20 }}
-                onClick={() => {
-                  selectOrg(item.bizDeptId);
-                }}
-              >
-                <Card.Meta
-                  title={item.bizDeptName}
-                  description={`机构类型:${item.bizDeptTypeName || ''}`}
-                />
-              </Card>
+              {Number(item.todoNumber || 0) > 0 ? (
+                <Badge.Ribbon
+                  text={`${Number(item.todoNumber || 0)}`}
+                  color="#cf1322"
+                >
+                  <Card
+                    className={
+                      currentDept?.bizDeptId === item.bizDeptId
+                        ? 'card-action'
+                        : ''
+                    }
+                    hoverable
+                    bodyStyle={{ paddingBottom: 20 }}
+                    onClick={() => {
+                      selectOrg(item.bizDeptId);
+                    }}
+                  >
+                    <Card.Meta
+                      title={item.bizDeptName}
+                      description={`机构类型:${item.bizDeptTypeName || ''}`}
+                    />
+                  </Card>
+                </Badge.Ribbon>
+              ) : (
+                <Card
+                  className={
+                    currentDept?.bizDeptId === item.bizDeptId
+                      ? 'card-action'
+                      : ''
+                  }
+                  hoverable
+                  bodyStyle={{ paddingBottom: 20 }}
+                  onClick={() => {
+                    selectOrg(item.bizDeptId);
+                  }}
+                >
+                  <Card.Meta
+                    title={item.bizDeptName}
+                    description={`机构类型:${item.bizDeptTypeName || ''}`}
+                  />
+                </Card>
+              )}
             </List.Item>
           )}
         />

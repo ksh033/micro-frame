@@ -44,7 +44,9 @@ const NotMenuLayouy: React.FC<PropsWithChildren<any>> = (props) => {
               <img src={logo}></img>
               <h1>长嘴猫平台</h1>
             </div>
-            <Avatar currentUser={user} menu={true} layoutFn={layoutFn} />
+            <div className="right">
+              <Avatar currentUser={user} menu={true} layoutFn={layoutFn} />
+            </div>
           </div>
         </Header>
         <Content className="ant-pro-basicLayout-content layout-select-content">

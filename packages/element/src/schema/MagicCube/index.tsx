@@ -1,15 +1,6 @@
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import ParentSchemCmp from '../../base/ParentSchemCmp';
-import VdIcon from '../../components/VdIcon';
 import { VdProFormColumnsType } from '../../interface';
-import { LocationEnum } from '../../interface/enum';
-
-export type MagicCubeProps = {
-  title: string;
-  description?: string;
-  location?: LocationEnum;
-  fontSize?: number;
-};
 
 class MagicCube extends ParentSchemCmp {
   cmpKey: string = 'MagicCube';
@@ -27,7 +18,6 @@ class MagicCube extends ParentSchemCmp {
           ({ getFieldValue }) => ({
             type: 'object',
             validator(rule, value, callback) {
-              console.log(value);
               if (
                 value != null &&
                 Array.isArray(value.sub_entry) &&

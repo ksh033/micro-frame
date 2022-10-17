@@ -10,6 +10,7 @@ export interface DeptInfoProps {
   bizDeptCode: string;
   contactName: string;
   contactPhone: string;
+  todoNumber?: number;
 }
 
 export interface CurrentDeptInfoProps extends DeptInfoProps {
@@ -222,8 +223,12 @@ const getAppCode = () => {
   return 'common';
 };
 
-const openWindow = (url: string) => {
-  window.open(url);
+const openWindow = (
+  url?: string | URL | undefined,
+  target?: string | undefined,
+  features?: string | undefined
+) => {
+  window.open(url, target, features);
 };
 
 const setUserAppCode = (userAppCode) => {

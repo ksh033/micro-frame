@@ -6,6 +6,9 @@
     
     "cacheDir": ".changelog"
   },
+  "packages": [
+    "packages/*"
+  ],
   "ignoreChanges": [
     "**/*.md",
     "**/*.test.ts",

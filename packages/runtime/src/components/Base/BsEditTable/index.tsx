@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ScEditableTable } from '@scboson/sc-element';
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
 import userDictModel from '../../Dict/userDictModel';
 import { EditableProTableProps } from '@scboson/sc-element/es/sc-editable-table';
 import { Key } from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form/Form';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import Form from 'antd/es/form';
 import { ActionRenderFunction } from '@scboson/sc-element/es/sc-editable-table/typing';
 import style from './index.less';
@@ -32,13 +33,21 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
     pagination = {},
     clickEdit = true,
     rowKey = 'rowIndex',
-    scroll = { x: '100%' },
+    scroll = { x: 'max-content', y: '600px' },
     actionRender = (row, config, defaultDoms) => {
       return [defaultDoms.delete];
     },
     preformatValue,
     ...restProps
   } = props;
+
+  const [editableRowKey, setRowKeys] = useMergedState<Key[]>(
+    () => editableKeys || [],
+    {
+      value: editableKeys,
+      onChange: setEditableRowKeys,
+    }
+  );
 
   const { getDistList } = userDictModel();
   const [form] = Form.useForm(innerForm);
@@ -80,9 +89,19 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
     onChange?.(newList);
   };
 
+  const editable = useMemo(() => {
+    return {
+      form: form,
+      type: type,
+      editableKeys: editableRowKey,
+      onChange: setRowKeys,
+      actionRender: actionRender,
+    };
+  }, [type, editableRowKey, setRowKeys, form]);
+
   return (
     <div className={style['bs-edit-table']}>
-      <ScEditableTable<any>
+      <ScEditableTable
         columns={newColumns}
         value={value}
         onChange={handleChange}
@@ -92,13 +111,7 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         showIndex={showIndex}
         scroll={scroll}
         readonly={readonly}
-        editable={{
-          form: form,
-          type: type,
-          editableKeys: editableKeys,
-          onChange: setEditableRowKeys,
-          actionRender: actionRender,
-        }}
+        editable={editable}
         {...restProps}
       />
     </div>

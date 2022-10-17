@@ -27,10 +27,11 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   cmpKey: string = '';
   cmpName: string = '';
   id: string = '';
-  values = {};
+  values: any = {};
   immediatelyCheck: boolean = false;
 
-  constructor() {
+  constructor(values = {}) {
+    this.values = values;
     this.id = genNonDuplicateId();
   }
 
@@ -39,16 +40,20 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   getInitialValue?(): any;
   getPropsConfig?(
     columns: ProFormColumnsType[],
-    record: any,
+    record: any
   ): ProFormColumnsType[];
   render?(props: any): ReactNode | ReactElement<any, any>;
   onValuesChange?(changedValues: any, allValues: any): any;
 
   onFilter(
     columns: ProFormColumnsType[],
-    fn: (item: ProFormColumnsType) => boolean,
+    fn: (item: ProFormColumnsType) => boolean
   ) {
     return columns.filter(fn);
+  }
+
+  setId(id: string) {
+    this.id = id;
   }
 
   getFieldsValue() {
@@ -56,10 +61,7 @@ class ParentSchemCmp implements ComponentSchemaType, Mixin {
   }
   setFieldsValue(record: any) {
     if (Object.prototype.toString.call(record) === '[object Object]') {
-      this.values = {
-        ...this.values,
-        ...record,
-      };
+      this.values = record;
     }
   }
   setImmediatelyCheck(check: boolean) {

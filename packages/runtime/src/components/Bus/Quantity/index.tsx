@@ -40,9 +40,9 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
 
   const rowData = props.rowData || props['data-row'] || {};
 
-  const max = getMax?.(rowData) || undefined;
+  const max = getMax ? getMax?.(rowData) : 9999999;
 
-  const min = getMin?.(rowData) || undefined;
+  const min = getMin ? getMin?.(rowData) : void 0;
 
   const newDisabled =
     typeof disabled === 'function' ? disabled?.(rowData) : disabled;

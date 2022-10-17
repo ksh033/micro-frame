@@ -78,6 +78,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     groupLabels: groupLabelsProps = false,
     params = {},
     saveRef,
+    pagination,
     ...restProps
   } = props;
 
@@ -98,7 +99,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       defaultActiveKey = params[groupLabels.queryDataIndex || ''];
     }
   }
-
+  const oldActiveKey = useRef<React.Key>(defaultActiveKey);
   const [activeKey, setActiveKey] = useState<React.Key>(defaultActiveKey);
   const [groupLabelsMap, setGroupLabelsMap] = useState<any>({});
 
@@ -310,6 +311,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
               const pathKey = pathname + search;
               if (pathKey) {
                 setLocalSearchParams(pathKey, {
+                  current: 1,
                   [groupLabels.queryDataIndex || '']: key,
                 });
               }
@@ -333,6 +335,25 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       return params;
     }
   }, [params, activeKey, groupLabels]);
+
+  const newPagination = useMemo(() => {
+    if (
+      pagination !== false &&
+      groupLabels !== false &&
+      Object.prototype.toString.call(pagination) === '[object Object]'
+    ) {
+      if (oldActiveKey.current !== activeKey) {
+        oldActiveKey.current = activeKey;
+        return {
+          ...pagination,
+          current: 1,
+        };
+      } else {
+        return pagination;
+      }
+    }
+    return pagination;
+  }, [activeKey, pagination]);
 
   return (
     <>
@@ -360,6 +381,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
             actionRef.current = action;
           }}
           params={newParams}
+          pagination={newPagination}
           {...restProps}
         />
       </div>

@@ -27,19 +27,24 @@ ul,
 ol {
   list-style: none;
 }
+
 .sc-form-group {
   overflow: hidden;
 }
+
 @media (max-width: @screen-xs) {
   .ant-table {
     width: 100%;
     overflow-x: auto;
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
+
+    &-thead>tr,
+    &-tbody>tr {
+
+      >th,
+      >td {
         white-space: pre;
-        > span {
+
+        >span {
           display: block;
         }
       }
@@ -52,19 +57,23 @@ ol {
 :focus {
   outline: none !important;
 }
+
 .base-antd-card {
   padding: 20px;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
+
   .ant-card-body {
     padding: 20px;
   }
 }
+
 .ant-btn.base-antd-button {
   background: rgba(255, 255, 255, 1);
   border-radius: 4px;
   border: 1px solid rgba(24, 144, 255, 1);
   color: rgba(24, 144, 255, 1);
 }
+
 .ant-btn-background-ghost.ant-btn-link {
   color: #1890ff !important;
 }
@@ -72,6 +81,7 @@ ol {
 .base-line-form {
   font-size: 16px;
   height: 100%;
+
   .ant-form-item-control-input-content {
     position: relative;
     -ms-flex: 1;
@@ -82,6 +92,7 @@ ol {
     outline: 0;
     box-sizing: border-box;
   }
+
   .ant-input {
     border-left: 0;
     border-top: 0;
@@ -91,6 +102,7 @@ ol {
     height: 100%;
     font-size: 16px;
   }
+
   .ant-input-affix-wrapper {
     border-left: 0;
     border-top: 0;
@@ -100,19 +112,23 @@ ol {
     height: 100%;
     font-size: 16px;
   }
+
   .ant-input:focus,
   .ant-input-focused {
     border-right-width: 1px !important;
     outline: 0;
     box-shadow: 0 0 0 0;
   }
+
   .ant-input:hover {
     border-right-width: 1px !important;
   }
+
   .ant-input-affix-wrapper:focus,
   .ant-input-affix-wrapper-focused {
     box-shadow: 0 0 0 0;
   }
+
   .ant-form-item-has-error .ant-input:focus,
   .ant-form-item-has-error .ant-input-affix-wrapper:focus,
   .ant-form-item-has-error .ant-input-focused,
@@ -133,9 +149,11 @@ ol {
     background: #155bd4;
     font-size: 18px;
   }
+
   .base-btn:hover {
     background: #3773da;
   }
+
   .base-btn:focus {
     background: #3773da;
   }
@@ -150,10 +168,12 @@ ol {
   display: inherit;
   text-align: left;
 }
+
 .sc-form-group-title {
   margin-bottom: 12px;
   margin-top: 0 !important;
 }
+
 .sc-viem-item-item {
   padding: 0 !important;
 }

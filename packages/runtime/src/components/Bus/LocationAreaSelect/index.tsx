@@ -6,6 +6,7 @@ import {
   FormComponentProps,
 } from '@scboson/sc-element/es/c-form';
 import type { ScSelectProps } from '@scboson/sc-element/es/sc-select';
+import { useUpdateEffect } from 'ahooks';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { uesRequest } from '../../../utils/api';
@@ -19,9 +20,9 @@ type LocationAreaSelectProps = FormComponentProps &
     rowData?: any;
     needWarned?: boolean;
     changeWarngingMsg?: string;
-    hasDisable?: boolean;
-    hasDefectiveArea?: boolean;
-    hasYdc?: boolean;
+    hasDisable?: boolean; // 是否要查询未启用的
+    hasDefectiveArea?: boolean; // 是否残次
+    hasYdc?: boolean; // 是否预订菜
     local?: boolean;
   };
 
@@ -42,6 +43,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     hasYdc = false,
     changeWarngingMsg,
     local = false,
+    autoload = true,
     ...resProps
   } = props;
 
@@ -55,18 +57,28 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     bizDeptType === 'SHOP' ? '档口' : '库区'
   }后,下方货品明细将被清空，是否确定切换`;
 
+  const loadData = () => {
+    run({
+      ...params,
+      hasDefectiveArea: hasDefectiveArea,
+      hasDisable: hasDisable,
+      hasYdc: hasYdc,
+    }).then((res) => {
+      if (Array.isArray(res)) {
+        setDataSource(res);
+      }
+    });
+  };
+
   useEffect(() => {
+    if (!local && autoload) {
+      loadData();
+    }
+  }, []);
+
+  useUpdateEffect(() => {
     if (!local) {
-      run({
-        ...params,
-        hasDefectiveArea: hasDefectiveArea,
-        hasDisable: hasDisable,
-        hasYdc: hasYdc,
-      }).then((res) => {
-        if (Array.isArray(res)) {
-          setDataSource(res);
-        }
-      });
+      loadData();
     }
   }, [hasDisable, hasDefectiveArea, hasYdc, JSON.stringify(params)]);
 

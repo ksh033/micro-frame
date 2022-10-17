@@ -5,6 +5,7 @@ import { BaseCompMap, ClassType, PageInfo } from '@scvisual/element';
 import { arrayMoveImmutable } from 'array-move';
 import cloneDeep from 'lodash/cloneDeep';
 import { action, observable } from 'mobx';
+import { genNonDuplicateId } from '../../utils/common';
 import sendToIframe from '../../utils/sendToIframe';
 
 export type ModalType = 'component' | 'componentList' | 'pageSet';
@@ -66,12 +67,17 @@ class EditorClass {
   @action.bound
   addToEdit(item: ClassType, index?: number, noticed = true): void {
     // 先更新当前的 list 下的数据
-    this.updeteEditList();
+    // this.updeteEditList();
     const newItem = new item();
+
+    if (newItem.setId) {
+      newItem.setId(genNonDuplicateId());
+    }
     if (newItem.getInitialValue) {
+      console.log('newItem.getInitialValue()', newItem.getInitialValue());
       newItem.setFieldsValue(newItem.getInitialValue());
     }
-
+    console.log('addToEdit', newItem);
     this.currentEditCmp = newItem;
     this.currentKey = newItem.id;
     this.modalType = 'component';
@@ -114,6 +120,7 @@ class EditorClass {
     const Clas = BaseCompMap.get(cmpKey);
     if (Clas) {
       const newItem = new Clas();
+      console.log('copyCmp');
       newItem.setFieldsValue(record.values);
       const index = this.editList.findIndex((it) => it.id === record.id);
       if (index > -1) {

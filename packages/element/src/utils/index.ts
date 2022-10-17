@@ -5,7 +5,7 @@ export function genNonDuplicateId(randomLength: number | undefined = 10) {
 }
 
 export const spellNamePath = (
-  dataIndex: React.Key | React.Key[] | any,
+  dataIndex: React.Key | React.Key[] | any
 ): string => {
   if (Array.isArray(dataIndex)) {
     return dataIndex.join('-');

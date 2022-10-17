@@ -1,17 +1,9 @@
 import ParentSchemCmp, { FormProps } from '../../base/ParentSchemCmp';
 import { VdProFormColumnsType } from '../../interface';
-import { LocationEnum } from '../../interface/enum';
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import propsConfig from './list';
 import { spellNamePath } from '../../utils';
 import GroupTitle from '../../components/VdGoodsGroup/GroupTitle';
-
-export type MagicCubeProps = {
-  title: string;
-  description?: string;
-  location?: LocationEnum;
-  fontSize?: number;
-};
 
 class Goods extends ParentSchemCmp {
   cmpKey: string = 'Goods';
@@ -22,10 +14,18 @@ class Goods extends ParentSchemCmp {
   };
   getPropsConfig(columns: ProFormColumnsType<any>[], record: any) {
     const goodsColumns = ['goods_from', 'goods', 'sub_entry'];
+    const goodsGroup = [
+      'line',
+      'tag_list_template',
+      'is_show_all',
+      'nav_style',
+      'sticky',
+    ];
     const newC: any[] = columns
       .map((it) => {
         const dataIndex = spellNamePath(it.dataIndex);
-        if (goodsColumns.indexOf(dataIndex) > -1) {
+        const showGroupIndex = goodsGroup.indexOf(dataIndex) > -1;
+        if (goodsColumns.indexOf(dataIndex) > -1 || showGroupIndex) {
           if (record.type === 'goods') {
             if (dataIndex === 'goods_from') {
               return it;
@@ -59,6 +59,9 @@ class Goods extends ParentSchemCmp {
                 },
               };
             }
+            if (showGroupIndex) {
+              return null;
+            }
           } else {
             if (dataIndex === 'sub_entry') {
               return {
@@ -71,13 +74,15 @@ class Goods extends ParentSchemCmp {
                 },
               };
             }
+            if (showGroupIndex) {
+              return it;
+            }
           }
           return null;
         }
         return it;
       })
       .filter((it) => it != null);
-    console.log(newC);
     return newC;
   }
   getInitialValue() {
@@ -110,7 +115,7 @@ class Goods extends ParentSchemCmp {
 }
 
 Goods.info = {
-  icon: 'https://img01.yzcdn.cn/public_files/2019/02/12/a6806f6ff8c220aa7a57eb89d253e126.png',
+  icon: 'https://img01.yzcdn.cn/upload_files/2022/06/17/FirnSShEAotLWTHOsk21GdYa-SdX.png',
   name: '商品',
   description: '小程序仅支持显示实物（含分销）、虚拟、电子卡券商品',
   cmpKey: 'Goods',

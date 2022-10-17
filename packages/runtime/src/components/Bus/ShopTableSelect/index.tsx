@@ -8,6 +8,7 @@ import {
   FormComponent,
   FormComponentProps,
 } from '@scboson/sc-element/es/c-form';
+import type { CheckboxProps } from 'antd/es/checkbox';
 
 interface TableSelectProps extends FormComponentProps {
   placeholder?: string;
@@ -16,8 +17,11 @@ interface TableSelectProps extends FormComponentProps {
   onChange?: (value: any) => void;
   selectionType?: 'checkbox' | 'radio';
   textField?: any;
-  disabled: boolean;
+  disabled?: boolean;
   valueField?: string;
+  getCheckboxProps?: (
+    record: any
+  ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>;
 }
 
 const TabelSelect: FormComponent<TableSelectProps> = (
@@ -34,6 +38,9 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     valueField = 'shopId',
     readonly,
     form,
+    getCheckboxProps = () => {
+      return { disabled: false };
+    },
     ...resProps
   } = props;
 
@@ -80,6 +87,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
         selectionType,
         rowKey: valueField,
         ...stateRef.current,
+        getCheckboxProps: getCheckboxProps,
       },
       onOk: async () => {
         onChange?.(stateRef.current.selectedRows);

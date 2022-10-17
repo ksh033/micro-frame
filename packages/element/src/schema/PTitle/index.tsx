@@ -6,16 +6,9 @@ import {
   color,
   date,
 } from '../../attrType/index';
-import { LocationEnum } from '../../interface/enum';
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import ParentSchemCmp from '../../base/ParentSchemCmp';
 
-export type TitleProps = {
-  title: string;
-  description?: string;
-  location?: LocationEnum;
-  fontSize?: number;
-};
 class Title extends ParentSchemCmp {
   cmpKey: string = 'Title';
   cmpName: string = '标题文本';
@@ -45,6 +38,9 @@ class Title extends ParentSchemCmp {
     {
       title: '标题内容',
       dataIndex: 'title',
+      fieldProps: {
+        placeholder: '请填写标题内容',
+      },
       formItemProps: {
         className: 'deco-control-group',
         rules: [
@@ -58,10 +54,16 @@ class Title extends ParentSchemCmp {
     {
       title: '描述内容',
       dataIndex: 'description',
+      fieldProps: {
+        placeholder: '请填写描述内容',
+      },
     },
     {
       title: '链接标题',
       dataIndex: 'linkTitle',
+      fieldProps: {
+        placeholder: '请填写链接标题',
+      },
       formItemProps: {
         rules: [
           {

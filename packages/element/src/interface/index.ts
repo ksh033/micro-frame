@@ -23,16 +23,15 @@ export type VdProFormColumnsType<RecordType = any> = ProFormColumnsType<
 export interface Mixin {
   onFilter?: (
     columns: ProFormColumnsType[],
-    fn: (item: ProFormColumnsType) => boolean,
+    fn: (item: ProFormColumnsType) => boolean
   ) => ProFormColumnsType[];
   inCluded?: (columns: ProFormColumnsType[], list: React.Key[]) => boolean;
   getFieldsValue: () => any;
   setFieldsValue: (record: any) => void;
   setImmediatelyCheck: (checked: boolean) => void;
+  setId: (id: string) => void;
 }
-/**
- * 组件配置的数据结构
- */
+/** 组件配置的数据结构 */
 export interface ComponentSchemaType {
   id: string;
   values: any;
@@ -43,14 +42,15 @@ export interface ComponentSchemaType {
   getInitialValue?: () => any; // 右侧属性初始化数据
   getPropsConfig?: (
     columns: ProFormColumnsType[],
-    record: any,
+    record: any
   ) => ProFormColumnsType[];
   render?: (
-    props: any,
+    props: any
   ) => React.ReactNode | React.ReactElement<any, any> | null;
   onValuesChange?: (changedValues: any, allValues: any) => any;
   formatValues?: (allValues: any) => void;
   initClass: (record: ComponentSchemaType) => void;
+  formProps?: any;
 }
 
 export type ClassType = typeof ParentSchemCmp;

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { InputNumber, Slider, SliderSingleProps, Space } from 'antd';
 import './index.less';
 
@@ -14,7 +14,7 @@ const VdSlider: React.FC<VdSliderProps> = (props) => {
     value: props.value,
     onChange: props.onChange,
   });
-  const handleChange = (val: number) => {
+  const handleChange = (val: any) => {
     setInputValue(val);
   };
 

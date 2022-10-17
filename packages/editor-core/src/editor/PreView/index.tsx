@@ -10,7 +10,7 @@ import './index.less';
 import Drag from '../../utils/drag';
 import useIframeLoad from './useIframeLoad';
 
-const defaultHeight = 600;
+const defaultHeight = 750;
 
 const PreView: React.FC<any> = () => {
   const { comsStore, editorStore, previewStore } = useStore();
@@ -67,10 +67,10 @@ const PreView: React.FC<any> = () => {
 
   const init = () => {
     const item: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName(
-      'drag-item',
+      'drag-item'
     ) as HTMLCollectionOf<HTMLElement>;
     const iframe = document.getElementById(iframeId) as HTMLIFrameElement;
-
+    // console.log('drag-item', item);
     Drag.init({
       iframeEle: iframe,
       dragEle: document.getElementById('drag-box'),
@@ -78,7 +78,7 @@ const PreView: React.FC<any> = () => {
       callback,
       dropEle: iframe.contentDocument?.getElementById('drop-box'),
       dropEleItems: iframe.contentDocument?.getElementsByClassName(
-        'drop-item',
+        'drop-item'
       ) as HTMLCollectionOf<HTMLElement>,
     });
   };
@@ -108,29 +108,30 @@ const PreView: React.FC<any> = () => {
           组件管理
         </Button>
       </div>
-      <div className="preview">
-        <div className="preview-head">
+      <div className="preview drop-content">
+        <iframe
+          ref={contentIFrameRef}
+          id={iframeId}
+          src={previewStore.iframeUrl}
+          // sandbox="allow-scripts allow-same-origin allow-top-navigation allow-forms"
+          scrolling="auto"
+          style={{
+            width: '100%',
+            border: 'none',
+            height: height + 'px',
+          }}
+        ></iframe>
+        {/* <div className="preview-head">
           <div className="preview-header-title">
-            {editorStore.pageinfo.values.pageName}
+            {editorStore.pageinfo?.values.pageName}
           </div>
         </div>
         <div className="preview-content drop-content">
-          <iframe
-            ref={contentIFrameRef}
-            id={iframeId}
-            src={previewStore.iframeUrl}
-            // sandbox="allow-scripts allow-same-origin allow-top-navigation allow-forms"
-            scrolling="auto"
-            style={{
-              width: '100%',
-              border: 'none',
-              height: height + 'px',
-            }}
-          ></iframe>
+          
         </div>
         <div className="preview-footer">
           <div>博耕科技支持</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

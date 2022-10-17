@@ -5,7 +5,10 @@ import VdFormItem, { ExtendVdFormItemProps } from '../VdFormItem';
 import VdIcon from '../VdIcon';
 import './index.less';
 
-type VdRadioIconProps = RadioGroupProps & ExtendVdFormItemProps;
+type VdRadioIconProps = RadioGroupProps &
+  ExtendVdFormItemProps & {
+    lineBlock?: boolean;
+  };
 
 const style = {
   fontSize: '20px',
@@ -19,6 +22,7 @@ const VdRadioIcon: React.FC<VdRadioIconProps> = (props) => {
     options = [],
     formItem,
     block = false,
+    lineBlock = false,
     showValue = true,
   } = props;
   const valueMap = useMemo(() => {
@@ -30,6 +34,11 @@ const VdRadioIcon: React.FC<VdRadioIconProps> = (props) => {
     }
     return map;
   }, [JSON.stringify(options)]);
+
+  const style: React.CSSProperties = {};
+  if (lineBlock) {
+    style.width = Math.floor(100 / options.length) + '%';
+  }
 
   return (
     <VdFormItem
@@ -59,6 +68,7 @@ const VdRadioIcon: React.FC<VdRadioIconProps> = (props) => {
                 ].join(' ')}
                 value={it.value}
                 key={it.value}
+                style={style}
                 onClick={() => {
                   onChange?.(it.value);
                 }}
@@ -69,63 +79,21 @@ const VdRadioIcon: React.FC<VdRadioIconProps> = (props) => {
                       style,
                     })
                   ) : (
-                    <VdIcon type={it.icon}></VdIcon>
+                    <VdIcon
+                      type={it.icon}
+                      style={{
+                        fontSize: it.fontSize || '20px',
+                      }}
+                    ></VdIcon>
                   )
                 ) : (
                   <span className="deco-radio-text">{it.text}</span>
                 )}
               </Button>
-              {/* <Radio.Button value={it.value} key={it.value}>
-                <span style={{ fontSize: '20px' }}>
-                  {it.icon
-                    ? React.isValidElement(it.icon)
-                      ? React.cloneElement(it.icon, {
-                          style,
-                        })
-                      : React.createElement(it.icon, {
-                          style,
-                          ...it.iconProps,
-                        })
-                    : it.text}
-                </span>
-              </Radio.Button> */}
-              <span></span>
             </Tooltip>
           );
         })}
       </div>
-      {/* <Radio.Group onChange={onChange} value={value} buttonStyle="solid">
-        {options.map((it: any) => {
-          return (
-            <Tooltip
-              title={it.text}
-              key={`tooltip-${it.value}`}
-              placement="bottom"
-              color="#fff"
-              mouseLeaveDelay={0.01}
-              overlayInnerStyle={{
-                color: '#323233',
-              }}
-              trigger={['hover', 'click']}
-            >
-              <Radio.Button value={it.value} key={it.value}>
-                <span style={{ fontSize: '20px' }}>
-                  {it.icon
-                    ? React.isValidElement(it.icon)
-                      ? React.cloneElement(it.icon, {
-                          style,
-                        })
-                      : React.createElement(it.icon, {
-                          style,
-                          ...it.iconProps,
-                        })
-                    : it.text}
-                </span>
-              </Radio.Button>
-            </Tooltip>
-          );
-        })}
-      </Radio.Group> */}
     </VdFormItem>
   );
 };

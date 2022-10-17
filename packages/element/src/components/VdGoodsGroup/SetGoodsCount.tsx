@@ -21,7 +21,7 @@ const SetGoodsCount: React.FC<SetGoodsCountProps> = (props) => {
     });
   };
 
-  const onHandleInputChange = (num: number) => {
+  const onHandleInputChange = (num: any) => {
     onChange?.({
       isShowAll: value?.isShowAll || false,
       goods_number: num,

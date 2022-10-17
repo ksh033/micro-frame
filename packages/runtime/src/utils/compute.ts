@@ -5,6 +5,29 @@ function isInteger(obj: number) {
   return Math.floor(obj) === obj;
 }
 
+function isSymbol(value: null) {
+  const type = typeof value;
+  return (
+    type == 'symbol' ||
+    (type === 'object' &&
+      value != null &&
+      Object.prototype.toString.call(value) == '[object Symbol]')
+  );
+}
+
+function baseToNumber(value: any) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return 0 / 0;
+  }
+  if (value == null) {
+    return 0;
+  }
+  return +value;
+}
+
 /*
  * 将一个浮点数转成整数，返回整数和倍数。如 3.14 >> 314，倍数是 100
  * @param floatNum {number} 小数
@@ -29,15 +52,6 @@ function toInteger(floatNum: number) {
   return ret;
 }
 
-/*
- * 核心方法，实现加减乘除运算，确保不丢失精度
- * 思路：把小数放大为整数（乘），进行算术运算，再缩小为小数（除）
- *
- * @param a {number} 运算数1
- * @param b {number} 运算数2
- * @param op {string} 运算类型，有加减乘除（add/subtract/multiply/divide）
- *
- */
 function operation(a: any, b: any, op: string) {
   const o1 = toInteger(a);
   const o2 = toInteger(b);
@@ -83,15 +97,65 @@ function operation(a: any, b: any, op: string) {
 // 加减乘除的四个接口
 // 加
 function add(a: any, b: any) {
-  return operation(a, b, 'add');
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
+  let r1: number, r2: number, m: number;
+  try {
+    r1 = arg1.toString().split('.')[1].length;
+  } catch (e) {
+    r1 = 0;
+  }
+  try {
+    r2 = arg2.toString().split('.')[1].length;
+  } catch (e) {
+    r2 = 0;
+  }
+  m = Math.pow(10, Math.max(r1, r2));
+  return (arg1 * m + arg2 * m) / m;
 }
 // 减
 function subtract(a: any, b: any) {
-  return operation(a, b, 'subtract');
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
+  var r1: number, r2: number, m: number, n: number | undefined;
+  try {
+    r1 = arg1.toString().split('.')[1].length;
+  } catch (e) {
+    r1 = 0;
+  }
+  try {
+    r2 = arg2.toString().split('.')[1].length;
+  } catch (e) {
+    r2 = 0;
+  }
+  m = Math.pow(10, Math.max(r1, r2));
+  var m1 = Math.pow(10, Math.max(r1, r2) - r1);
+  var m2 = Math.pow(10, Math.max(r1, r2) - r2);
+
+  var r1_integer = Number(arg1.toString().replace('.', '')) * m1;
+
+  var r2_integer = Number(arg2.toString().replace('.', '')) * m2;
+
+  n = r1 >= r2 ? r1 : r2;
+  return Number(((r1_integer - r2_integer) / m).toFixed(n));
 }
 // 乘
 function multiply(a: any, b: any) {
-  return operation(a, b, 'multiply');
+  const arg1 = baseToNumber(a);
+  const arg2 = baseToNumber(b);
+  var m = 0,
+    s1 = arg1.toString(),
+    s2 = arg2.toString();
+  try {
+    m += s1.split('.')[1].length;
+  } catch (e) {}
+  try {
+    m += s2.split('.')[1].length;
+  } catch (e) {}
+  return (
+    (Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) /
+    Math.pow(10, m)
+  );
 }
 // 除
 function divide(a: any, b: any) {
