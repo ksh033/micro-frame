@@ -3,7 +3,7 @@ import { Tag, message } from 'antd';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import { uesRequest } from '../../../utils/api';
-import { changeApp } from '../../Auth';
+import { changeApp, getUser } from '../../Auth';
 
 export type GlobalHeaderRightProps = {
   fetchingNotices?: boolean;
@@ -15,6 +15,22 @@ const NoticeIconView: React.FC = () => {
   const [notices, setNotices] = useState<any[]>([]);
 
   const todoList = uesRequest('user', 'todoList');
+
+  const user = getUser();
+  const menus = user?.chooseDeptVO.currentDept?.menus;
+
+  const firstFrame =
+    Array.isArray(menus) && menus.length > 0 ? menus[0].pageUrl : null;
+
+  const frameMap = useMemo(() => {
+    const map = new Map<string, string>();
+    if (Array.isArray(menus)) {
+      menus.forEach((it) => {
+        map.set(it.id, it.pageUrl);
+      });
+    }
+    return map;
+  }, [menus]);
 
   const getTodoList = (isRefresh: boolean) => {
     todoList.run().then((res) => {
@@ -28,12 +44,31 @@ const NoticeIconView: React.FC = () => {
   };
 
   const goUrl = (item) => {
-    if (item.todoListUrl) {
-      if (item.todoListUrl.startsWith('/')) {
-        const apps = item.todoListUrl.substr(1).split('/');
-        if (apps.length > 0) {
-          if (!changeApp(apps[0])) {
-            changeApp(apps[0]);
+    if (item.todoListUrl && item.functionPermId) {
+      let app: string | null | undefined = null;
+      const frameId =
+        typeof item.functionPermId && String(item.functionPermId).length > 2
+          ? item.functionPermId.substring(0, 2)
+          : null;
+      if (frameId) {
+        app = frameMap.get(frameId);
+      }
+      if (app == null) {
+        app = firstFrame;
+      }
+
+      if (app != null) {
+        if (!changeApp(app)) {
+          changeApp(app);
+        }
+      } else {
+        if (item.todoListUrl.startsWith('/')) {
+          const apps = item.todoListUrl.substr(1).split('/');
+
+          if (apps.length > 0) {
+            if (!changeApp(apps[0])) {
+              changeApp(apps[0]);
+            }
           }
         }
       }
