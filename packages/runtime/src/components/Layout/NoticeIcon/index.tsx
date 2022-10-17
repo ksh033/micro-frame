@@ -19,9 +19,6 @@ const NoticeIconView: React.FC = () => {
   const user = getUser();
   const menus = user?.chooseDeptVO.currentDept?.menus;
 
-  const firstFrame =
-    Array.isArray(menus) && menus.length > 0 ? menus[0].pageUrl : null;
-
   const frameMap = useMemo(() => {
     const map = new Map<string, string>();
     if (Array.isArray(menus)) {
@@ -52,9 +49,6 @@ const NoticeIconView: React.FC = () => {
           : null;
       if (frameId) {
         app = frameMap.get(frameId);
-      }
-      if (app == null) {
-        app = firstFrame;
       }
 
       if (app != null) {
