@@ -10,7 +10,7 @@ import {
   RequestResponse,
   Context,
 } from 'umi-request';
-import { notification, message } from 'antd';
+import { notification, message, Modal } from 'antd';
 // @ts-ignore
 import { history } from 'umi';
 import { getUser, clearUser } from '../components/Auth';
@@ -166,8 +166,8 @@ const getRequestMethod = () => {
             message.error(errormsg);
             break;
           case ErrorShowType.NOTIFICATION:
-            notification.open({
-              message: errormsg,
+            Modal.warning({
+              title: errormsg,
             });
             break;
           case ErrorShowType.REDIRECT:
@@ -205,6 +205,7 @@ const getRequestMethod = () => {
       ) {
         newOptions.method = 'POST';
         const dataParament: any = newOptions.body;
+        console.log(dataParament);
         const filedata = new FormData();
         if (dataParament.fileLists) {
           const filesLists = dataParament.fileLists;
@@ -232,8 +233,26 @@ const getRequestMethod = () => {
               dataParament[item] !== undefined &&
               dataParament[item] !== null
             ) {
-              // 除了文件之外的 其他参数 用这个循环加到filedata中
-              filedata.append(item, dataParament[item]);
+              if (
+                Object.prototype.toString.call(dataParament[item]) ===
+                '[object File]'
+              ) {
+                filedata.append(item, dataParament[item]);
+                dataParament[item]
+                  .slice(0, 1)
+                  .arrayBuffer()
+                  .then(() => {
+                    // 除了文件之外的 其他参数 用这个循环加到filedata中
+                    filedata.append(item, dataParament[item]);
+                  })
+                  .catch((err) => {
+                    message.warn('文件已被修改请重新上传');
+                    throw new Error('文件已被修改请重新上传');
+                  });
+              } else {
+                // 除了文件之外的 其他参数 用这个循环加到filedata中
+                filedata.append(item, dataParament[item]);
+              }
             }
           }
         }
