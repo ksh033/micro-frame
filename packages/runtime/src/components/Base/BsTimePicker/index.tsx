@@ -6,10 +6,11 @@ import {
 } from '@scboson/sc-element/es/c-form';
 import moment from 'moment';
 
-type BsTimePicker = Omit<TimePickerProps, 'value' | 'onChange'> &
+type BsTimePicker = Omit<TimePickerProps, 'value' | 'onChange' | 'format'> &
   FormComponentProps & {
     value?: string;
     onChange?: (val: string) => void;
+    format?: string;
   };
 
 const BsTimePicker: FormComponent<BsTimePicker> = (props) => {
