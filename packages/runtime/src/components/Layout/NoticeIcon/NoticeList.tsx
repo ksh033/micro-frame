@@ -36,12 +36,25 @@ const NoticeList: React.FC<NoticeIconTabProps> = ({
 }) => {
   if (!list || list.length === 0) {
     return (
-      <div className={styles.notFound}>
-        <img
-          src="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
-          alt="not found"
-        />
-        <div>{emptyText}</div>
+      <div>
+        <div className={styles.notFound}>
+          <img
+            src="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
+            alt="not found"
+          />
+          <div>{emptyText}</div>
+          <div>
+            <Button
+              onClick={onRefresh}
+              type="link"
+              key="refresh"
+              loading={loading}
+              style={{ width: '100%' }}
+            >
+              刷新
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
