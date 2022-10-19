@@ -39,7 +39,7 @@ const BsTimePicker: FormComponent<BsTimePicker> = (props) => {
     <TimePicker
       {...resProps}
       format={format}
-      value={moment(value, format)}
+      value={value != null ? moment(value, format) : null}
       onChange={handleChange}
     ></TimePicker>
   );
