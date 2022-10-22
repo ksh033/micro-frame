@@ -1,14 +1,15 @@
 // @import '../../style/themes/default.less';
-@search-background:#fff;
+@search-background: #fff;
+
 .bs-supplier-search {
   position: relative;
   width: 100%;
   color: #323232;
   margin-bottom: 16px;
   margin: 0;
-  background-color: @search-background;
 
-  .sc-searchbar .ant-form-item > .ant-form-item-label {
+
+  .sc-searchbar .ant-form-item>.ant-form-item-label {
     text-align: right;
   }
 
@@ -27,10 +28,10 @@
     justify-content: flex-start;
   }
 
-  .ant-form {
-    padding: 20px 20px 0 20px;
-   
-  }
+  // .ant-form {
+  //   padding: 20px 20px 0 20px;
+
+  // }
 
   @media (max-width: 575px) {
     .ant-form-item .ant-form-item-label {
@@ -41,11 +42,11 @@
       white-space: initial;
     }
 
-    .ant-form-item .ant-form-item-label > label {
+    .ant-form-item .ant-form-item-label>label {
       margin: 0;
     }
 
-    .ant-form-item .ant-form-item-label > label::after {
+    .ant-form-item .ant-form-item-label>label::after {
       content: ':' !important;
       position: relative;
       top: -0.5px;
@@ -79,11 +80,11 @@
       white-space: initial;
     }
 
-    .ant-col-xs-24.ant-form-item-label > label {
+    .ant-col-xs-24.ant-form-item-label>label {
       margin: 0;
     }
 
-    .ant-col-xs-24.ant-form-item-label > label::after {
+    .ant-col-xs-24.ant-form-item-label>label::after {
       content: ':';
       position: relative;
       top: -0.5px;
