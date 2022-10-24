@@ -19,7 +19,7 @@ interface LocationSearchProps extends FormComponentProps {
   value?: LocationDataProps;
   title?: string;
   city?: string;
-  onChange?: (value: LocationDataProps) => void;
+  onChange?: (value: LocationDataProps | null) => void;
   disabled?: boolean;
 }
 
@@ -46,7 +46,7 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
     data.current = _data;
   };
 
-  const dataFormat = (currentData: any): LocationDataProps => {
+  const dataFormat = (currentData: any): LocationDataProps | null => {
     if (currentData) {
       const name = currentData['name'] || '';
       const cityName = currentData['cityname'] || '';
@@ -64,11 +64,7 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
         cityCode: currentData.adcode,
       };
     } else {
-      return {
-        name: '',
-        px: 0,
-        py: 0,
-      };
+      return null;
     }
   };
 
