@@ -184,7 +184,12 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
               : undefined
           }
         >
-          <RangePicker format={cformat} onChange={handleChange} {...newProps} />
+          <RangePicker
+            format={cformat}
+            onChange={handleChange}
+            style={{ width: '100%' }}
+            {...newProps}
+          />
         </Form.Item>
       </Form.Item>
     );

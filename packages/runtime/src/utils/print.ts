@@ -43,8 +43,6 @@ export type PrintCfg = {
 export enum PrintTplType {
   /** 溯源码 */
   traceSource = '00000001',
-  /** 溯源码-大张 */
-  traceSourceBig = '00000008',
   /** 商品价签码 */
   priceTag = '00000002',
   /** 盘点单 */
@@ -57,8 +55,14 @@ export enum PrintTplType {
   pickOrder = '00000006',
   /** 总拣单 */
   sortOrder = '00000007',
+  /** 溯源码-大张 */
+  traceSourceBig = '00000008',
   /** 库存移动拣货单 */
   relocatePickOrder = '00000009',
+  /** 门店集配商品汇总单 */
+  shopGropyDeliveryGoods = '00000010',
+  /** 门店集配订单总拣单 */
+  shopGropyDeliveryOrder = '00000011',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
@@ -77,13 +81,7 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/code/api/trace/code/print',
     method: 'post',
   },
-  '00000008': {
-    moduleId: '00000008',
-    moduleName: '溯源码',
-    tplName: 'traceSourceCode_BIG.grf',
-    dataUrl: '/code/api/trace/code/print',
-    method: 'post',
-  },
+
   '00000002': {
     moduleId: '00000002',
     moduleName: '商品价签码',
@@ -125,12 +123,33 @@ const printList: { [key: string]: PrintCfg } = {
     tplName: 'sortOrder.grf',
     dataUrl: '',
   },
+  '00000008': {
+    moduleId: '00000008',
+    moduleName: '溯源码',
+    tplName: 'traceSourceCode_BIG.grf',
+    dataUrl: '/code/api/trace/code/print',
+    method: 'post',
+  },
   '00000009': {
     moduleId: '00000009',
     moduleName: '库存移动拣货单',
     tplName: 'relocatePickOrder.grf',
     dataUrl: '/wms/api/relocationorder/pickprint',
     method: 'get',
+  },
+  '00000010': {
+    moduleId: '00000010',
+    moduleName: '门店集配商品汇总单',
+    tplName: 'shopGropyDeliveryGoods.grf',
+    dataUrl:
+      '/shopsys/api/shop/business/store/distribution/order/print/goods/summary',
+    method: 'post',
+  },
+  '00000011': {
+    moduleId: '00000011',
+    moduleName: '门店集配订单总拣单',
+    tplName: 'shopGropyDeliveryOrder.grf',
+    dataUrl: '',
   },
   '000000041': {
     moduleId: '000000041',

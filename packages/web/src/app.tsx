@@ -91,6 +91,7 @@ export function onRouteChange({ location }: any) {
     if (currentUser) {
       if (currentUser.needModifyPwd) {
         history.push('/system/current/initpassword');
+        return;
       }
     }
   }
@@ -99,6 +100,11 @@ export function onRouteChange({ location }: any) {
 export function render(oldRender: any) {
   const currentUser = getUser();
   if (currentUser) {
+    if (history.location.pathname !== '/selectDept') {
+      if (currentUser && currentUser.userAppInfo == null) {
+        history.push('/selectDept');
+      }
+    }
     oldRender();
   } else {
     history.push({
