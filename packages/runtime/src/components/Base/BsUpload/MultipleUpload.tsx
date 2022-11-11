@@ -187,6 +187,8 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
       beforeUpload={beforeUpload}
       headers={headers}
       {...restProps}
+      maxCount={maxFiles}
+      multiple
     >
       {fileList.length >= maxFiles ? null : uploadBtn(listType)}
     </ScUpload>

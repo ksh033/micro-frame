@@ -72,7 +72,7 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
       }}
       icon={<DownOutlined></DownOutlined>}
       overlay={menu}
-      style={{ padding: '0px' }}
+      style={{ padding: '0px', width: 'auto' }}
       trigger={['click']}
       // @ts-ignore
       getPopupContainer={(node: any) => {
