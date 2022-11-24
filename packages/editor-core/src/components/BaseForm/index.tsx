@@ -7,7 +7,7 @@ import * as Components from '@scvisual/element';
 import { ProRenderFieldPropsType } from '@ant-design/pro-utils';
 import { valueTypelist } from '../../index';
 
-const BaseForm: React.FC<FormSchema<any>> = (props) => {
+const BaseForm: React.FC<any> = (props) => {
   const rowData = props['data-row'] || {};
   const values = useContext(ProProvider);
 
