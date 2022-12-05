@@ -27,6 +27,8 @@ export const qiankun = new Promise((resolve) => {
     { systemCode: 'financesys', systemName: '财务应用' },
     { systemCode: 'bisys', systemName: '数据中心' },
     { systemCode: 'deliverysys', systemName: '配送应用' },
+    { systemCode: 'assetssys', systemName: '资金应用' },
+    { systemCode: 'cookbooksys', systemName: '菜品应用' },
   ];
   const apps: any[] = [];
   const routes: any[] = [];
