@@ -38,12 +38,12 @@ export interface BsTableProps
   request?: (params: any, options?: any) => Promise<any>;
   exportExeclConfig?: false | ExportExeclConfig;
   groupLabels?:
-    | false
-    | {
-        queryDataIndex?: string;
-        dictType?: string;
-        needAll?: boolean;
-      };
+  | false
+  | {
+    queryDataIndex?: string;
+    dictType?: string;
+    needAll?: boolean;
+  };
 }
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -173,17 +173,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              })
               : React.cloneElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                });
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              });
           return component;
         };
       } else if (list && col.render) {
@@ -201,6 +201,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const newColumns = columnsFormat(columns).map((it, index) => {
     if (index < 2 && it.fixed == null) {
       it.fixed = true;
+    }
+    if (it.dataType === 'money' || it.dataType === 'unitprice') {
+      it.align = 'right';
     }
     return {
       key: it.dataIndex || index,
