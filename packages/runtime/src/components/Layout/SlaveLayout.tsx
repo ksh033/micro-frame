@@ -19,6 +19,12 @@ export default function SlaveLayout(componentProps: any) {
   const { children, route, menu, ...resProps } = componentProps;
   const ref = useRef<any>({});
 
+  if (!ref.current.mdata) {
+    const userAppInfo = getUser()?.userAppInfo;
+    ref.current.mdata = userAppInfo?.currentDept.menus || [];
+    ref.current.syscode = userAppInfo?.currentSystem?.systemCode || '';
+  }
+
   const [menuInfoData, setMenuInfoData] = useMergedState<{
     breadcrumb?: Record<string, any>;
     breadcrumbMap?: Map<string, any>;
