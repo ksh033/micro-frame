@@ -64,7 +64,9 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
       if (!col.width) {
         col.width = 150;
       }
-
+      if (col.dataType === 'money' || col.dataType === 'unitprice') {
+        col.align = 'right'
+      }
       if (list && !col.render) {
         col.render = (text: string) => {
           return cacheRender(text, list);
