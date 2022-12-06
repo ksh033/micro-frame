@@ -21,8 +21,10 @@ export default function SlaveLayout(componentProps: any) {
 
   if (!ref.current.mdata) {
     const userAppInfo = getUser()?.userAppInfo;
-    ref.current.mdata = userAppInfo?.currentDept?.menus || [];
-    ref.current.syscode = userAppInfo?.currentSystem?.systemCode || '';
+    if (userAppInfo) {
+      ref.current.mdata = userAppInfo?.currentDept?.menus || [];
+      ref.current.syscode = userAppInfo?.currentSystem?.systemCode || '';
+    }
   }
 
   const [menuInfoData, setMenuInfoData] = useMergedState<{
