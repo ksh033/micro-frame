@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4-beta.48](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.47...@scvisual/editor-core@1.0.4-beta.48) (2022-12-07)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
+## [1.0.4-beta.47](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.46...@scvisual/editor-core@1.0.4-beta.47) (2022-12-07)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
+## [1.0.4-beta.46](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.39...@scvisual/editor-core@1.0.4-beta.46) (2022-12-06)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
+## [1.0.4-beta.39](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.38...@scvisual/editor-core@1.0.4-beta.39) (2022-12-06)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
+## [1.0.4-beta.38](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.37...@scvisual/editor-core@1.0.4-beta.38) (2022-12-06)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
+## [1.0.4-beta.37](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.36...@scvisual/editor-core@1.0.4-beta.37) (2022-12-06)
+
+**Note:** Version bump only for package @scvisual/editor-core
+
+
+
+
+
 ## [1.0.4-beta.36](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@scvisual/editor-core@1.0.4-beta.35...@scvisual/editor-core@1.0.4-beta.36) (2022-11-24)
 
 **Note:** Version bump only for package @scvisual/editor-core

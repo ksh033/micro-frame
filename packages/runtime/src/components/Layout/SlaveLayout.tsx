@@ -19,6 +19,21 @@ export default function SlaveLayout(componentProps: any) {
   const { children, route, menu, ...resProps } = componentProps;
   const ref = useRef<any>({});
 
+  if (!ref.current.mdata) {
+    const userAppInfo = getUser()?.userAppInfo;
+
+    if (userAppInfo) {
+      const menus = userAppInfo?.currentDept?.menus || [];
+      const syscode = userAppInfo?.currentSystem?.systemCode || '';
+      const sysMenu = menus.find((it) => it.pageUrl === syscode);
+      if (sysMenu) {
+        ref.current.mdata = sysMenu.children || [];
+
+        ref.current.syscode = syscode;
+      }
+    }
+  }
+
   const [menuInfoData, setMenuInfoData] = useMergedState<{
     breadcrumb?: Record<string, any>;
     breadcrumbMap?: Map<string, any>;
@@ -49,6 +64,13 @@ export default function SlaveLayout(componentProps: any) {
     breadcrumbMap,
     itemRender: defaultItemRender,
   });
+
+  const lastMenu =
+    Array.isArray(breadcrumbProps.routes) && breadcrumbProps.routes.length > 0
+      ? breadcrumbProps.routes[breadcrumbProps.routes.length - 1]
+      : null;
+
+  const title = lastMenu != null ? lastMenu?.breadcrumbName : undefined;
   return (
     <SchemaContext.Provider
       value={{
@@ -58,6 +80,7 @@ export default function SlaveLayout(componentProps: any) {
     >
       <RouteContext.Provider
         value={{
+          title,
           breadcrumb: breadcrumbProps,
           menuData,
           hasFooterToolbar: true,
