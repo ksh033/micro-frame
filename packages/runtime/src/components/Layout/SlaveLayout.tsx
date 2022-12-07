@@ -23,8 +23,14 @@ export default function SlaveLayout(componentProps: any) {
     const userAppInfo = getUser()?.userAppInfo;
 
     if (userAppInfo) {
-      ref.current.mdata = userAppInfo?.currentDept?.menus || [];
-      ref.current.syscode = userAppInfo?.currentSystem?.systemCode || '';
+      const menus = userAppInfo?.currentDept?.menus || [];
+      const syscode = userAppInfo?.currentSystem?.systemCode || '';
+      const sysMenu = menus.find((it) => it.pageUrl === syscode);
+      if (sysMenu) {
+        ref.current.mdata = sysMenu.children || [];
+
+        ref.current.syscode = syscode;
+      }
     }
   }
 
@@ -58,6 +64,13 @@ export default function SlaveLayout(componentProps: any) {
     breadcrumbMap,
     itemRender: defaultItemRender,
   });
+
+  const lastMenu =
+    Array.isArray(breadcrumbProps.routes) && breadcrumbProps.routes.length > 0
+      ? breadcrumbProps.routes[breadcrumbProps.routes.length - 1]
+      : null;
+
+  const title = lastMenu != null ? lastMenu?.breadcrumbName : undefined;
   return (
     <SchemaContext.Provider
       value={{
@@ -67,6 +80,7 @@ export default function SlaveLayout(componentProps: any) {
     >
       <RouteContext.Provider
         value={{
+          title,
           breadcrumb: breadcrumbProps,
           menuData,
           hasFooterToolbar: true,
