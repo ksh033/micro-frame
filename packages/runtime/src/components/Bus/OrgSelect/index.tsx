@@ -33,7 +33,7 @@ const OrgSelect: React.FC<OrgSelectProps> = (props) => {
       request={run}
       showSearch
       labelInValue
-      searchField="bizDeptCodeOrName"
+      searchField="bizDeptCodeName"
       textField="bizDeptName"
       valueField="bizDeptId"
       params={params}
