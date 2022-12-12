@@ -45,7 +45,7 @@ const services = {
       method: 'post',
     },
     bizdept: {
-      url: '/base/api/bizdept/list',
+      url: '/purchase/api/bizdept/list',
       method: 'post',
     },
     barndList: {
