@@ -22,7 +22,7 @@ const OrgSelect: React.FC<OrgSelectProps> = (props) => {
 
   const params = useMemo(
     () => ({
-      size: props.limit || 15,
+      size: props.limit || 999,
       bizDeptTypes: innerBizDeptTypes,
     }),
     [limit, bizDeptTypesStr]
