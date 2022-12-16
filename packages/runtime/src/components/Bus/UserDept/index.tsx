@@ -17,6 +17,7 @@ export interface UserDeptProp extends ScSelectProps, FormComponentProps {
     | 'CHAIN_MANAGE_COMPANY'
     | 'SUPPLY_CHAIN_COMPANY'
     | 'SUPPLY_SUBCOMPANY'
+    | 'SHOP'
   )[]; // 集团底下要查询哪个组织机构
 }
 
@@ -85,7 +86,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       const {
         userAppInfo: { currentDept },
       } = user;
-      if (currentDept.bizDeptType !== 'COMPANY') {
+      if (currentDept.bizDeptType !== 'COMPANY' && currentDept.bizDeptType !== 'SHOP') {
         initValue(currentDept);
       } else {
         if (companyNeedInit && state.data.length > 0 && props.value == null) {
@@ -93,9 +94,9 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
           onChange?.(
             labelInValue
               ? {
-                  value: itemFirst.companyId || '',
-                  text: itemFirst.companyName,
-                }
+                value: itemFirst.companyId || '',
+                text: itemFirst.companyName,
+              }
               : itemFirst.companyId,
             {
               value: itemFirst.companyId || '',
@@ -117,12 +118,12 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } = user;
       const { bizDeptType } = currentDept;
       if (deptList.current.length === 0) {
-        if (bizDeptType === 'COMPANY') {
+        if (bizDeptType === 'COMPANY' || bizDeptType === 'SHOP') {
           queryAll({
             companyTypes: companyTypes,
           }).then((_data: any[]) => {
             if (_data) {
-              if (needCompany) {
+              if (needCompany && bizDeptType !== 'SHOP') {
                 _data.unshift({
                   companyId: currentDept.bizDeptId,
                   companyName: currentDept.bizDeptName,
