@@ -1,52 +1,50 @@
-import { uesRequest } from '../../utils/api'
-import { useCallback, useMemo } from 'react'
-import { useSessionStorageState } from 'ahooks'
-import { getAppCode } from '../Auth'
+import { uesRequest } from '../../utils/api';
+import { useCallback, useMemo } from 'react';
+import { useSessionStorageState } from 'ahooks';
+import { getAppCode } from '../Auth';
 
 export interface DictDataItem {
-  name: string
-  value: any
+  name: string;
+  value: any;
 }
 export interface DictData {
-  dictTypeCode: string
-  dictValueId: string
-  remark: string
-  valueCode: string
-  valueIndex: number
-  valueName: string
+  dictTypeCode: string;
+  dictValueId: string;
+  remark: string;
+  valueCode: string;
+  valueIndex: number;
+  valueName: string;
 }
 
 export type DictMapData = {
-  [key: string]: Array<DictDataItem>
+  [key: string]: Array<DictDataItem>;
   // items: Array<DictDataItem>;
-} | null
+} | null;
 
 export type LocalDictMapData = {
-  [key: string]: Array<DictDataItem>
+  [key: string]: Array<DictDataItem>;
   // items: Array<DictDataItem>;
-}
+};
 
 export default function useDictModel() {
   const [dict, setdDict] = useSessionStorageState<DictMapData>(
     'CG-CURRENT-DICT',
     {}
-  )
+  );
   const [localDict, setdLocalDict] = useSessionStorageState<LocalDictMapData>(
     'CG-LOCAL-DICT',
     {}
-  )
+  );
 
-
-  const { run } = uesRequest('system', 'getDictTypeList')
+  const { run } = uesRequest('system', 'getDictTypeList');
 
   const loadDict = useCallback(async () => {
     if (dict == null || JSON.stringify(dict) === '{}') {
-      const dictMapData = {}
-      const result = await run()
+      const dictMapData = {};
+      const result = await run();
       if (result) {
         result.forEach((item: DictData) => {
-
-          const dictList = dictMapData[item.dictTypeCode]
+          const dictList = dictMapData[item.dictTypeCode];
 
           if (Array.isArray(dictList)) {
             dictMapData[item.dictTypeCode] = [
@@ -55,17 +53,17 @@ export default function useDictModel() {
                 name: item.valueName,
                 value: item.valueCode,
               },
-            ]
+            ];
           } else {
             dictMapData[item.dictTypeCode] = [
               {
                 name: item.valueName,
                 value: item.valueCode,
               },
-            ]
+            ];
           }
-        })
-        setdDict(dictMapData)
+        });
+        setdDict(dictMapData);
       }
       if (localDict == null || JSON.stringify(localDict) === '{}') {
         setdLocalDict({
@@ -99,42 +97,42 @@ export default function useDictModel() {
               value: false,
             },
           ],
-        })
+        });
       }
     }
-  }, [dict, localDict])
+  }, [dict, localDict]);
 
   const setLocal = (type: string, list: Array<DictDataItem>) => {
-    let localDictMap: LocalDictMapData = {}
+    let localDictMap: LocalDictMapData = {};
     if (localDict !== undefined && JSON.stringify(localDict) !== '{}') {
-      localDictMap = localDict
+      localDictMap = localDict;
     }
-    localDictMap[type] = list
+    localDictMap[type] = list;
 
-    setdLocalDict(localDictMap)
-  }
+    setdLocalDict(localDictMap);
+  };
 
-  const getDistList = (config: { dictTypeCode: string, localDict?: boolean }) => {
-    let sysMap = config.localDict ? localDict : dict
+  const getDistList = (config: {
+    dictTypeCode: string;
+    localDict?: boolean;
+  }) => {
+    let sysMap = config.localDict ? localDict : dict;
     if (sysMap) {
-      return sysMap[config.dictTypeCode]
+      return sysMap[config.dictTypeCode] || [];
     }
-    return []
-  }
+    return [];
+  };
 
-  const getDictText = (
-    config: { dictTypeCode: string },
-    dictVal: any
-  ) => {
-    const distList = getDistList(config) || []
+  const getDictText = (config: { dictTypeCode: string }, dictVal: any) => {
+    const distList = getDistList(config) || [];
     const findItem = distList.find((item: any) => {
-      return item.value === dictVal
-    })
+      return item.value === dictVal;
+    });
     if (findItem) {
-      return findItem.name
+      return findItem.name;
     }
-    return dictVal
-  }
+    return dictVal;
+  };
 
   return {
     dict: dict,
@@ -142,5 +140,5 @@ export default function useDictModel() {
     setLocal,
     getDistList,
     getDictText,
-  }
+  };
 }
