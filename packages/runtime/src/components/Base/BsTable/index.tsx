@@ -88,7 +88,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   } = props;
 
   const { getDistList, getDictText } = userDictModel();
-  let defaultActiveKey = '';
+
   // 默认的tab切换配置
   const defaultLabelsProps = {
     needAll: true,
@@ -99,15 +99,44 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       ? Object.assign({}, defaultLabelsProps, groupLabelsProps)
       : false;
 
-  if (groupLabels !== false) {
-    defaultActiveKey =
-      groupLabels && groupLabels.needAll
-        ? 'all'
-        : groupLabels.defaultActiveKey || '';
-    if (params[groupLabels.queryDataIndex || '']) {
-      defaultActiveKey = params[groupLabels.queryDataIndex || ''];
+  const dictList = getDistList({
+    dictTypeCode:
+      groupLabels !== false
+        ? groupLabels.dictType || groupLabels.queryDataIndex || ''
+        : '',
+  });
+
+  const getDfaultActiveKey = () => {
+    let active = '';
+    if (groupLabels !== false) {
+      if (groupLabels && groupLabels.needAll) {
+        active = 'all';
+      }
+      if (groupLabels.defaultActiveKey && active === '') {
+        active = groupLabels.defaultActiveKey;
+      }
+      if (
+        Array.isArray(groupLabels.list) &&
+        groupLabels.list.length > 0 &&
+        active === ''
+      ) {
+        active = String(groupLabels.list[0].key);
+      }
+
+      if (dictList.length > 0 && active === '') {
+        active = String(dictList[0].value);
+      }
+
+      // 最后都要做这个判断
+      if (params[groupLabels.queryDataIndex || '']) {
+        active = params[groupLabels.queryDataIndex || ''];
+      }
     }
-  }
+
+    return active;
+  };
+
+  let defaultActiveKey = getDfaultActiveKey();
   const oldActiveKey = useRef<React.Key>(defaultActiveKey);
   const [activeKey, setActiveKey] = useState<React.Key>(defaultActiveKey);
   const [groupLabelsMap, setGroupLabelsMap] = useState<Record<string, number>>(
@@ -318,10 +347,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       } else {
         list = Array.isArray(groupLabels.list) ? groupLabels.list : [];
         if (list.length === 0) {
-          const dictList = getDistList({
-            dictTypeCode:
-              groupLabels.dictType || groupLabels.queryDataIndex || '',
-          });
           list = dictList.map((it) => {
             return {
               key: it.value,
