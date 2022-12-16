@@ -1,6 +1,7 @@
 import { ScTable } from '@scboson/sc-element';
 import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
 import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
+import { ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/components/ListToolBar/HeaderMenu';
 import { Badge } from 'antd';
 import { isArray, isObject } from 'lodash';
 import React, { useMemo, useRef, useState } from 'react';
@@ -37,13 +38,17 @@ export interface BsTableProps
   toolbar?: any;
   request?: (params: any, options?: any) => Promise<any>;
   exportExeclConfig?: false | ExportExeclConfig;
+  /** 是否显示右侧状态栏 */
   groupLabels?:
-  | false
-  | {
-    queryDataIndex?: string;
-    dictType?: string;
-    needAll?: boolean;
-  };
+    | false
+    | {
+        queryDataIndex?: string;
+        dictType?: string;
+        remoted?: boolean;
+        needAll?: boolean;
+        list?: ListToolBarMenuItem[];
+        defaultActiveKey?: string;
+      };
 }
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -87,6 +92,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   // 默认的tab切换配置
   const defaultLabelsProps = {
     needAll: true,
+    remoted: true,
   };
   const groupLabels =
     groupLabelsProps !== false
@@ -94,14 +100,19 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       : false;
 
   if (groupLabels !== false) {
-    defaultActiveKey = groupLabels && groupLabels.needAll ? 'all' : '';
+    defaultActiveKey =
+      groupLabels && groupLabels.needAll
+        ? 'all'
+        : groupLabels.defaultActiveKey || '';
     if (params[groupLabels.queryDataIndex || '']) {
       defaultActiveKey = params[groupLabels.queryDataIndex || ''];
     }
   }
   const oldActiveKey = useRef<React.Key>(defaultActiveKey);
   const [activeKey, setActiveKey] = useState<React.Key>(defaultActiveKey);
-  const [groupLabelsMap, setGroupLabelsMap] = useState<any>({});
+  const [groupLabelsMap, setGroupLabelsMap] = useState<Record<string, number>>(
+    {}
+  );
 
   const actionRef = useRef<any>();
 
@@ -173,17 +184,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
               : React.cloneElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              });
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                });
           return component;
         };
       } else if (list && col.render) {
@@ -278,31 +289,47 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     map: any
   ): ListToolBarProps | undefined => {
     if (groupLabels !== false) {
-      const list: any[] = [];
+      let list: any[] = [];
       if (groupLabels.needAll) {
         list.push({
           key: 'all',
           label: '全部',
         });
       }
-      Object.keys(map).forEach((key) => {
-        const text = getDictText(
-          {
+      if (groupLabels.remoted) {
+        Object.keys(map).forEach((key) => {
+          const text = getDictText(
+            {
+              dictTypeCode:
+                groupLabels.dictType || groupLabels.queryDataIndex || '',
+            },
+            key
+          );
+          list.push({
+            key: key,
+            label: (
+              <span>
+                {text}
+                {renderBadge(map[key] || 0, _activeKey === key)}
+              </span>
+            ),
+          });
+        });
+      } else {
+        list = Array.isArray(groupLabels.list) ? groupLabels.list : [];
+        if (list.length === 0) {
+          const dictList = getDistList({
             dictTypeCode:
               groupLabels.dictType || groupLabels.queryDataIndex || '',
-          },
-          key
-        );
-        list.push({
-          key: key,
-          label: (
-            <span>
-              {text}
-              {renderBadge(map[key] || 0, _activeKey === key)}
-            </span>
-          ),
-        });
-      });
+          });
+          list = dictList.map((it) => {
+            return {
+              key: it.value,
+              label: it.name,
+            };
+          });
+        }
+      }
       return {
         menu: {
           type: 'tab',
