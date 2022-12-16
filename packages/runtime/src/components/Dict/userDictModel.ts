@@ -118,7 +118,7 @@ export default function useDictModel() {
   }) => {
     let sysMap = config.localDict ? localDict : dict;
     if (sysMap) {
-      return sysMap[config.dictTypeCode] || [];
+      return sysMap[config.dictTypeCode];
     }
     return [];
   };

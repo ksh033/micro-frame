@@ -99,7 +99,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       ? Object.assign({}, defaultLabelsProps, groupLabelsProps)
       : false;
 
-  const dictList = getDistList({
+  const groupDictList = getDistList({
     dictTypeCode:
       groupLabels !== false
         ? groupLabels.dictType || groupLabels.queryDataIndex || ''
@@ -123,8 +123,12 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         active = String(groupLabels.list[0].key);
       }
 
-      if (dictList.length > 0 && active === '') {
-        active = String(dictList[0].value);
+      if (
+        Array.isArray(groupDictList) &&
+        groupDictList.length > 0 &&
+        active === ''
+      ) {
+        active = String(groupDictList[0].value);
       }
 
       // 最后都要做这个判断
@@ -347,7 +351,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       } else {
         list = Array.isArray(groupLabels.list) ? groupLabels.list : [];
         if (list.length === 0) {
-          list = dictList.map((it) => {
+          list = groupDictList.map((it) => {
             return {
               key: it.value,
               label: it.name,
