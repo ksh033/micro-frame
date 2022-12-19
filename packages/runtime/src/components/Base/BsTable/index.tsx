@@ -16,6 +16,7 @@ import Operation from './Operation';
 import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
+import { useSafeState, useUpdateEffect } from 'ahooks';
 
 export type ExcelColumn = {
   text: string;
@@ -32,6 +33,16 @@ export type ExportExeclConfig = {
   queryParams?: any;
   btnText?: string;
 };
+export type GroupLabels = {
+  queryDataIndex?: string;
+  dictType?: string;
+  remoted?: boolean;
+  needAll?: boolean;
+  list?: ListToolBarMenuItem[];
+  defaultActiveKey?: string;
+  active?: string;
+  onActiveChange?: (avtive: string) => void;
+};
 
 export interface BsTableProps
   extends Omit<ScTableProps<any>, 'toolbar' | 'request'> {
@@ -39,16 +50,7 @@ export interface BsTableProps
   request?: (params: any, options?: any) => Promise<any>;
   exportExeclConfig?: false | ExportExeclConfig;
   /** 是否显示右侧状态栏 */
-  groupLabels?:
-    | false
-    | {
-        queryDataIndex?: string;
-        dictType?: string;
-        remoted?: boolean;
-        needAll?: boolean;
-        list?: ListToolBarMenuItem[];
-        defaultActiveKey?: string;
-      };
+  groupLabels?: false | GroupLabels;
 }
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -142,10 +144,16 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   let defaultActiveKey = getDfaultActiveKey();
   const oldActiveKey = useRef<React.Key>(defaultActiveKey);
-  const [activeKey, setActiveKey] = useState<React.Key>(defaultActiveKey);
+  const [activeKey, setActiveKey] = useSafeState<React.Key>(defaultActiveKey);
   const [groupLabelsMap, setGroupLabelsMap] = useState<Record<string, number>>(
     {}
   );
+
+  useUpdateEffect(() => {
+    if (groupLabelsProps && groupLabelsProps.active) {
+      setActiveKey(groupLabelsProps.active);
+    }
+  }, [groupLabelsProps && groupLabelsProps.active]);
 
   const actionRef = useRef<any>();
 
@@ -311,6 +319,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       setGroupLabelsMap(data.groupLabels);
       if (groupLabels.needAll !== true) {
         const key = Object.keys(data.groupLabels)[0];
+        groupLabels.onActiveChange?.(key);
         setActiveKey(key);
       }
     }
@@ -375,6 +384,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
                 });
               }
             }
+            groupLabels.onActiveChange?.(key as string);
             setActiveKey(key as string);
           },
         },
