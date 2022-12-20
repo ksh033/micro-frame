@@ -11,6 +11,7 @@ import { FileType } from './index';
 import styles from './index.less';
 import { preView } from './SingleUpload';
 import { getFileName } from './utils';
+import { useEffect, useRef } from 'react'
 
 type ViewItemProps = {
   files?: (FileType | string)[];
@@ -31,6 +32,7 @@ const ViewItem: React.FC<ViewItemProps> = (props) => {
   //   }
   // }, [src]);
 
+  const couterRef = useRef<any>();
   const cardItem = (file: UploadFile) => {
     return (
       <div className="bs-signle-img clearfix">
@@ -67,21 +69,36 @@ const ViewItem: React.FC<ViewItemProps> = (props) => {
       .map((item, index: number) => {
         return typeof item === 'string'
           ? {
-              url: imageUrl(item) || '',
-              uid: index + '',
-              name: getFileName(item),
-            }
+            url: imageUrl(item) || '',
+            uid: index + '',
+            name: getFileName(item),
+          }
           : {
-              url: imageUrl(item.url || '') || '',
-              uid: index + '',
-              name: item.fileName,
-            };
+            url: imageUrl(item.url || '') || '',
+            uid: index + '',
+            name: item.fileName,
+          };
       });
   };
 
+  useEffect(() => {
+
+    //发现视频组件做加载
+    if (couterRef.current) {
+      const html = couterRef.current as HTMLDivElement
+      const v: any = html.getElementsByTagName("video")
+      v.forEach((item) => {
+
+        if (item.load) {
+          item.load();
+
+        }
+      })
+    }
+  }, [files])
   if (listType === 'picture-card') {
     return (
-      <div className={styles['bs-upload-img-list']}>
+      <div className={styles['bs-upload-img-list']} ref={couterRef}>
         {fileFormat(files).map((item, index: number) => {
           return item ? (
             <div className={styles['bs-upload-img']} key={index}>

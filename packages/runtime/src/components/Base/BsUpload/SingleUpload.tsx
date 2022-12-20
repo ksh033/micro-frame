@@ -45,7 +45,7 @@ export const preView = (_file: UploadFile<any>) => {
       }
       if (/\.(mp4|rmvb|avi|ts)$/.test(file)) {
         return (
-          <video controls autoPlay className="bs-upload-video">
+          <video controls className="bs-upload-video">
             <source src={file} type="video/mp4" />
           </video>
         );
