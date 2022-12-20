@@ -17,6 +17,7 @@ import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
 import { useSafeState, useUpdateEffect } from 'ahooks';
+import { useSize } from 'ahooks';
 
 export type ExcelColumn = {
   text: string;
@@ -79,7 +80,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     data,
     toolBarRender,
     onLoad,
-    scroll = { x: 'max-content' },
+    scroll,
     options,
     exportExeclConfig = false,
     groupLabels: groupLabelsProps = false,
@@ -90,7 +91,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   } = props;
 
   const { getDistList, getDictText } = userDictModel();
-
+  const ref = useRef(null);
+  const size = useSize(ref);
   // 默认的tab切换配置
   const defaultLabelsProps = {
     needAll: true,
@@ -192,6 +194,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     });
   }
 
+
+
   const columnsFormat = (list: any[]) => {
     let hasAutoCol = false, hasOpCol = false;
     list.forEach((col: any, index: number) => {
@@ -257,12 +261,22 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     });
 
     if (!hasAutoCol) {
-      let lastColNum = 1
-      if (hasOpCol) {
-        lastColNum = 2;
-      }
-      list[list.length - lastColNum].width = 'auto'
+      // let lastColNum = 1
       //表格宽度不设置的情况，必须有一列是自适应
+      const emptyCol = { width: 'auto', dataIndex: '_EmptyKey' }
+      if (hasOpCol) {
+
+
+        const opCol = list.pop();
+        list.push(emptyCol)
+        list.push(opCol)
+      } else {
+        list.push(emptyCol)
+      }
+
+      //list[list.length - lastColNum].width = 'auto'
+
+
 
     }
 
@@ -445,10 +459,11 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   return (
     <>
-      <div className={'bs-table-list'}>
+      <div className={'bs-table-list'} ref={ref}>
         <ScTable
-          scroll={scroll}
+          scroll={{ x: scroll ? scroll.x : size.width }}
           size="small"
+
           onLoad={dataLoad}
           data={data}
           columns={newColumns}
