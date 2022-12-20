@@ -193,6 +193,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   }
 
   const columnsFormat = (list: any[]) => {
+    let hasAutoCol = false, hasOpCol = false;
     list.forEach((col: any, index: number) => {
       if (Array.isArray(col.children) && col.children.length > 0) {
         col.children = columnsFormat(col.children);
@@ -201,8 +202,16 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       const list: any = getDistList({
         dictTypeCode: `${col.dataType || col.dataIndex}`,
       });
+      if (col.width === 'auto') {
+        hasAutoCol = true
+      }
       if (!col.width) {
         col.width = 180;
+      }
+      if (col.dataIndex === "_OperateKey") {
+        col.align = 'left'
+        hasOpCol = true
+
       }
 
       if (list && !col.render) {
@@ -225,17 +234,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              })
               : React.cloneElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                });
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              });
           return component;
         };
       } else if (list && col.render) {
@@ -246,6 +255,16 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         };
       }
     });
+
+    if (!hasAutoCol) {
+      let lastColNum = 1
+      if (hasOpCol) {
+        lastColNum = 2;
+      }
+      list[list.length - lastColNum].width = 'auto'
+      //表格宽度不设置的情况，必须有一列是自适应
+
+    }
 
     return list;
   };
