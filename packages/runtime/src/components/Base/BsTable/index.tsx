@@ -213,8 +213,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         col.width = 180;
       }
       if (col.dataIndex === "_OperateKey") {
-        col.align = 'left'
+        col.align = 'right'
         hasOpCol = true
+
 
       }
 
@@ -264,19 +265,16 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       // let lastColNum = 1
       //表格宽度不设置的情况，必须有一列是自适应
       const emptyCol = { width: 'auto', dataIndex: '_EmptyKey' }
-      if (hasOpCol) {
 
-
-        const opCol = list.pop();
-        list.push(emptyCol)
-        list.push(opCol)
-      } else {
-        list.push(emptyCol)
+      const width = list[list.length - 1].width || 200
+      list[list.length - 1].width = 'auto'
+      // list[list.length - 1].responsive = ['md']
+      list[list.length - 1]["RC_TABLE_INTERNAL_COL_DEFINE"] = {
+        style: {
+          width: 'auto',
+          minWidth: width
+        }
       }
-
-      //list[list.length - lastColNum].width = 'auto'
-
-
 
     }
 
