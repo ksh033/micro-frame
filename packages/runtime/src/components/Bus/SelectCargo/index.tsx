@@ -1,4 +1,4 @@
-import { CModal } from '@scboson/sc-element';
+import { CDrawer } from '@scboson/sc-element';
 import { DialogOptions } from '@scboson/sc-schema/es/interface';
 import { useSetState } from 'ahooks';
 import { FC } from 'react';
@@ -40,7 +40,7 @@ const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
 };
 
 export function openSelectCargoModal(newOptions: DialogOptions) {
-  CModal.show({
+  CDrawer.show({
     title: '添加货品',
     width: 1400,
     ...newOptions,

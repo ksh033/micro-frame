@@ -48,6 +48,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
 
   const cformat = format || (showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
   const [currentValue, setCurrentValue] = useState<any>();
+
   if (disabledToday === true) {
     resProps.disabledDate = disabledDate;
   }
@@ -72,6 +73,20 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
       setCurrentValue([]);
     }
   };
+
+  const initialValue = useMemo(() => {
+    if (
+      initialValues &&
+      initialValues[startTimeFiled] &&
+      initialValues[endTimeFiled]
+    ) {
+      return [
+        moment.utc(initialValues[startTimeFiled], cformat),
+        moment.utc(initialValues[endTimeFiled], cformat),
+      ];
+    }
+    return [];
+  }, initialValues);
 
   useEffect(() => {
     formatValue();
@@ -172,6 +187,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
         </div>
         <Form.Item
           name={`${startTimeFiled}_${endTimeFiled}`}
+          initialValue={initialValue}
           noStyle
           rules={
             rulesRequire === true

@@ -9,7 +9,7 @@ import { Form, Input, TimePicker } from 'antd';
 import { TimeRangePickerProps } from 'antd/es/time-picker';
 import moment, { Moment } from 'moment';
 import { RangeValue } from 'rc-picker/es/interface';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const { RangePicker } = TimePicker;
 
@@ -53,6 +53,20 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
   useEffect(() => {
     formatValue();
   }, [form?.getFieldValue(startTimeFiled)]);
+
+  const initialValue = useMemo(() => {
+    if (
+      initialValues &&
+      initialValues[startTimeFiled] &&
+      initialValues[endTimeFiled]
+    ) {
+      return [
+        moment.utc(initialValues[startTimeFiled], format),
+        moment.utc(initialValues[endTimeFiled], format),
+      ];
+    }
+    return [];
+  }, initialValues);
 
   const handleChange = (
     dates: RangeValue<Moment>,
@@ -112,6 +126,7 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
         </div>
         <Form.Item
           noStyle
+          initialValue={initialValue}
           rules={
             rulesRequire === true
               ? [
