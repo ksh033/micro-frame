@@ -2,9 +2,10 @@ import { ScTree } from '@scboson/sc-element';
 import { ListPage, PageConfig, useListPageContext } from '@scboson/sc-schema';
 import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface';
 import TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
+import { useSize } from 'ahooks';
 import { CheckboxProps } from 'antd';
 import { RowSelectionType } from 'antd/es/table/interface';
-import React, { Key, useMemo, useState } from 'react';
+import React, { Key, useMemo, useRef, useState } from 'react';
 import { uesRequest } from '../../../utils/api';
 import BsSearch from '../../Base/BsSearch';
 import BsTable from '../../Base/BsTable';
@@ -60,6 +61,16 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
   const search = page.getSearch({});
+  const ref = useRef<any>();
+  const size = useSize(ref);
+  console.log(size);
+
+  const scrollY = useMemo(() => {
+    return Number(size.height || 0) - 220 > 0
+      ? Number(size.height || 0) - 220
+      : 400;
+  }, [size]);
+
   if (isNeddBrand) {
     search.addSearchItem({
       label: '品牌',
@@ -149,7 +160,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   // }
 
   return (
-    <div className={styles.cell}>
+    <div className={styles.cell} ref={ref}>
       {isNeedLeft ? (
         <div className={styles['cell-left']}>
           <div>
@@ -187,12 +198,13 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
             getCheckboxProps,
           }}
           rowKey={rowKey}
+          pageSize={20}
           onSelectRow={onSelectRow}
           selectedRowKeys={selectedRowKeys}
           params={tableParams}
           request={request}
           onLoad={onLoad}
-          scroll={{ y: '400px' }}
+          scroll={{ y: scrollY }}
           cardProps={{ bodyStyle: { padding: '0' } }}
         ></BsTable>
       </div>

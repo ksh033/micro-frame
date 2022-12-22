@@ -194,10 +194,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     });
   }
 
-
-
   const columnsFormat = (list: any[]) => {
-    let hasAutoCol = false, hasOpCol = false;
+    let hasAutoCol = false,
+      hasOpCol = false;
     list.forEach((col: any, index: number) => {
       if (Array.isArray(col.children) && col.children.length > 0) {
         col.children = columnsFormat(col.children);
@@ -207,16 +206,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         dictTypeCode: `${col.dataType || col.dataIndex}`,
       });
       if (col.width === 'auto') {
-        hasAutoCol = true
+        hasAutoCol = true;
       }
       if (!col.width) {
         col.width = 180;
       }
-      if (col.dataIndex === "_OperateKey") {
-        col.align = 'right'
-        hasOpCol = true
-
-
+      if (col.dataIndex === '_OperateKey') {
+        col.align = 'right';
+        hasOpCol = true;
       }
 
       if (list && !col.render) {
@@ -239,17 +236,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
               : React.cloneElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              });
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                });
           return component;
         };
       } else if (list && col.render) {
@@ -264,18 +261,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     if (!hasAutoCol) {
       // let lastColNum = 1
       //表格宽度不设置的情况，必须有一列是自适应
-      const emptyCol = { width: 'auto', dataIndex: '_EmptyKey' }
+      const emptyCol = { width: 'auto', dataIndex: '_EmptyKey' };
 
-      const width = list[list.length - 1].width || 200
-      list[list.length - 1].width = 'auto'
+      const width = list[list.length - 1].width || 200;
+      list[list.length - 1].width = 'auto';
       // list[list.length - 1].responsive = ['md']
-      list[list.length - 1]["RC_TABLE_INTERNAL_COL_DEFINE"] = {
+      list[list.length - 1]['RC_TABLE_INTERNAL_COL_DEFINE'] = {
         style: {
           width: 'auto',
-          minWidth: width
-        }
-      }
-
+          minWidth: width,
+        },
+      };
     }
 
     return list;
@@ -459,9 +455,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     <>
       <div className={'bs-table-list'} ref={ref}>
         <ScTable
-          scroll={{ x: scroll ? scroll.x : size.width }}
+          scroll={{ ...scroll, x: scroll ? scroll.x : size.width }}
           size="small"
-
           onLoad={dataLoad}
           data={data}
           columns={newColumns}
