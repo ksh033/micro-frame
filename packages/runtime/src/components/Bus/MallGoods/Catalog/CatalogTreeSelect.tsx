@@ -1,9 +1,9 @@
-import React from "react";
-import { ScTreeSelect } from "@scboson/sc-element";
+import React from 'react';
+import { ScTreeSelect } from '@scboson/sc-element';
 
-import type { ScTreeSelectProps } from "@scboson/sc-element/es/sc-tree-select/ScTreeSelect";
+import type { ScTreeSelectProps } from '@scboson/sc-element/es/sc-tree-select/ScTreeSelect';
 
-import { uesRequest } from "../../../../utils/api";
+import { uesRequest } from '../../../../utils/api';
 
 /**
  * 商品品目
@@ -13,26 +13,14 @@ import { uesRequest } from "../../../../utils/api";
  */
 const CatalogTreeSelect: React.FC<
   ScTreeSelectProps & { selectLeaf: boolean }
-> = ({ params, selectLeaf = true, ...restProps }) => {
-  const { run, loading } = uesRequest("mallgoods_catalog", "treeList");
-  const loadDataPramsFormat = (item: any) => {
-    return {
-      //parentId: item.mallCatalogId,
-      parentId: item.catalogId || "0",
-    };
-  };
+> = ({ params, selectLeaf = true, autoload = true, ...restProps }) => {
+  const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
 
   return (
     <ScTreeSelect
-      {...restProps}
       loading={loading}
-      //   root={{
-      //     mallCatalogId: "0",
-      //     catalogName: "请选择品目",
-      //     key: "0",
-      //   }}
       showSearch
-      treeNodeFilterProp={"title"}
+      treeNodeFilterProp={'title'}
       nodeTransform={(nodeData: any) => {
         if (selectLeaf) {
           let selectable = true;
@@ -46,11 +34,11 @@ const CatalogTreeSelect: React.FC<
       }}
       treeDataSimpleMode
       autoload={true}
-      // loadDataPramsFormat={loadDataPramsFormat}
       request={run}
       params={{}}
       textField="catalogName"
       valueField="catalogId"
+      {...restProps}
     />
   );
 };
