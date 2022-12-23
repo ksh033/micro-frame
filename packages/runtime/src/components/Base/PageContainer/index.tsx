@@ -41,9 +41,12 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   }, [footer]);
 
   return (
-    <APageContainer {...props} footer={efooter}>
-      {children}
-    </APageContainer>
+    //@ts-ignore
+    <div tabIndex={1} className="sc-page-container">
+      <APageContainer {...props} footer={efooter}>
+        {children}
+      </APageContainer>
+    </div>
   );
 };
 
