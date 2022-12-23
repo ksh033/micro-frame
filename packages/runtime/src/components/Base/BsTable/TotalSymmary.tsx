@@ -1,4 +1,4 @@
-import defaultRender from '@micro-frame/sc-runtime/es/components/Dict/defaultRender';
+import defaultRender from '../../Dict/defaultRender';
 import { ScProColumn, ScProColumnType } from '@scboson/sc-element/es/sc-table';
 import { ScProColumnGroupType } from '@scboson/sc-element/es/sc-table/ScTable';
 import { Table } from 'antd';
