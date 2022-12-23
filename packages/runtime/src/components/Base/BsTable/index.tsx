@@ -175,6 +175,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   );
   /** 统计栏数据 */
   const [recordSummary, setRecordSummary] = useState<any[]>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useUpdateEffect(() => {
     if (groupLabelsProps && groupLabelsProps.active) {
@@ -210,23 +211,21 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         },
         fileName: exportExeclConfig.fileName || Date.now() + '',
       };
-      request.run(execlParams, {
-        headers: {
-          excelMeta: 1,
-        },
-      });
+      setLoading(true);
+      request
+        .run(execlParams, {
+          headers: {
+            excelMeta: 1,
+          },
+        })
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
   };
-  /** 导出按钮 */
-  if (exportExeclConfig !== false) {
-    toolbar.unshift({
-      loading: request.loading,
-      text: exportExeclConfig.btnText || '导出execl',
-      funcode: 'EXPORT',
-      onClick: onExportExecl,
-      type: 'primary',
-    });
-  }
 
   let widthCount = 0;
   const columnsFormat = (list: any[], isChildren = false) => {
@@ -342,11 +341,27 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       ...it,
     };
   });
+
+  const newToolbar = useMemo(() => {
+    const rToolbar = toolbar;
+    /** 导出按钮 */
+    if (exportExeclConfig !== false) {
+      rToolbar.unshift({
+        loading: loading,
+        text: exportExeclConfig.btnText || '导出execl',
+        funcode: 'EXPORT',
+        onClick: onExportExecl,
+        type: 'primary',
+      });
+    }
+    return rToolbar;
+  }, [toolbar, loading, exportExeclConfig]);
+
   /** 表格上方的工具栏 */
   let newToolBarRender: any;
 
   let rtoolBarRender: any = () => {
-    const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0;
+    const hasToolBar = Array.isArray(newToolbar) && newToolbar.length > 0;
     const toolBarRender = hasToolBar ? (
       <ToolBar
         buttons={toolbar}
@@ -357,6 +372,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     );
     return toolBarRender;
   };
+
   if (toolBarRender === false) {
     newToolBarRender = false;
   } else {
