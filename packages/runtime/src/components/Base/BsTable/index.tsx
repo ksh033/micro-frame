@@ -2,7 +2,7 @@ import { ScTable } from '@scboson/sc-element';
 import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
 import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
 import { ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/components/ListToolBar/HeaderMenu';
-import { Badge } from 'antd';
+import { Badge, Table } from 'antd';
 import { isArray, isObject } from 'lodash';
 import React, { useMemo, useRef, useState } from 'react';
 import Authority from '../../Auth/Authority';
@@ -16,8 +16,9 @@ import Operation from './Operation';
 import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
-import { useSafeState, useUpdateEffect } from 'ahooks';
+import { useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import { useSize } from 'ahooks';
+import TotalSymmary, { digColumns } from './TotalSymmary';
 
 export type ExcelColumn = {
   text: string;
@@ -29,30 +30,47 @@ export type ExcelColumn = {
 };
 
 export type ExportExeclConfig = {
+  /** 除了表格列以外还需要导出的列 */
   excelColumn?: ExcelColumn[];
+  /** 文件名 */
   fileName: string;
+  /** 导出方法的请求参数 */
   queryParams?: any;
+  /** 导出按钮的文本 */
   btnText?: string;
 };
 export type GroupLabels = {
+  /** 远程请求的参数名 */
   queryDataIndex?: string;
+  /** 分组翻译 */
   dictType?: string;
+  /** 分组是否来自于远程 */
   remoted?: boolean;
+  /** 是否需要 '全部' 类型 */
   needAll?: boolean;
   list?: ListToolBarMenuItem[];
+  /** 默认选中 */
   defaultActiveKey?: string;
+  /** 选中 */
   active?: string;
+  /** 切换分组 */
   onActiveChange?: (avtive: string) => void;
 };
 
-export interface BsTableProps
-  extends Omit<ScTableProps<any>, 'toolbar' | 'request'> {
+export type BsTableProps = Omit<ScTableProps<any>, 'toolbar' | 'request'> & {
+  /** 工具栏 */
   toolbar?: any;
+  /** 表格请求 */
   request?: (params: any, options?: any) => Promise<any>;
+  /** 默认导出 */
   exportExeclConfig?: false | ExportExeclConfig;
   /** 是否显示右侧状态栏 */
   groupLabels?: false | GroupLabels;
-}
+  /** 是否需要统计栏 */
+  needRecordSummary?: boolean;
+  /** 统计然头部设定 */
+  TableSummaryFiexd?: boolean | 'top' | 'bottom';
+};
 export interface BsTableComponentProps {
   dataIndex?: string;
   rowData?: any;
@@ -63,6 +81,7 @@ const renderBadge = (count: number, active = false) => {
   return (
     <Badge
       count={count}
+      showZero
       style={{
         marginTop: -2,
         marginLeft: 4,
@@ -87,6 +106,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     params = {},
     saveRef,
     pagination,
+    needRecordSummary = false,
+    TableSummaryFiexd = 'top',
     ...restProps
   } = props;
 
@@ -146,10 +167,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   let defaultActiveKey = getDfaultActiveKey();
   const oldActiveKey = useRef<React.Key>(defaultActiveKey);
+  /** 状态切换的选中值 */
   const [activeKey, setActiveKey] = useSafeState<React.Key>(defaultActiveKey);
+  /** 分组数据 */
   const [groupLabelsMap, setGroupLabelsMap] = useState<Record<string, number>>(
     {}
   );
+  /** 统计栏数据 */
+  const [recordSummary, setRecordSummary] = useState<any[]>();
 
   useUpdateEffect(() => {
     if (groupLabelsProps && groupLabelsProps.active) {
@@ -158,15 +183,22 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   }, [groupLabelsProps && groupLabelsProps.active]);
 
   const actionRef = useRef<any>();
-
-
-  const request = restProps.request;
-
+  /** 远程请求 */
+  const request = useRequest(
+    restProps.request ||
+      new Promise((resolve) => {
+        resolve(null);
+      }),
+    {
+      manual: true,
+    }
+  );
+  /** 导出事件 */
   const onExportExecl = () => {
     if (exportExeclConfig !== false) {
       const execlParams = {
         columns: execlColumnsFormat(
-          columns,
+          props.columns || [],
           actionRef.current.columnsMap,
           exportExeclConfig
         ),
@@ -178,16 +210,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         },
         fileName: exportExeclConfig.fileName || Date.now() + '',
       };
-      request?.(execlParams, {
+      request.run(execlParams, {
         headers: {
           excelMeta: 1,
         },
       });
     }
   };
-
+  /** 导出按钮 */
   if (exportExeclConfig !== false) {
     toolbar.unshift({
+      loading: request.loading,
       text: exportExeclConfig.btnText || '导出execl',
       funcode: 'EXPORT',
       onClick: onExportExecl,
@@ -195,43 +228,36 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     });
   }
 
-
-
   let widthCount = 0;
   const columnsFormat = (list: any[], isChildren = false) => {
-
-
-
-    let hasAutoCol = false, hasOpCol = false;
+    let hasAutoCol = false,
+      hasOpCol = false;
     list.forEach((col: any, index: number) => {
       if (Array.isArray(col.children) && col.children.length > 0) {
         col.children = columnsFormat(col.children, true);
       }
 
-
-
       const list: any = getDistList({
         dictTypeCode: `${col.dataType || col.dataIndex}`,
       });
 
-      const title: string = col.title || "    "
-      const textWidth = (title.length * 18) + (col.sorter ? 18 : 0)
+      const title: string = col.title || '    ';
+      const textWidth = title.length * 18 + (col.sorter ? 18 : 0);
       if (!col.width) {
         col.width = 180;
       }
 
       if (col.width === 'auto') {
-        hasAutoCol = true
+        hasAutoCol = true;
       } else {
         if (col.width < textWidth) {
           col.width = textWidth;
         }
-        widthCount = widthCount + col.width
+        widthCount = widthCount + col.width;
       }
-      if (col.dataIndex === "_OperateKey") {
-        col.align = 'right'
-        hasOpCol = true
-
+      if (col.dataIndex === '_OperateKey') {
+        col.align = 'right';
+        hasOpCol = true;
       }
       if (list && !col.render) {
         col.render = (text: string) => {
@@ -253,17 +279,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
               : React.cloneElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              });
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                });
           return component;
         };
       } else if (list && col.render) {
@@ -298,10 +324,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     //       list.push(emptyCol)
     //     }
 
-
     //   }
     // }
-
 
     return list;
   };
@@ -318,7 +342,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       ...it,
     };
   });
-
+  /** 表格上方的工具栏 */
   let newToolBarRender: any;
 
   let rtoolBarRender: any = () => {
@@ -342,6 +366,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       newToolBarRender = rtoolBarRender;
     }
   }
+
   const dataLoad = (data: any) => {
     let newData = {};
     if (data) {
@@ -378,6 +403,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         groupLabels.onActiveChange?.(key);
         setActiveKey(key);
       }
+    }
+    if (needRecordSummary) {
+      setRecordSummary(data.recordSummary);
     }
     return newData;
   };
@@ -448,19 +476,22 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     }
     return void 0;
   };
-
+  /** 请求参数 */
   const newParams = useMemo(() => {
+    const rparams = params || {};
     if (groupLabels !== false) {
-      const rparams = params || {};
       rparams.needGroupLabel = true;
       rparams[groupLabels.queryDataIndex || ''] =
         activeKey !== 'all' ? activeKey : null;
-      return rparams;
-    } else {
-      return params;
     }
-  }, [params, activeKey, groupLabels]);
 
+    if (needRecordSummary) {
+      rparams.needRecordSummary = true;
+    }
+    return rparams;
+  }, [params, activeKey, groupLabels, needRecordSummary]);
+
+  /** 分页数据 */
   const newPagination = useMemo(() => {
     if (
       pagination !== false &&
@@ -480,6 +511,24 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     return pagination;
   }, [activeKey, pagination]);
 
+  const defaultSummary = useMemo(() => {
+    if (needRecordSummary) {
+      return {
+        sticky: true,
+        summary: () => (
+          <Table.Summary fixed={TableSummaryFiexd}>
+            <TotalSymmary
+              recordSummary={recordSummary}
+              columns={digColumns(columns)}
+            />
+          </Table.Summary>
+        ),
+      };
+    } else {
+      return {};
+    }
+  }, [needRecordSummary, recordSummary, TableSummaryFiexd]);
+
   return (
     <>
       <div className={'bs-table-list'} ref={ref}>
@@ -492,21 +541,15 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           toolBarRender={newToolBarRender}
           toolbar={getToolbarProps(activeKey, groupLabelsMap)}
           options={options}
-          // options={
-          //   options || {
-          //     reload: true,
-          //     setting: true,
-          //   }
-          // }
           saveRef={(action: any) => {
             if (saveRef) {
-              // @ts-ignore
               saveRef.current = action;
             }
             actionRef.current = action;
           }}
           params={newParams}
           pagination={newPagination}
+          {...defaultSummary}
           {...restProps}
         />
       </div>
@@ -515,13 +558,13 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-type BsTable = typeof BsTable;
-interface Table extends BsTable {
+type BsTableType = typeof BsTable;
+interface NewBsTableType extends BsTableType {
   Operation: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-const Table: Table = BsTable as Table;
-Table.Operation = Authority(Operation);
+const NewBsTable: NewBsTableType = BsTable as NewBsTableType;
+NewBsTable.Operation = Authority(Operation);
 
-export default Table;
+export default NewBsTable;

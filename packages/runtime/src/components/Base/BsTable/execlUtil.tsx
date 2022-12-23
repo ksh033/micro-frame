@@ -23,8 +23,28 @@ const execlColumnsFormat = (
         field: col.dataIndex,
         text: col.title,
       };
-      if (col.dataType && col.dataType === 'money') {
+      if (
+        col.dataType &&
+        (col.dataType === 'money' || col.dataType === 'unitprice')
+      ) {
         column.dataType = 'CURRENCY';
+      }
+      if (column.width != null) {
+        let width: number | null = null;
+        if (typeof column.width === 'string') {
+          if (column.width.indexOf('%') != -1) {
+            width = 180;
+          }
+          if (column.width.indexOf('px') != -1) {
+            width = column.width.replace('px', '');
+          }
+        }
+        if (typeof column.width === 'number') {
+          width = column.width;
+        }
+        if (width != null) {
+          column.width = width;
+        }
       }
       if (Array.isArray(exportExeclConfig.excelColumn)) {
         const item = exportExeclConfig.excelColumn.find(
@@ -46,6 +66,7 @@ const execlColumnsFormat = (
       return column;
     })
     .filter(Boolean);
+
   return newList;
 };
 
