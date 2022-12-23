@@ -52,10 +52,18 @@ const services = {
       url: '/base/api/brand/list/bysize',
       method: 'get',
     },
+
     locationAreaList: {
       url: '/wms/api/locationarea/belong',
       method: 'get',
     },
+    //单据关联页面服务接口
+    stockBusConfig: {
+      url: '/base/api/doc/page/ref/list',
+
+    }
+
+
   },
   user: {
     getPublicKey: {
