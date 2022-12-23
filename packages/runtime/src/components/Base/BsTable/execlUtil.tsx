@@ -19,14 +19,22 @@ const execlColumnsFormat = (
       if (config && config.show === false) {
         return false;
       }
+
       let column: any = {
         field: col.dataIndex,
         text: col.title,
+        width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
       };
       if (
         col.dataType &&
         (col.dataType === 'money' || col.dataType === 'unitprice')
       ) {
+        if (col.dataType === 'money') {
+          column.pattern = "#,##0.00"
+        }
+        if (col.dataType === 'unitprice') {
+          column.pattern = "#,##0.0000"
+        }
         column.dataType = 'CURRENCY';
       }
       if (column.width != null) {
@@ -38,12 +46,19 @@ const execlColumnsFormat = (
           if (column.width.indexOf('px') != -1) {
             width = column.width.replace('px', '');
           }
+          if (column.width === "auto") {
+            width = 180;
+          }
         }
+
         if (typeof column.width === 'number') {
           width = column.width;
         }
         if (width != null) {
-          column.width = width;
+          column.width = ((width - 5) / 6);
+          if (column.width > 255) {
+            column.width = 255
+          }
         }
       }
       if (Array.isArray(exportExeclConfig.excelColumn)) {
