@@ -79,6 +79,11 @@ export default function useStockBusDocUrl() {
   const StockBusDocLink = (props: { value: any, record: any, filedName: string }) => {
     const { value, record, filedName } = props
     const bizDocTypeCode = record[filedName];
+    if (!value) {
+
+      return null;
+    }
+
 
     const [url, setUrl] = useSafeState('');
     const getBusDocUrl = (bizDocTypeCode: string) => {
