@@ -82,8 +82,14 @@ const MultipleUpload: React.FC<MultipleUpload> = (props: MultipleUpload) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useLayoutEffect(() => {
-    if (Array.isArray(value) && fileList.length === 0) {
-      setFileList(formatList(value));
+    //&& fileList.length === 0不
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        setFileList([])
+      } else {
+        setFileList(formatList(value));
+      }
+
     }
   }, [JSON.stringify(value)]);
 

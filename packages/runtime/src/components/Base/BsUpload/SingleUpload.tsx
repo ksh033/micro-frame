@@ -85,27 +85,34 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   const [loading, setLoading] = useState<boolean>(false);
 
   const fileFormat = (itfile: any) => {
-    if (typeof itfile === 'string') {
-      setFile({
-        uid: '1',
-        url: imageUrl(itfile) || '',
-        status: 'done',
-        name: getFileName(itfile),
-      });
+    if (!itfile) {
+      setFile(void 0)
+
     } else {
-      setFile({
-        uid: '1',
-        url: imageUrl(itfile.url || itfile.fileUrl) || '',
-        name: itfile.fileName || '',
-        status: 'done',
-      });
+      if (typeof itfile === 'string') {
+        setFile({
+          uid: '1',
+          url: imageUrl(itfile) || '',
+          status: 'done',
+          name: getFileName(itfile),
+        });
+      } else {
+        setFile({
+          uid: '1',
+          url: imageUrl(itfile.url || itfile.fileUrl) || '',
+          name: itfile.fileName || '',
+          status: 'done',
+        });
+      }
     }
+
   };
 
   useEffect(() => {
-    if (value != null && file == null) {
-      fileFormat(value);
-    }
+    // && file == null
+    //if (value != null) {
+    fileFormat(value);
+    //}
   }, [JSON.stringify(value)]);
 
   const handleChange = async ({ file }: any) => {
@@ -210,6 +217,9 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   );
 
   const iconRender = (file: UploadFile<any>) => {
+    if (!file) {
+      return null
+    }
     if (file.status === 'uploading') {
       return (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
