@@ -44,8 +44,11 @@ const TotalSymmary: React.FC<TotalSymmaryProps> = (props) => {
 
   return (
     <>
-      {Array.isArray(recordSummary) &&
+      {recordSummary && Array.isArray(recordSummary) &&
         recordSummary.map((totalData: any, idx) => {
+          if (!totalData) {
+            return null
+          }
           return (
             <Table.Summary.Row key={`summary-${idx}`}>
               {columns.map((item, index) => {
