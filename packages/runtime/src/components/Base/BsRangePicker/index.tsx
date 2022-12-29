@@ -15,6 +15,16 @@ function disabledDate(current: any) {
   return current && current <= moment(new Date()).add(-1, 'days');
 }
 
+
+const RangePresetsTypeMap = {
+  'preset1': {
+    "当日": [moment(), moment()],
+    "昨日": [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+    "本月": [moment().startOf('month'), moment().endOf('month')],
+    "上月": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  }
+
+}
 export type BsRangePickerProps = FormComponentProps &
   RangePickerProps & {
     format?: string;
@@ -25,6 +35,8 @@ export type BsRangePickerProps = FormComponentProps &
     rulesRequire?: boolean;
     disabled?: boolean;
     disabledToday?: boolean;
+    //预设类型
+    presetType?: keyof typeof RangePresetsTypeMap
   };
 
 const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
@@ -43,12 +55,20 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     rulesRequire = false,
     placeholder,
     onChange,
+    ranges,
+    presetType,
     ...resProps
   } = props;
 
   const cformat = format || (showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
   const [currentValue, setCurrentValue] = useState<any>();
 
+  let temranges: any = ranges;
+
+  if (!temranges && presetType) {
+
+    temranges = RangePresetsTypeMap[presetType]
+  }
   if (disabledToday === true) {
     resProps.disabledDate = disabledDate;
   }
@@ -157,18 +177,19 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
   const newProps = useMemo(() => {
     return {
       ...resProps,
+      ranges: temranges,
       showTime:
         typeof showTime === 'object' && showTime !== null
           ? showTime
           : typeof showTime === 'boolean' && showTime
-          ? {
+            ? {
               hideDisabledOptions: true,
               defaultValue: [
                 moment('00:00:00', 'HH:mm:ss'),
                 moment('23:59:59', 'HH:mm:ss'),
               ],
             }
-          : false,
+            : false,
     };
   }, [resProps, JSON.stringify(showTime)]);
 
@@ -192,11 +213,11 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
           rules={
             rulesRequire === true
               ? [
-                  {
-                    required: true,
-                    message: '请选择',
-                  },
-                ]
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]
               : undefined
           }
         >
