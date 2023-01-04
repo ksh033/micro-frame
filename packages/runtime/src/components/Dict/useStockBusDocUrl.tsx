@@ -68,7 +68,7 @@ export default function useStockBusDocUrl() {
       setModelState(data)
     })
   }, [])
-  const [state, setState] = useSafeState(stockBusDocUrl);
+  const [state, setState] = useSafeState(null);
   setModelState = (val: any) => {
 
     setState(val);
@@ -88,12 +88,16 @@ export default function useStockBusDocUrl() {
     const [url, setUrl] = useSafeState('');
     const getBusDocUrl = (bizDocTypeCode: string) => {
 
+
+      // console.log(bizDocTypeCode)
+      // console.log("record", record)
+      // console.log(`filedName=${filedName}`, record[filedName])
       let url = "";
       if (bizDocTypeCode && state) {
 
         const item: StockBusDoc = state[bizDocTypeCode];
 
-        if (item) {
+        if (item && item.pageUrl) {
 
           url = `${item.pageUrl}?${item.queryField}=${value}`
 
@@ -106,10 +110,10 @@ export default function useStockBusDocUrl() {
     }
     useEffect(() => {
 
-      const url = getBusDocUrl(bizDocTypeCode)
 
+      const url = getBusDocUrl(bizDocTypeCode)
       setUrl(url)
-    }, [state])
+    }, [state, value])
     return bizDocTypeCode && url ? <a onClick={() => {
 
       openWindow(url)
@@ -120,6 +124,7 @@ export default function useStockBusDocUrl() {
 
 
   const renderStockLink = (v, record) => {
+
 
     return <StockBusDocLink value={v} record={record} filedName="relateDocType"></StockBusDocLink>
   }
