@@ -99,7 +99,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     data,
     toolBarRender,
     onLoad,
-    scroll,
+    scroll = { x: 'max-content' },
     options,
     exportExeclConfig = false,
     groupLabels: groupLabelsProps = false,
@@ -113,7 +113,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   const { getDistList, getDictText } = userDictModel();
   const ref = useRef(null);
-  const size = useSize(ref);
+
   // 默认的tab切换配置
   const defaultLabelsProps = {
     needAll: true,
@@ -186,9 +186,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   /** 远程请求 */
   const request = useRequest(
     restProps.request ||
-      new Promise((resolve) => {
-        resolve(null);
-      }),
+    new Promise((resolve) => {
+      resolve(null);
+    }),
     {
       manual: true,
     }
@@ -283,17 +283,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === 'function'
               ? React.createElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              })
               : React.cloneElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                });
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              });
           return component;
         };
       } else if (list && col.render) {
@@ -533,11 +533,12 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     }
   }, [needRecordSummary, recordSummary, TableSummaryFiexd]);
 
+
   return (
     <>
-      <div className={'bs-table-list'} ref={ref}>
+      <div className={'bs-table-list'} style={{ width: '100%' }} ref={ref}>
         <ScTable
-          scroll={{ ...scroll, x: scroll ? scroll.x : size.width }}
+          scroll={{ ...scroll }}
           size="small"
           onLoad={dataLoad}
           data={data}
