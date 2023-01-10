@@ -20,10 +20,12 @@ export function digColumns(columns: ScProColumn<any>): SymmaryProColumnType[] {
   if (Array.isArray(columns)) {
     columns.forEach((it) => {
       const item = it as ScProColumnGroupType<any>;
-      if (Array.isArray(item.children)) {
-        list.concat(digColumns(item.children));
-      } else {
-        list.push(item);
+      if (!item.hidden) {
+        if (Array.isArray(item.children)) {
+          list.concat(digColumns(item.children));
+        } else {
+          list.push(item);
+        }
       }
     });
   }
