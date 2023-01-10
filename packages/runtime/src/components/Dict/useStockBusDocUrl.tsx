@@ -76,8 +76,8 @@ export default function useStockBusDocUrl() {
 
 
 
-  const StockBusDocLink = (props: { value: any, record: any, filedName: string }) => {
-    const { value, record, filedName } = props
+  const StockBusDocLink = (props: { value: any, record: any, filedName: string, codeName: string }) => {
+    const { value, record, filedName, codeName } = props
     const bizDocTypeCode = record[filedName];
     if (!value) {
 
@@ -98,9 +98,11 @@ export default function useStockBusDocUrl() {
         const item: StockBusDoc = state[bizDocTypeCode];
 
         if (item && item.pageUrl) {
-
-          url = `${item.pageUrl}?${item.queryField}=${value}`
-
+          if (codeName) {
+            url = `${item.pageUrl}?${item.queryField}=${record[codeName]}`
+          } else {
+            url = `${item.pageUrl}?${item.queryField}=${value}`
+          }
         }
 
       }
@@ -123,10 +125,10 @@ export default function useStockBusDocUrl() {
   }
 
 
-  const renderStockLink = (v, record) => {
+  const renderStockLink = (v, record, codeName = '') => {
 
 
-    return <StockBusDocLink value={v} record={record} filedName="relateDocType"></StockBusDocLink>
+    return <StockBusDocLink value={v} record={record} filedName="relateDocType" codeName={codeName}></StockBusDocLink>
   }
   return { StockBusDocLink, renderStockLink }
 }
