@@ -47,7 +47,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     returnType = 'string',
     startTimeFiled = 'startTime',
     endTimeFiled = 'endTime',
-    showTime = true,
+    showTime = format && format == "YYYY-MM-DD" ? false : true,
     disabledToday = false,
     form,
     readonly,
