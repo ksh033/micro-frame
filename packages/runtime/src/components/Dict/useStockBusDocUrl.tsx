@@ -76,8 +76,8 @@ export default function useStockBusDocUrl() {
 
 
 
-  const StockBusDocLink = (props: { value: any, record: any, filedName: string, codeName: string }) => {
-    const { value, record, filedName, codeName } = props
+  const StockBusDocLink = (props: { value: any, record: any, filedName: string, valueFieldName: string }) => {
+    const { value, record, filedName, valueFieldName } = props
     const bizDocTypeCode = record[filedName];
     if (!value) {
 
@@ -98,8 +98,8 @@ export default function useStockBusDocUrl() {
         const item: StockBusDoc = state[bizDocTypeCode];
 
         if (item && item.pageUrl) {
-          if (codeName) {
-            url = `${item.pageUrl}?${item.queryField}=${record[codeName]}`
+          if (valueFieldName) {
+            url = `${item.pageUrl}?${item.queryField}=${record[valueFieldName]}`
           } else {
             url = `${item.pageUrl}?${item.queryField}=${value}`
           }
@@ -115,7 +115,7 @@ export default function useStockBusDocUrl() {
 
       const url = getBusDocUrl(bizDocTypeCode)
       setUrl(url)
-    }, [state, value])
+    }, [state, value, valueFieldName])
     return bizDocTypeCode && url ? <a onClick={() => {
 
       openWindow(url)
@@ -125,10 +125,10 @@ export default function useStockBusDocUrl() {
   }
 
 
-  const renderStockLink = (v, record, index, codeName = '') => {
+  const renderStockLink = (v, record, index, valueFieldName = '') => {
 
 
-    return <StockBusDocLink value={v} record={record} filedName="relateDocType" codeName={codeName}></StockBusDocLink>
+    return <StockBusDocLink value={v} record={record} filedName="relateDocType" valueFieldName={valueFieldName}></StockBusDocLink>
   }
   return { StockBusDocLink, renderStockLink }
 }
