@@ -125,7 +125,7 @@ export default function useStockBusDocUrl() {
   }
 
 
-  const renderStockLink = (v, record, codeName = '') => {
+  const renderStockLink = (v, record, index, codeName = '') => {
 
 
     return <StockBusDocLink value={v} record={record} filedName="relateDocType" codeName={codeName}></StockBusDocLink>
