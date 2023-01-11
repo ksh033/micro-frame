@@ -223,7 +223,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     newToolbar = [
       {
         loading: request.loading,
-        text: exportExeclConfig.btnText || '导出execl',
+        text: exportExeclConfig.btnText || '导出excel',
         funcode: 'EXPORT',
         onClick: onExportExecl,
         type: 'primary',
