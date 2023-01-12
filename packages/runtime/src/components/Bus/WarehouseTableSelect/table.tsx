@@ -20,6 +20,7 @@ const Table: React.FC<any> = (props: any) => {
     selectedRowKeys,
     rowSelection,
     needAll = true,
+    params
   } = pageProps;
   const { run } = uesRequest('system', 'warehouse');
 
@@ -40,10 +41,10 @@ const Table: React.FC<any> = (props: any) => {
     })
     .toConfig();
 
-  const params = useMemo(() => {
+  const nParams = useMemo(() => {
     return {
       needAll,
-      enabled: true,
+      ...params,
       ...pageInfo.params,
     };
   }, [JSON.stringify(pageInfo.params)]);
@@ -62,7 +63,7 @@ const Table: React.FC<any> = (props: any) => {
         request={run}
         onSelectRow={onTabelRow}
         selectedRowKeys={selectedRowKeys}
-        params={params}
+        params={nParams}
         scroll={{ y: 240 }}
       />
     </div>

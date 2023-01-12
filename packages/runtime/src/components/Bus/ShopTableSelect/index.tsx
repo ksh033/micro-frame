@@ -19,6 +19,7 @@ interface TableSelectProps extends FormComponentProps {
   textField?: any;
   disabled?: boolean;
   valueField?: string;
+  params?: any;
   getCheckboxProps?: (
     record: any
   ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>;
@@ -38,6 +39,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     valueField = 'shopId',
     readonly,
     form,
+    params,
     getCheckboxProps = () => {
       return { disabled: false };
     },
@@ -83,6 +85,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
       width: '1200px',
       content: TableModal,
       pageProps: {
+        params,
         onTabelRow,
         selectionType,
         rowKey: valueField,

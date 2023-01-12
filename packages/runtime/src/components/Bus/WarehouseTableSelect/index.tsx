@@ -21,6 +21,7 @@ interface TableSelectProps extends FormComponentProps {
   valueField?: string;
   rowSelection?: TableRowSelection<any>;
   needAll?: boolean; // 是否需要查询组织底下所有仓库
+  params?: any;
 }
 
 const WarehouseTableSelect: FormComponent<TableSelectProps> = (
@@ -39,6 +40,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
     readonly,
     form,
     needAll = true,
+    params,
     ...resProps
   } = props;
 
@@ -81,6 +83,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
       width: '1200px',
       content: TableModal,
       pageProps: {
+        params,
         rowSelection,
         onTabelRow,
         selectionType,

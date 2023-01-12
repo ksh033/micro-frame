@@ -19,6 +19,7 @@ const Table = (props: any) => {
     rowKey,
     selectedRowKeys,
     getCheckboxProps,
+    params
   } = pageProps;
 
   const { run } = uesRequest('system', 'shop');
@@ -59,9 +60,9 @@ const Table = (props: any) => {
       },
     })
     .toConfig();
-  const params = useMemo(() => {
+  const nParams = useMemo(() => {
     return {
-      enabled: true,
+      ...params,
       ...pageInfo.params
     };
   }, [JSON.stringify(pageInfo.params)]);
@@ -81,7 +82,7 @@ const Table = (props: any) => {
         request={run}
         onSelectRow={onTabelRow}
         selectedRowKeys={selectedRowKeys}
-        params={params}
+        params={nParams}
         scroll={{ y: 240 }}
       />
     </div>
