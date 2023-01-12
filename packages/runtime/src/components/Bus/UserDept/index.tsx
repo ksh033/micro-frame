@@ -18,6 +18,7 @@ export interface UserDeptProp extends ScSelectProps, FormComponentProps {
     | 'SUPPLY_CHAIN_COMPANY'
     | 'SUPPLY_SUBCOMPANY'
     | 'SHOP'
+    | 'WAREHOUSE'
   )[]; // 集团底下要查询哪个组织机构
 }
 
@@ -54,7 +55,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       if (
         bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
         bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-        bizDeptType === 'SUPPLY_SUBCOMPANY'
+        bizDeptType === 'SUPPLY_SUBCOMPANY' ||
+        bizDeptType === 'WAREHOUSE'
       ) {
         onChange?.(
           labelInValue
@@ -139,7 +141,8 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         } else if (
           bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
           bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-          bizDeptType === 'SUPPLY_SUBCOMPANY'
+          bizDeptType === 'SUPPLY_SUBCOMPANY' ||
+          bizDeptType === 'WAREHOUSE'
         ) {
           deptList.current = [
             {
