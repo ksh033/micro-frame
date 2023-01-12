@@ -34,9 +34,8 @@ const Table: React.FC<any> = (props: any) => {
         const provinceName = record.provinceName || '';
         const cityName = record.cityName || '';
         const districtName = record.districtName || '';
-        return `${provinceName}${cityName}${districtName}${
-          record.detailAddress || ''
-        }`;
+        return `${provinceName}${cityName}${districtName}${record.detailAddress || ''
+          }`;
       },
     })
     .toConfig();
@@ -44,6 +43,7 @@ const Table: React.FC<any> = (props: any) => {
   const params = useMemo(() => {
     return {
       needAll,
+      enabled: true,
       ...pageInfo.params,
     };
   }, [JSON.stringify(pageInfo.params)]);

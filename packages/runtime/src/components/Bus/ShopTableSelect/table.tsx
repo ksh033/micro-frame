@@ -47,10 +47,10 @@ const Table = (props: any) => {
         const rlist = record.shopBusinessList;
         let str = Array.isArray(rlist)
           ? rlist
-              .map((item) => {
-                return shopBusinessMap.get(item);
-              })
-              .join('，')
+            .map((item) => {
+              return shopBusinessMap.get(item);
+            })
+            .join('，')
           : '--';
         if (str === '') {
           str = '--';
@@ -60,7 +60,10 @@ const Table = (props: any) => {
     })
     .toConfig();
   const params = useMemo(() => {
-    return pageInfo.params;
+    return {
+      enabled: true,
+      ...pageInfo.params
+    };
   }, [JSON.stringify(pageInfo.params)]);
   return (
     <div style={{ padding: '20px' }}>
