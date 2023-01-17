@@ -1,4 +1,6 @@
 import { genColumnKey } from '@scboson/sc-element/es/sc-table/utils';
+import { ProColumn } from '@scboson/sc-schema/es/interface';
+
 import { ExportExeclConfig } from './index';
 
 const execlColumnsFormat = (
@@ -7,24 +9,37 @@ const execlColumnsFormat = (
   exportExeclConfig: ExportExeclConfig
 ) => {
   const newList = list
-    .map((col: any, index: number) => {
-      if (col.dataIndex.startsWith('_')) {
-        return false;
-      }
+    .map((col: ProColumn, index: number) => {
       const columnKey = genColumnKey(col.dataIndex, index);
+
+
       const config = map[columnKey];
-      if (config == null) {
+
+
+      if (col.exportConfig && col.exportConfig?.export === false) {
         return false;
       }
+      // if (config == null) {
+      //   return false;
+      // }
       if (config && config.show === false) {
         return false;
       }
+      let column: any = {}
+      if (col.exportConfig) {
+        column = {
+          field: col.exportConfig.dataIndex || col.dataIndex,
+          text: col.exportConfig.name || col.title,
+          width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
+        };
+      } else {
+        column = {
+          field: col.dataIndex,
+          text: col.title,
+          width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
+        };
+      }
 
-      let column: any = {
-        field: col.dataIndex,
-        text: col.title,
-        width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
-      };
       if (
         col.dataType &&
         (col.dataType === 'money' || col.dataType === 'unitprice')
@@ -69,15 +84,14 @@ const execlColumnsFormat = (
           column = Object.assign({}, column, item);
         }
       }
-
       if (Array.isArray(col.children) && col.children.length > 0) {
         column.children = execlColumnsFormat(
           col.children,
           map,
           exportExeclConfig
         );
-      }
 
+      }
       return column;
     })
     .filter(Boolean);

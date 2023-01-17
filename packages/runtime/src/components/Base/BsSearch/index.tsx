@@ -10,16 +10,16 @@ const BsSearch = (props: any) => {
 
   return (
     <>
-      {hasToolBar ? (
+      {/* {hasToolBar ? (
         <div className={styles['bs-search-toolbar']}>
           <ToolBar
             buttons={toolbar}
             className={styles['bs-table-toolbar-btn']}
           ></ToolBar>
         </div>
-      ) : null}
+      ) : null} */}
       <div className={styles['bs-supplier-search']}>
-        <ScSearchBar {...resProps}></ScSearchBar>
+        <ScSearchBar {...resProps} toolbar={toolbar}></ScSearchBar>
       </div>
     </>
   );
