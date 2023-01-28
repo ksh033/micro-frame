@@ -11,12 +11,8 @@ const execlColumnsFormat = (
   const newList = list
     .map((col: ProColumn, index: number) => {
       const columnKey = genColumnKey(col.dataIndex, index);
-
-
       const config = map[columnKey];
-
-
-      if (col.exportConfig && col.exportConfig?.export === false) {
+      if (col.exportConfig === false) {
         return false;
       }
       // if (config == null) {
@@ -27,11 +23,19 @@ const execlColumnsFormat = (
       }
       let column: any = {}
       if (col.exportConfig) {
-        column = {
-          field: col.exportConfig.dataIndex || col.dataIndex,
-          text: col.exportConfig.name || col.title,
-          width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
-        };
+        if (typeof col.exportConfig === 'boolean') {
+          column = {
+            field: col.dataIndex,
+            text: col.title,
+            width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
+          };
+        } else {
+          column = {
+            field: col.exportConfig.dataIndex || col.dataIndex,
+            text: col.exportConfig.name || col.title,
+            width: col.width//((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
+          };
+        }
       } else {
         column = {
           field: col.dataIndex,
