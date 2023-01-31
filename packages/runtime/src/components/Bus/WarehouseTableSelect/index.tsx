@@ -22,6 +22,7 @@ interface TableSelectProps extends FormComponentProps {
   rowSelection?: TableRowSelection<any>;
   needAll?: boolean; // 是否需要查询组织底下所有仓库
   params?: any;
+  disableSelect?: boolean
 }
 
 const WarehouseTableSelect: FormComponent<TableSelectProps> = (
@@ -41,6 +42,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
     form,
     needAll = true,
     params,
+    disableSelect = false,
     ...resProps
   } = props;
 
@@ -89,6 +91,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         selectionType,
         needAll,
         rowKey: valueField,
+        disableSelect,
         ...stateRef.current,
       },
       onOk: async () => {

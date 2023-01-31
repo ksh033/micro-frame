@@ -21,7 +21,8 @@ const Table: React.FC<any> = (props: any) => {
     selectedRowKeys,
     rowSelection,
     needAll = true,
-    params
+    params,
+    disableSelect
   } = pageProps;
   const { run } = uesRequest('system', 'warehouse');
 
@@ -67,7 +68,7 @@ const Table: React.FC<any> = (props: any) => {
           type: selectionType,
           ...(rowSelection || {}),
           getCheckboxProps: (record: any) => ({
-            disabled: record.enabled === false, // Column configuration not to be checked
+            disabled: record.enabled === false && disableSelect === false, // Column configuration not to be checked
             // name: record.name,
           }),
         }}
