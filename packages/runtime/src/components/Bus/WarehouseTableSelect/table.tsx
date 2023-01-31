@@ -54,6 +54,12 @@ const Table: React.FC<any> = (props: any) => {
   const nParams = useMemo(() => {
     return {
       needAll,
+      orders: [
+        {
+          "asc": false,
+          "column": "enabled"
+        }
+      ],
       ...params,
       ...pageInfo.params,
     };

@@ -71,6 +71,12 @@ const Table = (props: any) => {
     .toConfig();
   const nParams = useMemo(() => {
     return {
+      orders: [
+        {
+          "asc": false,
+          "column": "enabled"
+        }
+      ],
       ...params,
       ...pageInfo.params
     };
