@@ -7,6 +7,7 @@ import type { PageConfig } from '@scboson/sc-schema';
 import { useListPageContext } from '@scboson/sc-schema';
 import { ListPage } from '@scboson/sc-schema';
 import userDictModel from '../../../components/Dict/userDictModel';
+import { Tag } from 'antd';
 
 const pagaConfig: PageConfig = {
   ...list,
@@ -43,6 +44,14 @@ const Table = (props: any) => {
 
   const pageInfo: any = page
     .getTable()
+    .changeCol('shopName', {
+      render(val: any, record: any) {
+        if (record.enabled) {
+          return val
+        }
+        return <>{val}<Tag color='red'>暂停营业</Tag></>
+      }
+    })
     .changeCol('shopBusiness', {
       render: (text: string, record: any) => {
         const rlist = record.shopBusinessList;
@@ -75,7 +84,10 @@ const Table = (props: any) => {
         checkbox
         rowSelection={{
           type: selectionType,
-          getCheckboxProps: getCheckboxProps,
+          getCheckboxProps: getCheckboxProps ? getCheckboxProps : (record: any) => ({
+            disabled: record.enabled === false, // Column configuration not to be checked
+            // name: record.name,
+          }),
         }}
         autoload
         rowKey={rowKey}

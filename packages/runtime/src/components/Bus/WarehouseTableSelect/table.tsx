@@ -6,6 +6,7 @@ import list from './list';
 import type { PageConfig } from '@scboson/sc-schema';
 import { useListPageContext } from '@scboson/sc-schema';
 import { ListPage } from '@scboson/sc-schema';
+import { Tag } from 'antd';
 
 const pagaConfig: PageConfig = {
   ...list,
@@ -30,6 +31,14 @@ const Table: React.FC<any> = (props: any) => {
 
   const pageInfo: any = page
     .getTable()
+    .changeCol('warehouseName', {
+      render(val: any, record: any) {
+        if (record.enabled) {
+          return val
+        }
+        return <>{val}<Tag color='red'>已停用</Tag></>
+      }
+    })
     .changeCol('detailAddress', {
       render: (text: string, record: any) => {
         const provinceName = record.provinceName || '';
@@ -57,6 +66,10 @@ const Table: React.FC<any> = (props: any) => {
         rowSelection={{
           type: selectionType,
           ...(rowSelection || {}),
+          getCheckboxProps: (record: any) => ({
+            disabled: record.enabled === false, // Column configuration not to be checked
+            // name: record.name,
+          }),
         }}
         autoload
         rowKey={rowKey}

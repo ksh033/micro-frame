@@ -440,7 +440,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
             label: (
               <span>
                 {text}
-                {renderBadge(map[key] || 0, _activeKey === key)}
+                {map[key] !== null && renderBadge(map[key] || 0, _activeKey === key)}
               </span>
             ),
           });
