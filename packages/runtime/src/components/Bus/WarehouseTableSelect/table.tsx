@@ -74,10 +74,11 @@ const Table: React.FC<any> = (props: any) => {
         checkbox
         rowSelection={{
           type: selectionType,
-          ...(rowSelection || {}),
-          getCheckboxProps: (record: any) => ({
-            disabled: record.enabled === false && disableSelect === false, // Column configuration not to be checked
-            // name: record.name,
+          ...(rowSelection || {
+            getCheckboxProps: (record: any) => ({
+              disabled: record.enabled === false && disableSelect === false, // Column configuration not to be checked
+              // name: record.name,
+            }),
           }),
         }}
         autoload
