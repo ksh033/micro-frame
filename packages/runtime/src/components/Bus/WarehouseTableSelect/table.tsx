@@ -52,7 +52,11 @@ const Table: React.FC<any> = (props: any) => {
     .toConfig();
 
   const nParams = useMemo(() => {
+    console.log(pageInfo.params);
+
     return {
+      ...params,
+      ...pageInfo.params,
       needAll,
       orders: [
         {
@@ -60,8 +64,6 @@ const Table: React.FC<any> = (props: any) => {
           "column": "enabled"
         }
       ],
-      ...params,
-      ...pageInfo.params,
     };
   }, [JSON.stringify(pageInfo.params)]);
   return (

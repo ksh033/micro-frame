@@ -40,9 +40,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
     readonly,
     form,
     params,
-    getCheckboxProps = () => {
-      return { disabled: false };
-    },
+    getCheckboxProps,
     ...resProps
   } = props;
 

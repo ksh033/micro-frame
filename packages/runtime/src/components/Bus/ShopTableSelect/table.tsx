@@ -49,7 +49,7 @@ const Table = (props: any) => {
         if (record.enabled) {
           return val
         }
-        return <>{val}<Tag color='red'>暂停营业</Tag></>
+        return <>{val}<Tag color='red'>已关店</Tag></>
       }
     })
     .changeCol('shopBusiness', {
@@ -71,14 +71,14 @@ const Table = (props: any) => {
     .toConfig();
   const nParams = useMemo(() => {
     return {
+      ...params,
+      ...pageInfo.params,
       orders: [
         {
           "asc": false,
           "column": "enabled"
         }
       ],
-      ...params,
-      ...pageInfo.params
     };
   }, [JSON.stringify(pageInfo.params)]);
   return (
