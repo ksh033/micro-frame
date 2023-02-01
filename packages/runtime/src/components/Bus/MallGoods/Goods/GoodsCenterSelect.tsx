@@ -27,7 +27,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     params?: any;
     rowKey?: string;
     onSubmitGoods?: (
-      goodsList: { goodsId: string; goodsName: string; [key: string]: any }[],
+      goodsList: { goodsId: string; goodsName: string;[key: string]: any }[],
       buttonIndex?: string,
       clearRows?: () => void
     ) => void;
@@ -116,7 +116,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
               }
             }}
             loadedKeys={[]}
-            autoload={false}
+            autoload={true}
           />
         </ScCard>
         <ScCard bodyStyle={{ padding: '0px' }} style={{ height: '100%' }}>
@@ -169,8 +169,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
                       onClick={() => {
                         const rows = rightSelectedRows
                           ? rightSelectedRows?.filter(
-                              (item: any) => item[rowKey] != id
-                            )
+                            (item: any) => item[rowKey] != id
+                          )
                           : [];
                         setRightSelectRows(rows);
                         const keys = rows
@@ -226,20 +226,20 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
 
   const toolbar: any = modalProps?.customToolbar
     ? modalProps?.customToolbar.map(({ onClick, ...restProps }, index) => {
-        return (
-          <ActionButton
-            key={`extra-btn-${index}`}
-            actionFn={() => {
-              onClick && onClick();
-              return customOnOk('button' + index);
-            }}
-            closeModal={close}
-            buttonProps={restProps.buttonProps}
-          >
-            {restProps.text}
-          </ActionButton>
-        );
-      })
+      return (
+        <ActionButton
+          key={`extra-btn-${index}`}
+          actionFn={() => {
+            onClick && onClick();
+            return customOnOk('button' + index);
+          }}
+          closeModal={close}
+          buttonProps={restProps.buttonProps}
+        >
+          {restProps.text}
+        </ActionButton>
+      );
+    })
     : [];
 
   const showDlg = async () => {
