@@ -6,6 +6,8 @@ export const baseUrl = SC_GLOBAL_IMG_URL || 'https://testepay.bstj.com/bg/img';
 // @ts-ignore
 export const baseApi = SC_GLOBAL_API_URL || '/api';
 
+export const amapkey = '45765f3ea9fb657b7dc2244a41ef64b7';
+
 export function imageUrl(url: string) {
   const str = RegExp('http');
   let newUrl: string | null = null;

@@ -8,9 +8,10 @@ import { CModal } from '@scboson/sc-element';
 import { useFullscreen, useMap, useSetState, useUpdateEffect } from 'ahooks';
 import { Button, Input } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Map, Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
+import { Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
 import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
 import compute from '../../../utils/compute';
+import ReactAmapMap from '../ReactAmapMap';
 import styles from './index.less';
 
 const colorList = [
@@ -317,11 +318,11 @@ export default (props: RailProps) => {
       const active = state.active === item[0];
       const oitem: any = overlaysMap.get(item[0]);
       let _style = {};
-      if(oitem){
+      if (oitem) {
         _style = {
           backgroundColor: colorRgba(oitem.color, 0.4),
           border: `1px solid ${oitem.color}`,
-        }
+        };
       }
       const mainStyle = active
         ? {
@@ -365,7 +366,12 @@ export default (props: RailProps) => {
 
   return (
     <div className={styles['rail-map']} ref={fullRef}>
-      <Map center={mapCenter} events={mapEvents} zoom={13} plugins={mapPlugins}>
+      <ReactAmapMap
+        center={mapCenter}
+        events={mapEvents}
+        zoom={13}
+        plugins={mapPlugins}
+      >
         {getPolyEditor()}
         <Marker
           position={{
@@ -373,7 +379,7 @@ export default (props: RailProps) => {
             latitude: initMarker.py,
           }}
         />
-      </Map>
+      </ReactAmapMap>
       <div className={styles['rail-content']}>
         <div className={styles['rail-card-list']}>{getCardList()}</div>
         <div className={styles['rail-add']}>
