@@ -117,7 +117,6 @@ export default function useStockBusDocUrl() {
       setUrl(url)
     }, [state, value, valueFieldName])
     return bizDocTypeCode && url ? <a onClick={() => {
-
       openWindow(url)
     }}>{value}</a> : value
 

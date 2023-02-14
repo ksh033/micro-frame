@@ -30,13 +30,13 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
 
   const baseColumns = [
     {
-      title: "货品编码",
+      title: "商品编码",
       dataIndex: "cargoCode",
       key: "cargoCode",
       width: 100,
     },
     {
-      title: "货品名称",
+      title: "商品名称",
       dataIndex: "cargoName",
       width: 150,
     },
@@ -94,7 +94,7 @@ const CargoTableFooterSelect: FC<CargoTableFooterSelectProps> = (props) => {
       textField="cargoName"
       searchField={searchField}
       allowClear
-      placeholder="请选择/请输入货品名称"
+      placeholder="请选择/请输入商品名称"
       style={{ width: "400px" }}
       dropdownStyle={{ minWidth: "580px" }}
       dropdownRenderProps={{

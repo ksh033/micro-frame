@@ -3,23 +3,23 @@ import type { PageConfig } from '@scboson/sc-schema'
 const pageConfig: PageConfig = {
   queryConfig: [
     {
-      label: '货品查询',
+      label: '商品查询',
       name: 'cargoCodeName',
       component: 'Input',
       props: {
-        placeholder: '请输入货品名称/编码',
+        placeholder: '请输入商品名称/编码',
       },
     },
   ],
   tableConfig: [
     {
-      title: '货品编码',
+      title: '商品编码',
       dataIndex: 'cargoCode',
       key: 'cargoCode',
       width: 100,
     },
     {
-      title: '货品名称',
+      title: '商品名称',
       dataIndex: 'cargoName',
       component: 'FieldImageName',
       props: {

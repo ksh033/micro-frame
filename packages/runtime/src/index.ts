@@ -34,7 +34,7 @@ import {
 import { setFuncodes } from '@scboson/sc-schema';
 import createWxLoginQr from './wxConfig';
 
-const { openWindow, ...Auth } = AllAuth;
+const { openWindow, getBizDeptInfo, ...Auth } = AllAuth;
 
 const AppStart = { onRouteChange, render, patchRoutes };
 setFuncodes({
@@ -77,6 +77,7 @@ export {
   getFunCodeAuth,
   Loading,
   openWindow,
+  getBizDeptInfo,
   createWxLoginQr,
   NoMenuLayout,
   RetrievePassword,

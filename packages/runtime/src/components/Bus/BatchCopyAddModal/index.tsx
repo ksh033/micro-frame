@@ -28,11 +28,11 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     params = {},
     addList,
     warning = '请在下方粘贴从excel复制的信息',
-    title = '批量添加货品',
+    title = '批量添加商品',
     listValueFiled = 'cargoCodeList',
     quantityFiled = 'quantity',
     valueFiled = 'cargoCode',
-    errorMsg = '未查询到相关货品，无法添加',
+    errorMsg = '未查询到相关商品，无法添加',
     formatResponse,
     paramsFormat,
   } = pageProps;
@@ -146,7 +146,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
 
 export const openBatchCopyAddModal = (pageProps) => {
   CModal.show({
-    title: pageProps.title ? pageProps.title : '批量添加货品',
+    title: pageProps.title ? pageProps.title : '批量添加商品',
     width: 800,
     content: BatchCopyAddModal,
     okCancel: false,

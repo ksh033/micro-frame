@@ -36,9 +36,9 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
   } = props;
   const { loading, run } = useRequest(
     request ||
-      new Promise((resolve) => {
-        resolve(null);
-      }),
+    new Promise((resolve) => {
+      resolve(null);
+    }),
     {
       manual: true,
     }
@@ -127,9 +127,9 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
   ];
 
   return (
-    <PageContainer title="关联货品品目" footer={modalButtons}>
+    <PageContainer title="关联商品品目" footer={modalButtons}>
       <Alert
-        message="收货时，将根据货品所属品目，默认入库到相关联的档口；若货品所属品目未关联档口的，则手动选择；"
+        message="收货时，将根据商品所属品目，默认入库到相关联的档口；若商品所属品目未关联档口的，则手动选择；"
         type="info"
       />
       <div className={style['bg-base-setcatalog']}>

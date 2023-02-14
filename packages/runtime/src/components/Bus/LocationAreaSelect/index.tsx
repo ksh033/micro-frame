@@ -53,9 +53,8 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   const user = getUser();
   const bizDeptType = user?.userAppInfo?.currentDept.bizDeptType;
 
-  const defaultWaringMsg = `切换${
-    bizDeptType === 'SHOP' ? '档口' : '库区'
-  }后,下方货品明细将被清空，是否确定切换`;
+  const defaultWaringMsg = `切换${bizDeptType === 'SHOP' ? '档口' : '库区'
+    }后,下方商品明细将被清空，是否确定切换`;
 
   const loadData = () => {
     run({

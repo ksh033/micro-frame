@@ -164,7 +164,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       {isNeedLeft ? (
         <div className={styles['cell-left']}>
           <div>
-            <a onClick={handelClick}>全部货品</a>
+            <a onClick={handelClick}>全部商品</a>
           </div>
           <ScTree
             selectedKeys={selectedKeys}
@@ -186,7 +186,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
         <BsSearch {...searchConfig}></BsSearch>
         {waringFn ? waringFn() : null}
         <div>
-          已选货品：
+          已选商品：
           {Array.isArray(selectedRowKeys) ? selectedRowKeys.length : 0}
         </div>
         <BsTable

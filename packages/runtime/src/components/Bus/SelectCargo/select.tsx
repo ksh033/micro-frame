@@ -6,16 +6,17 @@ import { ScSelect } from '@scboson/sc-element'
 import { ScSelectProps } from '@scboson/sc-element/es/sc-select'
 interface TableSelectProps extends ScSelectProps {
   limit?: number
+  param?: any
 }
 
 const CargoSelect: React.FC<TableSelectProps> = (props) => {
   const { run } = uesRequest('cargo', 'list')
-
   const params = useMemo(
     () => ({
       size: props.limit || 15,
+      ...props.param
     }),
-    [props.limit]
+    [props.limit, props.param]
   )
 
   return (

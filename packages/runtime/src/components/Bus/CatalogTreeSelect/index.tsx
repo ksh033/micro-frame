@@ -28,9 +28,10 @@ export interface AreaSelecthProps extends FormComponentProps {
   fieldProps?: any;
   multiple?: boolean;
   labelInValue?: boolean;
+  param?: any
 }
 /**
- * 货品品目
+ * 商品品目
  *
  * @param props
  * @returns
@@ -57,11 +58,12 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     fieldProps,
     labelInValue = true,
     multiple = false,
+    param,
     ...restProps
   } = props;
 
   const params = useMemo(() => {
-    return { parentCatalogCode: '0' };
+    return { parentCatalogCode: '0', ...param };
   }, []);
 
   const onSelectChange = (rvalue: any, option: any) => {
@@ -70,11 +72,11 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
       onChange(
         labelInValue
           ? {
-              catalogCode: option.catalogCode,
-              catalogId: option.catalogId,
-              value: option.catalogId,
-              label: option.catalogName,
-            }
+            catalogCode: option.catalogCode,
+            catalogId: option.catalogId,
+            value: option.catalogId,
+            label: option.catalogName,
+          }
           : option.catalogId
       );
     }

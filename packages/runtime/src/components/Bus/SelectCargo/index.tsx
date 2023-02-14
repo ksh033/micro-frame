@@ -11,7 +11,7 @@ type SelectCargoProps = {
 };
 
 const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
-  const { title = '添加货品', pageProps, close, ...restProps } = props;
+  const { title = '添加商品', pageProps, close, ...restProps } = props;
   const defaultRowKeys = pageProps.selectedRowKeys || [];
   const [state, setState] = useSetState<{
     selectedRowKeys: string[];
@@ -41,7 +41,7 @@ const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
 
 export function openSelectCargoModal(newOptions: DialogOptions) {
   CDrawer.show({
-    title: '添加货品',
+    title: '添加商品',
     width: 1400,
     ...newOptions,
     content: SelectCargo,

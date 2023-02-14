@@ -206,6 +206,22 @@ const getUser = (): GetUser | null | undefined => {
   return currentUser;
 };
 
+/**
+ * @description: 获取当前登录组织机构信息
+ * @return {*}
+ */
+const getBizDeptInfo = () => {
+  const user = getUser()
+  if (user != null && user?.userAppInfo != null) {
+    const { bizDeptId, bizDeptName, bizDeptType } = user?.userAppInfo.currentDept
+    return {
+      bizDeptId,
+      bizDeptName,
+      bizDeptType
+    }
+  }
+  return null
+}
 const clearUser = () => {
   localStorage.removeItem(User_Key);
   localStorage.removeItem(AppsUser_Key);
@@ -375,4 +391,5 @@ export {
   initWarnTimer,
   initInner,
   getDeptEnabled,
+  getBizDeptInfo
 };
