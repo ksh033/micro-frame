@@ -49,6 +49,10 @@ export default function WithSelectTable<
       if (dataRef) {
         ref = dataRef;
       }
+
+      const setRef = (obj: { selectedRows?: any[]; selectedKeys?: any[] }) => {
+        ref.current = obj;
+      };
       //const [cmpValue, setCmpValue] = useState<any>(null);
 
       const onTabelRow = (_keys: any, selectRows: any[]) => {
@@ -94,6 +98,7 @@ export default function WithSelectTable<
           value={value}
           onChange={onChange}
           selectedRows={val}
+          setRef={setRef}
           //selectedRowKeys={ref.current?.selectedKeys}
           onTabelRow={onTabelRow}
         />

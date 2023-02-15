@@ -106,7 +106,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
       ];
     }
     return [];
-  }, initialValues);
+  }, [initialValues]);
 
   useEffect(() => {
     formatValue();

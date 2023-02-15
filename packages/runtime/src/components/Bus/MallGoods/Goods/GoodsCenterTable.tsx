@@ -50,9 +50,9 @@ export default WithTable<
       ),
       onClick: viewUrl
         ? (record: any) => {
-            const key = props['rowKey'] || 'dataId';
-            openWindow(`${viewUrl}` + record[key]);
-          }
+          const key = props['rowKey'] || 'dataId';
+          openWindow(`${viewUrl}` + record[key]);
+        }
         : undefined,
     },
   });
@@ -68,10 +68,11 @@ export default WithTable<
     .toConfig();
   return {
     //request: defaultReq,
+    rowKey: 'goodsId',
     ...restProps,
     bordered: false,
     size: 'small',
-    rowKey: 'goodsId',
+,
     pageSize: 5,
     //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
     scroll: { y: 420, x: 560 },

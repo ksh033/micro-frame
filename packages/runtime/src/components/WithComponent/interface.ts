@@ -52,5 +52,6 @@ export type WithSelectTableProps = {
   dataRef?: MutableRefObject<{ selectedRows?: any[]; selectedKeys?: any[] }>;
   disabled?: boolean;
   readonly?: boolean;
+  setRef?: (ref: { selectedRows?: any[]; selectedKeys?: any[] }) => void;
   //valueFieldKeyMap: Record<string, string>;
 };
