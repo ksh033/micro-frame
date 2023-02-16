@@ -99,6 +99,7 @@ export default function WithSelectTable<
           onChange={onChange}
           selectedRows={val}
           setRef={setRef}
+          dataRef={ref}
           //selectedRowKeys={ref.current?.selectedKeys}
           onTabelRow={onTabelRow}
         />
