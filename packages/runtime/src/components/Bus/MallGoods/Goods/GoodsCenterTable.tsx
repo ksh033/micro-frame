@@ -72,7 +72,6 @@ export default WithTable<
     ...restProps,
     bordered: false,
     size: 'small',
-,
     pageSize: 5,
     //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
     scroll: { y: 420, x: 560 },
