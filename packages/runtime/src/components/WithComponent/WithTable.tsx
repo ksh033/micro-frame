@@ -75,7 +75,7 @@ export default function WithTable<P extends WithTableProps>(
 
     const onSelectRow = (_selectedRowKeys: any[], _selectedRows: any[]) => {
       ref.current.selectKeys = _selectedRowKeys;
-      onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows);
+      onTabelRow && onTabelRow(_selectedRowKeys, _selectedRows, rowKey);
       update();
     };
     const tableParams = useMemo(() => {

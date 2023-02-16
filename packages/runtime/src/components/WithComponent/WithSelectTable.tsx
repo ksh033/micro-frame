@@ -45,7 +45,7 @@ export default function WithSelectTable<
         ...restProps
       } = mergProps;
 
-      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[] }>({});
+      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }>({});
       if (dataRef) {
         ref = dataRef;
       }
@@ -83,6 +83,27 @@ export default function WithSelectTable<
         }
         return null;
       };
+
+      const removeSelected = (id) => {
+        let rows = ref.current.selectedRows || [];
+        if (ref.current.rowKey !== undefined) {
+          let key = ref.current.rowKey
+          const newRow = rows.filter((item) => item[key] !== id)
+          const newKeys = newRow.map((item) => item[key])
+          ref.current.selectedRows = newRow;
+          ref.current.selectedKeys = newKeys;
+
+          if (getValueProps) {
+            rows = getValueProps(ref.current.selectedRows, ref.current.rowKey);
+          }
+        }
+
+
+        // setCmpValue(ref.current.selectedRows);
+        // onChange?.(megData);
+
+        return rows;
+      }
       const val = useMemo(() => {
         let tval = value;
         if (normalize) {
@@ -96,8 +117,11 @@ export default function WithSelectTable<
           onOk={okClick}
           // value={val}
           value={value}
+          normalize={normalize}
+          getValueProps={getValueProps}
           onChange={onChange}
           selectedRows={val}
+          removeSelected={removeSelected}
           setRef={setRef}
           dataRef={ref}
           //selectedRowKeys={ref.current?.selectedKeys}
@@ -122,13 +146,13 @@ export default function WithSelectTable<
         disabled,
         ...restProps
       } = props;
-      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[] }>({});
+      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }>({});
       if (dataRef) {
         ref = dataRef;
       }
       const [cmpValue, setCmpValue] = useState<any>(null);
 
-      const onTabelRow = (_keys: any, selectRows: any[]) => {
+      const onTabelRow = (_keys: any, selectRows: any[], rowKey?: string) => {
         if (selectRows.length > 0) {
           // const selectedRows = selectRows.map((item: any, index) => {
           //   let retVal = {};
@@ -147,6 +171,7 @@ export default function WithSelectTable<
           ref.current.selectedRows = [];
           ref.current.selectedKeys = [];
         }
+        ref.current.rowKey = rowKey
       };
 
       const dlgcontent = useMemo(() => {

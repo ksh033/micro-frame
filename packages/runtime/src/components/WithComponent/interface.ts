@@ -12,7 +12,7 @@ export type WithTableProps = {
   extraColumns?: ProColumn[];
   extraQueryColumns?: FormSearchItem[];
   selectionType?: 'checkbox' | 'radio';
-  onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void;
+  onTabelRow?: (selectedRowKeys: string[], selectedRows: any[], rowKey?: string) => void;
   ref?: React.Ref<any>;
   children?: any;
   lightFilter?: boolean;
@@ -42,16 +42,18 @@ export type WithSelectTableProps = {
   // valuePropName?: string;
   value?: any;
 
-  /** 表单onChange */
-  onChange?: any;
+  get
+    /** 表单onChange */
+    onChange?: any;
   /** 选中表格属性 */
   tableProps?: BsEditTableProps;
   className?: string;
   /** 选择行 */
   selectedRows?: any[];
-  dataRef?: MutableRefObject<{ selectedRows?: any[]; selectedKeys?: any[] }>;
+  dataRef?: MutableRefObject<{ selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }>;
   disabled?: boolean;
   readonly?: boolean;
-  setRef?: (ref: { selectedRows?: any[]; selectedKeys?: any[] }) => void;
+  setRef?: (ref: { selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }) => void;
+  removeSelected?: (id: string) => any[]
   //valueFieldKeyMap: Record<string, string>;
 };
