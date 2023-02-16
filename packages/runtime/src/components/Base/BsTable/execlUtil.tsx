@@ -10,6 +10,10 @@ const execlColumnsFormat = (
 ) => {
   const newList = list
     .map((col: ProColumn, index: number) => {
+      //去除操作列
+      if (col.dataIndex === '_OperateKey') {
+        return false
+      }
       const columnKey = genColumnKey(col.dataIndex, index);
       const config = map[columnKey];
       if (col.exportConfig === false) {
@@ -74,7 +78,7 @@ const execlColumnsFormat = (
           width = column.width;
         }
         if (width != null) {
-          column.width = ((width - 5) / 6);
+          column.width = Math.ceil(((width - 5) / 6));
           if (column.width > 255) {
             column.width = 255
           }
