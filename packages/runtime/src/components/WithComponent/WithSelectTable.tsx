@@ -84,26 +84,26 @@ export default function WithSelectTable<
         return null;
       };
 
-      const removeSelected = (id) => {
-        let rows = ref.current.selectedRows || [];
-        if (ref.current.rowKey !== undefined) {
-          let key = ref.current.rowKey
-          const newRow = rows.filter((item) => item[key] !== id)
-          const newKeys = newRow.map((item) => item[key])
-          ref.current.selectedRows = newRow;
-          ref.current.selectedKeys = newKeys;
+      // const removeSelected = (id) => {
+      //   let rows = ref.current.selectedRows || [];
+      //   if (ref.current.rowKey !== undefined) {
+      //     let key = ref.current.rowKey
+      //     const newRow = rows.filter((item) => item[key] !== id)
+      //     const newKeys = newRow.map((item) => item[key])
+      //     ref.current.selectedRows = newRow;
+      //     ref.current.selectedKeys = newKeys;
 
-          if (getValueProps) {
-            rows = getValueProps(ref.current.selectedRows, ref.current.rowKey);
-          }
-        }
+      //     if (getValueProps) {
+      //       rows = getValueProps(ref.current.selectedRows, ref.current.rowKey);
+      //     }
+      //   }
 
 
-        // setCmpValue(ref.current.selectedRows);
-        // onChange?.(megData);
+      //   // setCmpValue(ref.current.selectedRows);
+      //   // onChange?.(megData);
 
-        return rows;
-      }
+      //   return rows;
+      // }
       const val = useMemo(() => {
         let tval = value;
         if (normalize) {
@@ -121,7 +121,7 @@ export default function WithSelectTable<
           getValueProps={getValueProps}
           onChange={onChange}
           selectedRows={val}
-          removeSelected={removeSelected}
+          // removeSelected={removeSelected}
           setRef={setRef}
           dataRef={ref}
           //selectedRowKeys={ref.current?.selectedKeys}

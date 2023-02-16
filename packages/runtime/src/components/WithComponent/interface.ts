@@ -54,6 +54,6 @@ export type WithSelectTableProps = {
   disabled?: boolean;
   readonly?: boolean;
   setRef?: (ref: { selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }) => void;
-  removeSelected?: (id: string) => any[]
+  // removeSelected?: (id: string) => any[]
   //valueFieldKeyMap: Record<string, string>;
 };
