@@ -10,6 +10,7 @@ export type BsNumberInputProps = {
   min?: number | false // 最小值
   max?: number | false // 最大值
   complement?: number // 小数点后几位
+  valueType: 'st' | 'num'
   onBlur?: (value: any) => void
 } & Omit<InputProps, 'onBlur'>
 
@@ -18,6 +19,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
   const {
     value,
     onChange,
+    valueType,
     min = false,
     max = false,
     complement = 2,
@@ -60,6 +62,9 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
     if (max !== false && max < _val) {
       str = max + ''
     }
+    if (valueType == "num") {
+      return parseInt(str)
+    }
     return str
   }
 
@@ -70,6 +75,7 @@ const BsNumberInput: React.FC<BsNumberInputProps> = (props) => {
       return _val
     }
     if (!isNaN(_val) && reg.test(newVal) && _val !== '') {
+
       return _val
     } else {
       return null
