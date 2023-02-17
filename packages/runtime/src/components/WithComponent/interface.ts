@@ -42,9 +42,9 @@ export type WithSelectTableProps = {
   // valuePropName?: string;
   value?: any;
 
-  get
-    /** 表单onChange */
-    onChange?: any;
+
+  /** 表单onChange */
+  onChange?: any;
   /** 选中表格属性 */
   tableProps?: BsEditTableProps;
   className?: string;

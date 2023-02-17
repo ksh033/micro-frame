@@ -108,6 +108,10 @@ export default function WithSelectTable<
         let tval = value;
         if (normalize) {
           tval = normalize(value, restProps.rowKey);
+          if (!ref.current.selectedRows) {
+            ref.current.selectedRows = tval
+          }
+
         }
         return tval;
       }, [normalize, value]);
