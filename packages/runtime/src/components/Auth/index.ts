@@ -5,9 +5,9 @@ import { history } from 'umi';
 
 /**
  * 
- * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
+ * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店 
  */
-export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP" | 'WAREHOUSE' | 'SUPPLY_CHAIN_COMPANY'
+export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP" | 'WAREHOUSE' | 'SUPPLY_CHAIN_COMPANY' | 'SUPPLY_SUBCOMPANY' | 'STATION '
 export interface DeptInfoProps {
   /**
    * 机构id
