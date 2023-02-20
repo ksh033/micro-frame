@@ -11,7 +11,7 @@ import { getServiceApi } from '../../../utils/api';
 
 export interface ChainManageComPanySelectProp
   extends ScSelectProps,
-    FormComponentProps {
+  FormComponentProps {
   init?: boolean;
   companyNeedInit?: boolean;
 }
@@ -93,9 +93,9 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
           onChange?.(
             labelInValue
               ? {
-                  value: itemFirst.companyId || '',
-                  text: itemFirst.companyName,
-                }
+                value: itemFirst.companyId || '',
+                text: itemFirst.companyName,
+              }
               : itemFirst.companyId,
             {
               value: itemFirst.companyId || '',

@@ -7,7 +7,7 @@ import { history } from 'umi';
  * 
  * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
  */
-export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP"
+export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP" | 'WAREHOUSE' | 'SUPPLY_CHAIN_COMPANY'
 export interface DeptInfoProps {
   /**
    * 机构id
@@ -20,7 +20,7 @@ export interface DeptInfoProps {
   /**
  * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
  */
-  bizDeptType?: DeptType;
+  bizDeptType: DeptType;
   bizDeptTypeName: string;
   bizDeptCode: string;
   contactName: string;
