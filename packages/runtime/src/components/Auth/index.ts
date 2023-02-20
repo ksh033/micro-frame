@@ -2,10 +2,25 @@ import { message, Modal } from 'antd';
 // @ts-ignore
 import { history } from 'umi';
 
+
+/**
+ * 
+ * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
+ */
+export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP"
 export interface DeptInfoProps {
+  /**
+   * 机构id
+   */
   bizDeptId: string;
+  /**
+ * 机构名称
+ */
   bizDeptName: string;
-  bizDeptType: string;
+  /**
+ * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
+ */
+  bizDeptType?: DeptType;
   bizDeptTypeName: string;
   bizDeptCode: string;
   contactName: string;
@@ -36,17 +51,35 @@ export interface CurrentDeptProps {
 
 export interface User {
   currentDept?: CurrentDeptInfoProps;
-  email: string; // 邮箱地址
-  lastLoginTime: string; // 最后一次登陆时间
-  needModifyPwd: boolean; // 是否需要修改密码
+  /**
+   * 邮箱地址
+   */
+  email: string;
+  /**
+   * 最后一次登陆时间
+   */
+  lastLoginTime: string; // 
+  /**
+   *  是否需要修改密码
+   */
+  needModifyPwd: boolean;
   optionalDepts: DeptInfoProps[];
   phone: string; // 手机号
   realName: string; // 用户昵称
   userId: string;
   userName: string;
   token: string; // token
+  /**
+   * 微信头像信息
+   */
   wechatAvatarUrl: string | null; // 微信头像信息
+  /**
+   * 微信头像昵称
+   */
   wechatNickname: string | null; // 微信头像昵称
+  /**
+   * 微信id
+   */
   wechatUnionId: string | null; // 微信id
 }
 
