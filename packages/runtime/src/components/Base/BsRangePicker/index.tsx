@@ -15,13 +15,20 @@ function disabledDate(current: any) {
   return current && current <= moment(new Date()).add(-1, 'days');
 }
 
-
+let start = moment().weekday(1).format('YYYY/MM/DD') //本周一
+let end = moment().weekday(7).format('YYYY/MM/DD') //本周日
 const RangePresetsTypeMap = {
   'preset1': {
     "当日": [moment(), moment()],
     "昨日": [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+    "本周": [moment().weekday(1), moment().weekday(7)],
+    "上周": [moment().week(moment().week() - 1).startOf('week').valueOf(), moment().week(moment().week() - 1).endOf('week').valueOf()],
     "本月": [moment().startOf('month'), moment().endOf('month')],
-    "上月": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    "上月": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+    "过去7天": [moment().subtract(7, 'day'), moment()],
+    "过去30天": [moment().subtract(30, 'day'), moment()],
+    "过去90天": [moment().subtract(90, 'day'), moment()],
+    "今年至今": [moment().startOf('year'), moment()]
   }
 
 }
@@ -56,7 +63,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     placeholder,
     onChange,
     ranges,
-    presetType,
+    presetType = "preset1",
     ...resProps
   } = props;
 
