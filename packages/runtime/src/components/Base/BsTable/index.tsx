@@ -338,12 +338,12 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     if (index < 2 && it.fixed == null) {
       it.fixed = true;
     }
-    if (it.dataType === 'money' || it.dataType === 'unitprice') {
+    if (it.dataType === 'money' || it.dataType === 'unitprice' || it.dataType === 'number' || it.dataType === 'defaultNumber') {
       it.align = 'right';
     }
     if (it.children) {
       it.children = it.children.map((item: any) => {
-        if (item.dataType === 'money' || item.dataType === 'unitprice') {
+        if (item.dataType === 'money' || item.dataType === 'unitprice' || it.dataType === 'number' || it.dataType === 'defaultNumber') {
           item.align = 'right';
         }
         return item

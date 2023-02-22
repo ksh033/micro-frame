@@ -78,6 +78,15 @@ const defaultRenderText = <T, U>(
     case 'empty':
       newText = text != null ? text : '--';
       break;
+    case "salemodel": {
+      const { saleUnit } = record || {};
+      //if (params.)
+      newText = text
+      //const [value,record,index,dictText]=
+      if (saleUnit)
+        newText = `${saleUnit}(${text})`;
+    }
+      break;
     default:
       break;
   }

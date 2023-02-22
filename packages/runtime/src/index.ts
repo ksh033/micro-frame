@@ -25,6 +25,9 @@ export { default as PageContainer } from './components/Base/PageContainer';
 export { default as defaultRenderText } from './components/Dict/defaultRender';
 import { render, patchRoutes, onRouteChange } from './components/AppStart';
 export { ScCard, ScCheckCard, ScStatisticCard, ScStatistic } from '@scboson/sc-layout';
+export type { ScCardTabsProps, ScCardProps, ScStatisticCardProps, ScStatisticsCardProps, ScCheckCardGroupProps, ScCheckCardProps, ScStatisticProps } from '@scboson/sc-layout';
+
+
 import { request, useRequest } from './utils/request';
 import {
   getService,
