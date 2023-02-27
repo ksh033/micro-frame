@@ -343,7 +343,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     }
     if (it.children) {
       it.children = it.children.map((item: any) => {
-        if (item.dataType === 'money' || item.dataType === 'unitprice' || it.dataType === 'number' || it.dataType === 'defaultNumber') {
+        if (item.dataType === 'money' || item.dataType === 'unitprice' || item.dataType === 'number' || it.dataType === 'defaultNumber') {
           item.align = 'right';
         }
         return item
