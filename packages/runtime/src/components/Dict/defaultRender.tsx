@@ -62,7 +62,7 @@ const defaultRenderText = <T, U>(
       newText = unitprice(text);
       break;
     case 'money':
-      newText = money(text);
+      newText = money(text, true);
       break;
     case 'status':
       newText = status(text);

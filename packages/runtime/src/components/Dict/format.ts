@@ -51,9 +51,13 @@ export const unitprice = (text: any) => {
   return money;
 };
 
-export const money = (text: any) => {
+export const money = (text: any, isTable?: boolean) => {
   if (text === undefined || text === '' || text === null) {
-    return '';
+    if (isTable) {
+      return '--';
+    }
+    return ''
+
   }
   const rText = typeof text === 'number' ? text : 0;
   const money = formatMoneyQuery(compute.divide(rText, 10000));
