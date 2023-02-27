@@ -10,6 +10,7 @@ import {
   money,
   rate,
   unitprice,
+  formatNumber,
 } from './format';
 import useWeightUnit from './weightUnit';
 
@@ -78,15 +79,21 @@ const defaultRenderText = <T, U>(
     case 'empty':
       newText = text != null ? text : '--';
       break;
-    case "salemodel": {
-      const { saleUnit } = record || {};
-      //if (params.)
-      newText = text
-      //const [value,record,index,dictText]=
-      if (saleUnit)
-        newText = `${saleUnit}(${text})`;
-    }
+    // case "saleUnit": {
+    //   const { saleUnit } = record || {};
+    //   //if (params.)
+    //   newText = text
+    //   //const [value,record,index,dictText]=
+    //   if (saleUnit)
+    //     newText = `${saleUnit}(${text})`;
+    // }
+    case "number": {
+
+
+      newText = formatNumber(text);
       break;
+    }
+
     default:
       break;
   }

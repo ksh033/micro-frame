@@ -20,6 +20,18 @@ export function formatMoneyQuery(val, dotNum = 2, dw = '') {
   return '--';
 }
 
+export const formatNumber = (val) => {
+  if (typeof val === 'number' || typeof val === 'string') {
+    if (val === '0' || val === 0) {
+      return 0;
+    }
+    if (val)
+      return val
+  }
+  return '--'
+
+}
+
 export const defaultNumber = (text: any) => {
   return text === -1 || text === '-1' ? '不限' : text;
 };
