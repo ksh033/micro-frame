@@ -23,6 +23,7 @@ export type SelectCargoTableProps = {
   extraQueryColumns?: FormSearchItem[];
   request: (params: any) => Promise<any>; // 请求数据的远程方法
   params?: any;
+  column?: any
   selectionType: RowSelectionType;
   onTabelRow?: (selectedRowKeys: string[], selectedRows: any[]) => void;
   selectedRowKeys?: string[];
@@ -57,6 +58,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     formatTableInfo,
     rowKey = 'cargoId',
     waringFn,
+    column
   } = props;
   const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
@@ -197,6 +199,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
             type: selectionType,
             getCheckboxProps,
           }}
+          columns={column ? column : tableInfo.columns}
           rowKey={rowKey}
           pageSize={20}
           onSelectRow={onSelectRow}
