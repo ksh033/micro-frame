@@ -67,42 +67,55 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   }, []);
 
   const onSelectChange = (rvalue: any, option: any) => {
-    setTreeValue(rvalue);
-    if (onChange) {
-      onChange(
-        labelInValue
-          ? {
-            catalogCode: option.catalogCode,
-            catalogId: option.catalogId,
-            value: option.catalogId,
-            label: option.catalogName,
-          }
-          : option.catalogId
-      );
+    if (!multiple) {
+      setTreeValue(rvalue);
+      if (onChange) {
+        onChange(
+          labelInValue
+            ? {
+              catalogCode: option.catalogCode,
+              catalogId: option.catalogId,
+              value: option.catalogId,
+              label: option.catalogName,
+            }
+            : option.catalogId
+        );
+      }
     }
   };
 
   useEffect(() => {
     if (value && !treeValue) {
       onChange?.(value);
-      setTreeValue({
-        ...value,
-        value: value.catalogId,
-        label: value.catalogName || value.label,
-      });
+      if (multiple) {
+        setTreeValue(value);
+      } else {
+        setTreeValue({
+          ...value,
+          value: value.catalogId,
+          label: value.catalogName || value.label,
+        });
+      }
+
     }
   }, [JSON.stringify(value)]);
 
   const loadDataPramsFormat = (item: any) => {
     return {
       parentCatalogCode: item.catalogCode,
+      ...param,
     };
   };
 
   const onValueChange = (rvalue: any) => {
-    if (rvalue === undefined) {
-      onChange?.(rvalue);
+    if (multiple) {
       setTreeValue(rvalue);
+      onChange?.(rvalue);
+    } else {
+      if (rvalue === undefined) {
+        onChange?.(rvalue);
+        setTreeValue(rvalue);
+      }
     }
   };
 
@@ -110,7 +123,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     if (readonly) {
       let text = '';
       if (treeValue) {
-        text = treeValue.label;
+        text = multiple ? treeValue.map((item: any) => { return item.label }).join(',') : treeValue.label;
       }
       return <>{text}</>;
     }
