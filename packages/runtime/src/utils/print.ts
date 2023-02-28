@@ -65,6 +65,8 @@ export enum PrintTplType {
   shopGropyDeliveryOrder = '00000011',
   /** 配销出库单 */
   distributiveOutOrder = '00000012',
+  /** 退货出库单 */
+  returnOrder = '00000013',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
@@ -75,6 +77,8 @@ export enum PrintTplType {
   sortOrderZhen = '000000071',
   /** 配销出库单针式 */
   distributiveOutOrderZhen = '000000121',
+  /** 退货出库单针式 */
+  returnOrderZhen = '000000131',
 }
 
 const printList: { [key: string]: PrintCfg } = {
@@ -162,6 +166,13 @@ const printList: { [key: string]: PrintCfg } = {
     dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
   },
+  '00000013': {
+    moduleId: '00000013',
+    moduleName: '退货出库单',
+    tplName: 'returnOrder.grf',
+    dataUrl: '/purchase/api/stock/order/print',
+    method: 'get',
+  },
   '000000041': {
     moduleId: '000000041',
     moduleName: '收货单',
@@ -193,6 +204,13 @@ const printList: { [key: string]: PrintCfg } = {
     moduleId: '000000121',
     moduleName: '配销出库单',
     tplName: 'distributiveOutOrder_zhen.grf',
+    dataUrl: '/purchase/api/stock/order/print',
+    method: 'get',
+  },
+  '000000131': {
+    moduleId: '000000131',
+    moduleName: '退货出库单',
+    tplName: 'returnOrder_zhen.grf',
     dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
   },
