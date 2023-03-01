@@ -22,7 +22,7 @@ const RangePresetsTypeMap = {
     "当日": [moment(), moment()],
     "昨日": [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
     "本周": [moment().weekday(1), moment().weekday(7)],
-    "上周": [moment().week(moment().week() - 1).startOf('week').valueOf(), moment().week(moment().week() - 1).endOf('week').valueOf()],
+    "上周": [moment().week(moment().week() - 1).startOf('week'), moment().week(moment().week() - 1).endOf('week')],
     "本月": [moment().startOf('month'), moment().endOf('month')],
     "上月": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
     "过去7天": [moment().subtract(7, 'day'), moment()],
