@@ -110,8 +110,9 @@ const GoodsSelectTable: FC<PropsWithChildren<GoodsSelectTableProps>> = (
       allowClear
       placeholder="请选择/请输入商品名称"
       style={{ width: "400px" }}
-      dropdownStyle={{ minWidth: "580px" }}
+      dropdownStyle={{ minWidth: "650px" }}
       dropdownRenderProps={{
+        ...dropdownRenderProps,
         columns: newColumns,
         scroll: { y: "400px" },
       }}
