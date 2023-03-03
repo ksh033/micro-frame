@@ -8,7 +8,6 @@ import {
 import type { ScSelectProps } from '@scboson/sc-element/es/sc-select';
 import { useUpdateEffect } from 'ahooks';
 import { DefaultOptionType } from 'antd/es/select';
-import { getBizDeptInfo } from 'lib';
 import { useEffect, useState } from 'react';
 import { uesRequest } from '../../../utils/api';
 import { getUser } from '../../Auth';
