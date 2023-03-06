@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-03-03 15:33:21
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-03-03 17:36:59
+ * @LastEditTime: 2023-03-06 16:00:30
  */
 
 import { openWindow } from '../../Auth/';
@@ -26,7 +26,7 @@ const OperationList: FormComponent<OperationListProps> = (pros) => {
             <Timeline.Item key={`line-${index}`}>
               <Space direction='vertical'>
                 <Space>
-                  <span>{it.createTime}</span>
+                  <span>{it.operateTime}</span>
                   <span>{it.operatorName}</span>
                   <span>{it.operationContent || ''}</span>
                 </Space>
