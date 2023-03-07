@@ -44,6 +44,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     changeWarngingMsg,
     local = false,
     autoload = true,
+    defaultValue,
     ...resProps
   } = props;
 
@@ -65,6 +66,12 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     }).then((res) => {
       if (Array.isArray(res)) {
         setDataSource(res);
+        if (defaultValue) {
+          const defalut = res.find((item: any) => { return item.locationAreaName === defaultValue });
+          if (defalut) {
+            onChange?.(defalut.locationAreaId, defalut)
+          }
+        }
       }
     });
   };
@@ -118,6 +125,9 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   }
 
   if (readonly) {
+    if (bizDeptType !== 'SHOP') {
+      return <div>{resProps.value}</div>;
+    }
     const areaName = dataSource.find(
       (it) => it.locationAreaId === resProps.value
     );
