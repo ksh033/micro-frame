@@ -4,12 +4,13 @@
  * @Autor: yangyuhang
  * @Date: 2023-03-03 15:33:21
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-03-06 16:00:30
+ * @LastEditTime: 2023-03-07 11:52:58
  */
 
 import { openWindow } from '../../Auth/';
 import type { FormComponent, FormComponentProps } from '@scboson/sc-element/es/c-form';
 import { Timeline, Space } from 'antd';
+import BsUpload from '../../Base/BsUpload';
 
 type OperationListProps = FormComponentProps & {
   value: any[];
@@ -30,12 +31,19 @@ const OperationList: FormComponent<OperationListProps> = (pros) => {
                   <span>{it.operatorName}</span>
                   <span>{it.operationContent || ''}</span>
                 </Space>
-                <Space>
-                  {it.fileVOS && <span>操作凭证:</span>}
-                  {it.fileVOS?.map((item: any) => {
-                    return <span><a href={'/' + item.url}>{item.title}</a></span>
-                  })}
-                </Space>
+                {
+                  Array.isArray(it.fileVOS) && it.fileVOS && <Space direction='vertical'>
+                    <span>操作凭证:</span>
+                    <BsUpload
+                      mode={'multiple'}
+                      value={it.fileVOS.map((item: any) => {
+                        return { url: item.url, fieldName: item.title }
+                      })}
+                      readonly
+                    />
+                  </Space>
+                }
+
               </Space>
             </Timeline.Item>
           );
