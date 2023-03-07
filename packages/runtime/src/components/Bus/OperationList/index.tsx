@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-03-03 15:33:21
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-03-07 11:52:58
+ * @LastEditTime: 2023-03-07 18:01:24
  */
 
 import { openWindow } from '../../Auth/';
@@ -37,7 +37,7 @@ const OperationList: FormComponent<OperationListProps> = (pros) => {
                     <BsUpload
                       mode={'multiple'}
                       value={it.fileVOS.map((item: any) => {
-                        return { url: item.url, fieldName: item.title }
+                        return { url: item.url, fileName: item.title }
                       })}
                       readonly
                     />
