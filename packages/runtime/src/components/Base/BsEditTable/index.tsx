@@ -75,6 +75,12 @@ const BsEditTable: React.FC<BsEditTableProps> = (props: BsEditTableProps) => {
         col.render = (text: string, record: any) => {
           return defaultRenderText(text, col.dataType || col.dataIndex, record);
         };
+      } else if (list && col.render) {
+        const render = col.render;
+        col.render = (text, record, index) => {
+          const dictText = cacheRender(text, list);
+          return render(dictText, record, index);
+        };
       }
     });
 
