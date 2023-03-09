@@ -159,9 +159,9 @@ export default (props: any) => {
           const url = path.replace(routerBase, '');
 
           return (
-            <Link href={path} to={url}>
+            url ? <Link href={path} to={url}>
               {breadcrumbName}
-            </Link>
+            </Link> : breadcrumbName
           );
         }}
         appSelectedKeys={[appSelectedKeys]}
@@ -175,7 +175,7 @@ export default (props: any) => {
           );
           return menus;
         }}
-        menuFooterRender={(_props: any) => {}}
+        menuFooterRender={(_props: any) => { }}
         menuItemRender={(item: any, dom) => {
           const { path } = item;
 

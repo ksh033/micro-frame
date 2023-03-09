@@ -131,10 +131,16 @@ const formatMenu = (
     //if (appCode && appCode !== '') {
     //rpath = '/' + appCode + pageUrl || menuMap[id]
     // } else {
-    rpath = pageUrl || menuMap[id]
+    rpath = pageUrl || ""; //|| menuMap[id]
     // }
     if (localData === false && rpath) {
-      rpath = rpath.replace('/' + appCode, '')
+      const tem = rpath.split("/")
+      if (tem.length >= 2) {
+        tem.splice(1, 1)
+        rpath = tem.join("/")
+      }
+
+
     }
 
     // newChildren=newChildren.filter((i)=>(i))
