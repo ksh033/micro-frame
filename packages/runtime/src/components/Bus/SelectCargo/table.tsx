@@ -62,7 +62,11 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   } = props;
   const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
-  const search = page.getSearch({});
+  const search = page.getSearch({
+    initialValues: {
+      adjustTypes: ["ADD", "EDIT", "DELETE"]
+    }
+  });
   const ref = useRef<any>();
   const size = useSize(ref);
   console.log(size);
