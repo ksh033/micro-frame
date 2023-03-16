@@ -265,7 +265,8 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
       </AuthButton>
       <Modal
         title="选择商品"
-        visible={isModalVisible}
+        open={isModalVisible}
+        destroyOnClose
         onCancel={close}
         width={1200}
         onOk={() => {
