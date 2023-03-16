@@ -1,8 +1,16 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: yangyuhang
+ * @Date: 2023-01-05 10:01:22
+ * @LastEditors: yangyuhang
+ * @LastEditTime: 2023-03-16 10:40:53
+ */
 import defaultRender from '../../Dict/defaultRender';
 import { ScProColumn, ScProColumnType } from '@scboson/sc-element/es/sc-table';
-import { ScProColumnGroupType } from '@scboson/sc-element/es/sc-table/ScTable';
 import { Table } from 'antd';
 import React from 'react';
+import { ScProColumnGroupType } from '@scboson/sc-element/es/sc-table/typing';
 
 export type SymmaryProColumnType = ScProColumnType<any> & {
   dataType?: string;

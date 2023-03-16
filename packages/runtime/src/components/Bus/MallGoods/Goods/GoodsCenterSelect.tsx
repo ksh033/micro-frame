@@ -233,7 +233,7 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
             onClick && onClick();
             return customOnOk('button' + index);
           }}
-          closeModal={close}
+          close={close}
           buttonProps={restProps.buttonProps}
         >
           {restProps.text}
@@ -280,7 +280,7 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
             actionFn={() => {
               return customOnOk();
             }}
-            closeModal={close}
+            close={close}
             buttonProps={modalProps?.okButtonProps || { type: 'primary' }}
           >
             {modalProps?.okText || '确定'}

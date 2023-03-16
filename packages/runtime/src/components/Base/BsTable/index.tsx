@@ -1,7 +1,6 @@
 import { ScTable } from '@scboson/sc-element';
 import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
-import { ListToolBarProps } from '@scboson/sc-element/es/sc-table/components/ListToolBar';
-import { ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/components/ListToolBar/HeaderMenu';
+
 import { Badge, Table } from 'antd';
 import { isArray, isObject } from 'lodash';
 import React, { useMemo, useRef, useState } from 'react';
@@ -19,6 +18,7 @@ import { history } from 'umi';
 import { useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import { useSize } from 'ahooks';
 import TotalSymmary, { digColumns } from './TotalSymmary';
+import { ListToolBarProps, ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/typing';
 
 export type ExcelColumn = {
   text: string;
