@@ -47,14 +47,15 @@ const pageConfig: PageConfig = {
       align: 'center',
       dataIndex: 'goodsStallType',
       width: 80,
-    },
-    {
-      title: '关联商品',
-      align: 'center',
-      dataIndex: 'cargoList',
-      ellipsis: true,
-      width: 100,
-    },
+    }
+    // ,
+    // {
+    //   title: '关联商品',
+    //   align: 'center',
+    //   dataIndex: 'cargoList',
+    //   ellipsis: true,
+    //   width: 100,
+    // },
   ],
 };
 export default pageConfig;
