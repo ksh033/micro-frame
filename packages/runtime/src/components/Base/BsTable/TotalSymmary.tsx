@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-01-05 10:01:22
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-03-16 10:40:53
+ * @LastEditTime: 2023-03-28 10:36:35
  */
 import defaultRender from '../../Dict/defaultRender';
 import { ScProColumn, ScProColumnType } from '@scboson/sc-element/es/sc-table';
@@ -23,14 +23,13 @@ export type TotalSymmaryProps = {
   recordSummary?: any[];
 };
 
-export function digColumns(columns: ScProColumn<any>): SymmaryProColumnType[] {
-  const list: SymmaryProColumnType[] = [];
+export function digColumns(columns: ScProColumn<any>, list: any): SymmaryProColumnType[] {
   if (Array.isArray(columns)) {
     columns.forEach((it) => {
       const item = it as ScProColumnGroupType<any>;
       if (!item.hidden) {
         if (Array.isArray(item.children)) {
-          list.concat(digColumns(item.children));
+          list.concat(digColumns(item.children, list));
         } else {
           list.push(item);
         }

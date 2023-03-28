@@ -19,16 +19,16 @@ let start = moment().weekday(1).format('YYYY/MM/DD') //本周一
 let end = moment().weekday(7).format('YYYY/MM/DD') //本周日
 const RangePresetsTypeMap = {
   'preset1': {
-    "当日": [moment(), moment()],
-    "昨日": [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-    "本周": [moment().weekday(1), moment().weekday(7)],
-    "上周": [moment().week(moment().week() - 1).startOf('week'), moment().week(moment().week() - 1).endOf('week')],
-    "本月": [moment().startOf('month'), moment().endOf('month')],
-    "上月": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-    "过去7天": [moment().subtract(7, 'day'), moment()],
-    "过去30天": [moment().subtract(30, 'day'), moment()],
-    "过去90天": [moment().subtract(90, 'day'), moment()],
-    "今年至今": [moment().startOf('year'), moment()]
+    "当日": [moment().startOf('day'), moment().endOf('day')],
+    "昨日": [moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day')],
+    "本周": [moment().weekday(1).startOf('day'), moment().weekday(7).endOf('day')],
+    "上周": [moment().week(moment().week() - 1).startOf('week').startOf('day'), moment().week(moment().week() - 1).endOf('week').endOf('day')],
+    "本月": [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
+    "上月": [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month').endOf('day')],
+    "过去7天": [moment().subtract(7, 'day').startOf('day'), moment().endOf('day')],
+    "过去30天": [moment().subtract(30, 'day').startOf('day'), moment().endOf('day')],
+    "过去90天": [moment().subtract(90, 'day').startOf('day'), moment().endOf('day')],
+    "今年至今": [moment().startOf('year').startOf('day'), moment().endOf('day')]
   }
 
 }

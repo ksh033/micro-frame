@@ -250,7 +250,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       if (!col.width) {
         col.width = 180;
       }
-
+      if (col.dataType === 'money' || col.dataType === 'unitprice' || col.dataType === 'number' || col.dataType === 'defaultNumber') {
+        col.align = 'right';
+      }
       if (col.width === 'auto') {
         hasAutoCol = true;
       } else {
@@ -337,17 +339,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const newColumns = columnsFormat(columns).map((it, index) => {
     if (index < 2 && it.fixed == null) {
       it.fixed = true;
-    }
-    if (it.dataType === 'money' || it.dataType === 'unitprice' || it.dataType === 'number' || it.dataType === 'defaultNumber') {
-      it.align = 'right';
-    }
-    if (it.children) {
-      it.children = it.children.map((item: any) => {
-        if (item.dataType === 'money' || item.dataType === 'unitprice' || item.dataType === 'number' || it.dataType === 'defaultNumber') {
-          item.align = 'right';
-        }
-        return item
-      })
     }
     return {
       key: it.dataIndex || index,
@@ -531,7 +522,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           <Table.Summary fixed={TableSummaryFiexd}>
             <TotalSymmary
               recordSummary={recordSummary}
-              columns={digColumns(columns)}
+              columns={digColumns(columns, [])}
             />
           </Table.Summary>
         ),
