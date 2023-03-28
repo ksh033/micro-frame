@@ -1,132 +1,148 @@
-.layout-select-content{
+.layout-select-content {
   margin: 48px 0 0 0;
   padding: 24px;
 }
 
 .select-wrapper {
-    height: 100%;
-    background-color: #fff;
-    .info-bar {
-      position: relative;
-      // height: 45px;
-      padding: 15px 20px;
-      line-height: 20px;
-      background: #f8f8f8;
-  
-      p {
-        font-size: 12px;
-        color: #666;
-        margin: 0px;
-      }
-  
-      h3 {
-        font-size: 14px;
-        color: #111;
-        font-weight: 700;
-        padding-top: 3px;
-        margin: 0px;
-      }
-  
-      .info-setting {
-        margin-left: 15px;
-        color: #666;
-      }
-  
-      .ant-avatar {
-        float: left;
-        margin-right: 10px;
-      }
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  &-item {
+    position: relative;
+    width: 14%;
+    margin-right: 20px;
+  }
+
+  .ant-divider-horizontal {
+    border-color: #bfbfbf !important;
+  }
+
+  .info-bar {
+    position: relative;
+    // height: 45px;
+    padding: 15px 20px;
+    line-height: 20px;
+    background: #f8f8f8;
+
+    p {
+      font-size: 12px;
+      color: #666;
+      margin: 0px;
     }
-  
-    .inner-wrapper {
-      min-height: 560px;
-    }
-  
-    .inner-title {
-      border-bottom: 1px solid #e5e5e5;
-      padding: 8px 0;
-    }
-  
-    .inner-content{
-      display: flex;
-      flex-wrap: wrap;
-    }
-    
-    .inner-userInfo {
-      word-break: break-all;
-      background-color: #fff;
-      border: 1px solid #e5e5e5;
-      padding: 40px 20px;
+
+    h3 {
       font-size: 14px;
-      min-height: 400px;
-  
-      .account {
-        a.ant-btn {
-          padding: 0px 20px;
-          line-height: inherit;
-        }
-      }
-  
-      .pwd-form {
-        width: 700px;
-        margin: 80px auto;
-      }
+      color: #111;
+      font-weight: 700;
+      padding-top: 3px;
+      margin: 0px;
+    }
+
+    .info-setting {
+      margin-left: 15px;
+      color: #666;
+    }
+
+    .ant-avatar {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .ant-divider-inner-text {
+      font-size: 18px;
     }
   }
-  
-  .org-list {
-    &-item {
-      padding: 0 10px;
-      min-width: 226px;
-      height: 117px;
-      display: flex;
-      margin: 0 10px 10px 0;
-      flex-direction: column;
-      vertical-align: top;
-      cursor: pointer;
-      border: 1px solid #e5e5e5;
-      border-top: 3px solid #e5e5e5;
-  
-      border-radius: 2px;
-  
-      &.action,
-      &:hover {
-        border-top-color: #ff6e6e;
-      }
-  
-      .name {
-        font-size: 14px;
-        height: 16px;
-        margin-top: 16px;
-        margin-bottom: 8px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-  
-      .desc-item {
-        color: #999;
-        margin-top: 4px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-  
-      :nth-child(3n + 1) {
-        margin-left: 0;
+
+  .inner-wrapper {
+    min-height: 560px;
+  }
+
+  .inner-title {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 8px 0;
+  }
+
+  .inner-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .inner-userInfo {
+    word-break: break-all;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 40px 20px;
+    font-size: 14px;
+    min-height: 400px;
+
+    .account {
+      a.ant-btn {
+        padding: 0px 20px;
+        line-height: inherit;
       }
     }
+
+    .pwd-form {
+      width: 700px;
+      margin: 80px auto;
+    }
   }
-  
+}
+
+.org-list {
+  &-item {
+    padding: 0 10px;
+    min-width: 226px;
+    height: 117px;
+    display: flex;
+    margin: 0 10px 10px 0;
+    flex-direction: column;
+    vertical-align: top;
+    cursor: pointer;
+    border: 1px solid #e5e5e5;
+    border-top: 3px solid #e5e5e5;
+
+    border-radius: 2px;
+
+    &.action,
+    &:hover {
+      border-top-color: #ff6e6e;
+    }
+
+    .name {
+      font-size: 14px;
+      height: 16px;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .desc-item {
+      color: #999;
+      margin-top: 4px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    :nth-child(3n + 1) {
+      margin-left: 0;
+    }
+  }
+}
+
 .margin_left {
   margin-left: 20px;
 }
 
-.card-action{
+.card-action {
   position: relative;
   border: 1px solid #1890ff;
 }
 
-  
+
 .card-action::before {
   content: '';
   position: absolute;
@@ -138,7 +154,7 @@
 }
 
 .card-action::after {
-	content: '';
+  content: '';
   width: 8px;
   height: 13px;
   position: absolute;
