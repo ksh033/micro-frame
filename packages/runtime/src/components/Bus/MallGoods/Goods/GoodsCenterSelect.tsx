@@ -39,6 +39,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     customRef?: React.RefObject<any>;
     preHandle?: () => any;
     formatTableInfo?: (tableInfo: TableInfo) => TableInfo;
+    columns?: any
   };
 
 const DlgContent = (porps: GoodsTransferProps) => {
@@ -87,7 +88,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
         bodyStyle={{
           margin: '0px',
           padding: '0px',
-          maxWidth: '1150px',
+          maxWidth: '1550px',
           height: '580px',
           overflow: 'hidden',
         }}
@@ -156,7 +157,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
               {
                 title: '商品',
                 dataIndex: 'goodsName',
-                width: 160,
+                width: 150,
+                ellipsis: true
               },
               {
                 title: '操作',
@@ -268,7 +270,7 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
         open={isModalVisible}
         destroyOnClose
         onCancel={close}
-        width={1200}
+        width={1300}
         onOk={() => {
           return customOnOk();
         }}
