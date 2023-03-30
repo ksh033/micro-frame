@@ -4,7 +4,8 @@ import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
 import './index.less';
-import { message, Card, List, Badge, Divider } from 'antd';
+import { message, Card, List, Badge, Divider, Tooltip } from 'antd';
+import classnames from 'classnames';
 import NotMenuLayouy from '../Layout/NoMenuLayout';
 
 // 排序列表
@@ -15,10 +16,22 @@ const sort = [
   'WAREHOUSE', // 仓库
   'CHAIN_MANAGE_COMPANY', // 连锁管理公司
   'SHOP', // 门店
-  'STATION ', // 站点
+  'STATION', // 站点
 ];
+/** 机构对应的背景图 */
+const imageMap = {
+  COMPANY: require('../../assets/selectDept/company.svg'),
+  SUPPLY_SUBCOMPANY: require('../../assets/selectDept/company.svg'), // 子公司
+  SUPPLY_CHAIN_COMPANY: require('../../assets/selectDept/supply_chain_company.svg'), // 供应链公司
+  WAREHOUSE: require('../../assets/selectDept/warehouse.svg'), // 仓库
+  CHAIN_MANAGE_COMPANY: require('../../assets/selectDept/chain_chain_company.svg'), // 连锁管理公司
+  SHOP: require('../../assets/selectDept/shop.svg'), // 门店
+  STATION: require('../../assets/selectDept/shop.svg'), // 站点
+};
 
 const SelectDept: React.FC<any> = (props) => {
+  const classPrefix = 'select-wrapper';
+
   const user = getUser();
   const { run } = uesRequest('user', 'chooseDept');
   const deptlistApi = uesRequest('user', 'deptlist');
@@ -85,12 +98,48 @@ const SelectDept: React.FC<any> = (props) => {
           {sort.map((bizDeptType: string) => {
             if (groupMap[bizDeptType]) {
               return (
-                <div
-                  key={bizDeptType}
-                  className="select-wrapper-item"
-                  style={{ width: width + '%' }}
-                >
-                  <Badge
+                <div key={bizDeptType} className={`${classPrefix}-item`}>
+                  <div className={`${classPrefix}-item-title`}>
+                    {groupMap[bizDeptType].bizDeptTypeName}
+                  </div>
+                  <div className={`${classPrefix}-item-content`}>
+                    {groupMap[bizDeptType].list.map((item, idx) => {
+                      return (
+                        <Tooltip
+                          placement="top"
+                          title={item.bizDeptName}
+                          key={item.bizDeptId + '-' + idx}
+                        >
+                          <div
+                            className={classnames(`${classPrefix}-item-child`, {
+                              'card-action':
+                                currentDept?.bizDeptId === item.bizDeptId,
+                            })}
+                            key={'child-cont-' + item.bizDeptId + '-' + idx}
+                            onClick={() => {
+                              selectOrg(item.bizDeptId);
+                            }}
+                          >
+                            <img
+                              src={imageMap[bizDeptType]}
+                              className={`${classPrefix}-item-child-image`}
+                            ></img>
+                            <div className={`${classPrefix}-item-child-text`}>
+                              {item.bizDeptName}
+                            </div>
+                            {Number(item.todoNumber || 0) > 0 && (
+                              <div
+                                className={`${classPrefix}-item-child-badge`}
+                              >
+                                {Number(item.todoNumber || 0)}
+                              </div>
+                            )}
+                          </div>
+                        </Tooltip>
+                      );
+                    })}
+                  </div>
+                  {/* <Badge
                     status="processing"
                     text={
                       <span style={{ fontSize: '16px', fontWeight: 500 }}>
@@ -161,7 +210,7 @@ const SelectDept: React.FC<any> = (props) => {
                         )}
                       </List.Item>
                     )}
-                  />
+                  /> */}
                 </div>
               );
             }
@@ -169,67 +218,6 @@ const SelectDept: React.FC<any> = (props) => {
           })}
         </>
       );
-      // return (
-      //   <List<DeptInfoProps>
-      //     rowKey="bizDeptId"
-      //     grid={{
-      //       gutter: 16,
-      //       xs: 1,
-      //       sm: 2,
-      //       md: 3,
-      //       lg: 4,
-      //       xl: 6,
-      //       xxl: 6,
-      //     }}
-      //     dataSource={depList}
-      //     renderItem={(item) => (
-      //       <List.Item key={item.bizDeptId}>
-      //         {Number(item.todoNumber || 0) > 0 ? (
-      //           <Badge.Ribbon
-      //             text={`${Number(item.todoNumber || 0)}`}
-      //             color="#cf1322"
-      //           >
-      //             <Card
-      //               className={
-      //                 currentDept?.bizDeptId === item.bizDeptId
-      //                   ? 'card-action'
-      //                   : ''
-      //               }
-      //               hoverable
-      //               bodyStyle={{ paddingBottom: 20 }}
-      //               onClick={() => {
-      //                 selectOrg(item.bizDeptId);
-      //               }}
-      //             >
-      //               <Card.Meta
-      //                 title={item.bizDeptName}
-      //                 description={`机构类型:${item.bizDeptTypeName || ''}`}
-      //               />
-      //             </Card>
-      //           </Badge.Ribbon>
-      //         ) : (
-      //           <Card
-      //             className={
-      //               currentDept?.bizDeptId === item.bizDeptId
-      //                 ? 'card-action'
-      //                 : ''
-      //             }
-      //             hoverable
-      //             bodyStyle={{ paddingBottom: 20 }}
-      //             onClick={() => {
-      //               selectOrg(item.bizDeptId);
-      //             }}
-      //           >
-      //             <Card.Meta
-      //               title={item.bizDeptName}
-      //               description={`机构类型:${item.bizDeptTypeName || ''}`}
-      //             />
-      //           </Card>
-      //         )}
-      //       </List.Item>
-      //     )}
-      //   />
-      // );
     }
     return <div className="inner-wrapper"></div>;
   };
@@ -237,7 +225,7 @@ const SelectDept: React.FC<any> = (props) => {
   return (
     <NotMenuLayouy>
       {/* <Card title="机构列表" bodyStyle={{ padding: '0 24px' }}> */}
-      <div className="select-wrapper">{renderDept()}</div>
+      <div className={classPrefix}>{renderDept()}</div>
       {/* </Card> */}
     </NotMenuLayouy>
   );

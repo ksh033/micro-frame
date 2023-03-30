@@ -1,17 +1,107 @@
 .layout-select-content {
   margin: 48px 0 0 0;
-  padding: 24px;
 }
 
 .select-wrapper {
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding: 30px 0;
+
 
   &-item {
     position: relative;
-    width: 14%;
-    margin-right: 20px;
+    padding: 20px 100px 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    &-title {
+      position: relative;
+      width: 144px;
+      height: 60px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 14px;
+      font-family: PingFang HK-Regular, PingFang HK;
+      font-weight: 400;
+      color: #808080;
+      padding-right: 30px;
+    }
+
+    &-content {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    &-child {
+      position: relative;
+      width: 256px;
+      height: 60px;
+      background: #FFFFFF;
+      border-radius: 4px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-family: PingFang HK-Medium, PingFang HK;
+      font-weight: 500;
+      color: #333333;
+      margin-right: 20px;
+      margin-bottom: 20px;
+
+
+
+      &-badge {
+        position: absolute;
+        min-width: 18px;
+        min-height: 18px;
+        line-height: 1;
+        top: -6px;
+        right: -3px;
+        background: #FF3346;
+        border-radius: 50%;
+        font-size: 12px;
+        font-family: PingFang HK-Regular, PingFang HK;
+        font-weight: 400;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-image {
+        position: absolute;
+        bottom: -2px;
+        right: 3px;
+        width: 46px;
+        height: 46px;
+        z-index: 0;
+        fill: red;
+      }
+
+      &-text {
+        z-index: 2;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 10px;
+        text-align: center;
+      }
+    }
+
+    &-child:hover {
+      cursor: pointer;
+      box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;
+    }
   }
 
   .ant-divider-horizontal {
@@ -148,21 +238,23 @@
   position: absolute;
   right: -1px;
   bottom: -1px;
-  border: 18px solid #0046FE;
+  border: 12px solid #0046FE;
   border-top-color: transparent;
   border-left-color: transparent;
+  z-index: 2;
+  border-radius: 4px;
 }
 
 .card-action::after {
   content: '';
-  width: 8px;
-  height: 13px;
+  width: 5px;
+  height: 10px;
   position: absolute;
-  right: 5px;
-  bottom: 7px;
+  right: 3px;
+  bottom: 4px;
   border: 2px solid #fff;
   border-top-color: transparent;
   border-left-color: transparent;
-  /* border-radius: 0 0 10px 0; */
-  transform: rotate(40deg);
+  transform: rotate(36deg);
+  z-index: 2;
 }
