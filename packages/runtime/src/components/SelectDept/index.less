@@ -1,5 +1,6 @@
 .layout-select-content {
   margin: 48px 0 0 0;
+  background-color: #EBF0F6;
 }
 
 .select-wrapper {
@@ -8,6 +9,14 @@
   flex-direction: column;
   padding: 30px 0;
 
+  &-bg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 76%;
+    z-index: 0;
+    aspect-ratio: 0.68 / 1;
+  }
 
   &-item {
     position: relative;
@@ -15,6 +24,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    z-index: 1;
 
     &-title {
       position: relative;
@@ -78,12 +88,24 @@
 
       &-image {
         position: absolute;
-        bottom: -2px;
-        right: 3px;
-        width: 46px;
-        height: 46px;
+        bottom: 0;
+        right: 0;
+        width: 86px;
+        height: 60px;
         z-index: 0;
-        fill: red;
+        overflow: hidden;
+        border-radius: 4px;
+
+        &-cont {
+          position: absolute;
+          bottom: -21px;
+          right: -36px;
+          width: 116px;
+          height: 116px;
+          border-radius: 50%;
+          z-index: 0;
+          opacity: 0.25;
+        }
       }
 
       &-text {
@@ -94,7 +116,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding: 0 10px;
-        text-align: center;
+        text-align: left;
       }
     }
 

@@ -31,6 +31,18 @@ const imageMap = {
   SUPPLIER: require('../../assets/selectDept/supply_chain_company.svg'), // 加工中心
 };
 
+/** 机构对应的背景图 */
+const colorMap = {
+  COMPANY: { left: '#2F54EB', right: 'rgba(47,84,235,0)' },
+  SUPPLY_SUBCOMPANY: { left: '#3EBC80', right: 'rgba(62,188,128,0)' }, // 子公司
+  SUPPLY_CHAIN_COMPANY: { left: '#2F54EB', right: 'rgba(47,84,235,0)' }, // 供应链公司
+  WAREHOUSE: { left: '#E94250', right: 'rgba(233,66,80,0)' }, // 仓库
+  CHAIN_MANAGE_COMPANY: { left: '#6B2FEB', right: 'rgba(107,47,235,0)' }, // 连锁管理公司
+  SHOP: { left: '#F9A225', right: 'rgba(249,162,37,0)' }, // 门店
+  STATION: { left: '#DC33DF', right: 'rgba(219, 51, 222,0)' }, // 站点
+  SUPPLIER: { left: '#22CED9', right: 'rgba(34, 206, 217,0)' }, // 加工中心
+};
+
 const SelectDept: React.FC<any> = (props) => {
   const classPrefix = 'select-wrapper';
 
@@ -122,10 +134,21 @@ const SelectDept: React.FC<any> = (props) => {
                               selectOrg(item.bizDeptId);
                             }}
                           >
-                            <img
+                            {/* <img
                               src={imageMap[bizDeptType]}
                               className={`${classPrefix}-item-child-image`}
-                            ></img>
+                            ></img> */}
+                            {/*背景*/}
+                            <div className={`${classPrefix}-item-child-image`}>
+                              {colorMap[bizDeptType] && (
+                                <div
+                                  className={`${classPrefix}-item-child-image-cont`}
+                                  style={{
+                                    background: `linear-gradient(220deg, ${colorMap[bizDeptType].left} 0%, ${colorMap[bizDeptType].right} 100%)`,
+                                  }}
+                                ></div>
+                              )}
+                            </div>
                             <div className={`${classPrefix}-item-child-text`}>
                               {item.bizDeptName}
                             </div>
@@ -227,7 +250,13 @@ const SelectDept: React.FC<any> = (props) => {
   return (
     <NotMenuLayouy>
       {/* <Card title="机构列表" bodyStyle={{ padding: '0 24px' }}> */}
-      <div className={classPrefix}>{renderDept()}</div>
+      <div className={classPrefix}>
+        {renderDept()}
+        <img
+          src={require('../../assets/logo-bg.svg')}
+          className={`${classPrefix}-bg`}
+        ></img>
+      </div>
       {/* </Card> */}
     </NotMenuLayouy>
   );
