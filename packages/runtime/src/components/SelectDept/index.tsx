@@ -17,6 +17,7 @@ const sort = [
   'CHAIN_MANAGE_COMPANY', // 连锁管理公司
   'SHOP', // 门店
   'STATION', // 站点
+  'SUPPLIER', // 加工中心
 ];
 /** 机构对应的背景图 */
 const imageMap = {
@@ -27,6 +28,7 @@ const imageMap = {
   CHAIN_MANAGE_COMPANY: require('../../assets/selectDept/chain_chain_company.svg'), // 连锁管理公司
   SHOP: require('../../assets/selectDept/shop.svg'), // 门店
   STATION: require('../../assets/selectDept/shop.svg'), // 站点
+  SUPPLIER: require('../../assets/selectDept/supply_chain_company.svg'), // 加工中心
 };
 
 const SelectDept: React.FC<any> = (props) => {
