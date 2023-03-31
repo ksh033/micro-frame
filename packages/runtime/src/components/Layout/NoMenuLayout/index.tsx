@@ -27,7 +27,7 @@ const NotMenuLayouy: React.FC<PropsWithChildren<any>> = (props) => {
       <Layout className="ant-pro-basicLayout ">
         <Header
           className="ant-pro-fixed-header ant-pro-top-nav-header light"
-          style={{ height: '48px', lineHeight: '48px', padding: 0 }}
+          style={{ height: '48px', lineHeight: '48px', padding: 0, zIndex: 99 }}
         >
           <div
             className="ant-pro-top-nav-header-main"
