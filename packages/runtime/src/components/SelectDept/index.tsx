@@ -11,8 +11,8 @@ import NotMenuLayouy from '../Layout/NoMenuLayout';
 // 排序列表
 const sort = [
   'COMPANY', // 集团
-  'SUPPLY_SUBCOMPANY', // 子公司
   'SUPPLY_CHAIN_COMPANY', // 供应链公司
+  'SUPPLY_SUBCOMPANY', // 供应链子公司
   'WAREHOUSE', // 仓库
   'CHAIN_MANAGE_COMPANY', // 连锁管理公司
   'SHOP', // 门店
@@ -22,7 +22,7 @@ const sort = [
 /** 机构对应的背景图 */
 const imageMap = {
   COMPANY: require('../../assets/selectDept/company.svg'),
-  SUPPLY_SUBCOMPANY: require('../../assets/selectDept/company.svg'), // 子公司
+  SUPPLY_SUBCOMPANY: require('../../assets/selectDept/supply_chain_company.svg'), // 子公司
   SUPPLY_CHAIN_COMPANY: require('../../assets/selectDept/supply_chain_company.svg'), // 供应链公司
   WAREHOUSE: require('../../assets/selectDept/warehouse.svg'), // 仓库
   CHAIN_MANAGE_COMPANY: require('../../assets/selectDept/chain_chain_company.svg'), // 连锁管理公司
