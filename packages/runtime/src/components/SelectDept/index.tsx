@@ -35,7 +35,7 @@ const imageMap = {
 const colorMap = {
   COMPANY: { left: '#2F54EB', right: 'rgba(47,84,235,0)' },
   SUPPLY_SUBCOMPANY: { left: '#3EBC80', right: 'rgba(62,188,128,0)' }, // 子公司
-  SUPPLY_CHAIN_COMPANY: { left: '#2F54EB', right: 'rgba(47,84,235,0)' }, // 供应链公司
+  SUPPLY_CHAIN_COMPANY: { left: '#3EBC80', right: 'rgba(62,188,128,0)' }, // 供应链公司
   WAREHOUSE: { left: '#E94250', right: 'rgba(233,66,80,0)' }, // 仓库
   CHAIN_MANAGE_COMPANY: { left: '#6B2FEB', right: 'rgba(107,47,235,0)' }, // 连锁管理公司
   SHOP: { left: '#F9A225', right: 'rgba(249,162,37,0)' }, // 门店
