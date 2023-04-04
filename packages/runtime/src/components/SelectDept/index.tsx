@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getUser, updateCurrentDept, clearUser, DeptInfoProps } from '../Auth';
+import {
+  getUser,
+  updateCurrentDept,
+  clearUser,
+  DeptInfoProps,
+  DeptType,
+} from '../Auth';
 import { uesRequest } from '../../utils/api';
 // @ts-ignore
 import { history } from 'umi';
@@ -7,40 +13,67 @@ import './index.less';
 import { message, Card, List, Badge, Divider, Tooltip } from 'antd';
 import classnames from 'classnames';
 import NotMenuLayouy from '../Layout/NoMenuLayout';
+import { findIndex } from 'lodash';
 
 // 排序列表
 const sort = [
   'COMPANY', // 集团
-  'SUPPLY_CHAIN_COMPANY', // 供应链公司
-  'SUPPLY_SUBCOMPANY', // 供应链子公司
   'WAREHOUSE', // 仓库
-  'CHAIN_MANAGE_COMPANY', // 连锁管理公司
   'SHOP', // 门店
-  'STATION', // 站点
   'SUPPLIER', // 加工中心
 ];
+
 /** 机构对应的背景图 */
 const imageMap = {
   COMPANY: require('../../assets/selectDept/company.svg'),
-  SUPPLY_SUBCOMPANY: require('../../assets/selectDept/supply_chain_company.svg'), // 子公司
-  SUPPLY_CHAIN_COMPANY: require('../../assets/selectDept/supply_chain_company.svg'), // 供应链公司
   WAREHOUSE: require('../../assets/selectDept/warehouse.svg'), // 仓库
-  CHAIN_MANAGE_COMPANY: require('../../assets/selectDept/chain_chain_company.svg'), // 连锁管理公司
   SHOP: require('../../assets/selectDept/shop.svg'), // 门店
-  STATION: require('../../assets/selectDept/shop.svg'), // 站点
-  SUPPLIER: require('../../assets/selectDept/supply_chain_company.svg'), // 加工中心
+  SUPPLIER: require('../../assets/selectDept/supplier.svg'), // 加工中心
 };
 
 /** 机构对应的背景图 */
 const colorMap = {
-  COMPANY: { left: '#2F54EB', right: 'rgba(47,84,235,0)' },
-  SUPPLY_SUBCOMPANY: { left: '#3EBC80', right: 'rgba(62,188,128,0)' }, // 子公司
-  SUPPLY_CHAIN_COMPANY: { left: '#3EBC80', right: 'rgba(62,188,128,0)' }, // 供应链公司
-  WAREHOUSE: { left: '#E94250', right: 'rgba(233,66,80,0)' }, // 仓库
-  CHAIN_MANAGE_COMPANY: { left: '#6B2FEB', right: 'rgba(107,47,235,0)' }, // 连锁管理公司
-  SHOP: { left: '#F9A225', right: 'rgba(249,162,37,0)' }, // 门店
-  STATION: { left: '#DC33DF', right: 'rgba(219, 51, 222,0)' }, // 站点
-  SUPPLIER: { left: '#22CED9', right: 'rgba(34, 206, 217,0)' }, // 加工中心
+  COMPANY: 'rgba(47, 84, 235, 0.16)',
+  WAREHOUSE: 'rgba(233, 66, 80, 0.16)', // 仓库
+  SHOP: 'rgba(255, 165, 0, 0.16)', // 门店
+  SUPPLIER: 'rgba(62, 188, 128, 0.16)', // 加工中心
+};
+const getGroupKey = (bizDeptType: DeptType) => {
+  const map = {
+    COMPANY: 'COMPANY',
+    SUPPLY_SUBCOMPANY: 'COMPANY', // 子公司
+    SUPPLY_CHAIN_COMPANY: 'COMPANY', // 供应链公司
+    WAREHOUSE: 'WAREHOUSE', // 仓库
+    CHAIN_MANAGE_COMPANY: 'COMPANY', // 连锁管理公司
+    SHOP: 'SHOP', // 门店
+    STATION: 'SHOP', // 站点
+    SUPPLIER: 'SUPPLIER', // 加工中心
+  };
+  return map[bizDeptType] || 'COMPANY';
+};
+
+const getGroupNameByKey = (key: string) => {
+  const map = {
+    COMPANY: '企业',
+    WAREHOUSE: '仓库', // 仓库
+    SHOP: '门店', // 门店
+    SUPPLIER: '供应商', // 加工中心
+  };
+  return map[key] || '企业';
+};
+
+const getErrorStatusName = (item: DeptInfoProps): string | undefined => {
+  const shopStatusMap = {
+    CLOSED: '已关店',
+    PENDING: '暂停营业',
+  };
+  if (item.bizDeptType !== 'SHOP' && item.enabled === false) {
+    return '已停用';
+  }
+  if (item.bizDeptType === 'SHOP') {
+    return item.enabled ? shopStatusMap[item.shopStatus || ''] : '已关店';
+  }
+  return undefined;
 };
 
 const SelectDept: React.FC<any> = (props) => {
@@ -90,34 +123,52 @@ const SelectDept: React.FC<any> = (props) => {
 
       if (Array.isArray(depList)) {
         depList.forEach((item) => {
-          if (groupMap[item.bizDeptType]) {
-            const list = groupMap[item.bizDeptType].list;
+          const key = getGroupKey(item.bizDeptType);
+          const bizDeptTypeName = getGroupNameByKey(key);
+          let list: DeptInfoProps[] = [];
+          if (groupMap[key]) {
+            list = groupMap[key].list;
             list.push(item);
-            groupMap[item.bizDeptType] = {
-              bizDeptTypeName: item.bizDeptTypeName,
-              list: list,
-            };
           } else {
-            groupMap[item.bizDeptType] = {
-              bizDeptTypeName: item.bizDeptTypeName,
-              list: [item],
-            };
+            list = [item];
           }
+          groupMap[key] = {
+            bizDeptTypeName: bizDeptTypeName,
+            list: list,
+          };
         });
       }
-      const length = Object.keys(groupMap).length;
-      const width = Math.round(95 / length);
+      // 对企业进行排序
+      const companyList =
+        groupMap['COMPANY'] && Array.isArray(groupMap['COMPANY'].list)
+          ? groupMap['COMPANY'].list
+          : [];
+      if (companyList.length > 1) {
+        const sortMap = {
+          COMPANY: 1,
+          SUPPLY_CHAIN_COMPANY: 2,
+          SUPPLY_SUBCOMPANY: 3,
+          CHAIN_MANAGE_COMPANY: 4,
+        };
+        companyList.sort((a, b) => {
+          const anum = sortMap[a.bizDeptType];
+          const bnum = sortMap[b.bizDeptType];
+          return anum - bnum;
+        });
+      }
+
       return (
         <>
-          {sort.map((bizDeptType: string) => {
-            if (groupMap[bizDeptType]) {
+          {sort.map((key: string) => {
+            if (groupMap[key]) {
               return (
-                <div key={bizDeptType} className={`${classPrefix}-item`}>
+                <div key={key} className={`${classPrefix}-item`}>
                   <div className={`${classPrefix}-item-title`}>
-                    {groupMap[bizDeptType].bizDeptTypeName}
+                    {groupMap[key].bizDeptTypeName}
                   </div>
                   <div className={`${classPrefix}-item-content`}>
-                    {groupMap[bizDeptType].list.map((item, idx) => {
+                    {groupMap[key].list.map((item, idx) => {
+                      const errorName = getErrorStatusName(item);
                       return (
                         <Tooltip
                           placement="top"
@@ -134,108 +185,42 @@ const SelectDept: React.FC<any> = (props) => {
                               selectOrg(item.bizDeptId);
                             }}
                           >
-                            {/* <img
-                              src={imageMap[bizDeptType]}
-                              className={`${classPrefix}-item-child-image`}
-                            ></img> */}
-                            {/*背景*/}
-                            <div className={`${classPrefix}-item-child-image`}>
-                              {colorMap[bizDeptType] && (
-                                <div
-                                  className={`${classPrefix}-item-child-image-cont`}
-                                  style={{
-                                    background: `linear-gradient(220deg, ${colorMap[bizDeptType].left} 0%, ${colorMap[bizDeptType].right} 100%)`,
-                                  }}
-                                ></div>
-                              )}
+                            {/*图标*/}
+                            <div
+                              className={`${classPrefix}-item-child-icon`}
+                              style={{ backgroundColor: colorMap[key] }}
+                            >
+                              <img
+                                src={imageMap[key]}
+                                className={`${classPrefix}-item-child-image`}
+                              ></img>
                             </div>
+
+                            {/*文本*/}
                             <div className={`${classPrefix}-item-child-text`}>
                               {item.bizDeptName}
                             </div>
-                            {Number(item.todoNumber || 0) > 0 && (
+                            {/** 状态显示 */}
+                            {errorName ? (
                               <div
-                                className={`${classPrefix}-item-child-badge`}
+                                className={`${classPrefix}-item-child-status`}
                               >
-                                {Number(item.todoNumber || 0)}
+                                {errorName}
                               </div>
+                            ) : (
+                              Number(item.todoNumber || 0) > 0 && (
+                                <div
+                                  className={`${classPrefix}-item-child-badge`}
+                                >
+                                  {Number(item.todoNumber || 0)}
+                                </div>
+                              )
                             )}
                           </div>
                         </Tooltip>
                       );
                     })}
                   </div>
-                  {/* <Badge
-                    status="processing"
-                    text={
-                      <span style={{ fontSize: '16px', fontWeight: 500 }}>
-                        {groupMap[bizDeptType].bizDeptTypeName}
-                      </span>
-                    }
-                    style={{ marginBottom: '12px', marginLeft: '12px' }}
-                  />
-                  <List<DeptInfoProps>
-                    rowKey="bizDeptId"
-                    grid={{
-                      gutter: 16,
-                      xs: 1,
-                      sm: 1,
-                      md: 1,
-                      lg: 1,
-                      xl: 1,
-                      xxl: 1,
-                    }}
-                    dataSource={groupMap[bizDeptType].list}
-                    renderItem={(item) => (
-                      <List.Item key={item.bizDeptId}>
-                        {Number(item.todoNumber || 0) > 0 ? (
-                          <Badge.Ribbon
-                            text={`${Number(item.todoNumber || 0)}`}
-                            color="#cf1322"
-                          >
-                            <Card
-                              className={
-                                currentDept?.bizDeptId === item.bizDeptId
-                                  ? 'card-action'
-                                  : ''
-                              }
-                              hoverable
-                              bodyStyle={{ padding: 18 }}
-                              onClick={() => {
-                                selectOrg(item.bizDeptId);
-                              }}
-                            >
-                              <Card.Meta
-                                title={item.bizDeptName}
-                                // description={`机构类型:${
-                                //   item.bizDeptTypeName || ''
-                                // }`}
-                              />
-                            </Card>
-                          </Badge.Ribbon>
-                        ) : (
-                          <Card
-                            className={
-                              currentDept?.bizDeptId === item.bizDeptId
-                                ? 'card-action'
-                                : ''
-                            }
-                            hoverable
-                            bodyStyle={{ padding: 18 }}
-                            onClick={() => {
-                              selectOrg(item.bizDeptId);
-                            }}
-                          >
-                            <Card.Meta
-                              title={item.bizDeptName}
-                              // description={`机构类型:${
-                              //   item.bizDeptTypeName || ''
-                              // }`}
-                            />
-                          </Card>
-                        )}
-                      </List.Item>
-                    )}
-                  /> */}
                 </div>
               );
             }
@@ -251,11 +236,7 @@ const SelectDept: React.FC<any> = (props) => {
     <NotMenuLayouy>
       {/* <Card title="机构列表" bodyStyle={{ padding: '0 24px' }}> */}
       <div className={classPrefix}>
-        {renderDept()}
-        <img
-          src={require('../../assets/logo-bg.svg')}
-          className={`${classPrefix}-bg`}
-        ></img>
+        <div className={`${classPrefix}-view`}>{renderDept()}</div>
       </div>
       {/* </Card> */}
     </NotMenuLayouy>

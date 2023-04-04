@@ -2,30 +2,38 @@ import { message, Modal } from 'antd';
 // @ts-ignore
 import { history } from 'umi';
 
-
-/**
- * 
- * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店 
- */
-export type DeptType = "COMPANY" | "CHAIN_MANAGE_COMPANY" | "SHOP" | 'WAREHOUSE' | 'SUPPLY_CHAIN_COMPANY' | 'SUPPLY_SUBCOMPANY' | 'STATION '
+/** "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY" 连锁公司| "SHOP" 门店 */
+export type DeptType =
+  | 'COMPANY'
+  | 'CHAIN_MANAGE_COMPANY'
+  | 'SHOP'
+  | 'WAREHOUSE'
+  | 'SUPPLY_CHAIN_COMPANY'
+  | 'SUPPLY_SUBCOMPANY'
+  | 'STATION ';
+/** 门店状态 OPEN营业中、CLOSED已关店、PENDING暂停营业 */
+export type ShopStatus = 'OPEN' | 'CLOSED' | 'PENDING';
 export interface DeptInfoProps {
-  /**
-   * 机构id
-   */
+  /** 机构id */
   bizDeptId: string;
-  /**
- * 机构名称
- */
+  /** 机构名称 */
   bizDeptName: string;
-  /**
- * "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY"  连锁公司| "SHOP" 门店
- */
+  /** "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY" 连锁公司| "SHOP" 门店 */
   bizDeptType: DeptType;
+  /** 组织机构名称 */
   bizDeptTypeName: string;
+  /** 组织机构编码 */
   bizDeptCode: string;
+  /** 机构联系人 */
   contactName: string;
+  /** 机构联系电话 */
   contactPhone: string;
+  /** 待办事项条数 */
   todoNumber?: number;
+  /** 是否启用 */
+  enabled?: boolean;
+  /** 门店状态：OPEN营业中、CLOSED已关店、PENDING暂停营业 */
+  shopStatus?: ShopStatus;
 }
 
 export interface CurrentDeptInfoProps extends DeptInfoProps {
@@ -51,17 +59,11 @@ export interface CurrentDeptProps {
 
 export interface User {
   currentDept?: CurrentDeptInfoProps;
-  /**
-   * 邮箱地址
-   */
+  /** 邮箱地址 */
   email: string;
-  /**
-   * 最后一次登陆时间
-   */
-  lastLoginTime: string; // 
-  /**
-   *  是否需要修改密码
-   */
+  /** 最后一次登陆时间 */
+  lastLoginTime: string; //
+  /** 是否需要修改密码 */
   needModifyPwd: boolean;
   optionalDepts: DeptInfoProps[];
   phone: string; // 手机号
@@ -69,17 +71,11 @@ export interface User {
   userId: string;
   userName: string;
   token: string; // token
-  /**
-   * 微信头像信息
-   */
+  /** 微信头像信息 */
   wechatAvatarUrl: string | null; // 微信头像信息
-  /**
-   * 微信头像昵称
-   */
+  /** 微信头像昵称 */
   wechatNickname: string | null; // 微信头像昵称
-  /**
-   * 微信id
-   */
+  /** 微信id */
   wechatUnionId: string | null; // 微信id
 }
 
@@ -241,20 +237,21 @@ const getUser = (): GetUser | null | undefined => {
 
 /**
  * @description: 获取当前登录组织机构信息
- * @return {*}
+ * @returns {any}
  */
 const getBizDeptInfo = () => {
-  const user = getUser()
+  const user = getUser();
   if (user != null && user?.userAppInfo != null) {
-    const { bizDeptId, bizDeptName, bizDeptType } = user?.userAppInfo.currentDept
+    const { bizDeptId, bizDeptName, bizDeptType } =
+      user?.userAppInfo.currentDept;
     return {
       bizDeptId,
       bizDeptName,
-      bizDeptType
-    }
+      bizDeptType,
+    };
   }
-  return null
-}
+  return null;
+};
 const clearUser = () => {
   localStorage.removeItem(User_Key);
   localStorage.removeItem(AppsUser_Key);
@@ -424,5 +421,5 @@ export {
   initWarnTimer,
   initInner,
   getDeptEnabled,
-  getBizDeptInfo
+  getBizDeptInfo,
 };
