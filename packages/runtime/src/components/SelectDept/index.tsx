@@ -70,7 +70,7 @@ const getErrorStatusName = (item: DeptInfoProps): string | undefined => {
   if (item.bizDeptType !== 'SHOP' && item.enabled === false) {
     return '已停用';
   }
-  if (item.bizDeptType === 'SHOP') {
+  if (item.bizDeptType === 'SHOP' && item.enabled != null) {
     return item.enabled ? shopStatusMap[item.shopStatus || ''] : '已关店';
   }
   return undefined;
