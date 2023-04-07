@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6-beta.78](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.74...@micro-frame/sc-runtime@1.0.6-beta.78) (2023-04-06)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
 ## [1.0.6-beta.74](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.73...@micro-frame/sc-runtime@1.0.6-beta.74) (2023-04-04)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime
