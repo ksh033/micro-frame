@@ -13,7 +13,7 @@ import './index.less';
 import { message, Card, List, Badge, Divider, Tooltip } from 'antd';
 import classnames from 'classnames';
 import NotMenuLayouy from '../Layout/NoMenuLayout';
-import { findIndex } from 'lodash';
+import { orderBy } from 'lodash';
 
 // 排序列表
 const sort = [
@@ -111,8 +111,7 @@ const SelectDept: React.FC<any> = (props) => {
 
   const renderDept = () => {
     if (user && user.optionalDepts) {
-      const depList =
-        userDeptlist.length > 0 ? userDeptlist : user.optionalDepts;
+      let depList = userDeptlist.length > 0 ? userDeptlist : user.optionalDepts;
       const currentDept = user.chooseDeptVO?.currentDept;
       console.log('depList', depList);
 
@@ -122,6 +121,11 @@ const SelectDept: React.FC<any> = (props) => {
       > = {};
 
       if (Array.isArray(depList)) {
+        depList = orderBy(
+          depList,
+          ['enabled', 'shopStatus', 'bizDeptName'],
+          ['desc', 'asc', 'asc']
+        );
         depList.forEach((item) => {
           const key = getGroupKey(item.bizDeptType);
           const bizDeptTypeName = getGroupNameByKey(key);
