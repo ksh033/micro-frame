@@ -37,12 +37,7 @@
     "umi": "^3.4.11",
     "umi-request": "^1.3.5"
   },
-  "peerDependencies": {
-    "@micro-frame/plugin-microlayout": "beta",
-    "@micro-frame/sc-runtime": "beta",
-    "@scboson/sc-schema": "beta",
-    "@scboson/sc-utils": "beta"
-  },
+
   "publishConfig": {
     "access": "public"
   }
