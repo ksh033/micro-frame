@@ -50,7 +50,7 @@ const CatalogTree: React.FC<
         onExpand={(expandedKeys) => {
           setExpandedKeys(expandedKeys);
         }}
-        onSelect={(selectedKeys: any, info) => {
+        onSelect={(selectedKeys: any, info: any) => {
           let [key] = info.selectedNodes.map((node) => {
             return node.key;
           });
@@ -65,8 +65,6 @@ const CatalogTree: React.FC<
           }
           if (cache) {
             setCatalogId(key);
-            console.log(info.node.dataRef);
-
             if (info.node.dataRef.catalogSource !== 'SUPPLY_CHAIN') {
               setCatalogNode(info.node);
             } else {
