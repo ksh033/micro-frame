@@ -75,6 +75,6 @@ export default WithTable<
     size: 'small',
     pageSize: 5,
     //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
-    scroll: { y: 500, x: 560 },
+    scroll: { y: 400, x: 560 },
   };
 });
