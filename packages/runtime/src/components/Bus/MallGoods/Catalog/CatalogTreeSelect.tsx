@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: yangyuhang
+ * @Date: 2023-01-05 10:01:22
+ * @LastEditors: yangyuhang
+ * @LastEditTime: 2023-04-23 17:20:23
+ */
 import React from 'react';
 import { ScTreeSelect } from '@scboson/sc-element';
 
@@ -35,7 +43,7 @@ const CatalogTreeSelect: React.FC<
       treeDataSimpleMode
       autoload={true}
       request={run}
-      params={{}}
+      params={params}
       textField="catalogName"
       valueField="catalogId"
       {...restProps}

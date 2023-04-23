@@ -125,7 +125,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   }
 
   if (readonly) {
-    if (bizDeptType !== 'SHOP') {
+    if (bizDeptType !== 'SHOP' && bizDeptType !== 'WAREHOUSE') {
       return <div>{resProps.value}</div>;
     }
     const areaName = dataSource.find(
