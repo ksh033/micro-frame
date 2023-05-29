@@ -371,6 +371,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   }
 
   const dataLoad = (data: any) => {
+
+    let temCurrent = 1;
     let newData = {};
     if (data) {
       if (onLoad) {
@@ -379,6 +381,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       if (!isArray(data)) {
         let rows = data.records || data.rows || [];
         const { current = 1, size = 10 } = data;
+        temCurrent = current
+
         rows = rows.map((item: any, index: number) => {
           const titem = item;
           titem.index = index + 1 + (current - 1) * size;
@@ -408,7 +412,10 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
     }
     if (needRecordSummary) {
-      setRecordSummary(data.recordSummary);
+      if (temCurrent === 1) {
+        setRecordSummary(data.recordSummary);
+
+      }
     }
     return newData;
   };
