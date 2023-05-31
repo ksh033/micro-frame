@@ -1,45 +1,45 @@
-import { Layout } from 'antd';
-import React, { PropsWithChildren } from 'react';
+import { Layout } from "antd";
+import React, { PropsWithChildren } from "react";
 const { Header, Content } = Layout;
-import Avatar from '../GlobalHeader/AvatarDropdown';
-import logo from '../../../assets/logo.svg';
-import { getUser, clearUser } from '../../Auth';
-import { uesRequest } from '../../../utils/api';
+import Avatar from "../GlobalHeader/AvatarDropdown";
+import logo from "../../../assets/logo.svg";
+import { getUser, clearUser } from "../../Auth";
+import { uesRequest } from "../../../utils/api";
 // @ts-ignore
-import { history } from 'umi';
+import { history } from "umi";
 
 const NotMenuLayouy: React.FC<PropsWithChildren<any>> = (props) => {
   const user = getUser();
-  const logout = uesRequest('user', 'logout');
+  const logout = uesRequest("user", "logout");
   const layoutFn = () => {
     logout.run().then(() => {
       clearUser();
-      history.push('/login');
+      history.push("/login");
     });
   };
   return (
     <div
       id="test-pro-layout"
       style={{
-        height: '100vh',
+        height: "100vh",
       }}
     >
       <Layout className="ant-pro-basicLayout ">
         <Header
           className="ant-pro-fixed-header ant-pro-top-nav-header light"
-          style={{ height: '48px', lineHeight: '48px', padding: 0, zIndex: 99 }}
+          style={{ height: "48px", lineHeight: "48px", padding: 0, zIndex: 99 }}
         >
           <div
             className="ant-pro-top-nav-header-main"
             style={{
-              justifyContent: 'space-between',
-              paddingRight: '24px',
-              paddingLeft: '24px',
+              justifyContent: "space-between",
+              paddingRight: "24px",
+              paddingLeft: "24px",
             }}
           >
             <div
               className="ant-pro-top-nav-header-main-left ant-pro-top-nav-header-logo"
-              style={{ alignItems: 'center' }}
+              style={{ alignItems: "center" }}
             >
               <img src={logo}></img>
               <h1>长嘴猫平台</h1>

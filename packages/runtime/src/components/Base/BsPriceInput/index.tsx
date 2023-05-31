@@ -2,20 +2,20 @@
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form'
-import { useSetState, useUpdateEffect } from 'ahooks'
-import React, { useEffect } from 'react'
-import BsNumberInput, { BsNumberInputProps } from '../BsNumberInput'
-import compute from '../../../utils/compute'
+} from "@scboson/sc-element/es/c-form";
+import { useSetState, useUpdateEffect } from "ahooks";
+import React, { useEffect } from "react";
+import BsNumberInput, { BsNumberInputProps } from "../BsNumberInput";
+import compute from "../../../utils/compute";
 
 export type BsPriceInputProps = BsNumberInputProps &
   FormComponentProps & {
-    rowData?: any
-  }
+    rowData?: any;
+  };
 
 type BsPriceInputState = {
-  value: any
-}
+  value: any;
+};
 
 const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
   const {
@@ -27,46 +27,46 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
     addonAfter,
     addonBefore,
     ...restProps
-  } = props
+  } = props;
 
   const formatValue = (rVal: any) => {
-    if (rVal === '' || rVal === null || rVal === undefined) {
-      return ''
+    if (rVal === "" || rVal === null || rVal === undefined) {
+      return "";
     }
-    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
+    const reg = /-?(0|[1-9]\d*)(\.\d+)?/;
     if (!isNaN(rVal) && reg.test(rVal)) {
-      return compute.divide(rVal, 10000).toFixed(complement)
+      return compute.divide(rVal, 10000).toFixed(complement);
     } else {
-      return ''
+      return "";
     }
-  }
+  };
 
   const [state, setState] = useSetState<BsPriceInputState>({
     value: formatValue(value),
-  })
+  });
 
   useUpdateEffect(() => {
     if (value !== null && value !== undefined && value !== state.value) {
       setState({
         value: formatValue(value),
-      })
+      });
     }
-  }, [value])
+  }, [value]);
 
   const handleChange = (rValue: any) => {
     setState({
       value: rValue,
-    })
-  }
+    });
+  };
   const onBlur = (rValue: any) => {
-    const reg = /-?(0|[1-9]\d*)(\.\d+)?/
+    const reg = /-?(0|[1-9]\d*)(\.\d+)?/;
     if (!isNaN(rValue) && reg.test(rValue)) {
       onChange &&
-        onChange(compute.multiply(Number(rValue).toFixed(complement), 10000))
+        onChange(compute.multiply(Number(rValue).toFixed(complement), 10000));
     } else {
-      onChange && onChange('')
+      onChange && onChange("");
     }
-  }
+  };
 
   if (readonly) {
     return (
@@ -75,7 +75,7 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
         {formatValue(value)}
         {addonAfter}
       </div>
-    )
+    );
   }
 
   return (
@@ -88,9 +88,9 @@ const BsPriceInput: FormComponent<BsPriceInputProps> = (props) => {
       complement={complement}
       {...restProps}
     ></BsNumberInput>
-  )
-}
+  );
+};
 
-BsPriceInput.customView = true
+BsPriceInput.customView = true;
 
-export default BsPriceInput
+export default BsPriceInput;

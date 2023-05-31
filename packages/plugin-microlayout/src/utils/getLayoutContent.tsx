@@ -1,16 +1,16 @@
-import { LayoutConfig } from '../types/interface.d';
+import { LayoutConfig } from "../types/interface.d";
 export default (
   userConfig: LayoutConfig,
   path: string
 ) => `import React, { useState, useEffect } from "react";
-import { ApplyPluginsType, useModel} from "umi";
-import { plugin } from "../core/umiExports";
+import { ApplyPluginsType, useModel,useAppData} from "umi";
+
 import LayoutComponent from '${path}';
 import {Auth} from '@micro-frame/sc-runtime';
 
 export default props => {
   const [runtimeConfig, setRuntimeConfig] = useState(null);
-
+  const { pluginManager } = useAppData();
   const initialInfo = (useModel && useModel("@@initialState")) || {
     initialState: undefined,
     loading: false,
@@ -19,7 +19,7 @@ export default props => {
 
   useEffect(() => {
     const useRuntimeConfig =
-      plugin.applyPlugins({
+    pluginManager.applyPlugins({
         key: "microlayout",
         type: ApplyPluginsType.modify,
         initialValue: initialInfo

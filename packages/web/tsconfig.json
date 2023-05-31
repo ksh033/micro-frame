@@ -8,11 +8,10 @@
     "baseUrl": ".",
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,8 +21,7 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
       "@@service": ["src/services/index.ts"],
-      "@micro-frame/sc-runtime": ["../packages/runtime/src/index.ts"],
-
+      "@micro-frame/sc-runtime": ["../packages/runtime/src/index.ts"]
     }
   },
   "exclude": [
@@ -48,19 +46,19 @@
     "space-within-parents": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
-    "ordered-imports": [ false ],
+    "ordered-imports": [false],
     "jsx-boolean-value": false,
     "no-trailing-whitespace": false,
     "semicolon": false,
     "trailing-comma": false,
     "space-in-parents": false,
-    "typedef-whitespace": [ false ],
-    "whitespace": [ true ],
+    "typedef-whitespace": [false],
+    "whitespace": [true],
     "interface-over-type-literal": true,
     "no-duplicate-imports": false,
     "no-namespace": true,
     "no-internal-module": true,
-   
+
     "indent": ["error", 1]
-}
+  }
 }

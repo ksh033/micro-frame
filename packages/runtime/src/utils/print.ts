@@ -1,6 +1,6 @@
-import { BasePluginvoke, Print } from '@scboson/client-plugin';
-import { message } from 'antd';
-import { request } from './request';
+import { BasePluginvoke, Print } from "@scboson/client-plugin";
+import { message } from "antd";
+import { request } from "../request";
 
 // 针式打印的id 是在 普通打印的基础上增加一位为1的数字
 export const getHostUrl = () => {
@@ -15,17 +15,17 @@ let _printObject: Print | null = null;
 export const getPrintObject = () => {
   if (!_printObject) {
     _printObject = new Print({
-      appId: 'bosssoft',
-      cookie: '1123',
+      appId: "bosssoft",
+      cookie: "1123",
       hostUrl: getHostUrl(),
-      downLoadUrl: '',
-      queryTempListUrl: '',
-      queryTempNameUrl: '',
+      downLoadUrl: "",
+      queryTempListUrl: "",
+      queryTempNameUrl: "",
     });
     const config = _printObject.getConfig();
-    config.companyClient = '长嘴猫客户端';
-    config.url = config.url.replace('https:', 'http:');
-    config.guardUrl = config.guardUrl.replace('https:', 'http:');
+    config.companyClient = "长嘴猫客户端";
+    config.url = config.url.replace("https:", "http:");
+    config.guardUrl = config.guardUrl.replace("https:", "http:");
   }
 
   return _printObject;
@@ -42,177 +42,177 @@ export type PrintCfg = {
 // A4 打印为 8位 针式为 9位并且以1结尾
 export enum PrintTplType {
   /** 溯源码 */
-  traceSource = '00000001',
+  traceSource = "00000001",
   /** 商品价签码 */
-  priceTag = '00000002',
+  priceTag = "00000002",
   /** 盘点单 */
-  checkOrder = '00000003',
+  checkOrder = "00000003",
   /** 收货单 */
-  receiverOrder = '00000004',
+  receiverOrder = "00000004",
   /** 出库单 */
-  stockOutOrder = '00000005',
+  stockOutOrder = "00000005",
   /** 拣货单 */
-  pickOrder = '00000006',
+  pickOrder = "00000006",
   /** 总拣单 */
-  sortOrder = '00000007',
+  sortOrder = "00000007",
   /** 溯源码-大张 */
-  traceSourceBig = '00000008',
+  traceSourceBig = "00000008",
   /** 库存移动拣货单 */
-  relocatePickOrder = '00000009',
+  relocatePickOrder = "00000009",
   /** 门店集配商品汇总单 */
-  shopGropyDeliveryGoods = '00000010',
+  shopGropyDeliveryGoods = "00000010",
   /** 门店集配订单总拣单 */
-  shopGropyDeliveryOrder = '00000011',
+  shopGropyDeliveryOrder = "00000011",
   /** 配销出库单 */
-  distributiveOutOrder = '00000012',
+  distributiveOutOrder = "00000012",
   /** 退货出库单 */
-  returnOrder = '00000013',
+  returnOrder = "00000013",
   /** 收货单针式 */
-  receiverOrderZhen = '000000041',
+  receiverOrderZhen = "000000041",
   /** 出库单针式 */
-  stockOutOrderZhen = '000000051',
+  stockOutOrderZhen = "000000051",
   /** 出库单针式 */
-  pickOrderZhen = '000000061',
+  pickOrderZhen = "000000061",
   /** 总拣单针式 */
-  sortOrderZhen = '000000071',
+  sortOrderZhen = "000000071",
   /** 配销出库单针式 */
-  distributiveOutOrderZhen = '000000121',
+  distributiveOutOrderZhen = "000000121",
   /** 退货出库单针式 */
-  returnOrderZhen = '000000131',
+  returnOrderZhen = "000000131",
 }
 
 const printList: { [key: string]: PrintCfg } = {
-  '00000001': {
-    moduleId: '00000001',
-    moduleName: '溯源码',
-    tplName: 'traceSourceCode.grf',
-    dataUrl: '/code/api/trace/code/print',
-    method: 'post',
+  "00000001": {
+    moduleId: "00000001",
+    moduleName: "溯源码",
+    tplName: "traceSourceCode.grf",
+    dataUrl: "/code/api/trace/code/print",
+    method: "post",
   },
 
-  '00000002': {
-    moduleId: '00000002',
-    moduleName: '商品价签码',
-    tplName: 'priceTag.grf',
-    dataUrl: '/mallsys/api/mall/opera/pricetag/print',
-    method: 'post',
+  "00000002": {
+    moduleId: "00000002",
+    moduleName: "商品价签码",
+    tplName: "priceTag.grf",
+    dataUrl: "/mallsys/api/mall/opera/pricetag/print",
+    method: "post",
   },
-  '00000003': {
-    moduleId: '00000003',
-    moduleName: '盘点单',
-    tplName: 'checkOrder.grf',
-    dataUrl: '/wms/api/checkorder/reprint',
-    method: 'get',
+  "00000003": {
+    moduleId: "00000003",
+    moduleName: "盘点单",
+    tplName: "checkOrder.grf",
+    dataUrl: "/wms/api/checkorder/reprint",
+    method: "get",
   },
-  '00000004': {
-    moduleId: '00000004',
-    moduleName: '收货单',
-    tplName: 'receiverOrder.grf',
-    dataUrl: '/transportsys/api/transport/order/print',
-    method: 'get',
+  "00000004": {
+    moduleId: "00000004",
+    moduleName: "收货单",
+    tplName: "receiverOrder.grf",
+    dataUrl: "/transportsys/api/transport/order/print",
+    method: "get",
   },
-  '00000005': {
-    moduleId: '00000005',
-    moduleName: '出库单',
-    tplName: 'stockOutOrder.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "00000005": {
+    moduleId: "00000005",
+    moduleName: "出库单",
+    tplName: "stockOutOrder.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
-  '00000006': {
-    moduleId: '00000006',
-    moduleName: '拣货单',
-    tplName: 'pickOrder.grf',
-    dataUrl: '/purchase/api/pick/order/print',
-    method: 'get',
+  "00000006": {
+    moduleId: "00000006",
+    moduleName: "拣货单",
+    tplName: "pickOrder.grf",
+    dataUrl: "/purchase/api/pick/order/print",
+    method: "get",
   },
-  '00000007': {
-    moduleId: '00000007',
-    moduleName: '总拣单',
-    tplName: 'sortOrder.grf',
-    dataUrl: '',
+  "00000007": {
+    moduleId: "00000007",
+    moduleName: "总拣单",
+    tplName: "sortOrder.grf",
+    dataUrl: "",
   },
-  '00000008': {
-    moduleId: '00000008',
-    moduleName: '溯源码',
-    tplName: 'traceSourceCode_BIG.grf',
-    dataUrl: '/code/api/trace/code/print',
-    method: 'post',
+  "00000008": {
+    moduleId: "00000008",
+    moduleName: "溯源码",
+    tplName: "traceSourceCode_BIG.grf",
+    dataUrl: "/code/api/trace/code/print",
+    method: "post",
   },
-  '00000009': {
-    moduleId: '00000009',
-    moduleName: '库存移动拣货单',
-    tplName: 'relocatePickOrder.grf',
-    dataUrl: '/wms/api/relocationorder/pickprint',
-    method: 'get',
+  "00000009": {
+    moduleId: "00000009",
+    moduleName: "库存移动拣货单",
+    tplName: "relocatePickOrder.grf",
+    dataUrl: "/wms/api/relocationorder/pickprint",
+    method: "get",
   },
-  '00000010': {
-    moduleId: '00000010',
-    moduleName: '门店集配商品汇总单',
-    tplName: 'shopGropyDeliveryGoods.grf',
+  "00000010": {
+    moduleId: "00000010",
+    moduleName: "门店集配商品汇总单",
+    tplName: "shopGropyDeliveryGoods.grf",
     dataUrl:
-      '/shopsys/api/shop/business/store/distribution/order/print/goods/summary',
-    method: 'post',
+      "/shopsys/api/shop/business/store/distribution/order/print/goods/summary",
+    method: "post",
   },
-  '00000011': {
-    moduleId: '00000011',
-    moduleName: '门店集配订单总拣单',
-    tplName: 'shopGropyDeliveryOrder.grf',
-    dataUrl: '',
+  "00000011": {
+    moduleId: "00000011",
+    moduleName: "门店集配订单总拣单",
+    tplName: "shopGropyDeliveryOrder.grf",
+    dataUrl: "",
   },
-  '00000012': {
-    moduleId: '00000012',
-    moduleName: '配销出库单',
-    tplName: 'distributiveOutOrder.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "00000012": {
+    moduleId: "00000012",
+    moduleName: "配销出库单",
+    tplName: "distributiveOutOrder.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
-  '00000013': {
-    moduleId: '00000013',
-    moduleName: '退货出库单',
-    tplName: 'returnOrder.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "00000013": {
+    moduleId: "00000013",
+    moduleName: "退货出库单",
+    tplName: "returnOrder.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
-  '000000041': {
-    moduleId: '000000041',
-    moduleName: '收货单',
-    tplName: 'receiverOrder_zhen.grf',
-    dataUrl: '/transportsys/api/transport/order/print',
-    method: 'get',
+  "000000041": {
+    moduleId: "000000041",
+    moduleName: "收货单",
+    tplName: "receiverOrder_zhen.grf",
+    dataUrl: "/transportsys/api/transport/order/print",
+    method: "get",
   },
-  '000000051': {
-    moduleId: '000000051',
-    moduleName: '出库单',
-    tplName: 'stockOutOrder_zhen.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "000000051": {
+    moduleId: "000000051",
+    moduleName: "出库单",
+    tplName: "stockOutOrder_zhen.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
-  '000000061': {
-    moduleId: '000000061',
-    moduleName: '拣货单',
-    tplName: 'pickOrder_zhen.grf',
-    dataUrl: '/purchase/api/pick/order/print',
-    method: 'get',
+  "000000061": {
+    moduleId: "000000061",
+    moduleName: "拣货单",
+    tplName: "pickOrder_zhen.grf",
+    dataUrl: "/purchase/api/pick/order/print",
+    method: "get",
   },
-  '000000071': {
-    moduleId: '000000071',
-    moduleName: '总拣单',
-    tplName: 'sortOrder_zhen.grf',
-    dataUrl: '',
+  "000000071": {
+    moduleId: "000000071",
+    moduleName: "总拣单",
+    tplName: "sortOrder_zhen.grf",
+    dataUrl: "",
   },
-  '000000121': {
-    moduleId: '000000121',
-    moduleName: '配销出库单',
-    tplName: 'distributiveOutOrder_zhen.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "000000121": {
+    moduleId: "000000121",
+    moduleName: "配销出库单",
+    tplName: "distributiveOutOrder_zhen.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
-  '000000131': {
-    moduleId: '000000131',
-    moduleName: '退货出库单',
-    tplName: 'returnOrder_zhen.grf',
-    dataUrl: '/purchase/api/stock/order/print',
-    method: 'get',
+  "000000131": {
+    moduleId: "000000131",
+    moduleName: "退货出库单",
+    tplName: "returnOrder_zhen.grf",
+    dataUrl: "/purchase/api/stock/order/print",
+    method: "get",
   },
 };
 
@@ -226,29 +226,29 @@ export interface PrintProps {
   params?: any;
 }
 const checkClient = (): Promise<Boolean> => {
-  const key = 'updatable';
+  const key = "updatable";
 
   return BasePluginvoke.heartbeat()
     .then(() => {
       return Promise.resolve(true);
     })
     .catch((d: any) => {
-      message.loading({ content: '打印控件启动中...', key });
+      message.loading({ content: "打印控件启动中...", key });
       /** 当BsService 进程未被关闭时，可以通过发送jsonp请求启动 当BsService 被关闭时，通过注册表启动 */
-      return BasePluginvoke.startClient('jsonp')
+      return BasePluginvoke.startClient("jsonp")
         .then((c: any) => {
           message.success({
-            content: '打印控件启动成功,请重点打印!',
+            content: "打印控件启动成功,请重点打印!",
             key,
             duration: 2,
           });
           return Promise.resolve(true);
         })
         .catch((b: any) => {
-          return BasePluginvoke.startClient('url').then((a: any) => {
+          return BasePluginvoke.startClient("url").then((a: any) => {
             if (a) {
               message.success({
-                content: '打印控件启动成功,请重点打印!',
+                content: "打印控件启动成功,请重点打印!",
                 key,
                 duration: 2,
               });
@@ -283,7 +283,7 @@ export const print = async (moduleId: string, options: PrintProps) => {
       const {
         params,
         url = printCfg.dataUrl,
-        method = printCfg.method || 'get',
+        method = printCfg.method || "get",
         preview,
         loadReportURL = `${getHostUrl()}/grf_file/${printCfg.tplName}`,
       } = options;
@@ -295,7 +295,7 @@ export const print = async (moduleId: string, options: PrintProps) => {
       const printData = await printObject.getPrintSet(printParams);
       if (printData) {
         let temData = {};
-        if (method === 'get') {
+        if (method === "get") {
           temData = { params };
         } else {
           temData = { data: params };

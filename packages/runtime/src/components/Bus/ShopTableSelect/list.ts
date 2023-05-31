@@ -1,47 +1,47 @@
-import type { PageConfig } from '@scboson/sc-schema'
+import type { PageConfig } from "@scboson/sc-schema";
 
 const pageConfig: PageConfig = {
   queryConfig: [
     {
-      label: '门店查询',
-      name: 'shopCodeName',
-      component: 'Input',
+      label: "门店查询",
+      name: "shopCodeName",
+      component: "Input",
       props: {
-        placeholder: '请输入名称/编码',
+        placeholder: "请输入名称/编码",
       },
     },
     {
-      label: '门店类型',
-      name: 'shopType',
-      component: 'DictSelect',
+      label: "门店类型",
+      name: "shopType",
+      component: "DictSelect",
       props: {
-        dictType: 'shopType',
-        placeholder: '请选择门店类型',
+        dictType: "shopType",
+        placeholder: "请选择门店类型",
       },
     },
   ],
   tableConfig: [
     {
-      title: '门店编码',
-      dataIndex: 'shopCode',
+      title: "门店编码",
+      dataIndex: "shopCode",
     },
     {
-      title: '门店名称',
-      dataIndex: 'shopName',
+      title: "门店名称",
+      dataIndex: "shopName",
     },
     {
-      title: '门店类型',
-      dataIndex: 'shopType',
+      title: "门店类型",
+      dataIndex: "shopType",
     },
     {
-      title: '所属公司',
-      dataIndex: 'companyName',
+      title: "所属公司",
+      dataIndex: "companyName",
     },
     {
-      title: '经营业务',
-      dataIndex: 'shopBusiness',
-      key: 'shopBusiness',
+      title: "经营业务",
+      dataIndex: "shopBusiness",
+      key: "shopBusiness",
     },
   ],
-}
-export default pageConfig
+};
+export default pageConfig;

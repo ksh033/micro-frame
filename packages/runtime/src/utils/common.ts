@@ -1,22 +1,22 @@
-import { User } from '../components/Auth';
+import { User } from "../components/Auth";
 
 // @ts-ignore
-export const baseUrl = SC_GLOBAL_IMG_URL || 'https://testepay.bstj.com/bg/img';
+export const baseUrl = SC_GLOBAL_IMG_URL || "https://testepay.bstj.com/bg/img";
 
 // @ts-ignore
-export const baseApi = SC_GLOBAL_API_URL || '/api';
+export const baseApi = SC_GLOBAL_API_URL || "/api";
 
-export const amapkey = '45765f3ea9fb657b7dc2244a41ef64b7';
+export const amapkey = "45765f3ea9fb657b7dc2244a41ef64b7";
 
 export function imageUrl(url: string) {
-  const str = RegExp('http');
+  const str = RegExp("http");
   let newUrl: string | null = null;
   // 通过三元运算符进行判断该图片是否含有http域名，没有就拼接上去
   if (url) {
     if (str.test(url)) {
       newUrl = url;
     } else {
-      if (url.substr(0, 1) !== '/') {
+      if (url.substr(0, 1) !== "/") {
         url = `/${url}`;
       }
       newUrl = `${baseUrl}${url}`;
@@ -89,7 +89,7 @@ export function setKey(res: any[]) {
 export function filterDeleted(res: any[]) {
   if (Array.isArray(res)) {
     return res.filter((item: any, index: number) => {
-      return String(item.deleted) !== '1';
+      return String(item.deleted) !== "1";
     });
   }
   return [];
@@ -100,11 +100,11 @@ export function filterUploadData(res: any[], rowKey: string) {
   if (Array.isArray(res)) {
     return res.filter((item: any, index: number) => {
       return (
-        item['_updeted'] === true ||
-        String(item.deleted) === '1' ||
+        item["_updeted"] === true ||
+        String(item.deleted) === "1" ||
         item[rowKey] === undefined ||
         item[rowKey] === null ||
-        item[rowKey] === ''
+        item[rowKey] === ""
       );
     });
   }
@@ -144,9 +144,9 @@ export function dataTableFormat(data: any) {
  */
 export function urlSafeBase64Decode(base64Str: string) {
   if (!base64Str) return;
-  const safeStr = base64Str.replace(/-/g, '+').replace(/_/g, '/');
+  const safeStr = base64Str.replace(/-/g, "+").replace(/_/g, "/");
   const num = safeStr.length % 4;
-  return safeStr + '===='.substring(0, num);
+  return safeStr + "====".substring(0, num);
 }
 
 /**
@@ -161,9 +161,9 @@ export function urlSafeBase64Decode(base64Str: string) {
 export function urlSateBase64Encode(base64Str: string) {
   if (!base64Str) return;
   const safeStr = base64Str
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/\=/g, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/\=/g, "");
   return safeStr;
 }
 
@@ -173,7 +173,7 @@ export const getHostUrl = () => {
 };
 
 export function genNonDuplicateID(randomLength: number | undefined) {
-  let str = '';
+  let str = "";
   str = Math.random().toString(36).substr(3);
   str += Date.now().toString(16).substr(4);
   return str;
@@ -220,7 +220,7 @@ export function colorRgba(sHex: string, alpha?: number): string {
   let sColor = sHex.toLowerCase();
   if (sColor && reg.test(sColor)) {
     if (sColor.length === 4) {
-      let sColorNew = '#';
+      let sColorNew = "#";
       for (let i = 1; i < 4; i += 1) {
         sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
       }
@@ -233,7 +233,7 @@ export function colorRgba(sHex: string, alpha?: number): string {
     }
     // return sColorChange.join(',')
     // 或
-    return `rgba(${sColorChange.join(',')},${alpha})`;
+    return `rgba(${sColorChange.join(",")},${alpha})`;
   } else {
     return sColor;
   }
@@ -242,14 +242,14 @@ export function colorRgba(sHex: string, alpha?: number): string {
 export function initUser(token: string): User {
   return {
     optionalDepts: [],
-    lastLoginTime: '',
-    realName: '',
-    userId: '',
+    lastLoginTime: "",
+    realName: "",
+    userId: "",
     needModifyPwd: false,
     token: token,
-    phone: 'string',
-    userName: 'string',
-    email: '',
+    phone: "string",
+    userName: "string",
+    email: "",
     wechatAvatarUrl: null,
     wechatNickname: null,
     wechatUnionId: null,
@@ -258,9 +258,9 @@ export function initUser(token: string): User {
 
 export function toFixed2(val, decimal = 2) {
   if (Number(decimal) < 0 && Number(decimal) > 100) {
-    return RangeError('toFixed() digits argument must be between 0 and 100');
+    return RangeError("toFixed() digits argument must be between 0 and 100");
   }
-  if (val === undefined || val === null || val === '') {
+  if (val === undefined || val === null || val === "") {
     return 0;
   }
   // 按小数点分割，得到整数位及小数位
@@ -269,10 +269,10 @@ export function toFixed2(val, decimal = 2) {
   // 对需四舍五入的小数最大一位数进行四舍五入，如果大于等于5则进位flag为1，否则为0
   // 对四舍五入之前的结果+进位flag进行四舍五入得到最终结果
 
-  let numberStr = val + '';
+  let numberStr = val + "";
   let reg = /^(-|\+)?(\d+(\.\d*)?|\.\d+)$/i;
   if (!reg.test(numberStr)) {
-    console.error('输入的数字格式不对');
+    console.error("输入的数字格式不对");
     return;
   }
   return (
@@ -319,8 +319,8 @@ export function toFixed2(val, decimal = 2) {
 }
 
 export function decimalPoint(val, dotNum = 2) {
-  if (typeof val === 'number' || typeof val === 'string') {
-    if (val === '0' || val === 0) {
+  if (typeof val === "number" || typeof val === "string") {
+    if (val === "0" || val === 0) {
       return `0`;
     }
     let newVal = val;
@@ -338,7 +338,7 @@ export function decimalPoint(val, dotNum = 2) {
     if (newVal) {
       return Number(toFixed2(newVal, dotNum));
     }
-    return '--';
+    return "--";
   }
-  return '--';
+  return "--";
 }

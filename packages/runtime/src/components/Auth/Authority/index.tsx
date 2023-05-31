@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 // @ts-ignore
-import { useModel } from 'umi';
+import { useModel } from "umi";
 type AuthorityType = {
   buttons?: any[];
   funcode?: any;
@@ -18,7 +18,7 @@ export const getFunCodeAuth = () => {
   let masterState: any = {};
 
   try {
-    masterState = useModel('@@qiankunStateFromMaster') || {
+    masterState = useModel("@@qiankunStateFromMaster") || {
       globalState: {},
     };
   } catch (ex) {
@@ -32,8 +32,8 @@ export const getFunCodeAuth = () => {
     return null;
   }
   if (currentMenu) {
-    let { funcodes = '' } = currentMenu;
-    funcodes = funcodes.split('|');
+    let { funcodes = "" } = currentMenu;
+    funcodes = funcodes.split("|");
 
     return funcodes;
   }
@@ -49,7 +49,7 @@ function withMoreInfo<T extends React.Component<any, any>>(
 
     render() {
       const { asPath } = this.props;
-      const language = asPath.indexOf('/ro') === 0 ? 'ro' : 'en';
+      const language = asPath.indexOf("/ro") === 0 ? "ro" : "en";
       return <Wrapped language={language} pathname={asPath} />;
     }
   };
@@ -68,7 +68,7 @@ const Authority = function <T extends AuthorityType>(
     let masterState: any = {};
 
     try {
-      masterState = useModel('@@qiankunStateFromMaster') || {
+      masterState = useModel("@@qiankunStateFromMaster") || {
         globalState: {},
       };
     } catch (ex) {
@@ -82,15 +82,15 @@ const Authority = function <T extends AuthorityType>(
     //const masterProps = (useModel || noop)('@@qiankunStateFromMaster') || {};
     const { currentMenu, localMenuData } = globalState;
     if (!localMenuData && currentMenu) {
-      let { funcodes = '' } = currentMenu;
-      funcodes = funcodes.toUpperCase().split('|');
+      let { funcodes = "" } = currentMenu;
+      funcodes = funcodes.toUpperCase().split("|");
       if (funcode) {
         // funcodes.splice(funcodes.indexOf("ENABLE"),1)
         if (funcodes.includes(funcode)) {
           return React.createElement(WrappedComponent, restProps, children);
         }
-        if (displayName && displayName === 'Enabled') {
-          restProps['disabled'] = true;
+        if (displayName && displayName === "Enabled") {
+          restProps["disabled"] = true;
           return React.createElement(WrappedComponent, restProps, children);
         }
         return null;

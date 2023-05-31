@@ -1,15 +1,15 @@
-import { CModal } from '@scboson/sc-element';
-import type { PageConfig } from '@scboson/sc-schema';
-import { ListPage, useListPageContext } from '@scboson/sc-schema';
-import { useRequest, useSetState } from 'ahooks';
-import { Alert } from 'antd';
-import React, { useEffect, useMemo } from 'react';
-import BsSearch from '../../Base/BsSearch';
-import BsTable from '../../Base/BsTable';
-import PageContainer from '../../Base/PageContainer';
-import EditCatalogRef from './EditCatalogRef';
-import style from './index.less';
-import list from './list';
+import { CModal } from "@scboson/sc-element";
+import type { PageConfig } from "@scboson/sc-schema";
+import { ListPage, useListPageContext } from "@scboson/sc-schema";
+import { useRequest, useSetState } from "ahooks";
+import { Alert } from "antd";
+import React, { useEffect, useMemo } from "react";
+import BsSearch from "../../Base/BsSearch";
+import BsTable from "../../Base/BsTable";
+import PageContainer from "../../Base/PageContainer";
+import EditCatalogRef from "./EditCatalogRef";
+import style from "./index.less";
+import list from "./list";
 
 const pagaConfig: PageConfig = {
   service: {},
@@ -28,17 +28,17 @@ type SetCatalogRefProps = {
 const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
   const {
     request,
-    nameField = 'stallName',
-    valueField = 'stallId',
+    nameField = "stallName",
+    valueField = "stallId",
     occupyRequest,
     saveRequest,
     showAddRefBtn = true,
   } = props;
   const { loading, run } = useRequest(
     request ||
-    new Promise((resolve) => {
-      resolve(null);
-    }),
+      new Promise((resolve) => {
+        resolve(null);
+      }),
     {
       manual: true,
     }
@@ -86,12 +86,12 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
 
   if (showAddRefBtn) {
     pageInfoConfig.addButton({
-      text: '修改关联品目',
-      type: 'primary',
-      funcode: 'EDIT',
+      text: "修改关联品目",
+      type: "primary",
+      funcode: "EDIT",
       onClick() {
         CModal.show({
-          title: '修改关联品目',
+          title: "修改关联品目",
           width: 1000,
           content: EditCatalogRef,
           okCancel: false,
@@ -119,7 +119,7 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
 
   const modalButtons = [
     {
-      text: '返回',
+      text: "返回",
       onClick() {
         history.back();
       },
@@ -132,8 +132,8 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
         message="收货时，将根据商品所属品目，默认入库到相关联的档口；若商品所属品目未关联档口的，则手动选择；"
         type="info"
       />
-      <div className={style['bg-base-setcatalog']}>
-        <div className={style['bs-micro-setcatalog-title']}>
+      <div className={style["bg-base-setcatalog"]}>
+        <div className={style["bs-micro-setcatalog-title"]}>
           {pageParams[nameField]}
         </div>
         <BsSearch {...searchConfig} />
@@ -141,7 +141,7 @@ const SetCatalogRef: React.FC<SetCatalogRefProps> = (props) => {
           autoload={false}
           {...pageInfo}
           dataSource={state.dataSouce}
-          treeDataIndex={'catalogId'}
+          treeDataIndex={"catalogId"}
           request={undefined}
           rowKey="catalogId"
           pagination={false}

@@ -1,27 +1,26 @@
-import React from 'react'
-import { ScTreeSelect } from '@scboson/sc-element'
+import React from "react";
+import { ScTreeSelect } from "@scboson/sc-element";
 
-import type { ScTreeSelectProps } from '@scboson/sc-element/es/sc-tree-select'
+import type { ScTreeSelectProps } from "@scboson/sc-element/es/sc-tree-select";
 
-import { uesRequest } from '../../../../utils/api'
-
+import { uesRequest } from "../../../../utils/api";
 
 /**
- * 
+ *
  * @deprecated 废弃
- * @returns 
+ * @returns
  */
 const GoodsCatalogTree: React.FC<ScTreeSelectProps> = (props) => {
-  const api = uesRequest('mall', 'goodsCatalogList')
+  const api = uesRequest("mall", "goodsCatalogList");
   const loadDataPramsFormat = (item: any) => {
     return {
       parentId: item.goodsCatalogId,
-    }
-  }
+    };
+  };
 
   return (
     <ScTreeSelect
-      placeholder={'商品品目'}
+      placeholder={"商品品目"}
       textField="catalogName"
       valueField="goodsCatalogId"
       {...props}
@@ -30,9 +29,9 @@ const GoodsCatalogTree: React.FC<ScTreeSelectProps> = (props) => {
       loadDataPramsFormat={loadDataPramsFormat}
       autoload={true}
       request={api.run}
-      params={{ parentId: '0' }}
+      params={{ parentId: "0" }}
     />
-  )
-}
+  );
+};
 
-export default GoodsCatalogTree
+export default GoodsCatalogTree;

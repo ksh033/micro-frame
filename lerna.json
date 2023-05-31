@@ -3,12 +3,9 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "changelog": {
-    
     "cacheDir": ".changelog"
   },
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "ignoreChanges": [
     "**/*.md",
     "**/*.test.ts",

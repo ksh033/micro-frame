@@ -1,4 +1,4 @@
-import React,{useLayoutEffect} from "react";
+import React, { useLayoutEffect } from "react";
 import { Input } from "antd";
 import { getUser } from "../../Auth";
 import {
@@ -9,9 +9,8 @@ import { useSetState, useUpdateEffect } from "ahooks";
 
 export interface UserDeptProp extends FormComponentProps {
   init?: boolean;
-  onChange?:any;
+  onChange?: any;
 }
-
 
 const UserInfo: FormComponent<UserDeptProp> = (props) => {
   const {
@@ -27,19 +26,17 @@ const UserInfo: FormComponent<UserDeptProp> = (props) => {
   const user: any = getUser() || {};
   const { userName } = user;
   useLayoutEffect(() => {
-    const user = getUser()
+    const user = getUser();
 
     if (user) {
-      const {
-      realName
-      } = user
-      onChange&&onChange(realName)
+      const { realName } = user;
+      onChange && onChange(realName);
     }
-  }, [])
+  }, []);
   if (readonly) {
     return <div>{userName}</div>;
   } else {
-    return <Input value={userName} {  ...restProps}></Input>;
+    return <Input value={userName} {...restProps}></Input>;
   }
 };
 //UserInfo.customView = true;

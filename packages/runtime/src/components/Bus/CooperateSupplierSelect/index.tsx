@@ -1,22 +1,22 @@
 /* eslint-disable max-len */
 
-import React, { useRef, useEffect, useMemo } from 'react'
-import { uesRequest } from '../../../utils/api'
-import { ScSelect } from '@scboson/sc-element'
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select'
+import React, { useRef, useEffect, useMemo } from "react";
+import { uesRequest } from "../../../utils/api";
+import { ScSelect } from "@scboson/sc-element";
+import { ScSelectProps } from "@scboson/sc-element/es/sc-select";
 interface TableSelectProps extends ScSelectProps {
-  limit?: number
+  limit?: number;
 }
 
 const CooperateSupplierSelect: React.FC<TableSelectProps> = (props) => {
-  const { run } = uesRequest('system', 'cooperateSupplierList')
+  const { run } = uesRequest("system", "cooperateSupplierList");
 
   const params = useMemo(
     () => ({
       size: props.limit || 15,
     }),
     [props.limit]
-  )
+  );
 
   return (
     <ScSelect
@@ -33,7 +33,7 @@ const CooperateSupplierSelect: React.FC<TableSelectProps> = (props) => {
       allowClear
       defaultActiveFirstOption={false}
     ></ScSelect>
-  )
-}
+  );
+};
 
-export default CooperateSupplierSelect
+export default CooperateSupplierSelect;

@@ -3,30 +3,30 @@ import {
   CloseCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
-} from '@ant-design/icons';
-import { CModal } from '@scboson/sc-element';
-import { useFullscreen, useMap, useSetState, useUpdateEffect } from 'ahooks';
-import { Button, Input } from 'antd';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
-import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
-import compute from '../../../utils/compute';
-import ReactAmapMap from '../ReactAmapMap';
-import styles from './index.less';
+} from "@ant-design/icons";
+import { CModal } from "@scboson/sc-element";
+import { useFullscreen, useMap, useSetState, useUpdateEffect } from "ahooks";
+import { Button, Input } from "antd";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Marker, PolyEditor, Polygon, PolygonPath } from "react-amap";
+import { colorRgba, getCenterOfGravityPoint } from "../../../utils/common";
+import compute from "../../../utils/compute";
+import ReactAmapMap from "../ReactAmapMap";
+import styles from "./index.less";
 
 const colorList = [
-  '#096dd9',
-  '#d4b106',
-  '#389e0d',
-  '#d46b08',
-  '#cf1322',
-  '#08979c',
-  '#531dab',
-  '#c41d7f',
-  '#d48806',
-  '#7cb305',
-  '#7cb305',
-  '#1d39c4',
+  "#096dd9",
+  "#d4b106",
+  "#389e0d",
+  "#d46b08",
+  "#cf1322",
+  "#08979c",
+  "#531dab",
+  "#c41d7f",
+  "#d48806",
+  "#7cb305",
+  "#7cb305",
+  "#1d39c4",
 ];
 
 export interface RailItemProps {
@@ -60,7 +60,7 @@ export default (props: RailProps) => {
     onChange,
     value,
   } = props;
-  const mapPlugins: any[] = ['ToolBar', 'Scale'];
+  const mapPlugins: any[] = ["ToolBar", "Scale"];
   const map = useRef<any>(null);
   const [overlays, overlaysMap] = useMap<
     string | number,
@@ -82,15 +82,15 @@ export default (props: RailProps) => {
 
   const [state, setState] = useSetState<RailState>({
     maxSize: 0,
-    active: '',
+    active: "",
   });
 
   const formatPxPy = (list: any[]): any[] => {
     if (Array.isArray(list)) {
       return list.map((item) => {
         return {
-          px: item['longitude'],
-          py: item['latitude'],
+          px: item["longitude"],
+          py: item["latitude"],
         };
       });
     } else {
@@ -125,8 +125,8 @@ export default (props: RailProps) => {
     if (Array.isArray(list)) {
       return list.map((item) => {
         return {
-          longitude: item['lng'] || item['px'],
-          latitude: item['lat'] || item['py'],
+          longitude: item["lng"] || item["px"],
+          latitude: item["lat"] || item["py"],
         };
       });
     } else {
@@ -145,7 +145,7 @@ export default (props: RailProps) => {
     if (Array.isArray(value) && Array.from(overlays).length === 0) {
       overlaysMap.reset();
       titleMapFn.reset();
-      let activeKey = '';
+      let activeKey = "";
       value.forEach((item, index: number) => {
         const key = GenNonDuplicateID(10);
         if (index === 0) {
@@ -155,7 +155,7 @@ export default (props: RailProps) => {
           path: formatLngLat(item.path),
           color: colorList[index % 12],
         });
-        titleMapFn.set(key, item.title || '');
+        titleMapFn.set(key, item.title || "");
       });
 
       setState({
@@ -191,7 +191,7 @@ export default (props: RailProps) => {
         path: [leftTop, rightTop, rightBottom, leftBottom],
         color: colorList[(maxSize - 1) % 12],
       });
-      titleMapFn.set(key, '');
+      titleMapFn.set(key, "");
       setState({
         maxSize,
         active: key,
@@ -259,10 +259,10 @@ export default (props: RailProps) => {
 
   function removeNode(key: any) {
     CModal.confirm({
-      title: '您是否确定删除该围栏',
-      okText: '确定',
-      okType: 'danger',
-      cancelText: '取消',
+      title: "您是否确定删除该围栏",
+      okText: "确定",
+      okType: "danger",
+      cancelText: "取消",
       onOk: async (res: any) => {
         const remvoeObj = overlaysMap.get(key);
         if (remvoeObj) {
@@ -326,19 +326,19 @@ export default (props: RailProps) => {
       }
       const mainStyle = active
         ? {
-            border: '1px solid #155bD4',
+            border: "1px solid #155bD4",
           }
         : {};
       list.push(
         <div
-          className={styles['rail-item']}
+          className={styles["rail-item"]}
           key={index}
           style={mainStyle}
           onClick={() => {
             changeActive(item[0]);
           }}
         >
-          <div className={styles['rail-item-color']} style={_style}></div>
+          <div className={styles["rail-item-color"]} style={_style}></div>
           <Input
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleChange({
@@ -349,7 +349,7 @@ export default (props: RailProps) => {
             value={item[1]}
           ></Input>
           <Button
-            className={styles['rail-item-remove']}
+            className={styles["rail-item-remove"]}
             type="link"
             onClick={() => {
               removeNode(item[0]);
@@ -357,7 +357,7 @@ export default (props: RailProps) => {
           >
             <CloseCircleOutlined />
           </Button>
-          {active ? <div className={styles['rail-item-active']}></div> : null}
+          {active ? <div className={styles["rail-item-active"]}></div> : null}
         </div>
       );
     });
@@ -365,7 +365,7 @@ export default (props: RailProps) => {
   };
 
   return (
-    <div className={styles['rail-map']} ref={fullRef}>
+    <div className={styles["rail-map"]} ref={fullRef}>
       <ReactAmapMap
         center={mapCenter}
         events={mapEvents}
@@ -380,19 +380,19 @@ export default (props: RailProps) => {
           }}
         />
       </ReactAmapMap>
-      <div className={styles['rail-content']}>
-        <div className={styles['rail-card-list']}>{getCardList()}</div>
-        <div className={styles['rail-add']}>
+      <div className={styles["rail-content"]}>
+        <div className={styles["rail-card-list"]}>{getCardList()}</div>
+        <div className={styles["rail-add"]}>
           <Button block onClick={addPolygon}>
             添加配送区域
           </Button>
         </div>
       </div>
-      <div className={styles['rail-fullbtn']} onClick={toggleFull}>
+      <div className={styles["rail-fullbtn"]} onClick={toggleFull}>
         {isFullscreen ? (
-          <FullscreenExitOutlined style={{ fontSize: '24px' }} />
+          <FullscreenExitOutlined style={{ fontSize: "24px" }} />
         ) : (
-          <FullscreenOutlined style={{ fontSize: '24px' }} />
+          <FullscreenOutlined style={{ fontSize: "24px" }} />
         )}
       </div>
     </div>

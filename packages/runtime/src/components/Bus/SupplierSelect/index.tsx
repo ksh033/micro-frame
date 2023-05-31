@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
-import { uesRequest } from '../../../utils/api';
-import { ScSelect } from '@scboson/sc-element';
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select';
+import React, { useMemo } from "react";
+import { uesRequest } from "../../../utils/api";
+import { ScSelect } from "@scboson/sc-element";
+import { ScSelectProps } from "@scboson/sc-element/es/sc-select";
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
+} from "@scboson/sc-element/es/c-form";
 interface TableSelectProps extends ScSelectProps, FormComponentProps {
   limit?: number;
   isCooperateSupplier?: boolean;
@@ -18,14 +18,14 @@ const SupplierSelect: FormComponent<TableSelectProps> = (props) => {
     isCooperateSupplier = false,
     supplierEnabled = true,
     exterParams = {},
-    valueField = 'supplierId',
-    textField = 'supplierName',
+    valueField = "supplierId",
+    textField = "supplierName",
     readonly,
     ...resprops
   } = props;
   const { run } = isCooperateSupplier
-    ? uesRequest('system', 'cooperateSupplier')
-    : uesRequest('system', 'supplier');
+    ? uesRequest("system", "cooperateSupplier")
+    : uesRequest("system", "supplier");
 
   const params = useMemo(() => {
     return {
@@ -38,10 +38,10 @@ const SupplierSelect: FormComponent<TableSelectProps> = (props) => {
 
   const formatInputValue = (obj: any) => {
     if (obj != null) {
-      const values = obj[textField] || '';
+      const values = obj[textField] || "";
       return values;
     }
-    return '';
+    return "";
   };
 
   const onLoad = (res) => {

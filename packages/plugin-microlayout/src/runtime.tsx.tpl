@@ -4,44 +4,68 @@ import React from 'react';
 import {SchemaContext} from '@scboson/sc-schema';
 import {AppStart,BsTable,Auth} from '@micro-frame/sc-runtime';
 import MasterApp from './layout/layout/MasterApp';
-const {render} = AppStart
+import {createHistory,history} from "@@/core/history";
+import { getPluginManager } from "@@/core/plugin";
+
 export function rootContainer(container: any) {
    window.syscode="{{appSelected}}"
     Auth.setUserAppCode("{{appSelected}}")
    return React.createElement(MasterApp,{localMenuData:{{localMenuData}}},container);
 } 
- const patchRoutes=AppStart.patchRoutes
+ const patchClientRoutes=AppStart.patchClientRoutes
  const onRouteChange=AppStart.onRouteChange
+
+ const render=(oldRender)=>{
+  const pluginManager  = getPluginManager();
+  
+        AppStart.render(oldRender)
+
+ }
+
  export {
- render,patchRoutes,onRouteChange
+ render,patchClientRoutes,onRouteChange
 }
 {{/localLayout}}
 {{^localLayout}}
 import React from 'react';
-import {dynamic} from 'umi';
+
 import {SlaveLayout,Loading} from '@micro-frame/sc-runtime';
 
-export function patchRoutes({ routes }) {
-if (Array.isArray(routes)) {
+export function patchRoutes({ routes, routeComponents }: any) {
+  const layoutId="layout"
+  Object.keys(routes).forEach((key)=>{
+    
+    routes[key].parentId=layoutId
+  })
 
-  let childRoutes=[];
-  let len=routes.length;
-  for(let i=0;i<len;i++){
-    childRoutes.push(routes.shift())
+  routes[layoutId]={ 
+     path: "/",
+     id:layoutId,
+         element: <SlaveLayout />,
+      isLayout: true,
   }
- 
-  routes.push({
-    path: "/",
-    component: SlaveLayout,
 
-   routes:childRoutes
- })
-  }
-  return routes
-  
-}
+ }
 {{/localLayout}}
 
 	
+export function modifyContextOpts(memo: any) {
+
+
+  // 每次应用 render 的时候会调 modifyClientRenderOpts，这时尝试从队列中取 render 的配置
+ // const clientRenderOpts = contextOptsStack.shift();
+
+ let opts={
+
+ }
+ if (window.routerBase){
+  opts.basename=window.routerBase;
+ }
+  return {
+    ...memo,
+    ...opts
+
+  };
+}
 
 

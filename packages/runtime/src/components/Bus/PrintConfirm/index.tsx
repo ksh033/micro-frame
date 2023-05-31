@@ -1,7 +1,7 @@
-import { CModal } from '@scboson/sc-element';
-import { Button } from 'antd';
-import type { FC } from 'react';
-import { print } from '../../../utils/print';
+import { CModal } from "@scboson/sc-element";
+import { Button } from "antd";
+import type { FC } from "react";
+import { print } from "../../../utils/print";
 
 type PrintConfirmPageProps = {
   moduleId: string;
@@ -22,10 +22,10 @@ type PrintConfirmProps = {
 const PrintConfirm: FC<PrintConfirmProps> = (props) => {
   const { close, pageProps } = props;
   const {
-    title = '请选择是否打印出库单',
+    title = "请选择是否打印出库单",
     content,
-    okText = '确认打印',
-    cancelText = '暂不打印',
+    okText = "确认打印",
+    cancelText = "暂不打印",
     isZhen = false,
     callback,
     moduleId,
@@ -35,7 +35,7 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
   const onPrint = async (zhen: boolean) => {
     let newModuleId = moduleId;
     if (zhen) {
-      newModuleId = newModuleId + '1';
+      newModuleId = newModuleId + "1";
     }
 
     const result = await print(newModuleId, {
@@ -56,7 +56,7 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
     <div className="ant-modal-confirm">
       <div
         className="ant-modal-confirm-confirm ant-modal-confirm-body-wrapper"
-        style={{ padding: '32px 32px 24px' }}
+        style={{ padding: "32px 32px 24px" }}
       >
         <div className="ant-modal-confirm-body">
           <span
@@ -121,11 +121,11 @@ const PrintConfirm: FC<PrintConfirmProps> = (props) => {
 
 export const openPrintConfirm = (pageProps: PrintConfirmPageProps) => {
   CModal.show({
-    width: '420px',
+    width: "420px",
     style: {
-      minWidth: '420px',
-      verticalAlign: 'top',
-      top: '100px',
+      minWidth: "420px",
+      verticalAlign: "top",
+      top: "100px",
     },
     content: PrintConfirm,
     okCancel: false,

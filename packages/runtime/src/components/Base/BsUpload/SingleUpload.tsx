@@ -6,14 +6,14 @@ import {
   FileOutlined,
   LoadingOutlined,
   PlusOutlined,
-} from '@ant-design/icons';
-import { Button, message, Space, Spin, Upload } from 'antd';
-import { UploadFile, UploadListType } from 'antd/es/upload/interface';
-import React, { useEffect, useState } from 'react';
-import { imageUrl } from '../../../utils/common';
-import { FileType, uploadBtn } from './index';
-import styles from './index.less';
-import { getFileName } from './utils';
+} from "@ant-design/icons";
+import { Button, message, Space, Spin, Upload } from "antd";
+import { UploadFile, UploadListType } from "antd/es/upload/interface";
+import React, { useEffect, useState } from "react";
+import { imageUrl } from "../../../utils/common";
+import { FileType, uploadBtn } from "./index";
+import styles from "./index.less";
+import { getFileName } from "./utils";
 
 interface SingleUploadProps {
   action?: string;
@@ -32,14 +32,14 @@ interface SingleUploadProps {
 
 export const preView = (_file: UploadFile<any>) => {
   if (_file != null) {
-    const file = imageUrl(_file?.url || '');
-    if (file && file !== '') {
+    const file = imageUrl(_file?.url || "");
+    if (file && file !== "") {
       if (/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(file)) {
         return (
           <img
             src={file}
             alt="avatar"
-            className={styles['bs-upload-view-img']}
+            className={styles["bs-upload-view-img"]}
           />
         );
       }
@@ -53,7 +53,7 @@ export const preView = (_file: UploadFile<any>) => {
       return (
         <Space direction="vertical">
           <FileOutlined
-            style={{ width: '100%', color: '#40a9ff', fontSize: '32px' }}
+            style={{ width: "100%", color: "#40a9ff", fontSize: "32px" }}
           />
           <span>{_file.name}</span>
         </Space>
@@ -78,7 +78,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     headers,
     maxSizeCheck,
     valeFormat,
-    listType = 'picture-card',
+    listType = "picture-card",
   } = props;
 
   const [file, setFile] = useState<UploadFile | undefined>(void 0);
@@ -86,26 +86,24 @@ const SingleUpload: React.FC<SingleUploadProps> = (
 
   const fileFormat = (itfile: any) => {
     if (!itfile) {
-      setFile(void 0)
-
+      setFile(void 0);
     } else {
-      if (typeof itfile === 'string') {
+      if (typeof itfile === "string") {
         setFile({
-          uid: '1',
-          url: imageUrl(itfile) || '',
-          status: 'done',
+          uid: "1",
+          url: imageUrl(itfile) || "",
+          status: "done",
           name: getFileName(itfile),
         });
       } else {
         setFile({
-          uid: '1',
-          url: imageUrl(itfile.url || itfile.fileUrl) || '',
-          name: itfile.fileName || '',
-          status: 'done',
+          uid: "1",
+          url: imageUrl(itfile.url || itfile.fileUrl) || "",
+          name: itfile.fileName || "",
+          status: "done",
         });
       }
     }
-
   };
 
   useEffect(() => {
@@ -116,7 +114,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   }, [JSON.stringify(value)]);
 
   const handleChange = async ({ file }: any) => {
-    if (file.status === 'removed') {
+    if (file.status === "removed") {
       setFile(void 0);
       onChange?.(null);
       return;
@@ -125,24 +123,24 @@ const SingleUpload: React.FC<SingleUploadProps> = (
       return;
     }
     if (
-      file.status === 'done' &&
+      file.status === "done" &&
       file.response &&
       !Boolean(file.response.success)
     ) {
-      message.error('上传失败');
+      message.error("上传失败");
       setFile(void 0);
       setLoading(false);
       return;
     }
 
     if (uploadImmediately) {
-      if (file.status === 'uploading') {
+      if (file.status === "uploading") {
         setFile(file);
         setLoading(true);
         return;
       }
       setLoading(false);
-      if (file.status === 'done') {
+      if (file.status === "done") {
         // handlePreview(file);
         let result = file;
         let resultData = file;
@@ -170,9 +168,9 @@ const SingleUpload: React.FC<SingleUploadProps> = (
     uploadExtraProps.action = action;
   }
 
-  if (listType === 'picture') {
+  if (listType === "picture") {
     uploadExtraProps.fileList = file != null ? [file] : [];
-    uploadExtraProps.className = 'upload-list-inline';
+    uploadExtraProps.className = "upload-list-inline";
     uploadExtraProps.showUploadList = true;
   }
 
@@ -193,7 +191,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
         target="_blank"
         rel="noopener noreferrer"
         title="预览文件"
-        href={file?.url || ''}
+        href={file?.url || ""}
       >
         <EyeOutlined />
       </a>
@@ -218,9 +216,9 @@ const SingleUpload: React.FC<SingleUploadProps> = (
 
   const iconRender = (file: UploadFile<any>) => {
     if (!file) {
-      return null
+      return null;
     }
-    if (file.status === 'uploading') {
+    if (file.status === "uploading") {
       return (
         <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
       );
@@ -239,7 +237,7 @@ const SingleUpload: React.FC<SingleUploadProps> = (
   };
 
   const showRender = (itfile: UploadFile<any>) => {
-    if (listType === 'picture') {
+    if (listType === "picture") {
       return null;
     }
     return iconRender(itfile);

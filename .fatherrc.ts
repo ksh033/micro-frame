@@ -1,40 +1,40 @@
-import { readdirSync } from 'fs';
-import { join } from 'path';
+import { readdirSync } from "fs";
+import { join } from "path";
 const { REACT_APP_ENV, NODE_ENV } = process.env;
 
 // utils must build before core
 // runtime must build before renderer-react
 // components dependencies order: form -> table -> list
 const headPkgs: string[] = [];
-const tailPkgs = readdirSync(join(__dirname, 'packages')).filter(
-  (pkg) => pkg.charAt(0) !== '.' && !headPkgs.includes(pkg)
+const tailPkgs = readdirSync(join(__dirname, "packages")).filter(
+  (pkg) => pkg.charAt(0) !== "." && !headPkgs.includes(pkg)
 );
 export default {
-  cjs: { type: 'babel', lazy: true },
+  cjs: { type: "babel", lazy: true },
   esm: {
-    type: 'babel',
+    type: "babel",
     importLibToEs: true,
   },
-  pkgs: ['element', 'editor-core', 'slave', 'runtime', 'plugin-microlayout'],
+  pkgs: ["element", "editor-core", "slave", "runtime", "plugin-microlayout"],
   extraBabelPlugins: [
     [
-      'babel-plugin-import',
-      REACT_APP_ENV !== ''
+      "babel-plugin-import",
+      REACT_APP_ENV !== ""
         ? {
-            libraryName: '@scboson/sc-element',
-            libraryDirectory: 'es',
+            libraryName: "@scboson/sc-element",
+            libraryDirectory: "es",
             style: true,
           }
         : [
-            { libraryName: 'antd', libraryDirectory: 'es', style: true },
+            { libraryName: "antd", libraryDirectory: "es", style: true },
             {
-              libraryName: '@scboson/sc-element',
-              libraryDirectory: 'es',
+              libraryName: "@scboson/sc-element",
+              libraryDirectory: "es",
               style: true,
             },
           ],
-      'antd',
+      "antd",
     ],
-    [require('./scripts/replaceLib')],
+    [require("./scripts/replaceLib")],
   ],
 };

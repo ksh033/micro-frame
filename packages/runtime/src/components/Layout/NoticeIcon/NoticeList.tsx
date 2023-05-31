@@ -1,7 +1,7 @@
-import { Avatar, Button, List, Tag } from 'antd';
-import React from 'react';
-import classNames from 'classnames';
-import styles from './NoticeList.less';
+import { Avatar, Button, List, Tag } from "antd";
+import React from "react";
+import classNames from "classnames";
+import styles from "./NoticeList.less";
 
 export type NoticeIconTabProps = {
   count?: number;
@@ -49,7 +49,7 @@ const NoticeList: React.FC<NoticeIconTabProps> = ({
               type="link"
               key="refresh"
               loading={loading}
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
             >
               刷新
             </Button>
@@ -105,7 +105,7 @@ const NoticeList: React.FC<NoticeIconTabProps> = ({
           type="link"
           key="refresh"
           loading={loading}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         >
           刷新
         </Button>

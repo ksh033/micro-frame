@@ -1,11 +1,11 @@
-import { MasterLayout, ProSettings } from '@scboson/sc-layout';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { MasterLayout, ProSettings } from "@scboson/sc-layout";
+import { useLayoutEffect, useMemo, useState } from "react";
 // @ts-ignore
-import { CModal } from '@scboson/sc-element';
-import { useExternal, useMount } from 'ahooks';
+import { CModal } from "@scboson/sc-element";
+import { useExternal, useMount } from "ahooks";
 // @ts-ignore
-import { history, Link, useModel } from 'umi';
-import logo from '../../assets/logo.svg';
+import { history, Link, useModel } from "umi";
+import logo from "../../assets/logo.svg";
 import {
   changeApp,
   clearTimer,
@@ -14,18 +14,18 @@ import {
   getUserAppCode,
   initInner,
   initWarnTimer,
-} from '../Auth';
-import userDictModel from '../Dict/userDictModel';
-import userLocationarea from '../Dict/userLocationarea';
-import useWeightUnit from '../Dict/weightUnit';
-import RightContent from './GlobalHeader/RightContent';
-import './index.less';
-import menuFormat from './menuFormat';
+} from "../Auth";
+import userDictModel from "../Dict/userDictModel";
+import userLocationarea from "../Dict/userLocationarea";
+import useWeightUnit from "../Dict/weightUnit";
+import RightContent from "./GlobalHeader/RightContent";
+import "./index.less";
+import menuFormat from "./menuFormat";
 // 是否通知key
-const WhetherNoticeKey = 'WHETHER-NOTICE-KEY';
+const WhetherNoticeKey = "WHETHER-NOTICE-KEY";
 
 export default (props: any) => {
-  useExternal('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', {
+  useExternal("https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", {
     async: false,
   });
   const [settings] = useState<Partial<ProSettings> | undefined>({
@@ -45,8 +45,8 @@ export default (props: any) => {
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
   const { setQiankunGlobalState } =
-    useModel('@@qiankunStateForSlave') ||
-    useModel('@@qiankunStateFromMaster') ||
+    useModel("@@qiankunStateForSlave") ||
+    useModel("@@qiankunStateFromMaster") ||
     {};
 
   const appSelectedKeys = getUserAppCode() || getAppCode();
@@ -94,7 +94,7 @@ export default (props: any) => {
       console.log(appSelected);
       if (appSelected) {
         if (!changeApp(appSelected)) {
-          history.push('/');
+          history.push("/");
         }
       }
     }
@@ -110,17 +110,17 @@ export default (props: any) => {
       (whetherNotice === undefined || whetherNotice === null) &&
       user?.wechatUnionId === null
     ) {
-      localStorage.setItem(WhetherNoticeKey, 'true');
+      localStorage.setItem(WhetherNoticeKey, "true");
       // @ts-ignore
       CModal.confirm({
-        title: '绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全',
-        okText: '立即绑定',
-        cancelText: '暂不绑定',
+        title: "绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全",
+        okText: "立即绑定",
+        cancelText: "暂不绑定",
         onOk: () => {
           history.push({
-            pathname: '/system/current',
+            pathname: "/system/current",
             query: {
-              currentKey: 'binding',
+              currentKey: "binding",
               autoOpen: true,
             },
           });
@@ -133,7 +133,7 @@ export default (props: any) => {
     <div
       id="test-pro-layout"
       style={{
-        height: '100vh',
+        height: "100vh",
       }}
     >
       <MasterLayout
@@ -150,18 +150,20 @@ export default (props: any) => {
               if (!changeApp(keys[0])) {
                 changeApp(keys[0]);
               }
-              history.push('/' + keys[0]);
+              history.push("/" + keys[0]);
             }
           },
         }}
         itemRender={({ breadcrumbName, path }: any) => {
-          const { routerBase = '/' } = window;
-          const url = path.replace(routerBase, '');
+          const { routerBase = "/" } = window;
+          const url = path.replace(routerBase, "");
 
-          return (
-            url ? <Link href={path} to={url}>
+          return url ? (
+            <Link href={path} to={url}>
               {breadcrumbName}
-            </Link> : breadcrumbName
+            </Link>
+          ) : (
+            breadcrumbName
           );
         }}
         appSelectedKeys={[appSelectedKeys]}
@@ -175,7 +177,7 @@ export default (props: any) => {
           );
           return menus;
         }}
-        menuFooterRender={(_props: any) => { }}
+        menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
           const { path } = item;
 
@@ -185,7 +187,7 @@ export default (props: any) => {
           return (
             <Link
               onClick={() => {
-                sessionStorage.removeItem('SEARCH_PARAMS');
+                sessionStorage.removeItem("SEARCH_PARAMS");
               }}
               to={{
                 pathname: `${path}`,

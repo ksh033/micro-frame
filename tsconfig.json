@@ -6,9 +6,9 @@
     "jsx": "preserve",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "noImplicitAny": false, 
+    "noImplicitAny": false,
     "strict": true,
-    
+
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -17,7 +17,7 @@
     "paths": {
       "@micro-frame/sc-runtime": ["./packages/runtime/src/index.ts"],
       "@@/*": ["packages/web/src/.umi/*"]
-    },
+    }
   },
   "typings": "./typings.d.ts",
   "include": [

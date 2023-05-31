@@ -1,10 +1,7 @@
-import { uesRequest } from '../../utils/api'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSafeState, useSessionStorageState } from 'ahooks'
-import { openWindow } from '../Auth';
-
-
-
+import { uesRequest } from "../../utils/api";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSafeState, useSessionStorageState } from "ahooks";
+import { openWindow } from "../Auth";
 
 let stockBusDocUrl: any;
 let setModelState = (val: any) => {
@@ -38,96 +35,95 @@ type StockBusDoc = {
 
    */
   queryField: string;
-}
+};
 /**
  * 库存流水关联单据链接
- * @returns 
+ * @returns
  */
 export default function useStockBusDocUrl() {
-
-  const { run } = uesRequest('system', 'stockBusConfig')
-
+  const { run } = uesRequest("system", "stockBusConfig");
 
   const getData = async (): Promise<any> => {
-    let temBusDocUrls: any = null
+    let temBusDocUrls: any = null;
     if (!stockBusDocUrl) {
-      const list: StockBusDoc[] = await run()
+      const list: StockBusDoc[] = await run();
       if (list.length > 0) {
-        temBusDocUrls = {}
+        temBusDocUrls = {};
       }
       list.forEach((item) => {
-
-        temBusDocUrls[item.bizDocTypeCode] = item
-      })
-
+        temBusDocUrls[item.bizDocTypeCode] = item;
+      });
     }
-    return temBusDocUrls
-  }
+    return temBusDocUrls;
+  };
   useEffect(() => {
     getData().then((data) => {
-      setModelState(data)
-    })
-  }, [])
+      setModelState(data);
+    });
+  }, []);
   const [state, setState] = useSafeState(null);
   setModelState = (val: any) => {
-
     setState(val);
   };
 
-
-
-  const StockBusDocLink = (props: { value: any, record: any, filedName: string, valueFieldName: string }) => {
-    const { value, record, filedName, valueFieldName } = props
+  const StockBusDocLink = (props: {
+    value: any;
+    record: any;
+    filedName: string;
+    valueFieldName: string;
+  }) => {
+    const { value, record, filedName, valueFieldName } = props;
     const bizDocTypeCode = record[filedName];
     if (!value) {
-
       return null;
     }
 
-
-    const [url, setUrl] = useSafeState('');
+    const [url, setUrl] = useSafeState("");
     const getBusDocUrl = (bizDocTypeCode: string) => {
-
-
       // console.log(bizDocTypeCode)
       // console.log("record", record)
       // console.log(`filedName=${filedName}`, record[filedName])
       let url = "";
       if (bizDocTypeCode && state) {
-
         const item: StockBusDoc = state[bizDocTypeCode];
 
         if (item && item.pageUrl) {
           if (valueFieldName) {
-            url = `${item.pageUrl}?${item.queryField}=${record[valueFieldName]}`
+            url = `${item.pageUrl}?${item.queryField}=${record[valueFieldName]}`;
           } else {
-            url = `${item.pageUrl}?${item.queryField}=${value}`
+            url = `${item.pageUrl}?${item.queryField}=${value}`;
           }
         }
-
       }
 
-
       return url;
-    }
+    };
     useEffect(() => {
+      const url = getBusDocUrl(bizDocTypeCode);
+      setUrl(url);
+    }, [state, value, valueFieldName]);
+    return bizDocTypeCode && url ? (
+      <a
+        onClick={() => {
+          openWindow(url);
+        }}
+      >
+        {value}
+      </a>
+    ) : (
+      value
+    );
+  };
 
-
-      const url = getBusDocUrl(bizDocTypeCode)
-      setUrl(url)
-    }, [state, value, valueFieldName])
-    return bizDocTypeCode && url ? <a onClick={() => {
-      openWindow(url)
-    }}>{value}</a> : value
-
-
-  }
-
-
-  const renderStockLink = (v, record, index, valueFieldName = '') => {
-
-
-    return <StockBusDocLink value={v} record={record} filedName="relateDocType" valueFieldName={valueFieldName}></StockBusDocLink>
-  }
-  return { StockBusDocLink, renderStockLink }
+  const renderStockLink = (v, record, index, valueFieldName = "") => {
+    return (
+      <StockBusDocLink
+        value={v}
+        record={record}
+        filedName="relateDocType"
+        valueFieldName={valueFieldName}
+      ></StockBusDocLink>
+    );
+  };
+  return { StockBusDocLink, renderStockLink };
 }

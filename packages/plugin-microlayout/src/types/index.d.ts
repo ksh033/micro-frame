@@ -1,3 +1,3 @@
-declare module '*.less';
+declare module "*.less";
 
-export * from './interface';
+export * from "./interface";

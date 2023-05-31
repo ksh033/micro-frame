@@ -1,19 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 //@ts-ignore
-import { history, Link } from 'umi';
+import { history, Link } from "umi";
 //@ts-ignore
-import { SchemaContext } from '@scboson/sc-schema';
-import { getUser } from '../Auth';
-import BsTable from '../Base/BsTable';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { SchemaContext } from "@scboson/sc-schema";
+import { getUser } from "../Auth";
+import BsTable from "../Base/BsTable";
+import useMergedState from "rc-util/es/hooks/useMergedState";
 
 //@ts-ignore
-import { RouteContext } from '@scboson/sc-layout';
+import { RouteContext } from "@scboson/sc-layout";
 import {
   getMenuData,
   getBreadcrumbProps,
-} from '@scboson/sc-layout/es/MasterLayout';
-import menuFormat from './menuFormat';
+} from "@scboson/sc-layout/es/MasterLayout";
+import menuFormat from "./menuFormat";
 const { Operation } = BsTable;
 export default function SlaveLayout(componentProps: any) {
   const { children, route, menu, ...resProps } = componentProps;
@@ -24,7 +24,7 @@ export default function SlaveLayout(componentProps: any) {
 
     if (userAppInfo) {
       const menus = userAppInfo?.currentDept?.menus || [];
-      const syscode = userAppInfo?.currentSystem?.systemCode || '';
+      const syscode = userAppInfo?.currentSystem?.systemCode || "";
       const sysMenu = menus.find((it) => it.pageUrl === syscode);
       if (sysMenu) {
         ref.current.mdata = sysMenu.children || [];
@@ -51,10 +51,10 @@ export default function SlaveLayout(componentProps: any) {
   );
   const { breadcrumb = {}, breadcrumbMap, menuData = [] } = menuInfoData;
   const defaultItemRender: any = ({ breadcrumbName, path }) => {
-    let url = path ? path.replace(window.routerBase, '') : path;
+    let url = path ? path.replace(window.routerBase, "") : path;
     const item = breadcrumbMap?.get(url);
-    if (!item || (item && !item['pageUrl'])) {
-      url = '';
+    if (!item || (item && !item["pageUrl"])) {
+      url = "";
     }
     return url ? <Link to={url}>{breadcrumbName}</Link> : breadcrumbName;
   };

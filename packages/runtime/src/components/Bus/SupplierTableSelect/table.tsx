@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react'
-import { uesRequest } from '../../../utils/api'
-import BsTable from '../../Base/BsTable'
-import BsSearch from '../../Base/BsSearch'
-import list from './list'
-import type { PageConfig } from '@scboson/sc-schema'
-import { useListPageContext } from '@scboson/sc-schema'
-import { ListPage } from '@scboson/sc-schema'
+import React, { useMemo } from "react";
+import { uesRequest } from "../../../utils/api";
+import BsTable from "../../Base/BsTable";
+import BsSearch from "../../Base/BsSearch";
+import list from "./list";
+import type { PageConfig } from "@scboson/sc-schema";
+import { useListPageContext } from "@scboson/sc-schema";
+import { ListPage } from "@scboson/sc-schema";
 
 const pagaConfig: PageConfig = {
   ...list,
-}
+};
 
 const Table: React.FC<any> = (props: any) => {
-  const { pageProps } = props
+  const { pageProps } = props;
   const {
     selectionType,
     onTabelRow,
@@ -21,30 +21,30 @@ const Table: React.FC<any> = (props: any) => {
     isCooperateSupplier = false,
     supplierEnabled = true,
     exterParams = {},
-  } = pageProps
+  } = pageProps;
   const { run } = isCooperateSupplier
-    ? uesRequest('system', 'cooperateSupplier')
-    : uesRequest('system', 'supplier')
-  const page = useListPageContext()
+    ? uesRequest("system", "cooperateSupplier")
+    : uesRequest("system", "supplier");
+  const page = useListPageContext();
   const search = page.getSearch({
-    tableKey: isCooperateSupplier ? 'cooperateSupplier' : 'supplier',
-  })
-  const searchConfig = search.toConfig()
-  const pageInfo: any = page.getTable().toConfig()
+    tableKey: isCooperateSupplier ? "cooperateSupplier" : "supplier",
+  });
+  const searchConfig = search.toConfig();
+  const pageInfo: any = page.getTable().toConfig();
 
   const params = useMemo(() => {
     return {
       ...pageInfo.params,
       enabled: supplierEnabled,
       ...exterParams,
-    }
+    };
   }, [
     JSON.stringify(pageInfo.params),
     supplierEnabled,
     JSON.stringify(exterParams),
-  ])
+  ]);
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <BsSearch {...searchConfig} />
       <BsTable
         {...pageInfo}
@@ -61,8 +61,8 @@ const Table: React.FC<any> = (props: any) => {
         scroll={{ y: 240 }}
       />
     </div>
-  )
-}
-const SupplierTable: React.FunctionComponent= ListPage(Table, pagaConfig)
+  );
+};
+const SupplierTable: React.FunctionComponent = ListPage(Table, pagaConfig);
 
 export default SupplierTable;

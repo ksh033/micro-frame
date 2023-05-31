@@ -1,16 +1,16 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: yangyuhang
  * @Date: 2023-01-05 10:01:22
  * @LastEditors: yangyuhang
  * @LastEditTime: 2023-03-28 10:36:35
  */
-import defaultRender from '../../Dict/defaultRender';
-import { ScProColumn, ScProColumnType } from '@scboson/sc-element/es/sc-table';
-import { Table } from 'antd';
-import React from 'react';
-import { ScProColumnGroupType } from '@scboson/sc-element/es/sc-table/typing';
+import defaultRender from "../../Dict/defaultRender";
+import { ScProColumn, ScProColumnType } from "@scboson/sc-element/es/sc-table";
+import { Table } from "antd";
+import React from "react";
+import { ScProColumnGroupType } from "@scboson/sc-element/es/sc-table/typing";
 
 export type SymmaryProColumnType = ScProColumnType<any> & {
   dataType?: string;
@@ -23,7 +23,10 @@ export type TotalSymmaryProps = {
   recordSummary?: any[];
 };
 
-export function digColumns(columns: ScProColumn<any>, list: any): SymmaryProColumnType[] {
+export function digColumns(
+  columns: ScProColumn<any>,
+  list: any
+): SymmaryProColumnType[] {
   if (Array.isArray(columns)) {
     columns.forEach((it) => {
       const item = it as ScProColumnGroupType<any>;
@@ -53,10 +56,11 @@ const TotalSymmary: React.FC<TotalSymmaryProps> = (props) => {
 
   return (
     <>
-      {recordSummary && Array.isArray(recordSummary) &&
+      {recordSummary &&
+        Array.isArray(recordSummary) &&
         recordSummary.map((totalData: any, idx) => {
           if (!totalData) {
-            return null
+            return null;
           }
           return (
             <Table.Summary.Row key={`summary-${idx}`}>
@@ -65,20 +69,20 @@ const TotalSymmary: React.FC<TotalSymmaryProps> = (props) => {
                   align: item.align,
                 };
                 let itemValue: any = null;
-                const dataIndex = spellNamePath(item.dataIndex).join('-');
+                const dataIndex = spellNamePath(item.dataIndex).join("-");
                 if (dataIndex) {
                   itemValue = totalData[dataIndex];
                 }
                 if (itemValue == null && index === 0) {
-                  itemValue = '合计';
+                  itemValue = "合计";
                 }
 
                 if (item.dataType) {
                   if (
-                    item.dataType === 'money' ||
-                    item.dataType === 'unitprice'
+                    item.dataType === "money" ||
+                    item.dataType === "unitprice"
                   ) {
-                    cellProps.align = 'right';
+                    cellProps.align = "right";
                   }
                   if (itemValue != null) {
                     itemValue = defaultRender(itemValue, item.dataType);

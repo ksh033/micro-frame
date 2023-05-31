@@ -1,24 +1,24 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { ScSelect } from '@scboson/sc-element';
-import { getUser } from '../../Auth';
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index';
+import React, { useLayoutEffect, useRef } from "react";
+import { ScSelect } from "@scboson/sc-element";
+import { getUser } from "../../Auth";
+import { ScSelectProps } from "@scboson/sc-element/es/sc-select/index";
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form';
-import { useSetState, useUpdateEffect } from 'ahooks';
-import { getServiceApi } from '../../../utils/api';
+} from "@scboson/sc-element/es/c-form";
+import { useSetState, useUpdateEffect } from "ahooks";
+import { getServiceApi } from "../../../utils/api";
 
 export interface UserDeptProp extends ScSelectProps, FormComponentProps {
   init?: boolean;
   needCompany?: boolean;
   companyNeedInit?: boolean;
   companyTypes?: (
-    | 'CHAIN_MANAGE_COMPANY'
-    | 'SUPPLY_CHAIN_COMPANY'
-    | 'SUPPLY_SUBCOMPANY'
-    | 'SHOP'
-    | 'WAREHOUSE'
+    | "CHAIN_MANAGE_COMPANY"
+    | "SUPPLY_CHAIN_COMPANY"
+    | "SUPPLY_SUBCOMPANY"
+    | "SHOP"
+    | "WAREHOUSE"
   )[]; // 集团底下要查询哪个组织机构
 }
 
@@ -26,7 +26,7 @@ interface UserDeptPropState {
   disabled: boolean;
   data: any[];
 }
-const queryAll = getServiceApi('system', 'company');
+const queryAll = getServiceApi("system", "company");
 const UserDept: FormComponent<UserDeptProp> = (props) => {
   const {
     readonly,
@@ -38,7 +38,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
     init = true,
     needCompany = true,
     companyNeedInit = false,
-    companyTypes = ['CHAIN_MANAGE_COMPANY'],
+    companyTypes = ["CHAIN_MANAGE_COMPANY"],
     ...restProps
   } = props;
   const deptList = useRef<any[]>([]);
@@ -53,17 +53,17 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
 
     if (init && props.value == null) {
       if (
-        bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
-        bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-        bizDeptType === 'SUPPLY_SUBCOMPANY' ||
-        bizDeptType === 'WAREHOUSE'
+        bizDeptType === "CHAIN_MANAGE_COMPANY" ||
+        bizDeptType === "SUPPLY_CHAIN_COMPANY" ||
+        bizDeptType === "SUPPLY_SUBCOMPANY" ||
+        bizDeptType === "WAREHOUSE"
       ) {
         onChange?.(
           labelInValue
-            ? { value: bizDeptId || '', text: bizDeptName }
+            ? { value: bizDeptId || "", text: bizDeptName }
             : bizDeptId,
           {
-            value: bizDeptId || '',
+            value: bizDeptId || "",
             text: bizDeptName,
             ...currentDeptMsg,
           }
@@ -71,10 +71,10 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } else {
         onChange?.(
           labelInValue
-            ? { value: companyId || '', text: companyName }
+            ? { value: companyId || "", text: companyName }
             : companyId,
           {
-            value: companyId || '',
+            value: companyId || "",
             text: companyName,
             ...currentDeptMsg,
           }
@@ -88,7 +88,10 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       const {
         userAppInfo: { currentDept },
       } = user;
-      if (currentDept.bizDeptType !== 'COMPANY' && currentDept.bizDeptType !== 'SHOP') {
+      if (
+        currentDept.bizDeptType !== "COMPANY" &&
+        currentDept.bizDeptType !== "SHOP"
+      ) {
         initValue(currentDept);
       } else {
         if (companyNeedInit && state.data.length > 0 && props.value == null) {
@@ -96,12 +99,12 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
           onChange?.(
             labelInValue
               ? {
-                value: itemFirst.companyId || '',
-                text: itemFirst.companyName,
-              }
+                  value: itemFirst.companyId || "",
+                  text: itemFirst.companyName,
+                }
               : itemFirst.companyId,
             {
-              value: itemFirst.companyId || '',
+              value: itemFirst.companyId || "",
               text: itemFirst.companyName,
               ...itemFirst,
             }
@@ -120,12 +123,12 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       } = user;
       const { bizDeptType } = currentDept;
       if (deptList.current.length === 0) {
-        if (bizDeptType === 'COMPANY' || bizDeptType === 'SHOP') {
+        if (bizDeptType === "COMPANY" || bizDeptType === "SHOP") {
           queryAll({
             companyTypes: companyTypes,
           }).then((_data: any[]) => {
             if (_data) {
-              if (needCompany && bizDeptType !== 'SHOP') {
+              if (needCompany && bizDeptType !== "SHOP") {
                 _data.unshift({
                   companyId: currentDept.bizDeptId,
                   companyName: currentDept.bizDeptName,
@@ -139,10 +142,10 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
             }
           });
         } else if (
-          bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
-          bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-          bizDeptType === 'SUPPLY_SUBCOMPANY' ||
-          bizDeptType === 'WAREHOUSE'
+          bizDeptType === "CHAIN_MANAGE_COMPANY" ||
+          bizDeptType === "SUPPLY_CHAIN_COMPANY" ||
+          bizDeptType === "SUPPLY_SUBCOMPANY" ||
+          bizDeptType === "WAREHOUSE"
         ) {
           deptList.current = [
             {
@@ -168,7 +171,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         }
       } else {
         setState({
-          disabled: bizDeptType !== 'COMPANY',
+          disabled: bizDeptType !== "COMPANY",
           data: deptList.current,
         });
       }
@@ -176,7 +179,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
   }, []);
 
   const handleChange = (value: any, option: any) => {
-    const deptId = typeof value === 'object' ? value.value : value;
+    const deptId = typeof value === "object" ? value.value : value;
     const index = state.data.findIndex((item) => {
       return item.companyId === deptId;
     });
@@ -188,14 +191,14 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
   };
 
   const formatName = (_value: any, list: any[]) => {
-    let res = '';
+    let res = "";
     if (_value !== undefined && _value !== null && Array.isArray(list)) {
       const index = list.findIndex((item) => {
         return item.companyId === _value;
       });
 
       if (index > -1) {
-        res = list[index] ? list[index].companyName : '';
+        res = list[index] ? list[index].companyName : "";
       }
     }
     return <div>{res}</div>;

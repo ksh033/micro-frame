@@ -18,4 +18,4 @@
 //   iconfontUrl: '',
 // };
 
-export default {pwa: false};
+export default { pwa: false };

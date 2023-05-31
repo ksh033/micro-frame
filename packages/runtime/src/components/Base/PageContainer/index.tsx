@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useMemo } from 'react';
-import { PageContainer as APageContainer } from '@scboson/sc-layout';
-import type { PageContainerProps } from '@scboson/sc-layout';
-import AuthButton from '../../Auth/AuthButton';
-import './index.less';
-import { HButtonType } from '@scboson/sc-schema/es/interface';
-import debounce from 'lodash/debounce';
+import React, { useMemo } from "react";
+import { PageContainer as APageContainer } from "@scboson/sc-layout";
+import type { PageContainerProps } from "@scboson/sc-layout";
+import AuthButton from "../../Auth/AuthButton";
+import "./index.less";
+import { HButtonType } from "@scboson/sc-schema/es/interface";
+import debounce from "lodash/debounce";
 
-export type ScPageContainerProps = Omit<PageContainerProps, 'footer'> & {
+export type ScPageContainerProps = Omit<PageContainerProps, "footer"> & {
   footer?: HButtonType[];
 };
 

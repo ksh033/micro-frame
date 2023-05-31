@@ -1,42 +1,42 @@
 /* eslint-disable max-len */
 
-import React, { useRef } from 'react';
-import { Input, Select, Button } from 'antd';
-import { CModal } from '@scboson/sc-element';
-import TableModal from './table';
+import React, { useRef } from "react";
+import { Input, Select, Button } from "antd";
+import { CModal } from "@scboson/sc-element";
+import TableModal from "./table";
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
-import type { CheckboxProps } from 'antd/es/checkbox';
+} from "@scboson/sc-element/es/c-form";
+import type { CheckboxProps } from "antd/es/checkbox";
 
 interface TableSelectProps extends FormComponentProps {
   placeholder?: string;
   value?: any;
   title?: string;
   onChange?: (value: any) => void;
-  selectionType?: 'checkbox' | 'radio';
+  selectionType?: "checkbox" | "radio";
   textField?: any;
   disabled?: boolean;
   valueField?: string;
   params?: any;
   getCheckboxProps?: (
     record: any
-  ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>;
+  ) => Partial<Omit<CheckboxProps, "defaultChecked" | "checked">>;
 }
 
 const TabelSelect: FormComponent<TableSelectProps> = (
   props: TableSelectProps
 ) => {
   const {
-    placeholder = '请选择门店',
-    title = '选择',
-    selectionType = 'radio',
+    placeholder = "请选择门店",
+    title = "选择",
+    selectionType = "radio",
     onChange,
     value = [],
     disabled = false,
-    textField = 'shopName',
-    valueField = 'shopId',
+    textField = "shopName",
+    valueField = "shopId",
     readonly,
     form,
     params,
@@ -80,7 +80,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
   const handleClick = () => {
     CModal.show({
       title,
-      width: '1200px',
+      width: "1200px",
       content: TableModal,
       pageProps: {
         params,
@@ -124,24 +124,24 @@ const TabelSelect: FormComponent<TableSelectProps> = (
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || '';
+      const values = list[0][textField] || "";
       return values;
     }
-    return '';
+    return "";
   };
 
   if (readonly === true) {
     return <span>{formatInputValue(value)}</span>;
   }
 
-  if (selectionType === 'checkbox') {
+  if (selectionType === "checkbox") {
     return (
       <Input.Group>
         <Select
           mode="multiple"
           placeholder={placeholder}
           value={formatSelectValue(value)}
-          style={{ width: '70%' }}
+          style={{ width: "70%" }}
           labelInValue
           open={false}
           onChange={handleChange}

@@ -1,7 +1,7 @@
-import { uesRequest } from '../../utils/api';
-import { useCallback, useMemo } from 'react';
-import { useSessionStorageState } from 'ahooks';
-import { getAppCode } from '../Auth';
+import { uesRequest } from "../../utils/api";
+import { useCallback, useMemo } from "react";
+import { useSessionStorageState } from "ahooks";
+import { getAppCode } from "../Auth";
 
 export interface DictDataItem {
   name: string;
@@ -28,18 +28,18 @@ export type LocalDictMapData = {
 
 export default function useDictModel() {
   const [dict, setdDict] = useSessionStorageState<DictMapData>(
-    'CG-CURRENT-DICT',
+    "CG-CURRENT-DICT",
     {}
   );
   const [localDict, setdLocalDict] = useSessionStorageState<LocalDictMapData>(
-    'CG-LOCAL-DICT',
+    "CG-LOCAL-DICT",
     {}
   );
 
-  const { run } = uesRequest('system', 'getDictTypeList');
+  const { run } = uesRequest("system", "getDictTypeList");
 
   const loadDict = useCallback(async () => {
-    if (dict == null || JSON.stringify(dict) === '{}') {
+    if (dict == null || JSON.stringify(dict) === "{}") {
       const dictMapData = {};
       const result = await run();
       if (result) {
@@ -65,35 +65,35 @@ export default function useDictModel() {
         });
         setdDict(dictMapData);
       }
-      if (localDict == null || JSON.stringify(localDict) === '{}') {
+      if (localDict == null || JSON.stringify(localDict) === "{}") {
         setdLocalDict({
           enabled: [
             {
-              name: '启用',
+              name: "启用",
               value: true,
             },
             {
-              name: '禁用',
+              name: "禁用",
               value: false,
             },
           ],
           yesNo: [
             {
-              name: '是',
+              name: "是",
               value: true,
             },
             {
-              name: '否',
+              name: "否",
               value: false,
             },
           ],
           deptGoodsStatus: [
             {
-              name: '上架',
+              name: "上架",
               value: true,
             },
             {
-              name: '下架',
+              name: "下架",
               value: false,
             },
           ],
@@ -104,7 +104,7 @@ export default function useDictModel() {
 
   const setLocal = (type: string, list: Array<DictDataItem>) => {
     let localDictMap: LocalDictMapData = {};
-    if (localDict !== undefined && JSON.stringify(localDict) !== '{}') {
+    if (localDict !== undefined && JSON.stringify(localDict) !== "{}") {
       localDictMap = localDict;
     }
     localDictMap[type] = list;

@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Tag, message } from 'antd';
-import NoticeIcon from './NoticeIcon';
-import styles from './index.less';
-import { uesRequest } from '../../../utils/api';
-import { changeApp, getUser } from '../../Auth';
+import { useEffect, useMemo, useState } from "react";
+import { Tag, message } from "antd";
+import NoticeIcon from "./NoticeIcon";
+import styles from "./index.less";
+import { uesRequest } from "../../../utils/api";
+import { changeApp, getUser } from "../../Auth";
 
 export type GlobalHeaderRightProps = {
   fetchingNotices?: boolean;
@@ -14,7 +14,7 @@ export type GlobalHeaderRightProps = {
 const NoticeIconView: React.FC = () => {
   const [notices, setNotices] = useState<any[]>([]);
 
-  const todoList = uesRequest('user', 'todoList');
+  const todoList = uesRequest("user", "todoList");
 
   const user = getUser();
   const menus = user?.chooseDeptVO.currentDept?.menus;
@@ -34,7 +34,7 @@ const NoticeIconView: React.FC = () => {
       if (Array.isArray(res)) {
         setNotices(res);
         if (isRefresh) {
-          message.success('刷新成功');
+          message.success("刷新成功");
         }
       }
     });
@@ -56,8 +56,8 @@ const NoticeIconView: React.FC = () => {
           changeApp(app);
         }
       } else {
-        if (item.todoListUrl.startsWith('/')) {
-          const apps = item.todoListUrl.substr(1).split('/');
+        if (item.todoListUrl.startsWith("/")) {
+          const apps = item.todoListUrl.substr(1).split("/");
 
           if (apps.length > 0) {
             if (!changeApp(apps[0])) {
@@ -93,7 +93,7 @@ const NoticeIconView: React.FC = () => {
         return notice;
       })
     );
-    message.success(`${'清空了'} ${title}`);
+    message.success(`${"清空了"} ${title}`);
   };
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const NoticeIconView: React.FC = () => {
       loading={false}
       clearText="清空"
       viewMoreText="查看更多"
-      onViewMore={() => message.info('Click on view more')}
+      onViewMore={() => message.info("Click on view more")}
       clearClose
     >
       <NoticeIcon.Tab

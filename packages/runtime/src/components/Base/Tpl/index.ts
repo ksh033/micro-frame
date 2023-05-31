@@ -1,5 +1,5 @@
-import ModalPageTpl from './ModalPageTpl';
-import PageTpl from './PageTpl';
+import ModalPageTpl from "./ModalPageTpl";
+import PageTpl from "./PageTpl";
 /**
  * 模板排版组件
  */

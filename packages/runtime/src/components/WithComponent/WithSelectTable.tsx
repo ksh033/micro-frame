@@ -45,7 +45,11 @@ export default function WithSelectTable<
         ...restProps
       } = mergProps;
 
-      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }>({});
+      let ref = useRef<{
+        selectedRows?: any[];
+        selectedKeys?: any[];
+        rowKey?: string;
+      }>({});
       if (dataRef) {
         ref = dataRef;
       }
@@ -98,7 +102,6 @@ export default function WithSelectTable<
       //     }
       //   }
 
-
       //   // setCmpValue(ref.current.selectedRows);
       //   // onChange?.(megData);
 
@@ -109,9 +112,8 @@ export default function WithSelectTable<
         if (normalize) {
           tval = normalize(value, restProps.rowKey);
           if (!ref.current.selectedRows) {
-            ref.current.selectedRows = tval
+            ref.current.selectedRows = tval;
           }
-
         }
         return tval;
       }, [normalize, value]);
@@ -150,7 +152,11 @@ export default function WithSelectTable<
         disabled,
         ...restProps
       } = props;
-      let ref = useRef<{ selectedRows?: any[]; selectedKeys?: any[], rowKey?: string }>({});
+      let ref = useRef<{
+        selectedRows?: any[];
+        selectedKeys?: any[];
+        rowKey?: string;
+      }>({});
       if (dataRef) {
         ref = dataRef;
       }
@@ -175,7 +181,7 @@ export default function WithSelectTable<
           ref.current.selectedRows = [];
           ref.current.selectedKeys = [];
         }
-        ref.current.rowKey = rowKey
+        ref.current.rowKey = rowKey;
       };
 
       const dlgcontent = useMemo(() => {

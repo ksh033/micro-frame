@@ -1,7 +1,7 @@
-import { ScSearchBar } from '@scboson/sc-element';
-import ToolBar from '../ToolBar';
+import { ScSearchBar } from "@scboson/sc-element";
+import ToolBar from "../ToolBar";
 
-import styles from './index.less';
+import styles from "./index.less";
 
 const BsSearch = (props: any) => {
   const { customBtn, ...resProps } = props;
@@ -18,7 +18,7 @@ const BsSearch = (props: any) => {
           ></ToolBar>
         </div>
       ) : null} */}
-      <div className={styles['bs-supplier-search']}>
+      <div className={styles["bs-supplier-search"]}>
         <ScSearchBar {...resProps} customBtn={customBtn}></ScSearchBar>
       </div>
     </>

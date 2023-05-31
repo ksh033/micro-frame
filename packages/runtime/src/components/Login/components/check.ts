@@ -10,17 +10,17 @@ export function chenkPwdStrength(newPassword: string): number {
 
   /** 提取数字 */
   const numberArray: RegExpMatchArray | null = password.match(/\d+/g);
-  const num = numberArray ? numberArray.join('') : '';
+  const num = numberArray ? numberArray.join("") : "";
   const nscore = numScore(num);
   /** 提取字母 */
   const strArray: RegExpMatchArray | null = password.match(/[a-zA-Z]+/g);
-  const str = strArray ? strArray.join('') : '';
+  const str = strArray ? strArray.join("") : "";
   const sscore = strScore(str);
   /** 提取特殊符号 */
   const charArray: RegExpMatchArray | null = password.match(
     /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/g
   );
-  const char = charArray ? charArray.join('') : '';
+  const char = charArray ? charArray.join("") : "";
   const cscore = charScore(char);
   /** 额外分数 */
   const existscore = addScore(password);
@@ -60,8 +60,8 @@ function strScore(str: string) {
   const bigStr: RegExpMatchArray | null = str.match(/[^A-Z]/g);
   const smallStr: RegExpMatchArray | null = str.match(/[^a-z]/g);
 
-  const bigNum = (bigStr ? bigStr.join('') : '').length;
-  const smallNum = (smallStr ? smallStr.join('') : '').length;
+  const bigNum = (bigStr ? bigStr.join("") : "").length;
+  const smallNum = (smallStr ? smallStr.join("") : "").length;
   if (bigNum === 0 && smallNum === 0) {
     return 0;
   }

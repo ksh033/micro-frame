@@ -1,34 +1,39 @@
-import { useState } from 'react';
-//@ts-ignore
+import React, { useState } from "react";
+
+import ttt from './global.less'
+console.log(ttt)
+import test1 from './test.less'
+console.log(test1)
 import {
   Auth,
   Login,
   SelectDept,
   RetrievePassword,
-} from '@micro-frame/sc-runtime';
-import { history } from 'umi';
-import moment from 'moment';
+} from "@micro-frame/sc-runtime";
+//@ts-ignore
+import { history } from "umi";
+import moment from "moment";
 const { getUser, getUserAppCode } = Auth;
 
 window.masterHistory = history;
 
-let masterUrl = SC_MASTER_URL || '';
+let masterUrl = SC_MASTER_URL || "";
 // @ts-ignore
 window.masterWindow = window;
 
 export const qiankun = new Promise((resolve) => {
   const data = [
-    { systemCode: 'basesys', systemName: '基础数据应用' },
-    { systemCode: 'mallsys', systemName: '商城管理应用' },
-    { systemCode: 'purchasesys', systemName: '采购应用' },
-    { systemCode: 'wmssys', systemName: '仓库应用' },
-    { systemCode: 'shopsys', systemName: '门店应用' },
-    { systemCode: 'factorysys', systemName: '加工中心应用' },
-    { systemCode: 'financesys', systemName: '财务应用' },
-    { systemCode: 'bisys', systemName: '数据中心' },
-    { systemCode: 'deliverysys', systemName: '配送应用' },
-    { systemCode: 'assetssys', systemName: '资金应用' },
-    { systemCode: 'cookbooksys', systemName: '菜品应用' },
+    { systemCode: "basesys", systemName: "基础数据应用" },
+    { systemCode: "mallsys", systemName: "商城管理应用" },
+    { systemCode: "purchasesys", systemName: "采购应用" },
+    { systemCode: "wmssys", systemName: "仓库应用" },
+    { systemCode: "shopsys", systemName: "门店应用" },
+    { systemCode: "factorysys", systemName: "加工中心应用" },
+    { systemCode: "financesys", systemName: "财务应用" },
+    { systemCode: "bisys", systemName: "数据中心" },
+    { systemCode: "deliverysys", systemName: "配送应用" },
+    { systemCode: "assetssys", systemName: "资金应用" },
+    { systemCode: "cookbooksys", systemName: "菜品应用" },
   ];
   const apps: any[] = [];
   const routes: any[] = [];
@@ -42,7 +47,7 @@ export const qiankun = new Promise((resolve) => {
       name: systemCode,
       to: `/${systemCode}`,
       entry: `${masterUrl}micro-${systemCode}/?version=${moment().format(
-        'YYYYMMDD'
+        "YYYYMMDD"
       )}`,
       activeRule: `/${systemCode}`,
       // entry: `${masterUrl}${systemCode}/`,
@@ -63,7 +68,7 @@ export const qiankun = new Promise((resolve) => {
     routes,
 
     excludeAssetFilter: (assetUrl: string) => {
-      if (assetUrl.indexOf('127.0.0.1') > -1) {
+      if (assetUrl.indexOf("127.0.0.1") > -1) {
         return true;
       }
       return false;
@@ -88,11 +93,11 @@ export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';
   // }
-  if (location.pathname !== '/system/current/initpassword') {
+  if (location.pathname !== "/system/current/initpassword") {
     const currentUser = getUser();
     if (currentUser) {
       if (currentUser.needModifyPwd) {
-        history.push('/system/current/initpassword');
+        history.push("/system/current/initpassword");
         return;
       }
     }
@@ -102,16 +107,16 @@ export function onRouteChange({ location }: any) {
 export function render(oldRender: any) {
   const currentUser = getUser();
   if (currentUser) {
-    if (history.location.pathname !== '/selectDept') {
+    if (history.location.pathname !== "/selectDept") {
       if (currentUser && currentUser.userAppInfo == null) {
-        history.push('/selectDept');
+        history.push("/selectDept");
       }
     }
     oldRender();
   } else {
     history.push({
-      pathname: '/login',
-      query: history.location.query,
+      pathname: "/login",
+      search: history.location.search,
     });
     oldRender();
   }
@@ -145,7 +150,7 @@ export function render(oldRender: any) {
 //const temCode = restUserAppCode()
 export const useQiankunStateForSlave = () => {
   const [globalState, setQiankunGlobalState] = useState({
-    currentMenu: 'null',
+    currentMenu: "null",
     //currentApp: temCode,
   });
 
@@ -157,25 +162,26 @@ export const useQiankunStateForSlave = () => {
 
 // eslint-disable-next-line func-names
 window.onunload = function () {
-  console.log('restUserAppCode');
+  console.log("restUserAppCode");
   //restUserAppCode(getUserAppCode())
 };
 
 // 动态加载登录
-export function patchRoutes({ routes }: any) {
+export function patchClientRoutes({ routes }: any) {
   routes.unshift({
-    path: '/retrievepassword',
+    path: "/retrievepassword",
     exact: true,
-    component: RetrievePassword,
+    element: <RetrievePassword />,
   });
   routes.unshift({
-    path: '/selectDept',
+    path: "/selectDept",
     exact: true,
-    component: SelectDept,
+    element: <SelectDept />,
   });
   routes.unshift({
-    path: '/login',
+    path: "/login",
     exact: true,
-    component: Login,
+    element: <Login />,
   });
+
 }

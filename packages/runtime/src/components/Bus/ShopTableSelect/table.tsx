@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
-import { uesRequest } from '../../../utils/api';
-import BsTable from '../../Base/BsTable';
-import BsSearch from '../../Base/BsSearch';
-import list from './list';
-import type { PageConfig } from '@scboson/sc-schema';
-import { useListPageContext } from '@scboson/sc-schema';
-import { ListPage } from '@scboson/sc-schema';
-import userDictModel from '../../../components/Dict/userDictModel';
-import { Tag } from 'antd';
+import React, { useMemo } from "react";
+import { uesRequest } from "../../../utils/api";
+import BsTable from "../../Base/BsTable";
+import BsSearch from "../../Base/BsSearch";
+import list from "./list";
+import type { PageConfig } from "@scboson/sc-schema";
+import { useListPageContext } from "@scboson/sc-schema";
+import { ListPage } from "@scboson/sc-schema";
+import userDictModel from "../../../components/Dict/userDictModel";
+import { Tag } from "antd";
 
 const pagaConfig: PageConfig = {
   ...list,
@@ -20,10 +20,10 @@ const Table = (props: any) => {
     rowKey,
     selectedRowKeys,
     getCheckboxProps,
-    params
+    params,
   } = pageProps;
 
-  const { run } = uesRequest('system', 'shop');
+  const { run } = uesRequest("system", "shop");
   const page = useListPageContext();
   const search = page.getSearch({});
   const searchConfig = search.toConfig();
@@ -31,7 +31,7 @@ const Table = (props: any) => {
 
   const shopBusinessMap = useMemo(() => {
     const rlist = getDistList({
-      dictTypeCode: 'shopBusiness',
+      dictTypeCode: "shopBusiness",
     });
     const map = new Map();
     if (Array.isArray(rlist)) {
@@ -44,26 +44,31 @@ const Table = (props: any) => {
 
   const pageInfo: any = page
     .getTable()
-    .changeCol('shopName', {
+    .changeCol("shopName", {
       render(val: any, record: any) {
         if (record.enabled) {
-          return val
+          return val;
         }
-        return <>{val}<Tag color='red'>已关店</Tag></>
-      }
+        return (
+          <>
+            {val}
+            <Tag color="red">已关店</Tag>
+          </>
+        );
+      },
     })
-    .changeCol('shopBusiness', {
+    .changeCol("shopBusiness", {
       render: (text: string, record: any) => {
         const rlist = record.shopBusinessList;
         let str = Array.isArray(rlist)
           ? rlist
-            .map((item) => {
-              return shopBusinessMap.get(item);
-            })
-            .join('，')
-          : '--';
-        if (str === '') {
-          str = '--';
+              .map((item) => {
+                return shopBusinessMap.get(item);
+              })
+              .join("，")
+          : "--";
+        if (str === "") {
+          str = "--";
         }
         return str;
       },
@@ -75,14 +80,14 @@ const Table = (props: any) => {
       ...pageInfo.params,
       orders: [
         {
-          "asc": false,
-          "column": "enabled"
-        }
+          asc: false,
+          column: "enabled",
+        },
       ],
     };
   }, [JSON.stringify(pageInfo.params)]);
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <BsSearch {...searchConfig} />
 
       <BsTable
@@ -90,10 +95,12 @@ const Table = (props: any) => {
         checkbox
         rowSelection={{
           type: selectionType,
-          getCheckboxProps: getCheckboxProps ? getCheckboxProps : (record: any) => ({
-            disabled: record.enabled === false, // Column configuration not to be checked
-            // name: record.name,
-          }),
+          getCheckboxProps: getCheckboxProps
+            ? getCheckboxProps
+            : (record: any) => ({
+                disabled: record.enabled === false, // Column configuration not to be checked
+                // name: record.name,
+              }),
         }}
         autoload
         rowKey={rowKey}

@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { Button, Space } from 'antd';
-import Authority from '../../Auth/Authority';
+import React, { useMemo } from "react";
+import { Button, Space } from "antd";
+import Authority from "../../Auth/Authority";
 
 const ToolBar: React.FC<any> = (props) => {
   const { buttons = [], className } = props;

@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
-import React, { useEffect, useMemo, useState } from 'react';
-import { ScTreeSelect } from '@scboson/sc-element';
+import React, { useEffect, useMemo, useState } from "react";
+import { ScTreeSelect } from "@scboson/sc-element";
 import type {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
-import { uesRequest } from '../../../utils/api';
+} from "@scboson/sc-element/es/c-form";
+import { uesRequest } from "../../../utils/api";
 
 export interface AreaDataProps {
   areaCode: string;
@@ -28,7 +28,7 @@ export interface AreaSelecthProps extends FormComponentProps {
   fieldProps?: any;
   multiple?: boolean;
   labelInValue?: boolean;
-  param?: any
+  param?: any;
 }
 /**
  * 商品品目
@@ -44,7 +44,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
     modelKey: null,
   }
 ) => {
-  const { run } = uesRequest('catalog', 'treeData');
+  const { run } = uesRequest("catalog", "treeData");
   const [treeValue, setTreeValue] = useState<any>();
   const {
     form,
@@ -63,7 +63,7 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
   } = props;
 
   const params = useMemo(() => {
-    return { parentCatalogCode: '0', ...param };
+    return { parentCatalogCode: "0", ...param };
   }, []);
 
   const onSelectChange = (rvalue: any, option: any) => {
@@ -73,11 +73,11 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
         onChange(
           labelInValue
             ? {
-              catalogCode: option.catalogCode,
-              catalogId: option.catalogId,
-              value: option.catalogId,
-              label: option.catalogName,
-            }
+                catalogCode: option.catalogCode,
+                catalogId: option.catalogId,
+                value: option.catalogId,
+                label: option.catalogName,
+              }
             : option.catalogId
         );
       }
@@ -96,7 +96,6 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
           label: value.catalogName || value.label,
         });
       }
-
     }
   }, [JSON.stringify(value)]);
 
@@ -121,9 +120,15 @@ const CatalogTreeSelect: FormComponent<AreaSelecthProps> = (
 
   const render = () => {
     if (readonly) {
-      let text = '';
+      let text = "";
       if (treeValue) {
-        text = multiple ? treeValue.map((item: any) => { return item.label }).join(',') : treeValue.label;
+        text = multiple
+          ? treeValue
+              .map((item: any) => {
+                return item.label;
+              })
+              .join(",")
+          : treeValue.label;
       }
       return <>{text}</>;
     }

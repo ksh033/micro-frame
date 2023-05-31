@@ -1,12 +1,12 @@
-import React from 'react';
-import { TimePicker, TimePickerProps } from 'antd';
+import React from "react";
+import { TimePicker, TimePickerProps } from "antd";
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form';
-import moment from 'moment';
+} from "@scboson/sc-element/es/c-form";
+import moment from "moment";
 
-type BsTimePicker = Omit<TimePickerProps, 'value' | 'onChange' | 'format'> &
+type BsTimePicker = Omit<TimePickerProps, "value" | "onChange" | "format"> &
   FormComponentProps & {
     value?: string;
     onChange?: (val: string) => void;
@@ -15,7 +15,7 @@ type BsTimePicker = Omit<TimePickerProps, 'value' | 'onChange' | 'format'> &
 
 const BsTimePicker: FormComponent<BsTimePicker> = (props) => {
   const {
-    format = 'HH:mm:ss',
+    format = "HH:mm:ss",
     value,
     onChange,
     readonly,

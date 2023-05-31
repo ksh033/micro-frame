@@ -1,8 +1,8 @@
-import { ButtonTypeProps } from '@scboson/sc-schema/es/interface';
-import defaultEvents from '@scboson/sc-schema/es/event/DefaultEvents';
+import { ButtonTypeProps } from "@scboson/sc-schema/es/interface";
+import defaultEvents from "@scboson/sc-schema/es/event/DefaultEvents";
 // import { useRequest } from 'ahooks';
-import { Button, ButtonProps } from 'antd';
-import React from 'react';
+import { Button, ButtonProps } from "antd";
+import React from "react";
 
 const BsTableButton: React.FC<ButtonTypeProps> = (props) => {
   const {
@@ -10,9 +10,9 @@ const BsTableButton: React.FC<ButtonTypeProps> = (props) => {
     options,
     onClick,
     buttonType,
-    type = 'link',
+    type = "link",
     disabled = false,
-    htmlType = 'button',
+    htmlType = "button",
     icon,
   } = props;
   const buttonProps: ButtonProps = {

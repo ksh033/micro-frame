@@ -4,32 +4,33 @@
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
-import { Form, Input, TimePicker } from 'antd';
-import { TimeRangePickerProps } from 'antd/es/time-picker';
-import moment, { Moment } from 'moment';
-import { RangeValue } from 'rc-picker/es/interface';
-import { useEffect, useMemo, useState } from 'react';
-
+} from "@scboson/sc-element/es/c-form";
+import { Form, Input, TimePicker } from "antd";
+import { TimeRangePickerProps } from "antd/es/time-picker";
+import { RangeValue } from "rc-picker/es/interface";
+import { useEffect, useMemo, useState } from "react";
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 const { RangePicker } = TimePicker;
 
 export interface BsRangeTimePickerProps
   extends TimeRangePickerProps,
-    FormComponentProps {
+  FormComponentProps {
   format?: string;
-  returnType?: 'string' | 'date';
+  returnType?: "string" | "date";
   startTimeFiled?: string;
   endTimeFiled?: string;
   rulesRequire?: boolean;
-  onChange?: (dates: RangeValue<Moment>, dateStrings: [string, string]) => void;
+  onChange?: (dates: RangeValue<Dayjs>, dateStrings: [string, string]) => void;
 }
 
 const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
   const {
-    format = 'HH:mm',
-    returnType = 'string',
-    startTimeFiled = 'startTime',
-    endTimeFiled = 'endTime',
+    format = "HH:mm",
+    returnType = "string",
+    startTimeFiled = "startTime",
+    endTimeFiled = "endTime",
     form,
     readonly,
     initialValues,
@@ -44,7 +45,7 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
     const startTime = form?.getFieldValue(startTimeFiled);
     const endTime = form?.getFieldValue(endTimeFiled);
     if (startTime && endTime) {
-      setCurrentValue([moment(startTime, format), moment(endTime, format)]);
+      setCurrentValue([dayjs(startTime, format), dayjs(endTime, format)]);
     } else {
       setCurrentValue([]);
     }
@@ -61,15 +62,15 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
       initialValues[endTimeFiled]
     ) {
       return [
-        moment.utc(initialValues[startTimeFiled], format),
-        moment.utc(initialValues[endTimeFiled], format),
+        dayjs.utc(initialValues[startTimeFiled], format),
+        dayjs.utc(initialValues[endTimeFiled], format),
       ];
     }
     return [];
   }, initialValues);
 
   const handleChange = (
-    dates: RangeValue<Moment>,
+    dates: RangeValue<Dayjs>,
     dateStrings: [string, string]
   ) => {
     const _dates: {
@@ -79,11 +80,11 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
       [key: string]: string;
     } = {};
     if (Array.isArray(dates)) {
-      if (returnType === 'date') {
-        _dates[`${startTimeFiled}`] = moment(dates[0]).toDate();
-        _dates[`${endTimeFiled}`] = moment(dates[1]).toDate();
+      if (returnType === "date") {
+        _dates[`${startTimeFiled}`] = dayjs(dates[0]).toDate();
+        _dates[`${endTimeFiled}`] = dayjs(dates[1]).toDate();
       }
-      if (returnType === 'string') {
+      if (returnType === "string") {
         _dates[`${startTimeFiled}`] = dateStrings[0];
         _dates[`${endTimeFiled}`] = dateStrings[1];
       }
@@ -98,8 +99,8 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
   const formatValueView = () => {
     const startTime = form?.getFieldValue(startTimeFiled);
     const endTime = form?.getFieldValue(endTimeFiled);
-    const startTimeView = moment(startTime).format(format);
-    const endTimeView = moment(endTime).format(format);
+    const startTimeView = dayjs(startTime).format(format);
+    const endTimeView = dayjs(endTime).format(format);
 
     if (startTimeView && endTimeView) {
       return (
@@ -116,11 +117,11 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
   } else {
     return (
       <Form.Item noStyle>
-        <div style={{ display: 'none' }}>
-          <Form.Item name={startTimeFiled} style={{ display: 'none' }}>
+        <div style={{ display: "none" }}>
+          <Form.Item name={startTimeFiled} style={{ display: "none" }}>
             <Input></Input>
           </Form.Item>
-          <Form.Item name={endTimeFiled} style={{ display: 'none' }}>
+          <Form.Item name={endTimeFiled} style={{ display: "none" }}>
             <Input></Input>
           </Form.Item>
         </div>
@@ -130,11 +131,11 @@ const BsRangeTimePicker: FormComponent<BsRangeTimePickerProps> = (props) => {
           rules={
             rulesRequire === true
               ? [
-                  {
-                    required: true,
-                    message: '请选择',
-                  },
-                ]
+                {
+                  required: true,
+                  message: "请选择",
+                },
+              ]
               : undefined
           }
         >

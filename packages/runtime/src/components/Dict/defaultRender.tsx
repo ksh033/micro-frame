@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Badge } from 'antd';
-import React from 'react';
-import { decimalPoint } from '../../utils/common';
-import BsImg from '../Base/BsImg';
+import { Badge } from "antd";
+import React from "react";
+import { decimalPoint } from "../../utils/common";
+import BsImg from "../Base/BsImg";
 import {
   dataTime,
   defaultNumber,
@@ -11,15 +11,15 @@ import {
   rate,
   unitprice,
   formatNumber,
-} from './format';
-import useWeightUnit from './weightUnit';
+} from "./format";
+import useWeightUnit from "./weightUnit";
 
 export const formatMoneyQuery = fmq;
 
 const UnitFormat: React.FC<any> = (props) => {
   const { valueType, text, record } = props;
   const { has } = useWeightUnit();
-  const unitName = valueType.split('_')[1];
+  const unitName = valueType.split("_")[1];
 
   if (text !== undefined && text !== null) {
     const value = has(record[unitName])
@@ -32,7 +32,7 @@ const UnitFormat: React.FC<any> = (props) => {
 };
 
 const status = (text: any) => {
-  let result: any = '--';
+  let result: any = "--";
   if (text === true) {
     result = <Badge color="#73D13D" text="启用" />;
   }
@@ -55,29 +55,29 @@ const defaultRenderText = <T, U>(
 ): React.ReactNode => {
   let newText: any = text;
   switch (valueType) {
-    case 'defaultNumber':
+    case "defaultNumber":
       newText = defaultNumber(text);
       break;
-    case 'unitprice':
+    case "unitprice":
       newText = unitprice(text);
       break;
-    case 'money':
+    case "money":
       newText = money(text, true);
       break;
-    case 'status':
+    case "status":
       newText = status(text);
       break;
-    case 'dataTime':
+    case "dataTime":
       newText = dataTime(text);
       break;
-    case 'media':
+    case "media":
       newText = <BsImg src={text} />;
       break;
-    case 'rate':
+    case "rate":
       newText = rate(text);
       break;
-    case 'empty':
-      newText = text != null ? text : '--';
+    case "empty":
+      newText = text != null ? text : "--";
       break;
     // case "saleUnit": {
     //   const { saleUnit } = record || {};
@@ -88,8 +88,6 @@ const defaultRenderText = <T, U>(
     //     newText = `${saleUnit}(${text})`;
     // }
     case "number": {
-
-
       newText = formatNumber(text);
       break;
     }
@@ -98,10 +96,10 @@ const defaultRenderText = <T, U>(
       break;
   }
   if (
-    valueType === 'un_cargoUnit' ||
-    valueType === 'un_stockUnit' ||
-    valueType === 'un_purchaseUnit' ||
-    valueType === 'un_distributeUnit'
+    valueType === "un_cargoUnit" ||
+    valueType === "un_stockUnit" ||
+    valueType === "un_purchaseUnit" ||
+    valueType === "un_distributeUnit"
   ) {
     return (
       <UnitFormat

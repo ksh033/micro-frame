@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import { Alert, Form, Input } from 'antd';
-import { CModal } from '@scboson/sc-element';
-import type { DialogOptions } from '@scboson/sc-schema/es/interface';
-import type { BaseResult } from '@scboson/sc-schema/es/event/BindEventUtil';
-import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
-import debounce from 'lodash/debounce';
+import React, { useMemo } from "react";
+import { Alert, Form, Input } from "antd";
+import { CModal } from "@scboson/sc-element";
+import type { DialogOptions } from "@scboson/sc-schema/es/interface";
+import type { BaseResult } from "@scboson/sc-schema/es/event/BindEventUtil";
+import ModalPageContainer from "../../../components/Base/Tpl/ModalPageTpl";
+import debounce from "lodash/debounce";
 
 const { TextArea } = Input;
 type InvalidProps = {
@@ -41,14 +41,14 @@ const Invalid: React.FC<InvalidProps> = (props) => {
 
   const modalButtons = [
     {
-      text: '取消',
+      text: "取消",
       onClick: () => {
         close?.();
       },
     },
     {
-      text: '确定',
-      type: 'primary',
+      text: "确定",
+      type: "primary",
       loading,
       onClick: () => {
         form.validateFields().then((values) => {
@@ -83,7 +83,7 @@ const Invalid: React.FC<InvalidProps> = (props) => {
         <Form.Item
           label="请在下方输入作废原因"
           name="canceledMsg"
-          rules={[{ required: true, message: '请在下方输入作废原因' }]}
+          rules={[{ required: true, message: "请在下方输入作废原因" }]}
         >
           <TextArea placeholder="请输入" />
         </Form.Item>
@@ -94,7 +94,7 @@ const Invalid: React.FC<InvalidProps> = (props) => {
 
 export function openInvalid(newOptions: DialogOptions) {
   CModal.show({
-    title: '作废提示',
+    title: "作废提示",
     showFull: false,
     okCancel: false,
     footer: null,

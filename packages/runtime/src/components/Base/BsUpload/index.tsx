@@ -1,18 +1,18 @@
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
-import { Button, message } from 'antd';
-import { UploadListType } from 'antd/es/upload/interface';
-import React from 'react';
-import { baseApi, imageUrl } from '../../../utils/common';
-import compute from '../../../utils/compute';
-import { getUser } from '../../Auth';
-import MultipleUpload from './MultipleUpload';
-import SingleUpload from './SingleUpload';
-import { isImageFileType } from './utils';
-import ViewItem from './ViewItem';
+} from "@scboson/sc-element/es/c-form";
+import { Button, message } from "antd";
+import { UploadListType } from "antd/es/upload/interface";
+import React from "react";
+import { baseApi, imageUrl } from "../../../utils/common";
+import compute from "../../../utils/compute";
+import { getUser } from "../../Auth";
+import MultipleUpload from "./MultipleUpload";
+import SingleUpload from "./SingleUpload";
+import { isImageFileType } from "./utils";
+import ViewItem from "./ViewItem";
 
 export type FileType = {
   url: string | null;
@@ -28,7 +28,7 @@ interface BsUploadProps extends FormComponentProps {
   value?: (FileType | string) | (FileType | string)[];
   onChange?: (value: any[]) => void;
   maxFiles?: number; // 最多上传几个配合 mode 类型为 multiple
-  mode?: 'multiple' | 'single'; // single 上传一个 |  multiple 上传多个配合maxFiles使用
+  mode?: "multiple" | "single"; // single 上传一个 |  multiple 上传多个配合maxFiles使用
   disabled?: boolean; // 是否禁用
   maxSize?: number; // 上传文件大小
   videoMaxSize?: number; // 视频的文件大小
@@ -37,12 +37,12 @@ interface BsUploadProps extends FormComponentProps {
   warnContent?: React.ReactNode | string;
   imgWidth?: { maxWidth?: number; minWidth?: number; width?: number };
   imgHeight?: { maxHeight?: number; minHeight?: number; height?: number };
-  valueType?: 'string' | 'object';
+  valueType?: "string" | "object";
   listType?: UploadListType;
 }
 
 export const uploadBtn = (listType: UploadListType) => {
-  if (listType === 'picture-card') {
+  if (listType === "picture-card") {
     return (
       <div>
         <PlusOutlined />
@@ -50,7 +50,7 @@ export const uploadBtn = (listType: UploadListType) => {
       </div>
     );
   }
-  if (listType === 'picture') {
+  if (listType === "picture") {
     return <Button icon={<UploadOutlined />}>上传</Button>;
   }
   return null;
@@ -59,32 +59,32 @@ export const uploadBtn = (listType: UploadListType) => {
 const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   const {
     maxFiles = 999,
-    mode = 'single',
+    mode = "single",
     disabled = false,
     maxSize = 3 * 1024 * 1024,
     videoMaxSize = 8 * 1024 * 1024,
     action = `${baseApi}/file/api/file/upload`,
     uploadImmediately = true,
-    accept = 'image/*',
+    accept = "image/*",
     warnContent,
     readonly,
     imgWidth = undefined,
     imgHeight = undefined,
     initialValues,
-    valueType = 'string',
-    listType: propListType = 'picture-card',
+    valueType = "string",
+    listType: propListType = "picture-card",
     name,
     ...restProps
   } = props;
   const user = getUser();
-  const headers: any = { 'app-version': '1.0' };
+  const headers: any = { "app-version": "1.0" };
   if (user) {
     headers.token = user.token;
-    headers['sys-code'] = user.userAppInfo.currentSystem?.systemCode;
+    headers["sys-code"] = user.userAppInfo.currentSystem?.systemCode;
   } else {
-    headers['sys-code'] = 'common';
+    headers["sys-code"] = "common";
   }
-  const listType = propListType === 'text' ? 'picture-card' : propListType;
+  const listType = propListType === "text" ? "picture-card" : propListType;
 
   const maxSizeM = compute.divide(maxSize, 1024 * 1024);
   const videoMaxSizeM = compute.divide(videoMaxSize, 1024 * 1024);
@@ -94,7 +94,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
     if (isImg) {
       return file.size <= maxSize;
     }
-    const isVideo = file.type.indexOf('video') > -1;
+    const isVideo = file.type.indexOf("video") > -1;
     if (isVideo) {
       return file.size <= videoMaxSize;
     }
@@ -118,7 +118,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   };
 
   const beforeUpload = async (file: any) => {
-    if (file.type.indexOf('image') > -1) {
+    if (file.type.indexOf("image") > -1) {
       const size: any = await loadImg(file);
 
       if (imgWidth || imgHeight) {
@@ -171,11 +171,11 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           }
         }
       }
-      const isJpgOrPng = file.type && file.type.indexOf('image') > -1;
+      const isJpgOrPng = file.type && file.type.indexOf("image") > -1;
       const isLt2M = file.size <= maxSize;
       // 判断是否有url 如果有就立即上传，没有就不上传，而是改为手动提交
       if (!isJpgOrPng) {
-        message.error('请上传JPG/PNG的图片格式');
+        message.error("请上传JPG/PNG的图片格式");
         return false;
       }
 
@@ -189,12 +189,12 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
         return false;
       }
     }
-    if (file.type.indexOf('video') > -1) {
-      const isJpgOrPng = file.type && file.type.indexOf('video') > -1;
+    if (file.type.indexOf("video") > -1) {
+      const isJpgOrPng = file.type && file.type.indexOf("video") > -1;
       const isLt2M = file.size <= videoMaxSize;
       // 判断是否有url 如果有就立即上传，没有就不上传，而是改为手动提交
       if (!isJpgOrPng) {
-        message.error('请上传视频');
+        message.error("请上传视频");
         return false;
       }
       if (!isLt2M) {
@@ -223,7 +223,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
 
   const checkImgWidth = (fileUrl: string | null) => {
     return new Promise((resolve, reject) => {
-      const newUrl = imageUrl(fileUrl || '');
+      const newUrl = imageUrl(fileUrl || "");
       if (newUrl) {
         const img = new Image();
         img.src = newUrl;
@@ -234,7 +234,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
           });
         };
       } else {
-        reject('图片地址不存在');
+        reject("图片地址不存在");
       }
     });
   };
@@ -245,10 +245,10 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
       if (result && result.fileUrl) {
         fileUrl = result.fileUrl;
       }
-      if (valueType === 'string') {
+      if (valueType === "string") {
         return fileUrl;
       } else {
-        if (result.type?.indexOf('image/') === 0) {
+        if (result.type?.indexOf("image/") === 0) {
           if (result.width && result.height) {
             return {
               fileId: result.fileInfoId,
@@ -298,7 +298,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
 
   return (
     <div>
-      {mode === 'single' ? (
+      {mode === "single" ? (
         <SingleUpload
           disabled={disabled}
           maxSize={maxSize}

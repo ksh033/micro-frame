@@ -1,41 +1,79 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState, useEffect, useMemo } from 'react';
-import { Form, Input } from 'antd';
-import { RangePickerProps } from 'antd/es/date-picker/index';
-import moment, { Moment } from 'moment';
+import React, { useState, useEffect, useMemo } from "react";
+import { Form, Input } from "antd";
+import { RangePickerProps } from "antd/es/date-picker/index";
+
+import dayjs, { Dayjs, } from 'dayjs'
+import weekday from 'dayjs/plugin/weekday'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(weekday)
+dayjs.extend(weekOfYear)
+dayjs.extend(utc)
 import {
+
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form';
-import { RangeValue } from 'rc-picker/es/interface';
+} from "@scboson/sc-element/es/c-form";
+import { RangeValue } from "rc-picker/es/interface";
 
-import RangePicker from './RangePicker';
+import RangePicker from "./RangePicker";
 function disabledDate(current: any) {
-  return current && current <= moment(new Date()).add(-1, 'days');
+  return current && current <= dayjs(new Date()).add(-1, "days");
 }
 
-let start = moment().weekday(1).format('YYYY/MM/DD') //本周一
-let end = moment().weekday(7).format('YYYY/MM/DD') //本周日
+
+let start = dayjs().weekday(1).format("YYYY/MM/DD"); //本周一
+let end = dayjs().weekday(7).format("YYYY/MM/DD"); //本周日
 const RangePresetsTypeMap = {
-  'preset1': {
-    "当日": [moment().startOf('day'), moment().endOf('day')],
-    "昨日": [moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day')],
-    "本周": [moment().weekday(1).startOf('day'), moment().weekday(7).endOf('day')],
-    "上周": [moment().week(moment().week() - 1).startOf('week').startOf('day'), moment().week(moment().week() - 1).endOf('week').endOf('day')],
-    "本月": [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
-    "上月": [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month').endOf('day')],
-    "过去7天": [moment().subtract(7, 'day').startOf('day'), moment().endOf('day')],
-    "过去30天": [moment().subtract(30, 'day').startOf('day'), moment().endOf('day')],
-    "过去90天": [moment().subtract(90, 'day').startOf('day'), moment().endOf('day')],
-    "今年至今": [moment().startOf('year').startOf('day'), moment().endOf('day')]
-  }
-
-}
+  preset1: {
+    当日: [dayjs().startOf("day"), dayjs().endOf("day")],
+    昨日: [
+      dayjs().subtract(1, "day").startOf("day"),
+      dayjs().subtract(1, "day").endOf("day"),
+    ],
+    本周: [
+      dayjs().weekday(1).startOf("day"),
+      dayjs().weekday(7).endOf("day"),
+    ],
+    上周: [
+      dayjs()
+        .week(dayjs().week() - 1)
+        .startOf("week")
+        .startOf("day"),
+      dayjs()
+        .week(dayjs().week() - 1)
+        .endOf("week")
+        .endOf("day"),
+    ],
+    本月: [
+      dayjs().startOf("month").startOf("day"),
+      dayjs().endOf("month").endOf("day"),
+    ],
+    上月: [
+      dayjs().subtract(1, "month").startOf("month").startOf("day"),
+      dayjs().subtract(1, "month").endOf("month").endOf("day"),
+    ],
+    过去7天: [
+      dayjs().subtract(7, "day").startOf("day"),
+      dayjs().endOf("day"),
+    ],
+    过去30天: [
+      dayjs().subtract(30, "day").startOf("day"),
+      dayjs().endOf("day"),
+    ],
+    过去90天: [
+      dayjs().subtract(90, "day").startOf("day"),
+      dayjs().endOf("day"),
+    ],
+    今年至今: [dayjs().startOf("year").startOf("day"), dayjs().endOf("day")],
+  },
+};
 export type BsRangePickerProps = FormComponentProps &
   RangePickerProps & {
     format?: string;
-    returnType?: 'string' | 'date';
+    returnType?: "string" | "date";
     startTimeFiled?: string;
     endTimeFiled?: string;
     showTime?: Object | boolean;
@@ -43,7 +81,7 @@ export type BsRangePickerProps = FormComponentProps &
     disabled?: boolean;
     disabledToday?: boolean;
     //预设类型
-    presetType?: keyof typeof RangePresetsTypeMap
+    presetType?: keyof typeof RangePresetsTypeMap;
   };
 
 const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
@@ -51,9 +89,9 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
 ) => {
   const {
     format,
-    returnType = 'string',
-    startTimeFiled = 'startTime',
-    endTimeFiled = 'endTime',
+    returnType = "string",
+    startTimeFiled = "startTime",
+    endTimeFiled = "endTime",
     showTime = format && format == "YYYY-MM-DD" ? false : true,
     disabledToday = false,
     form,
@@ -67,14 +105,13 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     ...resProps
   } = props;
 
-  const cformat = format || (showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
+  const cformat = format || (showTime ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD");
   const [currentValue, setCurrentValue] = useState<any>();
 
   let temranges: any = ranges;
 
   if (!temranges && presetType) {
-
-    temranges = RangePresetsTypeMap[presetType]
+    temranges = RangePresetsTypeMap[presetType];
   }
   if (disabledToday === true) {
     resProps.disabledDate = disabledDate;
@@ -85,13 +122,13 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     if (startTime && endTime) {
       form?.setFieldsValue({
         [`${startTimeFiled}_${endTimeFiled}`]: [
-          moment.utc(startTime, cformat),
-          moment.utc(endTime, cformat),
+          dayjs.utc(startTime, cformat),
+          dayjs.utc(endTime, cformat),
         ],
       });
       setCurrentValue([
-        moment.utc(startTime, cformat),
-        moment.utc(endTime, cformat),
+        dayjs.utc(startTime, cformat),
+        dayjs.utc(endTime, cformat),
       ]);
     } else {
       form?.setFieldsValue({
@@ -108,8 +145,8 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
       initialValues[endTimeFiled]
     ) {
       return [
-        moment.utc(initialValues[startTimeFiled], cformat),
-        moment.utc(initialValues[endTimeFiled], cformat),
+        dayjs.utc(initialValues[startTimeFiled], cformat),
+        dayjs.utc(initialValues[endTimeFiled], cformat),
       ];
     }
     return [];
@@ -120,7 +157,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
   }, [form?.getFieldValue(startTimeFiled)]);
 
   const handleChange = (
-    dates: RangeValue<Moment>,
+    dates: RangeValue<Dayjs>,
     dateStrings: [string, string]
   ) => {
     const _dates: {
@@ -146,11 +183,11 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
       temEndTimeFiled = endTimeFiled;
     }
     if (Array.isArray(dates)) {
-      if (returnType === 'date') {
-        _dates[`${temStartTimeFiled}`] = moment.utc(dates[0]).toDate();
-        _dates[`${temEndTimeFiled}`] = moment.utc(dates[1]).toDate();
+      if (returnType === "date") {
+        _dates[`${temStartTimeFiled}`] = dayjs.utc(dates[0]).toDate();
+        _dates[`${temEndTimeFiled}`] = dayjs.utc(dates[1]).toDate();
       }
-      if (returnType === 'string') {
+      if (returnType === "string") {
         _dates[`${temStartTimeFiled}`] = dateStrings[0];
         _dates[`${temEndTimeFiled}`] = dateStrings[1];
       }
@@ -170,8 +207,8 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     const endTime = form?.getFieldValue(endTimeFiled);
 
     if (startTime && endTime) {
-      const startTimeView = moment.utc(startTime).format(cformat);
-      const endTimeView = moment.utc(endTime).format(cformat);
+      const startTimeView = dayjs.utc(startTime).format(cformat);
+      const endTimeView = dayjs.utc(endTime).format(cformat);
       return (
         <div>
           {startTimeView} - {endTimeView}
@@ -186,14 +223,14 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
       ...resProps,
       ranges: temranges,
       showTime:
-        typeof showTime === 'object' && showTime !== null
+        typeof showTime === "object" && showTime !== null
           ? showTime
-          : typeof showTime === 'boolean' && showTime
+          : typeof showTime === "boolean" && showTime
             ? {
               hideDisabledOptions: true,
               defaultValue: [
-                moment('00:00:00', 'HH:mm:ss'),
-                moment('23:59:59', 'HH:mm:ss'),
+                dayjs("00:00:00", "HH:mm:ss"),
+                dayjs("23:59:59", "HH:mm:ss"),
               ],
             }
             : false,
@@ -205,11 +242,11 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
   } else {
     return (
       <Form.Item noStyle>
-        <div style={{ display: 'none' }}>
-          <Form.Item name={startTimeFiled} style={{ display: 'none' }}>
+        <div style={{ display: "none" }}>
+          <Form.Item name={startTimeFiled} style={{ display: "none" }}>
             <Input></Input>
           </Form.Item>
-          <Form.Item name={endTimeFiled} style={{ display: 'none' }}>
+          <Form.Item name={endTimeFiled} style={{ display: "none" }}>
             <Input></Input>
           </Form.Item>
         </div>
@@ -222,7 +259,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
               ? [
                 {
                   required: true,
-                  message: '请选择',
+                  message: "请选择",
                 },
               ]
               : undefined
@@ -231,7 +268,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
           <RangePicker
             format={cformat}
             onChange={handleChange}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             {...newProps}
           />
         </Form.Item>

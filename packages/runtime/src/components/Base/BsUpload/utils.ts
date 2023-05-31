@@ -1,6 +1,6 @@
 export const isMultimedia = (url: string) => {
   if (url) {
-    let num = url.lastIndexOf('/') + 1;
+    let num = url.lastIndexOf("/") + 1;
     let file = url.substring(num);
     if (file) {
       return (
@@ -14,12 +14,12 @@ export const isMultimedia = (url: string) => {
 };
 
 export const isImageFileType = (type: string): boolean =>
-  type.indexOf('image/') > -1;
+  type.indexOf("image/") > -1;
 
 export const getFileName = (url: string) => {
   if (url) {
-    let num = url.lastIndexOf('/') + 1;
+    let num = url.lastIndexOf("/") + 1;
     return url.substring(num);
   }
-  return '';
+  return "";
 };

@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
-import { uesRequest } from '../../../utils/api';
-import BsTable from '../../Base/BsTable';
-import BsSearch from '../../Base/BsSearch';
-import list from './list';
-import type { PageConfig } from '@scboson/sc-schema';
-import { useListPageContext } from '@scboson/sc-schema';
-import { ListPage } from '@scboson/sc-schema';
-import { Tag } from 'antd';
+import React, { useMemo } from "react";
+import { uesRequest } from "../../../utils/api";
+import BsTable from "../../Base/BsTable";
+import BsSearch from "../../Base/BsSearch";
+import list from "./list";
+import type { PageConfig } from "@scboson/sc-schema";
+import { useListPageContext } from "@scboson/sc-schema";
+import { ListPage } from "@scboson/sc-schema";
+import { Tag } from "antd";
 
 const pagaConfig: PageConfig = {
   ...list,
@@ -22,9 +22,9 @@ const Table: React.FC<any> = (props: any) => {
     rowSelection,
     needAll = true,
     params,
-    disableSelect
+    disableSelect,
   } = pageProps;
-  const { run } = uesRequest('system', 'warehouse');
+  const { run } = uesRequest("system", "warehouse");
 
   const page = useListPageContext();
   const search = page.getSearch({});
@@ -32,21 +32,27 @@ const Table: React.FC<any> = (props: any) => {
 
   const pageInfo: any = page
     .getTable()
-    .changeCol('warehouseName', {
+    .changeCol("warehouseName", {
       render(val: any, record: any) {
         if (record.enabled) {
-          return val
+          return val;
         }
-        return <>{val}<Tag color='red'>已停用</Tag></>
-      }
+        return (
+          <>
+            {val}
+            <Tag color="red">已停用</Tag>
+          </>
+        );
+      },
     })
-    .changeCol('detailAddress', {
+    .changeCol("detailAddress", {
       render: (text: string, record: any) => {
-        const provinceName = record.provinceName || '';
-        const cityName = record.cityName || '';
-        const districtName = record.districtName || '';
-        return `${provinceName}${cityName}${districtName}${record.detailAddress || ''
-          }`;
+        const provinceName = record.provinceName || "";
+        const cityName = record.cityName || "";
+        const districtName = record.districtName || "";
+        return `${provinceName}${cityName}${districtName}${
+          record.detailAddress || ""
+        }`;
       },
     })
     .toConfig();
@@ -60,14 +66,14 @@ const Table: React.FC<any> = (props: any) => {
       needAll,
       orders: [
         {
-          "asc": false,
-          "column": "enabled"
-        }
+          asc: false,
+          column: "enabled",
+        },
       ],
     };
   }, [JSON.stringify(pageInfo.params)]);
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <BsSearch {...searchConfig} />
       <BsTable
         {...pageInfo}

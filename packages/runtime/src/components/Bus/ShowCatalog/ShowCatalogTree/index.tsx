@@ -1,10 +1,10 @@
-import React from 'react';
-import { uesRequest } from '../../../../utils/api';
-import { ScTree } from '@scboson/sc-element';
-import type { ScTreeProps } from '@scboson/sc-element/es/sc-tree/typing';
+import React from "react";
+import { uesRequest } from "../../../../utils/api";
+import { ScTree } from "@scboson/sc-element";
+import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
 
-import { ScCard } from '@scboson/sc-layout';
-import { Spin } from 'antd';
+import { ScCard } from "@scboson/sc-layout";
+import { Spin } from "antd";
 /**
  * @deprecated 废弃
  * @param props
@@ -14,7 +14,7 @@ const GoodsCatalogTree: React.FC<
   ScTreeProps & { catalogType?: string; catalogScene?: string }
 > = (props) => {
   const { catalogType, catalogScene, ...restProps } = props;
-  const api = uesRequest('mall', 'showCatalogList');
+  const api = uesRequest("mall", "showCatalogList");
   const loadDataPramsFormat = (item: any) => {
     return {
       parentId: item.mallCatalogId,
@@ -27,14 +27,14 @@ const GoodsCatalogTree: React.FC<
         <ScTree
           {...restProps}
           canSearch={false}
-          placeholder={'search'}
+          placeholder={"search"}
           async={true}
           showLine={true}
           loadDataPramsFormat={loadDataPramsFormat}
           autoload={true}
           request={api.run}
           params={{
-            parentId: '0',
+            parentId: "0",
             catalogType: catalogType,
             bizScene: catalogScene,
           }}

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 //@ts-ignore
-import { history } from "umi";
+import { history } from "@@/core/history";
 //@ts-ignore
-import { setModelState } from "@@/plugin-qiankun/qiankunModel";
+import { setModelState } from "@@/plugin-qiankun-slave/qiankunModel";
+import BsTable from "@micro-frame/sc-runtime/es/components/Base/BsTable";
 import { SchemaContext } from "@scboson/sc-schema";
-import {  BsTable } from "@micro-frame/sc-runtime";
 const { Operation } = BsTable;
 export default function MicroApp(componentProps: any) {
   const { children, localMenuData } = componentProps;
@@ -27,7 +27,6 @@ export default function MicroApp(componentProps: any) {
         tableOpColCmp: Operation,
       }}
     >
-      {" "}
       {children}
     </SchemaContext.Provider>
   );

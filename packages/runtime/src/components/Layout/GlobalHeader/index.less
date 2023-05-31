@@ -1,4 +1,4 @@
-@import '~antd/es/style/themes/default.less';
+
 
 @pro-header-hover-bg: rgba(0, 0, 0, 0.025);
 @layout-header-height: 48px;
@@ -32,7 +32,7 @@
     cursor: pointer;
     transition: all 0.3s;
 
-    >span {
+    > span {
       color: @text-color;
       vertical-align: middle;
     }
@@ -56,7 +56,7 @@
 
   .account {
     .avatar {
-      margin:~'calc((@{layout-header-height} - 24px) / 2)'0;
+      margin: ~"calc((@{layout-header-height} - 24px) / 2)" 0;
       margin-right: 8px;
       color: @primary-color;
       vertical-align: top;
@@ -69,7 +69,7 @@
   .action {
     color: rgba(255, 255, 255, 0.85);
 
-    >span {
+    > span {
       color: rgba(255, 255, 255, 0.85);
     }
 
@@ -85,14 +85,14 @@
     .action {
       color: @text-color;
 
-      >span {
+      > span {
         color: @text-color;
       }
 
       &:hover {
         color: rgba(255, 255, 255, 0.85);
 
-        >span {
+        > span {
           color: rgba(255, 255, 255, 0.85);
         }
       }

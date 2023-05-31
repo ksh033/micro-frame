@@ -1,6 +1,6 @@
 .layout-select-content {
   margin: 48px 0 0 0;
-  background-color: #EBF0F6;
+  background-color: #ebf0f6;
 }
 
 .select-wrapper {
@@ -8,10 +8,15 @@
   min-height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
-  background: linear-gradient(315deg, rgba(172, 193, 254, 0.2) 15%, rgba(225, 210, 253, 0.3), rgba(242, 245, 251, 0.012), rgba(172, 196, 254, 0.25));
+  background: linear-gradient(
+    315deg,
+    rgba(172, 193, 254, 0.2) 15%,
+    rgba(225, 210, 253, 0.3),
+    rgba(242, 245, 251, 0.012),
+    rgba(172, 196, 254, 0.25)
+  );
   padding-top: 70px;
   padding-left: 178px;
-
 
   &-view {
     display: flex;
@@ -51,7 +56,7 @@
       position: relative;
       width: 256px;
       height: 60px;
-      background: #FFFFFF;
+      background: #ffffff;
       border-radius: 4px;
       font-size: 14px;
       display: flex;
@@ -75,7 +80,6 @@
         margin-right: 10px;
       }
 
-
       &-image {
         position: relative;
         width: 16px;
@@ -89,12 +93,12 @@
         line-height: 1;
         top: 6px;
         right: 0;
-        background: #FF3346;
+        background: #ff3346;
         border-radius: 8px 0 0 8px;
         font-size: 12px;
 
         font-weight: 400;
-        color: #FFFFFF;
+        color: #ffffff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -110,7 +114,7 @@
         padding: 3px 4px;
         font-size: 12px;
         font-weight: 400;
-        color: #AFAFAF;
+        color: #afafaf;
         line-height: 12px;
       }
 
@@ -128,7 +132,8 @@
 
     &-child:hover {
       cursor: pointer;
-      box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;
+      box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f,
+        0 5px 12px 4px #00000017;
     }
   }
 
@@ -260,13 +265,12 @@
   border: 1px solid #1890ff;
 }
 
-
 .card-action::before {
-  content: '';
+  content: "";
   position: absolute;
   right: -1px;
   bottom: -1px;
-  border: 12px solid #0046FE;
+  border: 12px solid #0046fe;
   border-top-color: transparent;
   border-left-color: transparent;
   z-index: 2;
@@ -274,7 +278,7 @@
 }
 
 .card-action::after {
-  content: '';
+  content: "";
   width: 5px;
   height: 10px;
   position: absolute;

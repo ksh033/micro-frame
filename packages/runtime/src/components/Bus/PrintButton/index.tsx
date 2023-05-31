@@ -1,8 +1,8 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Menu } from 'antd';
-import React from 'react';
-import { print, PrintTplType, setPrintSetting } from '../../../utils/print';
-import style from './index.less';
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, Menu } from "antd";
+import React from "react";
+import { print, PrintTplType, setPrintSetting } from "../../../utils/print";
+import style from "./index.less";
 
 export const PrintType = PrintTplType;
 export interface PrintButtonProp {
@@ -49,11 +49,11 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
   const menuClick = async (obj: any) => {
     const params = await getParam();
 
-    if (obj.key === 'priview') {
+    if (obj.key === "priview") {
       print(printType, { params, preview: true });
     }
 
-    if (obj.key === 'setting') {
+    if (obj.key === "setting") {
       setPrintSetting(printType);
     }
   };
@@ -66,17 +66,17 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
   );
   return (
     <Dropdown.Button
-      className={style['print-btn']}
+      className={style["print-btn"]}
       onClick={() => {
         printClcik();
       }}
       icon={<DownOutlined></DownOutlined>}
       overlay={menu}
-      style={{ padding: '0px', width: 'auto' }}
-      trigger={['click']}
+      style={{ padding: "0px", width: "auto" }}
+      trigger={["click"]}
       // @ts-ignore
       getPopupContainer={(node: any) => {
-        const footer = document.getElementsByClassName('ant-pro-footer-bar');
+        const footer = document.getElementsByClassName("ant-pro-footer-bar");
         if (footer.length > 0) {
           return footer.item(0);
         } else {
@@ -85,7 +85,7 @@ const PrintButton: React.FC<any> = (pros: PrintButtonProp) => {
       }}
       {...restProps}
     >
-      {children || '打印'}
+      {children || "打印"}
     </Dropdown.Button>
   );
 };

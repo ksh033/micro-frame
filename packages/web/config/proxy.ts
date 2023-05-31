@@ -5,24 +5,24 @@
  */
 export default {
   dev: {
-    '/webapi-dev/': {
-      target: 'http://172.18.164.121:8031/',
+    "/webapi-dev/": {
+      target: "http://172.18.164.121:8031/",
       changeOrigin: true,
-      pathRewrite: { '/webapi-dev': '' },
+      pathRewrite: { "/webapi-dev": "" },
     },
   },
   test: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    "/api/": {
+      target: "https://preview.pro.ant.design",
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { "^": "" },
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    "/api/": {
+      target: "your pre url",
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { "^": "" },
     },
   },
-};
+} as any;

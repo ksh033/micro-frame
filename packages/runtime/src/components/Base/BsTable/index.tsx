@@ -1,29 +1,32 @@
-import { ScTable } from '@scboson/sc-element';
-import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
+import { ScTable } from "@scboson/sc-element";
+import type { ScTableProps } from "@scboson/sc-element/es/sc-table";
 
-import { Badge, Table } from 'antd';
-import { isArray, isObject } from 'lodash';
-import React, { useMemo, useRef, useState } from 'react';
-import Authority from '../../Auth/Authority';
-import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
-import userDictModel from '../../Dict/userDictModel';
-import ToolBar from '../ToolBar';
-import { execlColumnsFormat } from './execlUtil';
-import styles from './index.less';
-import Operation from './Operation';
+import { Badge, Table } from "antd";
+import { isArray, isObject } from "lodash";
+import React, { useMemo, useRef, useState } from "react";
+import Authority from "../../Auth/Authority";
+import defaultRenderText, { cacheRender } from "../../Dict/defaultRender";
+import userDictModel from "../../Dict/userDictModel";
+import ToolBar from "../ToolBar";
+import { execlColumnsFormat } from "./execlUtil";
+import styles from "./index.less";
+import Operation from "./Operation";
 // @ts-ignore
-import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
+import { setLocalSearchParams } from "@scboson/sc-schema/es/hooks/useListPage";
 // @ts-ignore
-import { history } from 'umi';
-import { useRequest, useSafeState, useUpdateEffect } from 'ahooks';
-import { useSize } from 'ahooks';
-import TotalSymmary, { digColumns } from './TotalSymmary';
-import { ListToolBarProps, ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/typing';
+import { history } from "umi";
+import { useRequest, useSafeState, useUpdateEffect } from "ahooks";
+import { useSize } from "ahooks";
+import TotalSymmary, { digColumns } from "./TotalSymmary";
+import {
+  ListToolBarProps,
+  ListToolBarMenuItem,
+} from "@scboson/sc-element/es/sc-table/typing";
 
 export type ExcelColumn = {
   text: string;
   field: string;
-  dataType: 'STRING' | 'CURRENCY' | 'NUMBER';
+  dataType: "STRING" | "CURRENCY" | "NUMBER";
   pattern: string;
   expression: string;
   children: ExcelColumn[];
@@ -57,7 +60,7 @@ export type GroupLabels = {
   onActiveChange?: (avtive: string) => void;
 };
 
-export type BsTableProps = Omit<ScTableProps<any>, 'toolbar' | 'request'> & {
+export type BsTableProps = Omit<ScTableProps<any>, "toolbar" | "request"> & {
   /** 工具栏 */
   toolbar?: any;
   /** 表格请求 */
@@ -69,7 +72,7 @@ export type BsTableProps = Omit<ScTableProps<any>, 'toolbar' | 'request'> & {
   /** 是否需要统计栏 */
   needRecordSummary?: boolean;
   /** 统计然头部设定 */
-  TableSummaryFiexd?: boolean | 'top' | 'bottom';
+  TableSummaryFiexd?: boolean | "top" | "bottom";
 };
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -85,8 +88,8 @@ const renderBadge = (count: number, active = false) => {
       style={{
         marginTop: -2,
         marginLeft: 4,
-        color: active ? '#1890FF' : '#999',
-        backgroundColor: active ? '#E6F7FF' : '#eee',
+        color: active ? "#1890FF" : "#999",
+        backgroundColor: active ? "#E6F7FF" : "#eee",
       }}
     />
   );
@@ -99,7 +102,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     data,
     toolBarRender,
     onLoad,
-    scroll = { x: 'max-content' },
+    scroll = { x: "max-content" },
     options,
     exportExeclConfig = false,
     groupLabels: groupLabelsProps = false,
@@ -107,7 +110,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     saveRef,
     pagination,
     needRecordSummary = false,
-    TableSummaryFiexd = 'top',
+    TableSummaryFiexd = "top",
     ...restProps
   } = props;
 
@@ -127,23 +130,23 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const groupDictList = getDistList({
     dictTypeCode:
       groupLabels !== false
-        ? groupLabels.dictType || groupLabels.queryDataIndex || ''
-        : '',
+        ? groupLabels.dictType || groupLabels.queryDataIndex || ""
+        : "",
   });
 
   const getDfaultActiveKey = () => {
-    let active = '';
+    let active = "";
     if (groupLabels !== false) {
       if (groupLabels && groupLabels.needAll) {
-        active = 'all';
+        active = "all";
       }
-      if (groupLabels.defaultActiveKey && active === '') {
+      if (groupLabels.defaultActiveKey && active === "") {
         active = groupLabels.defaultActiveKey;
       }
       if (
         Array.isArray(groupLabels.list) &&
         groupLabels.list.length > 0 &&
-        active === ''
+        active === ""
       ) {
         active = String(groupLabels.list[0].key);
       }
@@ -151,14 +154,14 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       if (
         Array.isArray(groupDictList) &&
         groupDictList.length > 0 &&
-        active === ''
+        active === ""
       ) {
         active = String(groupDictList[0].value);
       }
 
       // 最后都要做这个判断
-      if (params[groupLabels.queryDataIndex || '']) {
-        active = params[groupLabels.queryDataIndex || ''];
+      if (params[groupLabels.queryDataIndex || ""]) {
+        active = params[groupLabels.queryDataIndex || ""];
       }
     }
 
@@ -186,9 +189,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   /** 远程请求 */
   const request = useRequest(
     restProps.request ||
-    new Promise((resolve) => {
-      resolve(null);
-    }),
+      new Promise((resolve) => {
+        resolve(null);
+      }),
     {
       manual: true,
     }
@@ -208,7 +211,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           current: 1,
           ...(exportExeclConfig.queryParams || {}),
         },
-        fileName: exportExeclConfig.fileName || Date.now() + '',
+        fileName: exportExeclConfig.fileName || Date.now() + "",
       };
       request.run(execlParams, {
         headers: {
@@ -223,10 +226,10 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     newToolbar = [
       {
         loading: request.loading,
-        text: exportExeclConfig.btnText || '导出excel',
-        funcode: 'EXPORT',
+        text: exportExeclConfig.btnText || "导出excel",
+        funcode: "EXPORT",
         onClick: onExportExecl,
-        type: 'primary',
+        type: "primary",
       },
       ...toolbar,
     ];
@@ -245,15 +248,20 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         dictTypeCode: `${col.dataType || col.dataIndex}`,
       });
 
-      const title: string = col.title || '    ';
+      const title: string = col.title || "    ";
       const textWidth = title.length * 18 + (col.sorter ? 18 : 0);
       if (!col.width) {
         col.width = 180;
       }
-      if (col.dataType === 'money' || col.dataType === 'unitprice' || col.dataType === 'number' || col.dataType === 'defaultNumber') {
-        col.align = 'right';
+      if (
+        col.dataType === "money" ||
+        col.dataType === "unitprice" ||
+        col.dataType === "number" ||
+        col.dataType === "defaultNumber"
+      ) {
+        col.align = "right";
       }
-      if (col.width === 'auto') {
+      if (col.width === "auto") {
         hasAutoCol = true;
       } else {
         if (col.width < textWidth) {
@@ -261,8 +269,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         }
         widthCount = widthCount + col.width;
       }
-      if (col.dataIndex === '_OperateKey') {
-        col.align = 'right';
+      if (col.dataIndex === "_OperateKey") {
+        col.align = "right";
         hasOpCol = true;
       }
       if (list && !col.render) {
@@ -278,24 +286,24 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
         col.render = (text: any, record: any) => {
           if (
             col.component.displayName &&
-            col.component.displayName === 'Enabled'
+            col.component.displayName === "Enabled"
           ) {
-            if (!comProps['funcode']) comProps['funcode'] = 'ENABLE';
+            if (!comProps["funcode"]) comProps["funcode"] = "ENABLE";
           }
           const component =
-            typeof col.component === 'function'
+            typeof col.component === "function"
               ? React.createElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              })
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                })
               : React.cloneElement(col.component, {
-                rowData: record,
-                dataIndex: col.dataIndex,
-                value: text,
-                ...comProps,
-              });
+                  rowData: record,
+                  dataIndex: col.dataIndex,
+                  value: text,
+                  ...comProps,
+                });
           return component;
         };
       } else if (list && col.render) {
@@ -353,7 +361,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     const toolBarRender = hasToolBar ? (
       <ToolBar
         buttons={newToolbar}
-        className={styles['bs-table-toolbar-btn']}
+        className={styles["bs-table-toolbar-btn"]}
       ></ToolBar>
     ) : (
       []
@@ -421,8 +429,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       let list: any[] = [];
       if (groupLabels.needAll) {
         list.push({
-          key: 'all',
-          label: '全部',
+          key: "all",
+          label: "全部",
         });
       }
       if (groupLabels.remoted) {
@@ -430,7 +438,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const text = getDictText(
             {
               dictTypeCode:
-                groupLabels.dictType || groupLabels.queryDataIndex || '',
+                groupLabels.dictType || groupLabels.queryDataIndex || "",
             },
             key
           );
@@ -439,7 +447,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
             label: (
               <span>
                 {text}
-                {map[key] !== null && renderBadge(map[key] || 0, _activeKey === key)}
+                {map[key] !== null &&
+                  renderBadge(map[key] || 0, _activeKey === key)}
               </span>
             ),
           });
@@ -457,7 +466,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
       return {
         menu: {
-          type: 'tab',
+          type: "tab",
           activeKey: _activeKey,
           items: list,
           onChange: (key) => {
@@ -467,7 +476,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
               if (pathKey) {
                 setLocalSearchParams(pathKey, {
                   current: 1,
-                  [groupLabels.queryDataIndex || '']: key,
+                  [groupLabels.queryDataIndex || ""]: key,
                 });
               }
             }
@@ -484,8 +493,8 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     const rparams = params || {};
     if (groupLabels !== false) {
       rparams.needGroupLabel = true;
-      rparams[groupLabels.queryDataIndex || ''] =
-        activeKey !== 'all' ? activeKey : null;
+      rparams[groupLabels.queryDataIndex || ""] =
+        activeKey !== "all" ? activeKey : null;
     }
 
     if (needRecordSummary) {
@@ -499,7 +508,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     if (
       pagination !== false &&
       groupLabels !== false &&
-      Object.prototype.toString.call(pagination) === '[object Object]'
+      Object.prototype.toString.call(pagination) === "[object Object]"
     ) {
       if (oldActiveKey.current !== activeKey) {
         oldActiveKey.current = activeKey;
@@ -532,10 +541,9 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     }
   }, [needRecordSummary, recordSummary, TableSummaryFiexd]);
 
-
   return (
     <>
-      <div className={'bs-table-list'} style={{ width: '100%' }} ref={ref}>
+      <div className={"bs-table-list"} style={{ width: "100%" }} ref={ref}>
         <ScTable
           scroll={{ ...scroll }}
           size="small"

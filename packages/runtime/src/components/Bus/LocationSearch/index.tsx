@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
-import { Input } from 'antd';
-import Map from './Map';
-import { CModal } from '@scboson/sc-element';
+import React, { useRef } from "react";
+import { Input } from "antd";
+import Map from "./Map";
+import { CModal } from "@scboson/sc-element";
 import {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
+} from "@scboson/sc-element/es/c-form";
 
 export interface LocationDataProps {
   name: string; // 具体地址
@@ -28,7 +28,7 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
     placeholder,
     onChange,
     value,
-    title = '选择',
+    title = "选择",
     city,
     readonly,
     form,
@@ -48,19 +48,19 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
 
   const dataFormat = (currentData: any): LocationDataProps | null => {
     if (currentData) {
-      const name = currentData['name'] || '';
-      const cityName = currentData['cityname'] || '';
-      const pname = currentData['pname'] || '';
-      const adname = currentData['adname'] || '';
-      const address = currentData['address'] || '';
+      const name = currentData["name"] || "";
+      const cityName = currentData["cityname"] || "";
+      const pname = currentData["pname"] || "";
+      const adname = currentData["adname"] || "";
+      const address = currentData["address"] || "";
 
       const newName = pname + cityName + adname + address + name;
 
-      const location = currentData['location'] || {};
+      const location = currentData["location"] || {};
       return {
         name: newName,
-        px: location['lng'],
-        py: location['lat'],
+        px: location["lng"],
+        py: location["lat"],
         cityCode: currentData.adcode,
       };
     } else {
@@ -72,7 +72,7 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
     if (disabled) return;
     CModal.show({
       title,
-      width: '1200px',
+      width: "1200px",
       content: Map,
       pageProps: {
         dataChange,
@@ -87,9 +87,9 @@ const LocationSearch: FormComponent<LocationSearchProps> = (props) => {
 
   const valueFormat = (_value: any) => {
     if (_value) {
-      return _value['name'] || '';
+      return _value["name"] || "";
     }
-    return '';
+    return "";
   };
 
   if (readonly) {

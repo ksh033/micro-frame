@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
-import { Button } from 'antd';
-import styles from './ModalPageTpl.less';
-import debounce from 'lodash/debounce';
+import React, { useCallback } from "react";
+import { Button } from "antd";
+import styles from "./ModalPageTpl.less";
+import debounce from "lodash/debounce";
 
 const ModalEditPageTpl: React.FC<any> = (props) => {
   const { toolbar, children, ...restProps } = props;
@@ -21,10 +21,10 @@ const ModalEditPageTpl: React.FC<any> = (props) => {
   }, [toolbar]);
 
   return (
-    <div className={styles['modal-page']} {...restProps}>
-      <div className={styles['modal-page-content']}>{children}</div>
+    <div className={styles["modal-page"]} {...restProps}>
+      <div className={styles["modal-page-content"]}>{children}</div>
       {toolbar ? (
-        <div className={`ant-modal-footer ${styles['modal-page-footer']}`}>
+        <div className={`ant-modal-footer ${styles["modal-page-footer"]}`}>
           {mergedFormButtons()}
         </div>
       ) : null}

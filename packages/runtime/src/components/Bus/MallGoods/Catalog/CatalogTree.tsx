@@ -1,8 +1,8 @@
-import React from 'react';
-import { ScTree } from '@scboson/sc-element';
-import type { ScTreeProps } from '@scboson/sc-element/es/sc-tree/typing';
-import { uesRequest } from '../../../../utils/api';
-import { useSessionStorageState } from 'ahooks';
+import React from "react";
+import { ScTree } from "@scboson/sc-element";
+import type { ScTreeProps } from "@scboson/sc-element/es/sc-tree/typing";
+import { uesRequest } from "../../../../utils/api";
+import { useSessionStorageState } from "ahooks";
 /**
  * 商品品目
  *
@@ -18,19 +18,19 @@ const CatalogTree: React.FC<
   selectedKeys,
   ...restProps
 }) => {
-  const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
+  const { run, loading } = uesRequest("mallgoods_catalog", "treeList");
 
   const [expandedKeys, setExpandedKeys] = useSessionStorageState<React.Key[]>(
     `${window.location.pathname}_expandedKeys`,
-    ['0']
+    ["0"]
   );
   const [catalogId, setCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
-    ''
+    ""
   );
   const [catalogNode, setCatalogNode] = useSessionStorageState<any>(
     `${window.location.pathname}_selectedRows`,
-    ''
+    ""
   );
 
   if (selectKeysRef) {
@@ -41,10 +41,10 @@ const CatalogTree: React.FC<
     <ScTree
       expandedKeys={expandedKeys}
       root={{
-        catalogId: '0',
-        catalogName: '请选择品目',
+        catalogId: "0",
+        catalogName: "请选择品目",
         isLeaf: false,
-        key: '0',
+        key: "0",
       }}
       selectedKeys={selectedKeys || [catalogId]}
       onExpand={(expandedKeys) => {
@@ -55,13 +55,13 @@ const CatalogTree: React.FC<
           return node.key;
         });
         if (key) {
-          if (key == '0') {
-            key = '';
+          if (key == "0") {
+            key = "";
           } else {
-            key = key + '';
+            key = key + "";
           }
         } else {
-          key = '';
+          key = "";
         }
         if (cache) {
           setCatalogId(key);
@@ -74,7 +74,7 @@ const CatalogTree: React.FC<
       canSearch={false}
       async={false}
       params={{}}
-      placeholder={'search'}
+      placeholder={"search"}
       request={run}
       textField="catalogName"
       valueField="catalogId"

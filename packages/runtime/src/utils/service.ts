@@ -1,16 +1,16 @@
-// @ts-ignore
 import {
   request,
   useRequest as umiUesRequest,
-  CustomRequestOptionsInit,
+  RequestOptions as CustomRequestOptionsInit,
   BaseOptions,
-} from './request';
+} from "../request";
+
 interface MethodProps {
   url: string;
-  method: 'get' | 'post';
+  method: "get" | "post";
 }
 // @ts-ignore
-import services from '@@service';
+import services from "@@service";
 
 export type ServiceKeyTypes = keyof typeof services;
 
@@ -21,14 +21,14 @@ const createRequest = (methodService: MethodProps, funName: string) => {
   const requestService = (params?: any, options?: any): Promise<any> => {
     const reqUrl = `${url}`;
     const reqOpts = { ...options };
-    if (method.toLocaleLowerCase() === 'get') {
-      reqOpts['params'] = params;
-    } else if (method.toLocaleLowerCase() === 'post') {
-      reqOpts['data'] = params;
+    if (method.toLocaleLowerCase() === "get") {
+      reqOpts["params"] = params;
+    } else if (method.toLocaleLowerCase() === "post") {
+      reqOpts["data"] = params;
     } else {
-      reqOpts['body'] = params;
+      reqOpts["body"] = params;
     }
-    reqOpts['method'] = method;
+    reqOpts["method"] = method;
     return request(reqUrl, reqOpts);
   };
   const req = {};
@@ -43,7 +43,7 @@ const createRequest = (methodService: MethodProps, funName: string) => {
 export function getService<T extends ServiceKeyTypes>(
   mcode: T
 ): {
-  [P in keyof typeof services[T]]: (
+  [P in keyof (typeof services)[T]]: (
     params?: any,
     options?: CustomRequestOptionsInit
   ) => Promise<any>;
@@ -51,7 +51,7 @@ export function getService<T extends ServiceKeyTypes>(
 
 export function getService<
   T extends keyof typeof services,
-  P extends keyof typeof services[T]
+  P extends keyof (typeof services)[T]
 >(
   mcode: T,
   ...funName: P[]
@@ -61,7 +61,7 @@ export function getService<
 >;
 export function getService<
   T extends keyof typeof services,
-  P extends keyof typeof services[T]
+  P extends keyof (typeof services)[T]
 >(mcode: T, ...funName: P[]): any {
   let mservices = {};
   if (funName && funName.length > 0) {
@@ -86,7 +86,7 @@ export function getService<
 }
 function getServiceApi<
   T extends keyof typeof services,
-  P extends keyof typeof services[T]
+  P extends keyof (typeof services)[T]
 >(
   mcode: T,
   funName: P
@@ -98,7 +98,7 @@ function getServiceApi<
 
 function uesRequest<
   T extends keyof typeof services,
-  P extends keyof typeof services[T]
+  P extends keyof (typeof services)[T]
 >(
   mcode: T,
   funName: P,

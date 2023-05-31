@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
-import { Card } from 'antd';
-import ToolBar from '@/components/Base/ToolBar';
-import styles from './PageTpl.less';
+import React, { useRef } from "react";
+import { Card } from "antd";
+import ToolBar from "@/components/Base/ToolBar";
+import styles from "./PageTpl.less";
 
-const ModalEditPageTpl: React.FC<any> = props => {
+const ModalEditPageTpl: React.FC<any> = (props) => {
   const { toolbar, title, children, cardProps } = props;
 
   const ref = useRef<any>();
@@ -26,9 +26,9 @@ const ModalEditPageTpl: React.FC<any> = props => {
 
   return (
     <>
-      <div className={styles['tpl-page']} ref={ref}>
+      <div className={styles["tpl-page"]} ref={ref}>
         <Card bordered={false} title={title} {...cardProps}>
-          <div className={styles['tpl-page-content']}>{children}</div>
+          <div className={styles["tpl-page-content"]}>{children}</div>
         </Card>
         {toolbar ? (
           <div className="ant-modal-footer tpl-page-footer">

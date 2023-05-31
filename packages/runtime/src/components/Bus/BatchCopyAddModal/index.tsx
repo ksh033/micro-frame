@@ -1,7 +1,7 @@
-import type { FC } from 'react';
-import { Form, Input, message } from 'antd';
-import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
-import { CModal } from '@scboson/sc-element';
+import type { FC } from "react";
+import { Form, Input, message } from "antd";
+import ModalPageContainer from "../../../components/Base/Tpl/ModalPageTpl";
+import { CModal } from "@scboson/sc-element";
 
 const { TextArea } = Input;
 type AddExpenseModalProps = {
@@ -27,12 +27,12 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
     request = Promise.resolve,
     params = {},
     addList,
-    warning = '请在下方粘贴从excel复制的信息',
-    title = '批量添加商品',
-    listValueFiled = 'cargoCodeList',
-    quantityFiled = 'quantity',
-    valueFiled = 'cargoCode',
-    errorMsg = '未查询到相关商品，无法添加',
+    warning = "请在下方粘贴从excel复制的信息",
+    title = "批量添加商品",
+    listValueFiled = "cargoCodeList",
+    quantityFiled = "quantity",
+    valueFiled = "cargoCode",
+    errorMsg = "未查询到相关商品，无法添加",
     formatResponse,
     paramsFormat,
   } = pageProps;
@@ -40,11 +40,11 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
 
   const formatContent = (content: string) => {
     const list: any[] = [];
-    const line = content.split('\n');
+    const line = content.split("\n");
     if (Array.isArray(line)) {
       line.forEach((it: string) => {
-        if (String(it).trim() !== '') {
-          const rows = it.split('\t');
+        if (String(it).trim() !== "") {
+          const rows = it.split("\t");
           if (Array.isArray(rows)) {
             if (rows.length === 1) {
               list.push({
@@ -81,7 +81,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
         } else {
           let list: any = [];
 
-          if (Object.prototype.toString.call(res) === '[object Object]') {
+          if (Object.prototype.toString.call(res) === "[object Object]") {
             list = res.records || res.rows || [];
           }
           if (Array.isArray(res)) {
@@ -102,20 +102,20 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
         }
       });
     } else {
-      message.warning('格式不正确，无法解析');
+      message.warning("格式不正确，无法解析");
     }
   };
 
   const modalButtons = [
     {
-      text: '取消',
+      text: "取消",
       onClick() {
         close();
       },
     },
     {
-      text: '确定',
-      type: 'primary',
+      text: "确定",
+      type: "primary",
       onClick() {
         form?.validateFields().then((values: any) => {
           formatContent(values.content);
@@ -131,7 +131,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
           required={false}
           label={warning}
           name="content"
-          rules={[{ required: true, message: '请粘贴您的数据' }]}
+          rules={[{ required: true, message: "请粘贴您的数据" }]}
         >
           <TextArea
             autoSize={{
@@ -146,7 +146,7 @@ const BatchCopyAddModal: FC<AddExpenseModalProps> = (props) => {
 
 export const openBatchCopyAddModal = (pageProps) => {
   CModal.show({
-    title: pageProps.title ? pageProps.title : '批量添加商品',
+    title: pageProps.title ? pageProps.title : "批量添加商品",
     width: 800,
     content: BatchCopyAddModal,
     okCancel: false,

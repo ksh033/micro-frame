@@ -1,9 +1,9 @@
-import { QuestionCircleFilled } from '@ant-design/icons';
-import type { PageConfig } from '@scboson/sc-schema';
-import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
-import { openWindow } from '../../../Auth';
-import { WithTable, WithTableProps } from '../../../WithComponent';
-import list from './list';
+import { QuestionCircleFilled } from "@ant-design/icons";
+import type { PageConfig } from "@scboson/sc-schema";
+import type TableInfo from "@scboson/sc-schema/lib/page/TableInfo";
+import { openWindow } from "../../../Auth";
+import { WithTable, WithTableProps } from "../../../WithComponent";
+import list from "./list";
 const pageConfig: PageConfig = {
   service: {},
   ...list,
@@ -19,7 +19,7 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
   const { children } = props;
   return <> {children}</>;
 };
-GoodsCenterTable.displayName = 'GoodsCenterTable';
+GoodsCenterTable.displayName = "GoodsCenterTable";
 
 /** 商品表格 */
 export default WithTable<
@@ -31,7 +31,7 @@ export default WithTable<
 >(GoodsCenterTable, pageConfig, (props, searchInfo, pagetInfo) => {
   const { viewUrl, help, formatTableInfo, ...restProps } = props;
 
-  pagetInfo.changeCol('saleModel', {
+  pagetInfo.changeCol("saleModel", {
     render: (value, record, index) => {
       const { saleUnit } = record;
       //if (params.)
@@ -39,7 +39,7 @@ export default WithTable<
       return `${saleUnit}(${value})`;
     },
   });
-  pagetInfo.changeCol('goodsName', {
+  pagetInfo.changeCol("goodsName", {
     width: 200,
     props: {
       title: help ? (
@@ -47,13 +47,13 @@ export default WithTable<
           商品名称<QuestionCircleFilled></QuestionCircleFilled>
         </span>
       ) : (
-        '商品名称	'
+        "商品名称	"
       ),
       onClick: viewUrl
         ? (record: any) => {
-          const key = props['rowKey'] || 'dataId';
-          openWindow(`${viewUrl}` + record[key]);
-        }
+            const key = props["rowKey"] || "dataId";
+            openWindow(`${viewUrl}` + record[key]);
+          }
         : undefined,
     },
   });
@@ -63,16 +63,16 @@ export default WithTable<
   }
 
   searchInfo
-    .changeSearchItem('goodsSearchKey', {
+    .changeSearchItem("goodsSearchKey", {
       width: 630,
     })
     .toConfig();
   return {
     //request: defaultReq,
-    rowKey: 'goodsId',
+    rowKey: "goodsId",
     ...restProps,
     bordered: false,
-    size: 'small',
+    size: "small",
     pageSize: 5,
     //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
     scroll: { y: 500, x: 560 },

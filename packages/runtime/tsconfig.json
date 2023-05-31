@@ -17,12 +17,10 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "@@service": ["src/services/api.ts"],
+      "@@service": ["src/services/api.ts"]
     }
   },
   "typings": "./src/typings.d.ts",
-
 
   "exclude": [
     "src/global",
@@ -38,6 +36,5 @@
     "src/setupTests.ts",
     "tslint:latest",
     "tslint-config-prettier"
-  ],
- 
+  ]
 }

@@ -1,19 +1,19 @@
-﻿const GitHub = require('github');
-const exec = require('child_process').execSync;
-const fs = require('fs');
-const path = require('path');
+﻿const GitHub = require("github");
+const exec = require("child_process").execSync;
+const fs = require("fs");
+const path = require("path");
 
 const github = new GitHub({
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
 });
 
 github.authenticate({
-  type: 'token',
+  type: "token",
   token: process.env.GITHUB_TOKEN || process.env.GITHUB_AUTH,
 });
 
 const getChangelog = (content, version) => {
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   const changeLog = [];
   const startPattern = new RegExp(`^## ${version}`);
   const stopPattern = /^## /; // 前一个版本
@@ -31,24 +31,28 @@ const getChangelog = (content, version) => {
       begin = startPattern.test(line);
     }
   }
-  return changeLog.join('\n');
+  return changeLog.join("\n");
 };
 
 const getMds = (allVersion = false) => {
-  const docDir = path.join(__dirname, '..', 'docs');
-  const mdFils = fs.readdirSync(docDir).filter((name) => name.includes('changelog.md'));
+  const docDir = path.join(__dirname, "..", "docs");
+  const mdFils = fs
+    .readdirSync(docDir)
+    .filter((name) => name.includes("changelog.md"));
   mdFils.map((mdFile) => {
-    const pkg = mdFile.replace('pro-', '').replace('.changelog.md', '');
+    const pkg = mdFile.replace("pro-", "").replace(".changelog.md", "");
     const content = fs.readFileSync(path.join(docDir, mdFile)).toString();
     let versions = [
-      require(path.join(path.join(__dirname, '..', 'packages', pkg, 'package.json'))).version,
+      require(path.join(
+        path.join(__dirname, "..", "packages", pkg, "package.json")
+      )).version,
     ];
     if (allVersion) {
-      versions = exec('git tag')
+      versions = exec("git tag")
         .toString()
-        .split('\n')
+        .split("\n")
         .filter((tag) => tag.includes(pkg))
-        .map((tag) => tag.split('@').pop());
+        .map((tag) => tag.split("@").pop());
     }
     console.log(versions);
     versions.map((version) => {
@@ -59,8 +63,8 @@ const getMds = (allVersion = false) => {
       }
       github.repos
         .createRelease({
-          owner: 'ant-design',
-          repo: 'pro-components',
+          owner: "ant-design",
+          repo: "pro-components",
           tag_name: versionPkg,
           name: versionPkg,
           body: changeLog,

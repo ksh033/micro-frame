@@ -1,20 +1,20 @@
 /* eslint-disable max-len */
 
-import React, { useRef, useEffect } from 'react';
-import { Button, Input, message, Select } from 'antd';
-import { CModal } from '@scboson/sc-element';
-import TableModal from './table';
+import React, { useRef, useEffect } from "react";
+import { Button, Input, message, Select } from "antd";
+import { CModal } from "@scboson/sc-element";
+import TableModal from "./table";
 import type {
   FormComponent,
   FormComponentProps,
-} from '@scboson/sc-element/es/c-form';
+} from "@scboson/sc-element/es/c-form";
 
 interface SupplierTableSelectProps extends FormComponentProps {
   placeholder?: string;
   value?: any;
   title?: string;
   onChange?: (value: any) => void;
-  selectionType?: 'checkbox' | 'radio';
+  selectionType?: "checkbox" | "radio";
   textField?: any;
   valueField?: string;
   isCooperateSupplier?: boolean;
@@ -28,13 +28,13 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
   props
 ) => {
   const {
-    placeholder = '选择供应商',
-    title = '选择供应商',
-    selectionType = 'radio',
+    placeholder = "选择供应商",
+    title = "选择供应商",
+    selectionType = "radio",
     onChange,
     value = [],
-    textField = 'supplierName',
-    valueField = 'supplierId',
+    textField = "supplierName",
+    valueField = "supplierId",
     isCooperateSupplier = false,
     readonly,
     supplierEnabled = true,
@@ -82,11 +82,11 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
     if (disabled) {
       return;
     }
-    const preFlag = typeof preClick === 'function' ? preClick?.() : true;
+    const preFlag = typeof preClick === "function" ? preClick?.() : true;
     if (preFlag) {
       CModal.show({
         title,
-        width: '1200px',
+        width: "1200px",
         content: TableModal,
         pageProps: {
           onTabelRow,
@@ -105,7 +105,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
             onChange?.(stateRef.current.selectedRows);
             return Promise.resolve();
           } else {
-            message.warning('请最少选择一个供应商');
+            message.warning("请最少选择一个供应商");
             return Promise.reject();
           }
         },
@@ -141,23 +141,23 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || '';
+      const values = list[0][textField] || "";
       return values;
     }
-    return '';
+    return "";
   };
 
   if (readonly === true) {
     return <span>{formatInputValue(value)}</span>;
   }
-  if (selectionType === 'checkbox') {
+  if (selectionType === "checkbox") {
     return (
       <Input.Group>
         <Select
           mode="multiple"
           placeholder={placeholder}
           value={formatSelectValue(value)}
-          style={{ width: '70%' }}
+          style={{ width: "70%" }}
           labelInValue
           open={false}
           onChange={handleChange}

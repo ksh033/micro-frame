@@ -1,8 +1,8 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu } from 'antd';
-import { DropdownProps } from 'antd/es/dropdown/dropdown';
-import React from 'react';
-import { print, PrintTplType } from '../../../utils/print';
+import { DownOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Menu } from "antd";
+import { DropdownProps } from "antd/es/dropdown/dropdown";
+import React from "react";
+import { print, PrintTplType } from "../../../utils/print";
 
 export const PrintType = PrintTplType;
 export type PrintButtonProp = {
@@ -13,7 +13,7 @@ export type PrintButtonProp = {
   callBack?: Function;
   getParams?: () => any;
   text?: string;
-} & Omit<DropdownProps, 'overlay'>;
+} & Omit<DropdownProps, "overlay">;
 /**
  * 字典控件
  *
@@ -27,7 +27,7 @@ const PrintButton: React.FC<PrintButtonProp> = (pros: PrintButtonProp) => {
     children,
     getParams,
     callBack,
-    text = '打印',
+    text = "打印",
     ...restProps
   } = pros;
 
@@ -42,12 +42,12 @@ const PrintButton: React.FC<PrintButtonProp> = (pros: PrintButtonProp) => {
   const menuClick = async (obj: any) => {
     const params = await getParam();
 
-    if (obj.key === 'a4') {
+    if (obj.key === "a4") {
       print(printType, { params });
     }
 
-    if (obj.key === 'zhen') {
-      const newModuleId = printType + '1';
+    if (obj.key === "zhen") {
+      const newModuleId = printType + "1";
       print(newModuleId, { params });
     }
   };
@@ -59,7 +59,7 @@ const PrintButton: React.FC<PrintButtonProp> = (pros: PrintButtonProp) => {
     </Menu>
   );
   return (
-    <Dropdown overlay={menu} trigger={['click']} {...restProps}>
+    <Dropdown overlay={menu} trigger={["click"]} {...restProps}>
       <Button type="link">
         {text}
         <DownOutlined />

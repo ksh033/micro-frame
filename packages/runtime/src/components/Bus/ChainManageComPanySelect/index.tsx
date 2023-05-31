@@ -1,17 +1,17 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { ScSelect } from '@scboson/sc-element';
-import { getUser } from '../../Auth';
-import { ScSelectProps } from '@scboson/sc-element/es/sc-select/index';
+import React, { useLayoutEffect, useRef } from "react";
+import { ScSelect } from "@scboson/sc-element";
+import { getUser } from "../../Auth";
+import { ScSelectProps } from "@scboson/sc-element/es/sc-select/index";
 import {
   FormComponentProps,
   FormComponent,
-} from '@scboson/sc-element/es/c-form';
-import { useSetState, useUpdateEffect } from 'ahooks';
-import { getServiceApi } from '../../../utils/api';
+} from "@scboson/sc-element/es/c-form";
+import { useSetState, useUpdateEffect } from "ahooks";
+import { getServiceApi } from "../../../utils/api";
 
 export interface ChainManageComPanySelectProp
   extends ScSelectProps,
-  FormComponentProps {
+    FormComponentProps {
   init?: boolean;
   companyNeedInit?: boolean;
 }
@@ -20,7 +20,7 @@ interface ChainManageComPanySelectPropState {
   disabled: boolean;
   data: any[];
 }
-const queryAll = getServiceApi('system', 'company');
+const queryAll = getServiceApi("system", "company");
 const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
   props
 ) => {
@@ -43,9 +43,9 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
 
   const isNeddInitDeptType = (bizDeptType: string) => {
     return (
-      bizDeptType !== 'COMPANY' &&
-      bizDeptType !== 'SUPPLY_SUBCOMPANY' &&
-      bizDeptType !== 'SUPPLY_CHAIN_COMPANY'
+      bizDeptType !== "COMPANY" &&
+      bizDeptType !== "SUPPLY_SUBCOMPANY" &&
+      bizDeptType !== "SUPPLY_CHAIN_COMPANY"
     );
   };
 
@@ -54,13 +54,13 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
       currentDeptMsg;
 
     if (init && props.value == null) {
-      if (bizDeptType === 'CHAIN_MANAGE_COMPANY') {
+      if (bizDeptType === "CHAIN_MANAGE_COMPANY") {
         onChange?.(
           labelInValue
-            ? { value: bizDeptId || '', text: bizDeptName }
+            ? { value: bizDeptId || "", text: bizDeptName }
             : bizDeptId,
           {
-            value: bizDeptId || '',
+            value: bizDeptId || "",
             text: bizDeptName,
             ...currentDeptMsg,
           }
@@ -68,10 +68,10 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
       } else {
         onChange?.(
           labelInValue
-            ? { value: companyId || '', text: companyName }
+            ? { value: companyId || "", text: companyName }
             : companyId,
           {
-            value: companyId || '',
+            value: companyId || "",
             text: companyName,
             ...currentDeptMsg,
           }
@@ -93,12 +93,12 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
           onChange?.(
             labelInValue
               ? {
-                value: itemFirst.companyId || '',
-                text: itemFirst.companyName,
-              }
+                  value: itemFirst.companyId || "",
+                  text: itemFirst.companyName,
+                }
               : itemFirst.companyId,
             {
-              value: itemFirst.companyId || '',
+              value: itemFirst.companyId || "",
               text: itemFirst.companyName,
               ...itemFirst,
             }
@@ -118,11 +118,11 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
       const { bizDeptType } = currentDept;
       if (deptList.current.length === 0) {
         if (
-          bizDeptType === 'COMPANY' ||
-          bizDeptType === 'SUPPLY_CHAIN_COMPANY'
+          bizDeptType === "COMPANY" ||
+          bizDeptType === "SUPPLY_CHAIN_COMPANY"
         ) {
           queryAll({
-            companyTypes: ['CHAIN_MANAGE_COMPANY'],
+            companyTypes: ["CHAIN_MANAGE_COMPANY"],
           }).then((_data: any[]) => {
             if (_data) {
               deptList.current = _data;
@@ -132,7 +132,7 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
               });
             }
           });
-        } else if (bizDeptType === 'CHAIN_MANAGE_COMPANY') {
+        } else if (bizDeptType === "CHAIN_MANAGE_COMPANY") {
           deptList.current = [
             {
               companyId: currentDept.bizDeptId,
@@ -157,7 +157,7 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
         }
       } else {
         setState({
-          disabled: bizDeptType !== 'COMPANY',
+          disabled: bizDeptType !== "COMPANY",
           data: deptList.current,
         });
       }
@@ -165,7 +165,7 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
   }, []);
 
   const handleChange = (value: any, option: any) => {
-    const deptId = typeof value === 'object' ? value.value : value;
+    const deptId = typeof value === "object" ? value.value : value;
     const index = state.data.findIndex((item) => {
       return item.deptId === deptId;
     });
@@ -177,14 +177,14 @@ const ChainManageComPanySelect: FormComponent<ChainManageComPanySelectProp> = (
   };
 
   const formatName = (_value: any, list: any[]) => {
-    let res = '';
+    let res = "";
     if (_value !== undefined && _value !== null && Array.isArray(list)) {
       const index = list.findIndex((item) => {
         return item.deptId === _value;
       });
 
       if (index > -1) {
-        res = list[index] ? list[index].deptName : '';
+        res = list[index] ? list[index].deptName : "";
       }
     }
     return <div>{res}</div>;

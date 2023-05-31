@@ -1,18 +1,18 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { readdirSync } = require('fs');
+const { readdirSync } = require("fs");
 
-const tailPkgs = readdirSync(path.join(__dirname, 'packages')).filter(
-  (pkg) => pkg.charAt(0) !== '.',
+const tailPkgs = readdirSync(path.join(__dirname, "packages")).filter(
+  (pkg) => pkg.charAt(0) !== "."
 );
 
 // const tailPkgs = ['table'];
 
-const isCI = process.env.PRO_COMPONENTS_CI === 'CI';
+const isCI = process.env.PRO_COMPONENTS_CI === "CI";
 
 const externals = isCI
   ? tailPkgs.reduce((pre, value) => {
@@ -38,15 +38,17 @@ tailPkgs.forEach((pkg) => {
   const config = {
     entry,
     output: {
-      filename: '[name].js',
-      library: `Pro${pkg.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())}`,
-      libraryTarget: 'umd',
-      path: path.resolve(__dirname, 'packages', pkg, 'dist'),
-      globalObject: 'this',
+      filename: "[name].js",
+      library: `Pro${pkg
+        .toLowerCase()
+        .replace(/( |^)[a-z]/g, (L) => L.toUpperCase())}`,
+      libraryTarget: "umd",
+      path: path.resolve(__dirname, "packages", pkg, "dist"),
+      globalObject: "this",
     },
-    mode: 'production',
+    mode: "production",
     resolve: {
-      extensions: ['.ts', '.tsx', '.json', '.css', '.js', '.less'],
+      extensions: [".ts", ".tsx", ".json", ".css", ".js", ".less"],
     },
     optimization: isCI
       ? {
@@ -65,19 +67,19 @@ tailPkgs.forEach((pkg) => {
       rules: [
         {
           test: /\.(png|jpg|gif|svg)$/i,
-          type: 'asset',
+          type: "asset",
         },
         {
           test: /\.jsx?$/,
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              presets: ['@babel/typescript', '@babel/env', '@babel/react'],
+              presets: ["@babel/typescript", "@babel/env", "@babel/react"],
               plugins: [
-                ['@babel/plugin-proposal-decorators', { legacy: true }],
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                '@babel/proposal-object-rest-spread',
-                require('./scripts/replaceLib'),
+                ["@babel/plugin-proposal-decorators", { legacy: true }],
+                ["@babel/plugin-proposal-class-properties", { loose: true }],
+                "@babel/proposal-object-rest-spread",
+                require("./scripts/replaceLib"),
               ],
             },
           },
@@ -86,24 +88,24 @@ tailPkgs.forEach((pkg) => {
           test: /\.tsx?$/,
           exclude: /(node_modules|bower_components)/,
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
               presets: [
-                '@babel/typescript',
+                "@babel/typescript",
                 [
-                  '@babel/env',
+                  "@babel/env",
                   {
                     loose: true,
                     modules: false,
                   },
                 ],
-                '@babel/react',
+                "@babel/react",
               ],
               plugins: [
-                ['@babel/plugin-proposal-decorators', { legacy: true }],
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-                '@babel/proposal-object-rest-spread',
-                require('./scripts/replaceLib'),
+                ["@babel/plugin-proposal-decorators", { legacy: true }],
+                ["@babel/plugin-proposal-class-properties", { loose: true }],
+                "@babel/proposal-object-rest-spread",
+                require("./scripts/replaceLib"),
               ],
             },
           },
@@ -112,10 +114,10 @@ tailPkgs.forEach((pkg) => {
           test: /\.css$/,
           use: [
             {
-              loader: 'style-loader', // creates style nodes from JS strings
+              loader: "style-loader", // creates style nodes from JS strings
             },
             {
-              loader: 'css-loader', // translates CSS into CommonJS
+              loader: "css-loader", // translates CSS into CommonJS
             },
           ],
         },
@@ -130,10 +132,10 @@ tailPkgs.forEach((pkg) => {
               },
             },
             {
-              loader: 'css-loader', // translates CSS into CommonJS
+              loader: "css-loader", // translates CSS into CommonJS
             },
             {
-              loader: 'less-loader',
+              loader: "less-loader",
               options: {
                 lessOptions: {
                   javascriptEnabled: true,
@@ -146,10 +148,10 @@ tailPkgs.forEach((pkg) => {
     },
     externals: [
       {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        antd: 'antd',
-        moment: 'moment',
+        react: "React",
+        "react-dom": "ReactDOM",
+        antd: "antd",
+        moment: "moment",
         ...externals,
       },
     ],
@@ -159,8 +161,8 @@ tailPkgs.forEach((pkg) => {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: '[name].css',
-        chunkFilename: '[id].css',
+        filename: "[name].css",
+        chunkFilename: "[id].css",
       }),
     ],
   };

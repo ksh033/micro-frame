@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable consistent-return */
 
-import React from 'react';
 
 /* eslint-disable func-names */
 interface LatLng {
@@ -68,7 +67,7 @@ export function setKey(res: any[]) {
 export function filterDeleted(res: any[]) {
   if (Array.isArray(res)) {
     return res.filter((item: any, index: number) => {
-      return String(item.deleted) !== '1';
+      return String(item.deleted) !== "1";
     });
   }
   return [];
@@ -79,11 +78,11 @@ export function filterUploadData(res: any[], rowKey: string) {
   if (Array.isArray(res)) {
     return res.filter((item: any, index: number) => {
       return (
-        item['_updeted'] === true ||
-        String(item.deleted) === '1' ||
+        item._updeted === true ||
+        String(item.deleted) === "1" ||
         item[rowKey] === undefined ||
         item[rowKey] === null ||
-        item[rowKey] === ''
+        item[rowKey] === ""
       );
     });
   }
@@ -123,9 +122,9 @@ export function dataTableFormat(data: any) {
  */
 export function urlSafeBase64Decode(base64Str: string) {
   if (!base64Str) return;
-  const safeStr = base64Str.replace(/-/g, '+').replace(/_/g, '/');
+  const safeStr = base64Str.replace(/-/g, "+").replace(/_/g, "/");
   const num = safeStr.length % 4;
-  return safeStr + '===='.substring(0, num);
+  return safeStr + "====".substring(0, num);
 }
 
 /**
@@ -140,9 +139,9 @@ export function urlSafeBase64Decode(base64Str: string) {
 export function urlSateBase64Encode(base64Str: string) {
   if (!base64Str) return;
   const safeStr = base64Str
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/\=/g, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/\=/g, "");
   return safeStr;
 }
 
@@ -152,7 +151,7 @@ export const getHostUrl = () => {
 };
 
 export function genNonDuplicateID() {
-  let str = '';
+  let str = "";
   str = Math.random().toString(36).substr(3);
   str += Date.now().toString(16).substr(4);
   return str;
@@ -195,7 +194,7 @@ export function initIframeChange(
 ) {
   if (window.MutationObserver || window.webkitMutationObserver) {
     // chrome
-    var callback = function (mutations: any) {
+    const callback = function (mutations: any) {
       mutations.forEach(function (mutation: any) {
         iframeSrcChanged(
           mutation.oldValue,
@@ -217,7 +216,7 @@ export function initIframeChange(
   } else if (elemIfram.addEventListener) {
     // Firefox, Opera and Safari
     elemIfram.addEventListener(
-      'DOMAttrModified',
+      "DOMAttrModified",
       function (event: any) {
         iframeSrcChanged(event.prevValue, event.newValue, event.target);
       },
@@ -225,7 +224,7 @@ export function initIframeChange(
     );
   } else if (elemIfram.attachEvent) {
     // Internet Explorer
-    elemIfram.attachEvent('onpropertychange', function (event: any) {
+    elemIfram.attachEvent("onpropertychange", function (event: any) {
       iframeSrcChanged(event.prevValue, event.newValue, event.target);
     });
   }

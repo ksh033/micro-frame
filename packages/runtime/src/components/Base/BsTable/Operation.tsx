@@ -1,8 +1,8 @@
-import { DownOutlined } from '@ant-design/icons';
-import { HButtonType } from '@scboson/sc-schema/es/interface';
-import { Button, Divider, Dropdown, Menu } from 'antd';
-import React, { PropsWithChildren, useCallback } from 'react';
-import BsTableButton from './BsTableButton';
+import { DownOutlined } from "@ant-design/icons";
+import { HButtonType } from "@scboson/sc-schema/es/interface";
+import { Button, Divider, Dropdown, Menu } from "antd";
+import React, { PropsWithChildren, useCallback } from "react";
+import BsTableButton from "./BsTableButton";
 
 export interface OperationProps {
   max: number;
@@ -55,7 +55,7 @@ const Operation: React.FC<PropsWithChildren<OperationProps>> = (props) => {
     if (moreButtons.length > 0) {
       const menu = <Menu>{moreButtons}</Menu>;
       children.push(
-        <Dropdown key={'moreBtn'} overlay={menu}>
+        <Dropdown key={"moreBtn"} overlay={menu}>
           <Button type="link">
             更多
             <DownOutlined />
@@ -68,7 +68,7 @@ const Operation: React.FC<PropsWithChildren<OperationProps>> = (props) => {
   }, [buttons, max]);
 
   return (
-    <div className={'sc-table-operation'} style={{ display: 'inline-block' }}>
+    <div className={"sc-table-operation"} style={{ display: "inline-block" }}>
       {renderChild()}
     </div>
   );

@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from "react";
 
-import type { FormComponent } from '@scboson/sc-element/es/c-form';
-import { CModalDialogProps } from '@scboson/sc-element/es/c-modal';
-import ActionButton from '@scboson/sc-element/es/c-modal/ActionButton';
-import { ScCard } from '@scboson/sc-layout';
-import type { ProColumn } from '@scboson/sc-schema/es/interface';
-import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
-import { useSessionStorageState } from 'ahooks';
-import { Button, Modal } from 'antd';
-import { ButtonProps } from 'antd/es/button/button';
-import AuthButton from '../../../Auth/AuthButton';
-import BsTable from '../../../Base/BsTable';
-import GoodsCatalogTree from '../../../Bus/MallGoods/Catalog/CatalogTree';
+import type { FormComponent } from "@scboson/sc-element/es/c-form";
+import { CModalDialogProps } from "@scboson/sc-element/es/c-modal";
+import ActionButton from "@scboson/sc-element/es/c-modal/ActionButton";
+import { ScCard } from "@scboson/sc-layout";
+import type { ProColumn } from "@scboson/sc-schema/es/interface";
+import type TableInfo from "@scboson/sc-schema/lib/page/TableInfo";
+import { useSessionStorageState } from "ahooks";
+import { Button, Modal } from "antd";
+import { ButtonProps } from "antd/es/button/button";
+import AuthButton from "../../../Auth/AuthButton";
+import BsTable from "../../../Base/BsTable";
+import GoodsCatalogTree from "../../../Bus/MallGoods/Catalog/CatalogTree";
 import {
   WithSelectTable,
   WithSelectTableProps,
   WithTableProps,
-} from '../../../WithComponent';
-import GoodsCenterTable from './GoodsCenterTable';
+} from "../../../WithComponent";
+import GoodsCenterTable from "./GoodsCenterTable";
 
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
@@ -27,7 +27,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     params?: any;
     rowKey?: string;
     onSubmitGoods?: (
-      goodsList: { goodsId: string; goodsName: string;[key: string]: any }[],
+      goodsList: { goodsId: string; goodsName: string; [key: string]: any }[],
       buttonIndex?: string,
       clearRows?: () => void
     ) => void;
@@ -39,7 +39,7 @@ export type GoodsTransferProps = WithSelectTableProps &
     customRef?: React.RefObject<any>;
     preHandle?: () => any;
     formatTableInfo?: (tableInfo: TableInfo) => TableInfo;
-    columns?: any
+    columns?: any;
   };
 
 const DlgContent = (porps: GoodsTransferProps) => {
@@ -48,7 +48,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
     selectionType,
     extraColumns,
     request,
-    rowKey = 'goodsId',
+    rowKey = "goodsId",
     params,
     onTabelRow,
     header,
@@ -60,7 +60,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
-    ''
+    ""
   );
   const [catalogId, setCatalogId] = useState<string>(cacheCatalogId);
   const tableParams = useMemo(() => {
@@ -76,7 +76,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
     onTabelRow && onTabelRow([], []);
   };
   if (customRef !== null && customRef !== undefined) {
-    if (typeof customRef === 'object') {
+    if (typeof customRef === "object") {
       customRef.current.clearSelectRow = clearSelectRow;
     }
   }
@@ -86,18 +86,18 @@ const DlgContent = (porps: GoodsTransferProps) => {
       {header}
       <ScCard
         bodyStyle={{
-          margin: '0px',
-          padding: '0px',
-          maxWidth: '1550px',
-          height: '580px',
-          overflow: 'hidden',
+          margin: "0px",
+          padding: "0px",
+          maxWidth: "1550px",
+          height: "580px",
+          overflow: "hidden",
         }}
         gutter={4}
       >
         <ScCard
           colSpan="170px"
           // style={{ height: '100%' }}
-          bodyStyle={{ padding: '0px', overflow: 'auto' }}
+          bodyStyle={{ padding: "0px", overflow: "auto" }}
         >
           <GoodsCatalogTree
             height={490}
@@ -106,21 +106,21 @@ const DlgContent = (porps: GoodsTransferProps) => {
             onSelect={(selectedKeys) => {
               let [key] = selectedKeys;
               if (key) {
-                if (key == '0') {
-                  key = '';
+                if (key == "0") {
+                  key = "";
                 } else {
-                  key = key + '';
+                  key = key + "";
                 }
                 setCatalogId(key);
               } else {
-                setCatalogId('');
+                setCatalogId("");
               }
             }}
             loadedKeys={[]}
             autoload={true}
           />
         </ScCard>
-        <ScCard bodyStyle={{ padding: '0px' }} style={{ height: '100%' }}>
+        <ScCard bodyStyle={{ padding: "0px" }} style={{ height: "100%" }}>
           <GoodsCenterTable
             size="small"
             params={tableParams}
@@ -141,27 +141,27 @@ const DlgContent = (porps: GoodsTransferProps) => {
         </ScCard>
         <ScCard
           colSpan="280px"
-          style={{ height: '100%' }}
-          bodyStyle={{ padding: '0px' }}
+          style={{ height: "100%" }}
+          bodyStyle={{ padding: "0px" }}
         >
           <BsTable
             rowKey={rowKey}
-            scroll={{ y: 420, x: '100%' }}
+            scroll={{ y: 420, x: "100%" }}
             pagination={false}
             title={() => {
-              return <div style={{ marginTop: '10px' }}>已选商品</div>;
+              return <div style={{ marginTop: "10px" }}>已选商品</div>;
             }}
             dataSource={rightSelectedRows}
             size="small"
             columns={[
               {
-                title: '商品',
-                dataIndex: 'goodsName',
+                title: "商品",
+                dataIndex: "goodsName",
                 width: 150,
-                ellipsis: true
+                ellipsis: true,
               },
               {
-                title: '操作',
+                title: "操作",
                 width: 60,
                 render: (v, record) => {
                   const id = record[rowKey];
@@ -171,8 +171,8 @@ const DlgContent = (porps: GoodsTransferProps) => {
                       onClick={() => {
                         const rows = rightSelectedRows
                           ? rightSelectedRows?.filter(
-                            (item: any) => item[rowKey] != id
-                          )
+                              (item: any) => item[rowKey] != id
+                            )
                           : [];
                         setRightSelectRows(rows);
                         const keys = rows
@@ -203,7 +203,7 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
   const {
     onOk,
     onSubmitGoods,
-    buttonProps = { text: '新增', type: 'primary' },
+    buttonProps = { text: "新增", type: "primary" },
     modalProps,
     preHandle,
     ...restProps
@@ -228,20 +228,20 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
 
   const toolbar: any = modalProps?.customToolbar
     ? modalProps?.customToolbar.map(({ onClick, ...restProps }, index) => {
-      return (
-        <ActionButton
-          key={`extra-btn-${index}`}
-          actionFn={() => {
-            onClick && onClick();
-            return customOnOk('button' + index);
-          }}
-          close={close}
-          buttonProps={restProps.buttonProps}
-        >
-          {restProps.text}
-        </ActionButton>
-      );
-    })
+        return (
+          <ActionButton
+            key={`extra-btn-${index}`}
+            actionFn={() => {
+              onClick && onClick();
+              return customOnOk("button" + index);
+            }}
+            close={close}
+            buttonProps={restProps.buttonProps}
+          >
+            {restProps.text}
+          </ActionButton>
+        );
+      })
     : [];
 
   const showDlg = async () => {
@@ -284,9 +284,9 @@ const GoodsCenterSelect: React.FC<GoodsTransferProps> = (props) => {
               return customOnOk();
             }}
             close={close}
-            buttonProps={modalProps?.okButtonProps || { type: 'primary' }}
+            buttonProps={modalProps?.okButtonProps || { type: "primary" }}
           >
-            {modalProps?.okText || '确定'}
+            {modalProps?.okText || "确定"}
           </ActionButton>,
           ...toolbar,
         ]}

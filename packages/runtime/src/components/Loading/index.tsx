@@ -1,7 +1,7 @@
-import React from 'react';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-import './index.less';
+import React from "react";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import "./index.less";
 // loading components from code split
 // https://umijs.org/plugin/umi-plugin-react.html#dynamicimport
 

@@ -1,30 +1,30 @@
 /* eslint-disable import/no-duplicates */
 /// <reference path="../../../typings.d.ts" />
-import React from 'react';
-import type { GlobalHeaderRightProps } from './AvatarDropdown';
-import { uesRequest } from '../../../utils/api';
-import { clearUser } from '../../Auth';
-import Avatar from './AvatarDropdown';
-import NoticeIconView from '../NoticeIcon';
-import styles from './index.less';
+import React from "react";
+import type { GlobalHeaderRightProps } from "./AvatarDropdown";
+import { uesRequest } from "../../../utils/api";
+import { clearUser } from "../../Auth";
+import Avatar from "./AvatarDropdown";
+import NoticeIconView from "../NoticeIcon";
+import styles from "./index.less";
 // @ts-ignore
-import { history } from 'umi';
-import { Button, Space } from 'antd';
+import { history } from "umi";
+import { Button, Space } from "antd";
 
-export type SiderTheme = 'light' | 'dark';
+export type SiderTheme = "light" | "dark";
 
 const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
   const { theme, layout, currentUser, menu } = props;
-  const { run } = uesRequest('user', 'logout');
+  const { run } = uesRequest("user", "logout");
   let className = styles.right;
 
-  if (theme === 'dark' && layout === 'topmenu') {
+  if (theme === "dark" && layout === "topmenu") {
     className = `${styles.right}  ${styles.dark}`;
   }
   const layoutFn = () => {
     run().then(() => {
       clearUser();
-      history.push('/login');
+      history.push("/login");
     });
   };
 

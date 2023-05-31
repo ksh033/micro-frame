@@ -1,10 +1,10 @@
 import type {
   TableComponent,
   TableComponentProps,
-} from '@scboson/sc-element/es/sc-editable-table/typing';
-import React, { useMemo } from 'react';
-import BsNumberInput from '../../Base/BsNumberInput';
-import useWeightUnit from '../../Dict/weightUnit';
+} from "@scboson/sc-element/es/sc-editable-table/typing";
+import React, { useMemo } from "react";
+import BsNumberInput from "../../Base/BsNumberInput";
+import useWeightUnit from "../../Dict/weightUnit";
 
 interface QuantityProps extends TableComponentProps {
   onChange?: (val: any) => any;
@@ -28,7 +28,7 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
     getMax,
     getMin,
     getSuffix,
-    unitName = 'cargoUnit',
+    unitName = "cargoUnit",
     promptRender,
     form,
     disabled = false,
@@ -38,14 +38,14 @@ const Quantity: TableComponent<QuantityProps> = (props) => {
 
   const { weightUnit, has } = useWeightUnit();
 
-  const rowData = props.rowData || props['data-row'] || {};
+  const rowData = props.rowData || props["data-row"] || {};
 
   const max = getMax ? getMax?.(rowData) : 9999999;
 
   const min = getMin ? getMin?.(rowData) : void 0;
 
   const newDisabled =
-    typeof disabled === 'function' ? disabled?.(rowData) : disabled;
+    typeof disabled === "function" ? disabled?.(rowData) : disabled;
 
   const IsWeightUnit = useMemo(() => {
     return has(rowData[unitName]);

@@ -2,9 +2,9 @@
 
 > @@scboson/sc-web.
 
-1. tsconfig.json 底下paths 添加 "@@service": ["src/services/index.ts"],
+1. tsconfig.json 底下 paths 添加 "@@service": ["src/services/index.ts"],
 
-``` bash
+```bash
 {
   compilerOptions: {
     paths: {
@@ -14,26 +14,24 @@
 }
 ```
 
-2. umi 配置项中 alias 低下添加services的地址
+2. umi 配置项中 alias 低下添加 services 的地址
 
-``` bash
+```bash
  alias : {
     '@@service': '@/services',
   },
 ```
 
-  
-
 ## Install
 
 Using npm:
 
-``` bash
+```bash
 $ npm install --save @@scboson/sc-web
 ```
 
 or using yarn:
 
-``` bash
+```bash
 $ yarn add @@scboson/sc-web
 ```

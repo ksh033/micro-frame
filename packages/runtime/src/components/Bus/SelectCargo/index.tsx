@@ -1,8 +1,8 @@
-import { CDrawer } from '@scboson/sc-element';
-import { DialogOptions } from '@scboson/sc-schema/es/interface';
-import { useSetState } from 'ahooks';
-import { FC } from 'react';
-import SelectCargoTable, { SelectCargoTableProps } from './table';
+import { CDrawer } from "@scboson/sc-element";
+import { DialogOptions } from "@scboson/sc-schema/es/interface";
+import { useSetState } from "ahooks";
+import { FC } from "react";
+import SelectCargoTable, { SelectCargoTableProps } from "./table";
 
 type SelectCargoProps = {
   title?: string;
@@ -11,7 +11,7 @@ type SelectCargoProps = {
 };
 
 const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
-  const { title = '添加商品', pageProps, close, ...restProps } = props;
+  const { title = "添加商品", pageProps, close, ...restProps } = props;
   const defaultRowKeys = pageProps.selectedRowKeys || [];
   const [state, setState] = useSetState<{
     selectedRowKeys: string[];
@@ -41,7 +41,7 @@ const SelectCargo: FC<SelectCargoProps> = (props: SelectCargoProps) => {
 
 export function openSelectCargoModal(newOptions: DialogOptions) {
   CDrawer.show({
-    title: '添加商品',
+    title: "添加商品",
     width: 1400,
     ...newOptions,
     content: SelectCargo,
