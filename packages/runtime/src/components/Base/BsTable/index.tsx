@@ -371,7 +371,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   }
 
   const dataLoad = (data: any) => {
-
     let temCurrent = 1;
     let newData = {};
     if (data) {
