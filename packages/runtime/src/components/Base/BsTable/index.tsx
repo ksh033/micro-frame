@@ -15,7 +15,7 @@ import Operation from './Operation';
 import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
-import { useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import { useRequest, useSafeState, useUpdateEffect, useLocalStorageState } from 'ahooks';
 import { useSize } from 'ahooks';
 import TotalSymmary, { digColumns } from './TotalSymmary';
 import { ListToolBarProps, ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/typing';
@@ -114,6 +114,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const { getDistList, getDictText } = userDictModel();
   const ref = useRef(null);
 
+
   // 默认的tab切换配置
   const defaultLabelsProps = {
     needAll: true,
@@ -174,7 +175,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     {}
   );
   /** 统计栏数据 */
-  const [recordSummary, setRecordSummary] = useState<any[]>();
+  const [recordSummary, setRecordSummary] = useLocalStorageState<any>('recordSummary', { recordSummary: [] });
 
   useUpdateEffect(() => {
     if (groupLabelsProps && groupLabelsProps.active) {
