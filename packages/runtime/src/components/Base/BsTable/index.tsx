@@ -3,7 +3,7 @@ import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
 
 import { Badge, Table } from 'antd';
 import { isArray, isObject } from 'lodash';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Authority from '../../Auth/Authority';
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
 import userDictModel from '../../Dict/userDictModel';
@@ -69,7 +69,7 @@ export type BsTableProps = Omit<ScTableProps<any>, 'toolbar' | 'request'> & {
   /** 是否需要统计栏 */
   needRecordSummary?: boolean;
   /** 统计然头部设定 */
-  TableSummaryFiexd?: boolean | 'top' | 'bottom';
+  tableSummaryFiexd?: boolean | 'top' | 'bottom';
 };
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -107,7 +107,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     saveRef,
     pagination,
     needRecordSummary = false,
-    TableSummaryFiexd = 'top',
+    tableSummaryFiexd = 'top',
     ...restProps
   } = props;
 
@@ -175,7 +175,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     {}
   );
   /** 统计栏数据 */
-  const [recordSummary, setRecordSummary] = useLocalStorageState<any>('recordSummary', { recordSummary: [] });
+  const [recordSummary, setRecordSummary] = useState<any>();
 
   useUpdateEffect(() => {
     if (groupLabelsProps && groupLabelsProps.active) {
@@ -372,7 +372,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   }
 
   const dataLoad = (data: any) => {
-    let temCurrent = 1;
     let newData = {};
     if (data) {
       if (onLoad) {
@@ -381,8 +380,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       if (!isArray(data)) {
         let rows = data.records || data.rows || [];
         const { current = 1, size = 10 } = data;
-        temCurrent = current
-
         rows = rows.map((item: any, index: number) => {
           const titem = item;
           titem.index = index + 1 + (current - 1) * size;
@@ -412,10 +409,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       }
     }
     if (needRecordSummary) {
-      if (temCurrent === 1) {
-        setRecordSummary(data.recordSummary);
-
-      }
+      setRecordSummary(data.recordSummary);
     }
     return newData;
   };
@@ -526,7 +520,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       return {
         sticky: true,
         summary: () => (
-          <Table.Summary fixed={TableSummaryFiexd}>
+          <Table.Summary fixed={tableSummaryFiexd}>
             <TotalSymmary
               recordSummary={recordSummary}
               columns={digColumns(columns, [])}
@@ -537,8 +531,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     } else {
       return {};
     }
-  }, [needRecordSummary, recordSummary, TableSummaryFiexd]);
-
+  }, [needRecordSummary, recordSummary, tableSummaryFiexd]);
 
   return (
     <>
