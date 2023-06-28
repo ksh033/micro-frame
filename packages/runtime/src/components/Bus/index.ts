@@ -18,6 +18,7 @@ import ShopTableSelect from './ShopTableSelect';
 import SupplierTableSelect from './SupplierTableSelect';
 import UserDept from './UserDept';
 import OperationList from './OperationList';
+import StationMap from './StationMap';
 /**
  * 旧 商品组件
  *
@@ -81,6 +82,7 @@ regeditCmp('Invalid', Invalid);
 regeditCmp('ChainManageComPanySelect', ChainManageComPanySelect);
 regeditCmp('GoodsCatalogTreeSelect', GoodsCatalogTreeSelect);
 regeditCmp('OperationList', OperationList);
+regeditCmp('StationMap', StationMap);
 
 export {
   CheckBoxDate,
@@ -123,5 +125,6 @@ export {
   SetCatalogRef,
   LocationAreaSelect,
   PrintOptButton,
-  OperationList
+  OperationList,
+  StationMap,
 };
