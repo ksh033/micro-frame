@@ -461,7 +461,7 @@ export default (props: RailProps) => {
       overlays.forEach((it: any, index: any) => {
         const path = JSON.parse(JSON.stringify(formatLngLat(it.scopePts)));
         polyEditors.push(
-          <Polygon path={path} key={`${key}_${index}`} style={style} draggable events={event}>
+          <Polygon path={path} key={`${key}_${index}`} style={style} events={event}>
             {/* <PolyEditor
               key={`${index}`}
               events={editorEvents}
