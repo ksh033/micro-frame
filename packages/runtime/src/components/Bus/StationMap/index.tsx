@@ -481,9 +481,9 @@ export default (props: RailProps) => {
       const key = item[0];
       if (window.AMap) {
         const Icon = new window.AMap.Icon({
-          image: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png',
-          size: new window.AMap.Size(30, 40),
-          imageSize: new window.AMap.Size(30, 40)
+          image: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
+          size: new window.AMap.Size(30, 30),
+          imageSize: new window.AMap.Size(30, 30)
         })
         Markers.push(
           <Marker
