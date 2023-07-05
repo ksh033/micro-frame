@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-01-05 10:01:22
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-04-23 17:20:23
+ * @LastEditTime: 2023-07-05 11:02:01
  */
 import React from 'react';
 import { ScTreeSelect } from '@scboson/sc-element';
@@ -21,7 +21,7 @@ import { uesRequest } from '../../../../utils/api';
  */
 const CatalogTreeSelect: React.FC<
   ScTreeSelectProps & { selectLeaf: boolean }
-> = ({ params, selectLeaf = true, autoload = true, ...restProps }) => {
+> = ({ params = {}, selectLeaf = true, autoload = true, ...restProps }) => {
   const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
 
   return (
