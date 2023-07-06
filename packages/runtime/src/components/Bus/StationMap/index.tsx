@@ -44,6 +44,7 @@ interface RailProps {
   initMarker?: { px: number; py: number }; // 初始化的点
   cityCode?: any
   rowKey?: any
+  params?: any
 }
 
 interface RailState {
@@ -64,7 +65,8 @@ export default (props: RailProps) => {
     onChange,
     value,
     cityCode,
-    rowKey = 'stationId'
+    rowKey = 'stationId',
+    params
   } = props;
 
   const { run } = uesRequest('system', 'getStationMapList')
@@ -107,7 +109,7 @@ export default (props: RailProps) => {
 
 
   useEffect(() => {
-    run().then((res: any) => {
+    run(params).then((res: any) => {
       if (res) {
         setDataSource(res)
       }

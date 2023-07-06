@@ -63,7 +63,7 @@ const services = {
 
     },
     getStationMapList: {
-      url: '/base/api/station/presalefoods/scope',
+      url: '/base/api/station/service/scope',
       method: 'get',
     },
 
