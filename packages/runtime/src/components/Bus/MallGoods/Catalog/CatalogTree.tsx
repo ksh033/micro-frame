@@ -16,6 +16,7 @@ const CatalogTree: React.FC<
   params,
   cache = true,
   selectedKeys,
+  request,
   ...restProps
 }) => {
     const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
@@ -79,7 +80,7 @@ const CatalogTree: React.FC<
         async={false}
         params={{}}
         placeholder={'search'}
-        request={run}
+        request={request || run}
         textField="catalogName"
         valueField="catalogId"
         {...restProps}

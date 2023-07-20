@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-02-16 15:28:26
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-07-20 11:10:59
+ * @LastEditTime: 2023-07-20 16:17:17
  */
 import { QuestionCircleFilled } from '@ant-design/icons';
 import type { PageConfig } from '@scboson/sc-schema';
@@ -34,7 +34,7 @@ GoodsCenterTable.displayName = 'GoodsCenterTable';
 export default WithTable<
   any
 >(GoodsCenterTable, pageConfig, (props, searchInfo, pagetInfo) => {
-  const { viewUrl, help, formatTableInfo, ...restProps } = props;
+  const { viewUrl, help, formatTableInfo, columns, ...restProps } = props;
 
   pagetInfo.changeCol('saleModel', {
     render: (value, record) => {
@@ -75,6 +75,7 @@ export default WithTable<
   return {
     //request: defaultReq,
     rowKey: 'goodsId',
+    columns: columns || pagetInfo.tableInfo.columns,
     ...restProps,
     bordered: false,
     size: 'small',
