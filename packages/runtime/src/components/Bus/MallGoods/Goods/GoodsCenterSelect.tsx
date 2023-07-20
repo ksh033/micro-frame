@@ -57,6 +57,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
     getCheckboxProps,
     autoload = true,
     formatTableInfo,
+    columns
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
@@ -137,6 +138,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
             request={request}
             autoload={autoload}
             formatTableInfo={formatTableInfo}
+            columns={columns}
           ></GoodsCenterTable>
         </ScCard>
         <ScCard
