@@ -15,8 +15,7 @@ import React, { useMemo, useRef } from 'react';
 import BsSearch from '../Base/BsSearch';
 import BsTable from '../Base/BsTable';
 import type { WithTableProps } from './interface';
-
-export default function WithTable<P extends WithTableProps>(
+function WithTable<P extends WithTableProps>(
   Component: React.ComponentType<any>,
   pageConfig: PageConfig,
   extProps?: P | ((p: P, searchInfo: SearchInfo, pagetInfo: TableInfo) => P)
@@ -80,8 +79,8 @@ export default function WithTable<P extends WithTableProps>(
     };
     const tableParams = useMemo(() => {
       let newPrams = {
-        ...params,
         ...pageInfo.params,
+        ...params,
       };
       if (typeof formatPrams === 'function') {
         newPrams = formatPrams(newPrams);
@@ -134,3 +133,5 @@ export default function WithTable<P extends WithTableProps>(
 
   return ListPage(Cmp, pageConfig);
 }
+
+export default WithTable
