@@ -20,12 +20,12 @@ const v4Token = convertLegacyToken(mapToken);
 // import routes from './routes';
 
 const { REACT_APP_ENV, NODE_ENV } = process.env;
-
+console.log()
 export const EVN_CONFIG: any = {
   dev: {
     imgUrl: "http://test.yumcat.cn/images",
     apiUrl: "/webapi-dev",
-    masterUrl: "http://172.18.164.122/",
+    masterUrl: "http://172.18.165.32:9007/",
   },
   pro: {
     imgUrl: "https://images.yumcat.cn",
@@ -85,12 +85,17 @@ export default defineConfig({
   // publicPath: '/sysweb/',
   hash: true,
   antd: {
+    
     import: false,
   },
+  extraBabelIncludes:["D:\\work\\bosssoft\\bg\\bgtech-fe\\sc-boson\\packages\\layout"],
 
+  model:{},
   scripts,
   fastRefresh: true,
   mfsu: false,
+  svgo:false,
+svgr:undefined,
   favicons: ["/favicon.png"],
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
@@ -110,7 +115,8 @@ export default defineConfig({
     ie: 11,
   },
   // esbuild: {},
-  title: undefined,
+  
+
   ignoreMomentLocale: true,
   // proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {

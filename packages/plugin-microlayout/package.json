@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/plugin-microlayout",
-  "version": "2.0.0-alpha",
+  "version": "2.0.1-alpha.2",
   "description": "子应用Layout插件",
   "module": "es/index.js",
   "main": "lib/index.js",
@@ -25,12 +25,16 @@
   "authors": [],
   "license": "MIT",
   "peerDependencies": {
+    "@scboson/sc-schema": "alpha",
     "umi": "4.x"
-    
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.22.5",
+    "@micro-frame/sc-runtime": "workspace:*"
   },
   "scripts": {
-    "build:dev": "father doctor && father dev",
-    "build": "father doctor && father build"
+    "build:dev": "father dev",
+    "build": "father build"
   },
   "publishConfig": {
     "access": "public"

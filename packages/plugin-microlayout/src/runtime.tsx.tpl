@@ -7,11 +7,11 @@ import MasterApp from './layout/layout/MasterApp';
 import {createHistory,history} from "@@/core/history";
 import { getPluginManager } from "@@/core/plugin";
 
-export function rootContainer(container: any) {
-   window.syscode="{{appSelected}}"
-    Auth.setUserAppCode("{{appSelected}}")
-   return React.createElement(MasterApp,{localMenuData:{{localMenuData}}},container);
-} 
+//export function rootContainer(container: any) {
+//window.syscode="{{appSelected}}"
+//Auth.setUserAppCode("{{appSelected}}")
+//return React.createElement(MasterApp,{localMenuData:{{localMenuData}}},container);
+//} 
  const patchClientRoutes=AppStart.patchClientRoutes
  const onRouteChange=AppStart.onRouteChange
 
@@ -27,25 +27,37 @@ export function rootContainer(container: any) {
 }
 {{/localLayout}}
 {{^localLayout}}
-import React from 'react';
+//import React from 'react';
 
-import {SlaveLayout,Loading} from '@micro-frame/sc-runtime';
-
+//import {SlaveLayout,NoFoundPage} from '@micro-frame/sc-runtime';
+//import { connectMaster } from "@@/plugin-qiankun-slave";
 export function patchRoutes({ routes, routeComponents }: any) {
-  const layoutId="layout"
-  Object.keys(routes).forEach((key)=>{
+ // const layoutId="layout"
+ // Object.keys(routes).forEach((key)=>{
     
-    routes[key].parentId=layoutId
-  })
+  //  routes[key].parentId=layoutId
+ // })
 
-  routes[layoutId]={ 
-     path: "/",
-     id:layoutId,
-         element: <SlaveLayout />,
-      isLayout: true,
-  }
+
+//const Layout=connectMaster(SlaveLayout)
+ // routes[layoutId]={ 
+ //    path: "/",
+ //    id:layoutId,
+ //        element: <Layout />,
+ //     isLayout: true,
+ // }
+
+//const NoFoundPageData=routes["404"]||{}
+//routes["404"]={ 
+//  ...NoFoundPageData,
+//    parentId:layoutId,
+//         element: <NoFoundPage />,
+
+//  }
 
  }
+
+
 {{/localLayout}}
 
 	

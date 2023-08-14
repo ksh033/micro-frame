@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Form } from "antd";
+import { Space, Form ,Input} from "antd";
 import { ValidateUtil } from "@scboson/sc-utils";
 import {
   FormComponent,
@@ -73,8 +73,8 @@ const Address: FormComponent<any> = (props: AddressProp) => {
     } else {
       return (
         <Form.Item noStyle>
-          <Input.Group compact>
-            <Form.Item
+          <Space.Compact>
+                      <Form.Item
               noStyle
               name="areaCode"
               messageVariables={{ label: "行政区划" }}
@@ -191,7 +191,7 @@ const Address: FormComponent<any> = (props: AddressProp) => {
                 ></Input>
               </Form.Item>
             ) : null}
-          </Input.Group>
+          </Space.Compact>
         </Form.Item>
       );
     }

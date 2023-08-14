@@ -30,5 +30,5 @@
     "jest.config.js",
     "**/fixtures",
     "./tests/no-duplicated.ts"
-  ]
+, "packages/runtime/publish/iconfont.js"  ]
 }

@@ -1,4 +1,4 @@
-import { IApi, RUNTIME_TYPE_FILE_NAME } from "umi";
+import { IApi } from "umi";
 import getPkg from "./getPkg";
 import { lodash, Mustache, winPath, glob, fsExtra } from "umi/plugin-utils";
 import { basename, dirname, join, relative } from "path";
@@ -6,9 +6,11 @@ import { basename, dirname, join, relative } from "path";
 //import { readFileSync, copyFileSync, statSync } from "fs";
 import { LayoutConfig } from "./types/interface";
 import getLayoutContent from "./utils/getLayoutContent";
+import getSlaveLayoutContent from "./utils/getSlaveLayoutContent";
 import { existsSync, readdirSync } from "fs";
 
 import { getModuleExports } from "./getModuleExports";
+
 const DIR_NAME = "plugin-microlayout";
 
 const { NODE_ENV } = process.env;
@@ -31,6 +33,7 @@ function withTmpPath(opts: { api: IApi; path: string; noPluginDir?: boolean }) {
 }
 
 export default (api: IApi) => {
+
   api.describe({
     key: "microlayout",
     config: {
@@ -43,7 +46,7 @@ export default (api: IApi) => {
     },
     enableBy: api.EnableBy.config,
   });
-
+  const packageName = getPkg("").name;
   let generatedOnce = false;
   let layoutOpts: LayoutConfig = {};
   const initConfig = (config) => {
@@ -53,6 +56,7 @@ export default (api: IApi) => {
       // locale: false,
       // showBreadcrumb: true,
       useRunTime: true,
+      useAccess:true,
       localMenuData: true,
       localLayout: true,
       ...(config.microlayout || {}),
@@ -64,9 +68,35 @@ export default (api: IApi) => {
     if (NODE_ENV === "production" || layoutOpts.localLayout === false) {
       layoutOpts.localLayout = false;
     }
+    //micro-basic
+    if ( NODE_ENV !== "production"){
+      let base = "/";
+      if (!layoutOpts.localMenuData){
+        if (packageName.indexOf("micro-") > -1) {
+          base = "/" + packageName.replace("micro-", "");
+        }
+      }
+    
+      if (!layoutOpts.localLayout){
+        config.publicPath=base
+        config.publicPath=`/${packageName}/`
+      }
+    }
+  
+
+
+    
   };
   initConfig(api.userConfig);
+  // api.modifyConfig((memo, { paths }) => {
 
+  //  if (!layoutOpts.localLayout){}
+  //   // memo.alias = {
+  //   //   ...memo.alias,
+  //   //   '@': paths.absSrcPath
+  //   // }
+  //   return memo;
+  // })
   api.onStart(() => {
     initConfig(api.config);
     // do something
@@ -83,6 +113,14 @@ export default (api: IApi) => {
       );
     }
   }
+  //映射@@service
+  api.modifyTSConfig((memo:any)=>{
+
+    memo.compilerOptions.paths['@@service'] = ["src/services/index.ts"];
+    return memo;
+
+ 
+  })
   api.modifyConfig((config) => {
     // @ts-ignore
     config.title = false;
@@ -112,7 +150,7 @@ export default (api: IApi) => {
     const files = glob.sync("**/*", {
       cwd,
     });
-    const base = join(api.paths.absTmpPath!, "plugin-microlayout", "layout");
+    const base = join(api.paths.absTmpPath!, "plugin-microlayout");
     fsExtra.mkdirSync(base, { recursive: true });
     files.forEach((file) => {
       if (
@@ -156,22 +194,28 @@ export default (api: IApi) => {
     const currentLayoutComponentPath =
       layoutComponent[theme] || layoutComponent["PRO"];
     console.log(currentLayoutComponentPath);
+ //   if (!layoutOpts.localLayout){
     api.writeTmpFile({
       path: "Layout.tsx",
-      content: getLayoutContent(layoutOpts, "./layout/layout/index.tsx"),
+      content: getLayoutContent(layoutOpts, "./layout/index.tsx"),
+    });
+    api.writeTmpFile({
+      path: "SlaveLayout.tsx",
+      content: getSlaveLayoutContent(layoutOpts, "./layout/SlaveLayout.tsx"),
     });
 
     let rendereReactPath = "";
-    const model = require("module");
-    const projectM = model.createRequire(api.paths.cwd);
+   // const model = require("module");
+   // const projectM = model.createRequire(api.paths.cwd);
     try {
-      const presetUmiPath = projectM.resolve("@umijs/preset-umi");
-      const presetUmi = model.createRequire(presetUmiPath);
-      rendereReactPath = presetUmi.resolve(
-        "@umijs/renderer-react/package.json"
-      );
+      rendereReactPath=require.resolve("@umijs/renderer-react/package.json")
+      // const presetUmiPath = projectM.resolve("@umijs/preset-umi");
+      // const presetUmi = model.createRequire(presetUmiPath);
+      // rendereReactPath = presetUmi.resolve(
+      //   "@umijs/renderer-react/package.json"
+      // );
     } catch (ex) {
-      rendereReactPath = projectM.resolve("@umijs/renderer-react/package.json");
+      //rendereReactPath = projectM.resolve("@umijs/renderer-react/package.json");
     }
 
     const rendererPath = winPath(
@@ -246,10 +290,10 @@ export default (api: IApi) => {
     });
   });
 
-  // api.modifyAppData((memo) => {
-  //   memo.getInitialState = 'getInitialState';
-  //   return memo;
-  // })
+  api.modifyAppData((memo) => {
+    memo.globalLoading=withTmpPath({ api, path: './layout/Loading.tsx' })
+    return memo;
+  })
 
   api.modifyRoutes((memo) => {
     Object.keys(memo).forEach((id) => {
@@ -261,6 +305,16 @@ export default (api: IApi) => {
         route.path = route.path.replaceAll("[", ":").replaceAll("]", "");
       }
     });
+    if (!memo["404"]){
+      //@ts-ignore
+      memo["404"]={
+        path:"*",
+        id:"404"
+      }
+    
+    }
+    memo["404"].parentId="layout"
+    memo["404"].file=withTmpPath({ api, path: './layout/NoFoundPage.tsx' });
     return memo;
   });
   if (layoutOpts.useRunTime) {
@@ -278,6 +332,32 @@ export default (api: IApi) => {
           },
         ];
       });
+    }else{
+      const runtimePath = winPath(
+        dirname(require.resolve('@micro-frame/sc-runtime')),
+      );
+      
+      // console.log("runtimePath",runtimePath)
+      // const layoutPath = join(runtimePath.replace("/lib",""), './es/components/Layout/SlaveLayout');
+      // console.log("layoutPath",layoutPath)
+      api.addLayouts(() => {
+        
+        return [
+          {
+            id: "layout",
+            file: withTmpPath({ api, path: 'SlaveLayout.tsx' }),
+            // file: `(async () => {
+            //   const { SlaveLayout } = await import('@micro-frame/sc-runtime');
+            //   const { connectMaster } = await import('@@/plugin-qiankun-slave');
+            //  return connectMaster(SlaveLayout)
+            // })()`,
+            test: (route: any) => {
+              return route.layout !== false;
+            },
+          },
+        ];
+      });
+   
     }
   }
 };

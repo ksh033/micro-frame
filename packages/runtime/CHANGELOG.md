@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.2](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.2) (2023-08-10)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.1](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.1) (2023-08-10)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.0](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.0) (2023-08-10)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+
 ## [1.0.6-beta.80](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.79...@micro-frame/sc-runtime@1.0.6-beta.80) (2023-04-07)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime

@@ -1,12 +1,20 @@
 // https://umijs.org/config/
 //import { layout } from '@/app';
 import { defineConfig } from "@umijs/max";
-import type { IConfig } from "@umijs/preset-umi";
+import type { IConfig } from '@umijs/preset-umi'
 import getPkg from "./getPkg";
 import getCwd from "./getCwd";
 //import { BabelRegister, compatESModuleRequire } from "@umijs/utils";
 import { join } from "path";
 import { existsSync } from "fs";
+import { theme } from 'antd'
+
+const { defaultAlgorithm, defaultSeed } = theme;
+import { convertLegacyToken } from '@ant-design/compatible';
+console.log("babel-plugin-import", require.resolve("babel-plugin-import"))
+const mapToken = defaultAlgorithm(defaultSeed);
+const v4Token = convertLegacyToken(mapToken);
+
 
 // import proxy from './proxy'
 import slash from "slash2";
@@ -28,8 +36,8 @@ try {
   if (proxy)
     console.log(
       "\x1B[34m开启代理:" +
-        JSON.stringify(proxy[REACT_APP_ENV || "dev"]) +
-        "\x1B[0m"
+      JSON.stringify(proxy[REACT_APP_ENV || "dev"]) +
+      "\x1B[0m"
     );
 } catch (ex) {
   console.warn(
@@ -55,15 +63,24 @@ let base = "/";
 if (packageName.indexOf("micro-") > -1) {
   base = "/" + packageName.replace("micro-", "");
 }
-const publicPath = NODE_ENV === "production" ? `/${packageName}/` : `${base}/`;
+
+const publicPath = NODE_ENV === "production" ? `/${packageName}/` : `/${base}/`;
+
+console.log("plugin-import", require.resolve("babel-plugin-import"))
 
 export default defineConfig({
   hash: true,
-  antd: {},
+  antd: {
+    theme:{
+      token:{}
+    
+    }
+  },
   locale: {
     default: "zh-CN",
     antd: true,
   },
+  svgr:undefined,
   devtool: REACT_APP_ENV == "pro" ? undefined : "source-map",
   define: {
     SC_GLOBAL_API_URL: EVN_CONFIG[REACT_APP_ENV || "dev"].apiUrl,
@@ -77,131 +94,63 @@ export default defineConfig({
   // dynamicImport: {
   //   loading: "@micro-frame/sc-runtime/es/components/Loading",
   // },
+  extraBabelPlugins: [
+    [
+      require.resolve("babel-plugin-import"),
+      {
+        libraryName: "@scboson/sc-element",
+        libraryDirectory: "es",
+        style: true,
+      },
+    ],
+  ],
   qiankun: {
     slave: { enable: true },
   },
   targets: {
     ie: 11,
   },
+
+  moment2dayjs: {
+    preset: 'antd',
+    plugins: ['duration' ,'isSameOrBefore',
+    'isSameOrAfter',
+    'advancedFormat',
+    'customParseFormat',
+    'weekday',
+    'weekYear',
+    'weekOfYear',
+   // "locale",
+    'isMoment',
+    'localeData',
+    'localizedFormat','utc'],
+  },
   ignoreMomentLocale: true,
-  mock: {},
-  // externals:
-  //   NODE_ENV === "production"
-  //     ? {
-  //         react: "React",
-  //         "react-dom": "ReactDOM",
-  //         lodash: "_",
-  //         moment: "moment",
-  //         "@ant-design/icons": "icons",
-  //       }
-  //     : false,
   microlayout: {
     localMenuData: true,
     localLayout: true,
   },
-
+  lessLoader: {
+    modifyVars: v4Token
+  },
+  conventionRoutes: {
+    exclude: [/\/components\//, /\/models\//],
+  },
   //window.routerBase =window.__POWERED_BY_QIANKUN__? "/mallsys":"/micro-mallsys/";
-
   headScripts: [
     {
       content: `window.routerBase = window.__POWERED_BY_QIANKUN__?"${base}":"/${packageName}"`,
     },
   ],
+  codeSplitting:{
+    jsStrategy:'bigVendors'
+  },
 
-  // extraBabelPlugins: [
-  //   [
-  //     require.resolve("babel-plugin-import"),
-  //     {
-  //       libraryName: "@scboson/sc-element",
-  //       libraryDirectory: "es",
-  //       style: true,
-  //     },
-  //   ],
-  // ],
-  // chunks:
-  //   NODE_ENV === "production"
-  //     ? ["vendors", "antdesign", "framework", "umi"]
-  //     : undefined,
-  // @ts-ignore
-  // chainWebpack: (chainConfig) => {
-  //   //处理静态文件
-  //   chainConfig.module
-  //     .rule("images")
-  //     .use("url-loader")
-  //     .tap((options) => {
-  //       // options.fallback.options.publicPath = publicPath;
-  //       // console.log(options)
-  //       return { options: { publicPath } };
-  //     });
-  //   chainConfig.module
-  //     .rule("fonts")
-  //     .use("file-loader")
-  //     .tap((options) => {
-  //       //  options.publicPath = publicPath;
-  //       console.log(options)
-  //       return { publicPath };
-  //     });
-  //   chainConfig.module
-  //     .rule("svg")
-  //     .use("file-loader")
-  //     .tap((options) => {
-  //       console.log(options)
-  //       // options.publicPath = publicPath;
-  //       return { publicPath };
-  //     });
-  //   if (NODE_ENV === "production") {
-  //     chainConfig.merge({
-  //       optimization: {
-  //         minimize: true,
-  //         splitChunks: {
-  //           chunks: "async",
-  //           minSize: 30000,
-  //           minChunks: 1,
-  //           maxInitialRequests: 4, // 默认
-  //           automaticNameDelimiter: ".",
-  //           cacheGroups: {
-  //             vendors: {
-  //               name: "vendors",
-  //               chunks: "all",
-  //               test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|lodash|lodash-decorators|redux-saga|re-select|dva|moment)[\\/]/,
-  //               priority: 11,
-  //             },
-  //             framework: {
-  //               // 基本框架
-  //               name: "framework",
-  //               test: /[\\/]node_modules[\\/](@micro-frame|@scboson)[\\/]/,
-  //               chunks: "all",
-  //               priority: 10,
-  //             },
-
-  //             antdesign: {
-  //               name: "antdesign",
-  //               chunks: "all",
-  //               test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
-  //               priority: 9,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     });
-  //     chainConfig
-  //       .plugin("replace")
-  //       .use(require("webpack").ContextReplacementPlugin)
-  //       .tap(() => {
-  //         return [/moment[/\\]locale$/, /zh-cn/];
-  //       });
-  //   }
-  // },
   mfsu: false,
+  fastRefresh:true,
   model: {},
-
   plugins: [
-    // "@umijs/plugin-esbuild",
-    // "@umijs/plugin-model",
-    // "@umijs/plugin-antd",
-    // "@umijs/plugin-qiankun",
     "@micro-frame/plugin-microlayout",
-    // "@umijs/plugin-locale",
   ],
   cssLoader: {
     // 这里的 modules 可以接受 getLocalIdent

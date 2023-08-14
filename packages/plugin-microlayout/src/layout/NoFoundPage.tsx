@@ -1,0 +1,1 @@
+export { NoFoundPage as default } from '@micro-frame/sc-runtime';

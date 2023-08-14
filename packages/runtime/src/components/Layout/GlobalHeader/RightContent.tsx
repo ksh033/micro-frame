@@ -6,7 +6,7 @@ import { uesRequest } from "../../../utils/api";
 import { clearUser } from "../../Auth";
 import Avatar from "./AvatarDropdown";
 import NoticeIconView from "../NoticeIcon";
-import styles from "./index.less";
+import "./index.less";
 // @ts-ignore
 import { history } from "umi";
 import { Button, Space } from "antd";
@@ -16,10 +16,10 @@ export type SiderTheme = "light" | "dark";
 const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
   const { theme, layout, currentUser, menu } = props;
   const { run } = uesRequest("user", "logout");
-  let className = styles.right;
+  let className = "right";
 
   if (theme === "dark" && layout === "topmenu") {
-    className = `${styles.right}  ${styles.dark}`;
+    className = `right  dark`;
   }
   const layoutFn = () => {
     run().then(() => {

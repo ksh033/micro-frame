@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ScDatePicker } from "@scboson/sc-element";
-import { Form, Input, Checkbox } from "antd";
+import { Form, Space,Checkbox } from "antd";
 import { ValidateUtil } from "@scboson/sc-utils";
 import { FormComponent } from "@scboson/sc-element/es/c-form";
 
@@ -51,7 +51,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
 
   return (
     <Form.Item noStyle>
-      <Input.Group compact>
+      <Space.Compact >
         <Form.Item name={dateName} rules={[{ validator: checkVal }]}>
           <ScDatePicker.ScDatePicker
             showTime
@@ -63,7 +63,7 @@ const CheckBoxDate: FormComponent<any> = (pros: any) => {
         <Form.Item name={checkBoxName} style={{ marginLeft: "5px" }}>
           <Checkbox onChange={onChange}>立即生效</Checkbox>
         </Form.Item>
-      </Input.Group>
+      </Space.Compact>
     </Form.Item>
   );
 };

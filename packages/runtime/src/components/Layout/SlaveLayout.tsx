@@ -1,93 +1,111 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 //@ts-ignore
-import { history, Link } from "umi";
-//@ts-ignore
-import { SchemaContext } from "@scboson/sc-schema";
-import { getUser } from "../Auth";
+import { history, Link, useLocation, useAppData, Outlet, matchRoutes, useModel } from "umi";
+
+import { getAppCode, getUser, getUserAppCode } from "../Auth";
 import BsTable from "../Base/BsTable";
-import useMergedState from "rc-util/es/hooks/useMergedState";
+import "./index.less";
 
-//@ts-ignore
-import { RouteContext } from "@scboson/sc-layout";
-import {
-  getMenuData,
-  getBreadcrumbProps,
-} from "@scboson/sc-layout/es/MasterLayout";
+import { RouteContext, LayoutContext, ErrorBoundary, MenuDataItem, getMenuData } from "@scboson/sc-layout";
+// @ts-ignore
+import { useMount } from "ahooks";
+
+import { filterRoutes, mapRoutes, useAccessMarkedRoutes } from "./utils";
 import menuFormat from "./menuFormat";
+import Exception from "./Exception";
+import { ProConfigProvider } from "@ant-design/pro-provider";
 const { Operation } = BsTable;
-export default function SlaveLayout(componentProps: any) {
-  const { children, route, menu, ...resProps } = componentProps;
-  const ref = useRef<any>({});
+const SlaveLayout = (componentProps: any) => {
+  const location = useLocation()
 
-  if (!ref.current.mdata) {
-    const userAppInfo = getUser()?.userAppInfo;
+  //是否开启权限
+  const { children, useAccess = false } = componentProps
 
-    if (userAppInfo) {
-      const menus = userAppInfo?.currentDept?.menus || [];
-      const syscode = userAppInfo?.currentSystem?.systemCode || "";
-      const sysMenu = menus.find((it) => it.pageUrl === syscode);
-      if (sysMenu) {
-        ref.current.mdata = sysMenu.children || [];
+  const { globalState } =
+    useModel("@@qiankunStateForSlave") ||
+    useModel("@@qiankunStateFromMaster") ||
+    {};
+  const { routeContext } = globalState
 
-        ref.current.syscode = syscode;
-      }
-    }
-  }
 
-  const [menuInfoData, setMenuInfoData] = useMergedState<{
-    breadcrumb?: Record<string, any>;
-    breadcrumbMap?: Map<string, any>;
-    menuData?: any[];
-  }>(() =>
-    getMenuData(route?.routes || [], menu, undefined, (menuItems: any[]) => {
-      const menus = menuFormat.formatMenu(
-        ref.current.mdata || [],
-        [],
-        ref.current.syscode,
-        false
-      );
-      return menus;
-    })
-  );
-  const { breadcrumb = {}, breadcrumbMap, menuData = [] } = menuInfoData;
+
+  console.log("appData", useAppData())
+  const { clientRoutes, basename } = useAppData();
+  // //console.log("globalState",globalState)
+  //   //主项目路由上下文
+  //  const { routeContext } = globalState
+  const currentSysRef = useRef<any>(getUserAppCode() || getAppCode());
+
+
+
   const defaultItemRender: any = ({ breadcrumbName, path }) => {
     let url = path ? path.replace(window.routerBase, "") : path;
-    const item = breadcrumbMap?.get(url);
-    if (!item || (item && !item["pageUrl"])) {
-      url = "";
+    if ("/" + path == window.routerBase) {
+      url = "/"
     }
+
     return url ? <Link to={url}>{breadcrumbName}</Link> : breadcrumbName;
   };
-  // gen breadcrumbProps, parameter for pageHeader
-  const breadcrumbProps = getBreadcrumbProps({
-    ...resProps,
-    breadcrumbMap,
-    itemRender: defaultItemRender,
-  });
+  //   // 现在的 layout 及 wrapper 实现是通过父路由的形式实现的, 会导致路由数据多了冗余层级, proLayout 消费时, 无法正确展示菜单, 这里对冗余数据进行过滤操作
+  const newRoutes = filterRoutes(clientRoutes.filter(route => route.id === 'layout' || route.id == '@@/global-layout'), (route) => {
+    return (!!route.isLayout && (route.id !== 'layout' && route.id !== "@@/global-layout")) || !!route.isWrapper;
+  })
+
+
+  const [route] = mapRoutes(useAccess ? useAccessMarkedRoutes(newRoutes, routeContext.menuData, currentSysRef.current, basename) : newRoutes);
+
+
+  const matchedRoute = useMemo(() => matchRoutes(route.children, location.pathname)?.pop?.()?.route, [location.pathname]);
 
   const lastMenu =
-    Array.isArray(breadcrumbProps.routes) && breadcrumbProps.routes.length > 0
-      ? breadcrumbProps.routes[breadcrumbProps.routes.length - 1]
+    Array.isArray(routeContext.breadcrumb.items) && routeContext.breadcrumb.items.length > 0
+      ? routeContext.breadcrumb.items[routeContext.breadcrumb.items.length - 1]
       : null;
 
   const title = lastMenu != null ? lastMenu?.breadcrumbName : undefined;
+
+
   return (
-    <SchemaContext.Provider
+
+    <RouteContext.Provider
       value={{
-        umi: { history },
-        tableOpColCmp: Operation,
+        title,
+        setHasPageContainer: routeContext.setHasPageContainer,
+        hasPageContainer: routeContext.hasPageContainer,
+        breadcrumb: { items: routeContext.breadcrumb.items, itemRender: defaultItemRender },
+        //menuData: routeContext.menuData,
+        hasFooterToolbar: true,
       }}
     >
-      <RouteContext.Provider
-        value={{
-          title,
-          breadcrumb: breadcrumbProps,
-          menuData,
-          hasFooterToolbar: true,
-        }}
-      >
-        {children}
-      </RouteContext.Provider>
-    </SchemaContext.Provider>
+<ProConfigProvider token={{
+
+layout:{
+  pageContainer:{
+    paddingInlinePageContainerContent:24
+  }
+}
+}}>
+      <ErrorBoundary>
+
+        <Exception
+          route={matchedRoute}
+
+        >
+         
+            {children}
+
+   
+
+        </Exception>
+
+      </ErrorBoundary>
+
+</ProConfigProvider>
+    </RouteContext.Provider >
+
   );
 }
+
+
+export default SlaveLayout
+

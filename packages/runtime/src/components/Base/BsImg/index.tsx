@@ -5,6 +5,8 @@ import { useUpdateEffect } from "ahooks";
 import { Image } from "antd";
 // @ts-ignore
 import styles from "./index.less";
+
+
 import { imageUrl } from "../../../utils/common";
 
 const BsImg: React.FC<any> = (props) => {

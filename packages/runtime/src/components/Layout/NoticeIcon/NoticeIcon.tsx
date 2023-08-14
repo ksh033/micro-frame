@@ -143,7 +143,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
     onChange: props.onPopupVisibleChange,
   });
   const noticeButtonClass = classNames(className, styles.noticeButton);
-  const notificationBox = getNotificationBox();
+  const notificationBox:any = getNotificationBox();
   const NoticeBellIcon = bell || <BellOutlined className={styles.icon} />;
   const trigger = (
     <span className={classNames(noticeButtonClass, { opened: visible })}>
@@ -163,11 +163,14 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
   return (
     <HeaderDropdown
       placement="bottomRight"
-      overlay={notificationBox}
+      dropdownRender={()=>{
+        return notificationBox
+      }}
+     // overlay={}
       overlayClassName={styles.popover}
       trigger={["click"]}
-      visible={visible}
-      onVisibleChange={setVisible}
+      open={visible}
+      onOpenChange={setVisible}
     >
       {trigger}
     </HeaderDropdown>

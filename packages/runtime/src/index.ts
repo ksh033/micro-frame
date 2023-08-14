@@ -2,6 +2,8 @@
 import "./components/Style/index.less";
 import Layout from "./components/Layout";
 import SlaveLayout from "./components/Layout/SlaveLayout";
+
+import NoFoundPage from "./components/Layout/404";
 import NoMenuLayout from "./components/Layout/NoMenuLayout";
 import Login from "./components/Login";
 import RetrievePassword from "./components/Login/retrievepassword";
@@ -23,7 +25,7 @@ export { default as useDictModel } from "./components/Dict/userDictModel";
 export { setFuncodes } from "@scboson/sc-schema";
 export { default as PageContainer } from "./components/Base/PageContainer";
 export { default as defaultRenderText } from "./components/Dict/defaultRender";
-import { render, patchRoutes, onRouteChange } from "./components/AppStart";
+import { render, patchClientRoutes, onRouteChange } from "./components/AppStart";
 export {
   ScCard,
   ScCheckCard,
@@ -51,7 +53,7 @@ import createWxLoginQr from "./wxConfig";
 
 const { openWindow, getBizDeptInfo, ...Auth } = AllAuth;
 
-const AppStart = { onRouteChange, render, patchRoutes };
+const AppStart = { onRouteChange, render, patchClientRoutes };
 setFuncodes({
   add: {
     funcode: "ADD",
@@ -78,6 +80,7 @@ setFuncodes({
 export {
   Layout,
   SlaveLayout,
+  NoFoundPage,
   Auth,
   Utils,
   SelectDept,

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import React, { useRef, useEffect } from "react";
-import { Button, Input, message, Select } from "antd";
+import { Button, Input, message, Select,Space } from "antd";
 import { CModal } from "@scboson/sc-element";
 import TableModal from "./table";
 import type {
@@ -152,7 +152,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
   }
   if (selectionType === "checkbox") {
     return (
-      <Input.Group>
+      <Space.Compact>
         <Select
           mode="multiple"
           placeholder={placeholder}
@@ -167,11 +167,11 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
         <Button disabled={disabled} onClick={handleClick}>
           选择
         </Button>
-      </Input.Group>
+      </Space.Compact>
     );
   }
   return (
-    <Input.Group>
+    <Space.Compact>
       <Input
         placeholder={placeholder}
         value={formatInputValue(value)}
@@ -190,7 +190,7 @@ const SupplierTableSelect: FormComponent<SupplierTableSelectProps> = (
         }
         {...resProps}
       />
-    </Input.Group>
+    </Space.Compact>
   );
 };
 SupplierTableSelect.customView = true;

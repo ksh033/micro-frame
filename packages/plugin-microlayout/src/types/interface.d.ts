@@ -18,6 +18,7 @@ export interface LayoutConfig {
   layoutComponent?: Record<string, string>; // 自定义主题
   menuData?: any[];
   localMenuData?: boolean;
+  useAccess?:boolean
   localLayout?: boolean;
   useRunTime?: boolean;
 }

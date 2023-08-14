@@ -13,6 +13,7 @@ import logo from "../../../assets/BiazfanxmamNRoxxVxka.png";
 // @ts-ignore
 import { history } from "umi";
 import "./index.less";
+import { ItemType } from "antd/es/menu/hooks/useItems";
 
 export interface GlobalHeaderRightProps extends Partial<any> {
   currentUser?: GetUser | null;
@@ -48,38 +49,59 @@ class AvatarDropdown extends React.Component<
   render(): React.ReactNode {
     const { currentUser, menu } = this.props;
     // const userAppInfo=currentUser?.userAppInfo;
+    let items: ItemType[] = [];
+
+    if (menu) {
+      items.push({
+        key:'settings',
+        icon:<UserOutlined />,
+        label:'个人设置'
+      })
+      items.push({
+        key:'downloadPlugIN',
+        icon:<DownloadOutlined />,
+        label:'下载打印插件'
+      })
+      items.push({
+       type:'divider'
+      })
+      items.push({
+        key:'logout',
+        icon:<LogoutOutlined />,
+        label:'退出登录'
+       })
+      // items.push(<Menu.Item key="downloadPlugIN">
+      //   <DownloadOutlined />
+      //   <text className="menu-text">下载打印插件</text>
+      // </Menu.Item>)
+      // items.push(<Menu.Divider />)
+      // items.push(<Menu.Item key="logout">
+      //   <LogoutOutlined />
+      //   退出登录
+      // </Menu.Item>)
+
+      if (currentUser && currentUser.optionalDepts.length > 1) {
+        items.unshift(
+          {
+            key:'changeDept',
+            icon:<SettingOutlined />,
+            label:'切换机构'
+           }
+    )
+      }
+
+    }
     const menuHeaderDropdown = (
-      <Menu className="menu" selectedKeys={[]} onClick={this.onMenuClick}>
-        {menu && currentUser && currentUser.optionalDepts.length > 1 ? (
-          <Menu.Item key="changeDept">
-            <SettingOutlined />
-            <text className="menu-text">切换机构</text>
-          </Menu.Item>
-        ) : null}
-        {menu && (
-          <Menu.Item key="settings">
-            <SettingOutlined />
-            <text className="menu-text">个人设置</text>
-          </Menu.Item>
-        )}
-
-        {menu && (
-          <Menu.Item key="downloadPlugIN">
-            <DownloadOutlined />
-            <text className="menu-text">下载打印插件</text>
-          </Menu.Item>
-        )}
-
-        {menu && <Menu.Divider />}
-
-        <Menu.Item key="logout">
-          <LogoutOutlined />
-          退出登录
-        </Menu.Item>
+      <Menu className="menu" selectedKeys={[]} items={items} onClick={this.onMenuClick}>
+        
       </Menu>
     );
     return currentUser && currentUser.realName ? (
-      <HeaderDropdown overlay={menuHeaderDropdown}>
+      <HeaderDropdown menu={{
+        onClick:this.onMenuClick,
+        items,
+        className:'menu'
+      }} placement="bottom" >
         <span className="action account">
           <Avatar
             style={{ marginRight: "8px" }}

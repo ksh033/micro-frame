@@ -136,7 +136,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
 
   if (selectionType === "checkbox") {
     return (
-      <Input.Group>
+      <Space.Compact>
         <Select
           mode="multiple"
           placeholder={placeholder}
@@ -151,11 +151,11 @@ const TabelSelect: FormComponent<TableSelectProps> = (
         <Button disabled={disabled} onClick={handleClick}>
           选择
         </Button>
-      </Input.Group>
+      </Space.Compact>
     );
   }
   return (
-    <Input.Group>
+    <Space.Compact>
       <Input
         placeholder={placeholder}
         value={formatInputValue(value)}
@@ -174,7 +174,7 @@ const TabelSelect: FormComponent<TableSelectProps> = (
         }
         {...resProps}
       />
-    </Input.Group>
+    </Space.Compact>
   );
 };
 TabelSelect.customView = true;

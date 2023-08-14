@@ -2,6 +2,10 @@ import { Layout } from "antd";
 import React, { PropsWithChildren } from "react";
 const { Header, Content } = Layout;
 import Avatar from "../GlobalHeader/AvatarDropdown";
+import { ProLayout } from '@ant-design/pro-layout';
+import { ProConfigProvider } from '@ant-design/pro-provider'
+
+import { ConfigProvider } from 'antd'
 import logo from "../../../assets/logo.svg";
 import { getUser, clearUser } from "../../Auth";
 import { uesRequest } from "../../../utils/api";
@@ -24,35 +28,37 @@ const NotMenuLayouy: React.FC<PropsWithChildren<any>> = (props) => {
         height: "100vh",
       }}
     >
-      <Layout className="ant-pro-basicLayout ">
-        <Header
-          className="ant-pro-fixed-header ant-pro-top-nav-header light"
-          style={{ height: "48px", lineHeight: "48px", padding: 0, zIndex: 99 }}
+      <ProConfigProvider hashed={false}>
+        <ConfigProvider
+          getTargetContainer={() => {
+            return document.getElementById('test-pro-layout') || document.body;
+          }}
         >
-          <div
-            className="ant-pro-top-nav-header-main"
-            style={{
-              justifyContent: "space-between",
-              paddingRight: "24px",
-              paddingLeft: "24px",
+          <ProLayout
+
+        
+token={{header:{heightLayoutHeader:48}}}
+
+
+            contentStyle={{ padding: '0px', minHeight:'calc(100vh - 48px)' }}
+            layout="top"
+            logo={logo}
+            title="长嘴猫平台"
+            actionsRender={() => {
+
+              return [<div className="right" style={{ paddingRight: '24px' }}><Avatar currentUser={user} menu={true} layoutFn={layoutFn} /></div>]
             }}
+
+
+
           >
-            <div
-              className="ant-pro-top-nav-header-main-left ant-pro-top-nav-header-logo"
-              style={{ alignItems: "center" }}
-            >
-              <img src={logo}></img>
-              <h1>长嘴猫平台</h1>
-            </div>
-            <div className="right">
-              <Avatar currentUser={user} menu={true} layoutFn={layoutFn} />
-            </div>
-          </div>
-        </Header>
-        <Content className="ant-pro-basicLayout-content layout-select-content">
-          {props.children}
-        </Content>
-      </Layout>
+            {props.children}
+
+
+          </ProLayout>
+        </ConfigProvider>
+      </ProConfigProvider>
+
     </div>
   );
 };

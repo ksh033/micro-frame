@@ -188,10 +188,12 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const actionRef = useRef<any>();
   /** 远程请求 */
   const request = useRequest(
-    restProps.request ||
-      new Promise((resolve) => {
+    restProps.request || function () {
+      return new Promise((resolve) => {
         resolve(null);
-      }),
+      })
+    }
+    ,
     {
       manual: true,
     }
@@ -293,17 +295,17 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           const component =
             typeof col.component === "function"
               ? React.createElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                })
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              })
               : React.cloneElement(col.component, {
-                  rowData: record,
-                  dataIndex: col.dataIndex,
-                  value: text,
-                  ...comProps,
-                });
+                rowData: record,
+                dataIndex: col.dataIndex,
+                value: text,
+                ...comProps,
+              });
           return component;
         };
       } else if (list && col.render) {

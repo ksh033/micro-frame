@@ -1,7 +1,9 @@
 import SelectDept from "../SelectDept";
 import Login from "../Login";
+import React from "react";
 import RetrievePassword from "../Login/retrievepassword";
 import { getUser } from "../Auth";
+import NoFoundPage from "../Layout/404";
 // @ts-ignore
 import { history } from "umi";
 export function onRouteChange({ location }: any) {
@@ -37,21 +39,48 @@ export function render(oldRender: any) {
   }
 }
 
+
 // 动态加载登录
-export function patchRoutes({ routes }: any) {
+export function patchClientRoutes({ routes }: any) {
   routes.unshift({
     path: "/retrievepassword",
     exact: true,
-    component: RetrievePassword,
+    element: <RetrievePassword />,
   });
   routes.unshift({
     path: "/selectDept",
     exact: true,
-    component: SelectDept,
+    element: <SelectDept />,
   });
   routes.unshift({
     path: "/login",
     exact: true,
-    component: Login,
+    element: <Login />,
+  });
+  routes.unshift({
+    path: "/404",
+    exact: true,
+    element: <NoFoundPage />,
   });
 }
+
+// // 动态加载登录
+// export function patchRoutes({ routes }: any) {
+
+  
+//   routes.unshift({
+//     path: "/retrievepassword",
+//     exact: true,
+//     component: RetrievePassword,
+//   });
+//   routes.unshift({
+//     path: "/selectDept",
+//     exact: true,
+//     component: SelectDept,
+//   });
+//   routes.unshift({
+//     path: "/login",
+//     exact: true,
+//     component: Login,
+//   });
+// }

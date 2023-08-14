@@ -139,7 +139,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
 
   if (selectionType === "checkbox") {
     return (
-      <Input.Group>
+      <Space.Compact>
         <Select
           mode="multiple"
           placeholder={placeholder}
@@ -154,11 +154,11 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         <Button disabled={disabled} onClick={handleClick}>
           选择
         </Button>
-      </Input.Group>
+      </Space.Compact>
     );
   }
   return (
-    <Input.Group>
+    <Space.Compact>
       <Input
         placeholder={placeholder}
         value={formatInputValue(value)}
@@ -177,7 +177,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
         }
         {...resProps}
       />
-    </Input.Group>
+    </Space.Compact>
   );
 };
 WarehouseTableSelect.customView = true;

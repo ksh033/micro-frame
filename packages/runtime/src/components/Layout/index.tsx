@@ -1,10 +1,14 @@
-import { MasterLayout, ProSettings } from "@scboson/sc-layout";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { LayoutContextType, MasterLayout, ProSettings, RouteContext, RouteContextType } from "@scboson/sc-layout";
+import { useContext, useEffect, useLayoutEffect, useMemo, useState, useRef } from "react";
 // @ts-ignore
 import { CModal } from "@scboson/sc-element";
 import { useExternal, useMount } from "ahooks";
 // @ts-ignore
-import { history, Link, useModel } from "umi";
+import { history, Link, useModel, useLocation, useAppData, Outlet } from "umi";
+
+import { filterRoutes, mapRoutes, useAccessMarkedRoutes } from './utils'
+import BsIcon from '../Base/BsIcon'
+import { useUpdate } from 'ahooks'
 import logo from "../../assets/logo.svg";
 import {
   changeApp,
@@ -24,6 +28,7 @@ import menuFormat from "./menuFormat";
 // 是否通知key
 const WhetherNoticeKey = "WHETHER-NOTICE-KEY";
 
+
 export default (props: any) => {
   useExternal("https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", {
     async: false,
@@ -31,51 +36,73 @@ export default (props: any) => {
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
   });
+  const update = useUpdate()
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
   const user = getUser();
   const userAppInfo = user?.chooseDeptVO;
-  const useLocation = user?.userAppInfo.currentDept?.useLocation || false;
+  const useWmsLocation = user?.userAppInfo.currentDept?.useLocation || false;
+  const location = useLocation();
+  const { clientRoutes, pluginManager } = useAppData();
+  // 现在的 layout 及 wrapper 实现是通过父路由的形式实现的, 会导致路由数据多了冗余层级, proLayout 消费时, 无法正确展示菜单, 这里对冗余数据进行过滤操作
+  const newRoutes = filterRoutes(clientRoutes.filter(route => route.id === 'layout' || route.id == '@@/global-layout'), (route) => {
+    return (!!route.isLayout && (route.id !== 'layout' && route.id !== "@@/global-layout")) || !!route.isWrapper;
+  })
+  const [route] = mapRoutes(newRoutes);
+
 
   const { loadDict } = userDictModel();
   const { loadWeight } = useWeightUnit();
   const { loadLocationarae } = userLocationarea();
-  const systemList = appData || user?.chooseDeptVO?.currentDept.menus || [];
+  // const systemList = appData || user?.chooseDeptVO?.currentDept.menus || [];
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
   const { setQiankunGlobalState } =
     useModel("@@qiankunStateForSlave") ||
     useModel("@@qiankunStateFromMaster") ||
     {};
+  const currentSysRef = useRef<any>(getUserAppCode() || getAppCode());
 
-  const appSelectedKeys = getUserAppCode() || getAppCode();
-  const apps = systemList.map((sys) => ({
-    name: sys.name || sys.systemName,
-    code: sys.pageUrl || sys.systemCode,
-    disabled: user?.needModifyPwd,
-    isApp: true,
-    path: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
-  }));
-  // const mdata = menuData ? menuData : userAppInfo?.currentSystem?.menus || [];
 
   const mdata = useMemo(() => {
-    let newMenuData = menuData;
+    let newMenuData: any[] | undefined = menuData;
     if (newMenuData == null) {
-      const menuList = Array.isArray(userAppInfo?.currentDept.menus)
-        ? userAppInfo?.currentDept.menus
-        : [];
-      if (menuList) {
-        const currentSystem = menuList.find(
-          (it) => it.pageUrl === appSelectedKeys
-        );
-        if (currentSystem && Array.isArray(currentSystem.children)) {
-          newMenuData = currentSystem.children;
-        }
+
+
+      newMenuData = userAppInfo?.currentDept.menus;
+
+      newMenuData?.forEach((item) => {
+        const code = `sc-icon-${item.pageUrl}`
+        item.iconUrl = <BsIcon name={code} type={code}></BsIcon>
+        // item.key=item.pageUrl
+        item.systemCode = item.pageUrl
+        item.id = item.pageUrl
+        item.isApp = true
+      })
+
+    } else {
+      //处理本地单应用
+      //const [app]=apps;
+      const [sys] = appData
+
+      const newApp = {
+        //  name: sys.systemName,
+        functionName: sys.systemName,
+        // code: sys.systemCode || sys.pageUrl,
+        id: sys.systemCode || sys.systemCode,
+        disabled: user?.needModifyPwd,
+        iconUrl: <BsIcon name={sys.systemCode} type={sys.systemCode}></BsIcon>,
+        isApp: true,
+        systemCode: sys.systemCode,
+        pageUrl: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
+        path: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
       }
+
+      newMenuData = [{ ...newApp, children: newMenuData }];
     }
     return newMenuData;
-  }, [menuData, appSelectedKeys]);
+  }, [menuData]);
 
   useLayoutEffect(() => {
     // 初始化内置值
@@ -85,7 +112,7 @@ export default (props: any) => {
     // 加载计重单位
     loadWeight();
 
-    if (useLocation) {
+    if (useWmsLocation) {
       // 加载库区或者档口
       loadLocationarae();
     }
@@ -127,7 +154,17 @@ export default (props: any) => {
         },
       });
     }
+
+    // if (!setQiankunGlobalState.routeContextRef){
+    //   setQiankunGlobalState({ routeContext: routeContextRef.current})
+    // }
+    // console.log("routeContextRef", routeContextRef)
   });
+
+  const routeContextRef = useRef<RouteContextType&LayoutContextType>()
+
+
+
 
   return (
     <div
@@ -137,22 +174,35 @@ export default (props: any) => {
       }}
     >
       <MasterLayout
+        ref={routeContextRef}
         logo={logo}
-        apps={apps}
+        route={route}
+        location={location}
+        // apps={apps}
         onPageChange={(location, menuItem) => {
           if (menuItem && menuItem.key)
             setQiankunGlobalState &&
-              setQiankunGlobalState({ currentMenu: menuItem });
+              setQiankunGlobalState({ currentMenu: menuItem, routeContext: routeContextRef.current });
         }}
         appMenuProps={{
-          onSelect: async (keys: any) => {
-            if (keys && keys.length > 0) {
-              if (!changeApp(keys[0])) {
-                changeApp(keys[0]);
-              }
-              history.push("/" + keys[0]);
-            }
-          },
+          // onSelect: async ({ selectedKeys }) => {
+
+
+          //   const keys = selectedKeys
+          //   if (keys && keys.length > 0) {
+          //     if (!changeApp(keys[0])) {
+          //       changeApp(keys[0]);
+          //     }
+          //    const item= mdata?.find(({id})=>{
+          //       return id=keys[0]
+          //     })
+          //     if (item){
+          //       update()
+          //      // history.push("/" + item.pageUrl);
+          //     }
+
+          //   }
+          // },
         }}
         itemRender={({ breadcrumbName, path }: any) => {
           const { routerBase = "/" } = window;
@@ -166,20 +216,38 @@ export default (props: any) => {
             breadcrumbName
           );
         }}
-        appSelectedKeys={[appSelectedKeys]}
+        appSelectedKeys={[currentSysRef.current]}
         {...restProps}
         menuDataRender={() => {
           const menus = menuFormat.formatMenu(
             mdata || [],
             [],
-            appSelectedKeys,
+            "",
             localMenuData
           );
           return menus;
         }}
-        menuFooterRender={(_props: any) => {}}
+        menuFooterRender={(_props: any) => { }}
+
+        // menuItemRender={(menuItemProps, defaultDom) => {
+        //   if (menuItemProps.isUrl || menuItemProps.children) {
+        //     return defaultDom;
+        //   }
+        //   if (menuItemProps.path && location.pathname !== menuItemProps.path) {
+        //     return (
+        //       // handle wildcard route path, for example /slave/* from qiankun
+        //       <Link to={menuItemProps.path.replace('/*', '')} target={menuItemProps.target}>
+        //         {defaultDom}
+        //       </Link>
+        //     );
+        //   }
+        //   return defaultDom;
+        // }}
         menuItemRender={(item: any, dom) => {
+
+
           const { path } = item;
+
 
           if (item.isApp) {
             return <a>{dom}</a>;
@@ -187,6 +255,12 @@ export default (props: any) => {
           return (
             <Link
               onClick={() => {
+                console.log(item)
+                if (item.syscode !== currentSysRef.current) {
+                  currentSysRef.current = item.syscode
+                  changeApp(currentSysRef.current);
+
+                }
                 sessionStorage.removeItem("SEARCH_PARAMS");
               }}
               to={{
@@ -203,8 +277,12 @@ export default (props: any) => {
         {...settings}
         navTheme="light"
       >
+
+        
         {children}
       </MasterLayout>
     </div>
   );
 };
+
+

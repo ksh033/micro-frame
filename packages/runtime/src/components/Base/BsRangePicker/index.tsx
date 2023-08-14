@@ -221,7 +221,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
   const newProps = useMemo(() => {
     return {
       ...resProps,
-      ranges: temranges,
+      presets: temranges,
       showTime:
         typeof showTime === "object" && showTime !== null
           ? showTime

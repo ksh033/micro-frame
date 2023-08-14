@@ -1,8 +1,24 @@
+@import '~antd/es/style/reset.css';
 
 html,
 body,
 #root {
   height: 100%;
+}
+
+.sc-app-warp {
+  height: 100%;
+
+  .sc-app {
+    height: 100%;
+
+    >div{
+      height: 100%;
+    }
+
+   
+  }
+
 }
 
 .colorWeak {
@@ -36,13 +52,14 @@ ol {
     width: 100%;
     overflow-x: auto;
 
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
+    &-thead>tr,
+    &-tbody>tr {
+
+      >th,
+      >td {
         white-space: pre;
 
-        > span {
+        >span {
           display: block;
         }
       }

@@ -1,5 +1,5 @@
 import { createFromIconfontCN } from "@ant-design/icons";
-const iconfont = require("../../../assets/iconfont");
+const iconfont = require("../../../../publish/iconfont");
 
-const IconFont = createFromIconfontCN();
+const IconFont = createFromIconfontCN({});
 export default IconFont;

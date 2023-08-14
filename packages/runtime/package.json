@@ -1,12 +1,13 @@
 {
   "name": "@micro-frame/sc-runtime",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0-alpha.2",
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",
+    "public",
     "src",
     "dist",
     "es"
@@ -25,34 +26,41 @@
     "*.less"
   ],
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
+    "@ant-design/icons": "^5.1.4",
     "@babel/runtime": "^7.18.0",
     "@scboson/client-plugin": "alpha",
-    "@scboson/sc-element": "link:../../sc-boson/packages/element",
-    "@scboson/sc-layout": "link:../../sc-boson/packages/layout",
-    "@scboson/sc-schema": "link:../../sc-boson/packages/schema",
+    "@scboson/sc-element": "alpha",
+    "@scboson/sc-layout": "alpha",
+    "@scboson/sc-schema": "alpha",
     "@scboson/sc-utils": "alpha",
-    "ahooks": "^3.7.6",
-    "axios": "^1.3.5",
-    "classnames": "^2.3.2",
-    "dayjs": "^1.11.7",
+    "axios": "^1.4.0",
     "lodash": "^4.17.21",
-    "@umijs/renderer-react":"^4.0.64",
-    "moment": "^2.29.4",
-    "query-string": "^8.1.0",
-    "rc-picker": "^3.6.2",
-    "rc-util": "^5.30.0",
+    "query-string": "^6.14.1",
     "react-amap": "^1.2.8"
   },
   "scripts": {
     "build:dev": "father doctor && father dev",
     "build": "father doctor && father build"
   },
+  "devDependencies": {
+    "father": "^4.2.3"
+  },
   "keywords": [],
   "authors": [],
   "license": "MIT",
   "peerDependencies": {
-    "antd": ">=4.23.0",
+    "@ant-design/pro-card": ">=2.5.1",
+    "@ant-design/pro-layout": ">=7.15.2",
+    "@ant-design/pro-provider": ">=2.10.5",
+    "@ant-design/pro-utils": ">=2.12.1",
+    "@umijs/renderer-react": "4.x",
+    "@umijs/route-utils": ">=4.0.0",
+    "ahooks": ">3.7.7",
+    "antd": ">=4.23.0 || >=5.6.0",
+    "classnames": ">=2.3.2",
+    "dayjs": ">=1.x",
+    "moment": ">=2.x",
+    "rc-util": ">=5.36.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
     "umi": "4.x"

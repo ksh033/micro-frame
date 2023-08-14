@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, Button, Tabs, Modal, Spin } from "antd";
 import { urlSafeBase64Decode, urlSateBase64Encode } from "../../utils/common";
 import SMSCode from "../SMSCode";
@@ -11,9 +11,7 @@ import queryString from "query-string";
 
 import styles from "./index.less";
 
-console.log("styles", styles)
 
-console.log("style1s", require('./index.less'))
 import logo from "../../assets/login/logo.png";
 import phonepng from "../../assets/login/u650.png";
 import wxpng from "../../assets/login/u651.png";
@@ -22,7 +20,7 @@ import createWxLoginQr from "../../wxConfig";
 
 const { TabPane } = Tabs;
 const { parse } = queryString;
-const Encrypt = require("../../assets/jsencrypt.min");
+const Encrypt = require("../../../publish/jsencrypt.min.js");
 console.log(Encrypt)
 const Login: React.FC<any> = (props: any) => {
   const [activeKey, setActiveKey] = useState("wx");

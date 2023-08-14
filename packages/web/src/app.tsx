@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 
-import ttt from './global.less'
-console.log(ttt)
-import test1 from './test.less'
-console.log(test1)
+
+ 
 import {
   Auth,
   Login,
@@ -22,6 +20,8 @@ let masterUrl = SC_MASTER_URL || "";
 window.masterWindow = window;
 
 export const qiankun = new Promise((resolve) => {
+
+  
   const data = [
     { systemCode: "basesys", systemName: "基础数据应用" },
     { systemCode: "mallsys", systemName: "商城管理应用" },
@@ -38,7 +38,7 @@ export const qiankun = new Promise((resolve) => {
   const apps: any[] = [];
   const routes: any[] = [];
   const { protocol, host } = window.location;
-  masterUrl = `${protocol}//${host}/`;
+ // masterUrl = `${protocol}//${host}/`;
   data.forEach((item: { systemCode: any; systemName: any }) => {
     const { systemCode } = item;
     // console.log(`${masterUrl}micro-${systemCode}/`)
@@ -49,6 +49,11 @@ export const qiankun = new Promise((resolve) => {
       entry: `${masterUrl}micro-${systemCode}/?version=${moment().format(
         "YYYYMMDD"
       )}`,
+      props: {
+        accountOnClick: (event:any) => console.log(event),
+        accountName: 'Alex',
+        accountAge: 21,
+      },
       activeRule: `/${systemCode}`,
       // entry: `${masterUrl}${systemCode}/`,
       // activeRule: `/micro-${systemCode}`,
@@ -57,8 +62,17 @@ export const qiankun = new Promise((resolve) => {
     routes.push({
       path: `/${systemCode}`,
       microApp: systemCode,
+
       microAppProps: {
         autoSetLoading: true,
+        errorBoundary:(error:any)=>{
+
+
+          return <div>{error.message}</div>
+
+        },
+        className:"sc-app",
+        wrapperClassName:"sc-app-warp",
         autoCaptureError: true,
       },
     });
@@ -66,7 +80,7 @@ export const qiankun = new Promise((resolve) => {
   resolve({
     apps,
     routes,
-
+sendbox:{strictStyleIsolation:true},
     excludeAssetFilter: (assetUrl: string) => {
       if (assetUrl.indexOf("127.0.0.1") > -1) {
         return true;
@@ -74,17 +88,29 @@ export const qiankun = new Promise((resolve) => {
       return false;
     },
     lifeCycles: {
-      beforeLoad: (app: any, scope: any) => {
+      beforeMount: (app: any, scope: any) => {
+      // @ts-ignore
+       if (window._LayoutContext&&app.props){
+      // @ts-ignore
+        app.props.layoutContext=window._LayoutContext
+       }
+       // const t=useContext(RouteContext)
+      //  console.log(t)
         scope.userAppCode = getUserAppCode();
         // @ts-ignore
         window.userAppCode = getUserAppCode();
+     
       },
 
       afterMount: (props: any, scope: any) => {
+       
+
         scope.userAppCode = getUserAppCode();
         // 主应用userAppCode
         // @ts-ignore
         window.userAppCode = getUserAppCode();
+
+        console.log("afterMount",props)
       },
     },
   });

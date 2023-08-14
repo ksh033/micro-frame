@@ -4,7 +4,7 @@ export default (
   path: string
 ) => `import React, { useState, useEffect } from "react";
 import { ApplyPluginsType, useModel,useAppData} from "umi";
-
+import 'antd/es/style/reset.css';
 import LayoutComponent from '${path}';
 import {Auth} from '@micro-frame/sc-runtime';
 

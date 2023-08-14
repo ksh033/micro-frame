@@ -31,6 +31,8 @@ const imageMap = {
   SUPPLIER: require("../../assets/selectDept/supplier.svg"), // 加工中心
 };
 
+console.log(imageMap)
+
 /** 机构对应的背景图 */
 const colorMap = {
   COMPANY: "rgba(47, 84, 235, 0.16)",
@@ -105,7 +107,7 @@ const SelectDept: React.FC<any> = (props) => {
         history.push("/");
       }
     } else {
-      message.warn("找不到该组织");
+      message.warning("找不到该组织");
     }
   };
 

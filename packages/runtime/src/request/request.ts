@@ -280,7 +280,7 @@ const config: RequestConfig = {
             // window.location="/login";
             const his = window.masterHistory || history;
             clearUser();
-            message.warn(errorInfo.errorShowTip || errorInfo.errorMessage);
+            message.warning(errorInfo.errorShowTip || errorInfo.errorMessage);
             his.push({
               pathname: "/login",
             });
@@ -290,7 +290,7 @@ const config: RequestConfig = {
             case ErrorShowType.SILENT:
               break;
             case ErrorShowType.WARN_MESSAGE:
-              message.warn(errormsg);
+              message.warning(errormsg);
               break;
             case ErrorShowType.ERROR_MESSAGE:
               message.error(errormsg);

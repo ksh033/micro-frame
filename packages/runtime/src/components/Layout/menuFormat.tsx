@@ -1,9 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import { MenuDataItem } from "@scboson/sc-layout";
 import React from "react";
-import { AppstoreFilled } from "@ant-design/icons";
 
-export const getRouterData = (routerConfig: any[]) => {
+export const getRouterData = (routerConfig: any[],basename) => {
   let routerData = {};
   routerConfig.forEach((item) => {
     const { exact, path } = item;
@@ -12,44 +11,60 @@ export const getRouterData = (routerConfig: any[]) => {
       path,
     };
     if (item.routes) {
-      routerData = { ...routerData, ...getRouterData(item.routes) };
+      routerData = { ...routerData, ...getRouterData(item.routes,basename) };
     }
-    routerData[path] = router;
+    
+    routerData[`${basename}/${path}`] = router;
   });
   return routerData;
 };
-function getMenuMap(menu: any[], routes: any): any[] {
-  const routersMap = new Map<string, any>();
-  const menuMap = new Map<string, any>();
+function getMenuMap(menu: any[], routes: any,basename): any[] {
+  const routersMap = {};
+  const menuMap = {};
 
-  // const _routerMap = getRouterData(routes);
-
+ //const _routerMap = getRouterData(routes,basename);
+//console.log("_routerMap",_routerMap)
   const getAllRoute = (_menu: any) => {
     _menu.forEach((item: any) => {
+      const syscode=`${item["syscode"]}`;
+      const funcodes=`${item["funcodes"]}`;
+      if (funcodes){
+        
+      }
       if (item["key"]) {
         const mapkey = `${item["key"]}`;
-        menuMap.set(mapkey.toLowerCase(), item);
+        if (!menuMap[syscode]){
+          menuMap[syscode]={}
+        }
+        menuMap[syscode][mapkey.toLowerCase()]=item
+      //  menuMap.get(syscode).set(mapkey.toLowerCase(),item)
+        //menuMap.set(syscode+'_'+mapkey.toLowerCase(), item);
       }
 
       if (item["path"]) {
+        if (!routersMap[syscode]){
+          routersMap[syscode]={}
+        }
         const mapkey = item["path"];
-        // const dy = `${mapkey}/:editpage`;
-        // if (_routerMap[dy]) {
-        //   const { key, path } = item;
-        //   if (!item.children) {
-        //     item.children = [];
-        //   }
-        //   actions.forEach((actionItem: any) => {
-        //     item.children.push({
-        //       title: actionItem.name,
-        //       key: `${key}_${actionItem.action}`,
-        //       pkey: key,
-        //       hidden: true,
-        //       path: `${path}/${actionItem.action}`,
-        //     });
-        //   });
-        // }
-        routersMap.set(mapkey.toLowerCase(), item);
+     
+     
+        if (funcodes){
+
+          const list=funcodes.split("|")
+
+          if (list.includes("ADD")|| list.includes("EDIT")|| list.includes("READ")|| list.includes("DISPOSE")|| list.includes("AUDIT")|| list.includes("RECHECK")){
+            const dy = `${mapkey}/:editpage`;
+            routersMap[syscode][dy.toLowerCase()]=item
+
+          }
+
+        }
+        if (syscode==="bisys"){
+         // console.log("path",item["path"])
+         // console.log("getMenuMap",routersMap[syscode])
+        }
+        routersMap[syscode][mapkey.toLowerCase()]=item
+      
       }
       if (item.children && item.children.length > 0) {
         getAllRoute(item.children);
@@ -76,7 +91,7 @@ const menuMap = {};
 const formatMenu = (
   menus: any[],
   parnetKeys: string[],
-  appCode: string,
+  syscode: string,
   localData
 ) => {
   // const {routersMap, menuMap }=getMenuMap(menus,[]);
@@ -88,6 +103,7 @@ const formatMenu = (
       parentId,
       pageUrl,
       //  permCode,
+      isApp,
       systemCode,
       functionName,
       //functionType,
@@ -96,10 +112,14 @@ const formatMenu = (
     } = item;
 
     const funcodes: any[] = [];
+    let currentSysCode=systemCode||syscode
     let newChildren: MenuDataItem[] = [];
     if (children && children.length > 0) {
       const pKeys = [...parnetKeys, id];
-      newChildren = formatMenu(children, pKeys, appCode, localData);
+    
+        newChildren = formatMenu(children, pKeys,currentSysCode , localData);
+   
+   
 
       children.forEach((citem: any) => {
         if (citem.functionType) {
@@ -140,7 +160,10 @@ const formatMenu = (
         rpath = tem.join("/");
       }
     }
-
+if (rpath.lastIndexOf("/")===rpath.length-1){
+  rpath=rpath.substring(0,rpath.length-1)
+}
+   
     // newChildren=newChildren.filter((i)=>(i))
     return {
       name: functionName,
@@ -149,12 +172,13 @@ const formatMenu = (
       pkey: parentId,
       path: rpath,
       funcodes: funcodes.join("|"),
-      icon: iconUrl || <AppstoreFilled />,
+      icon: iconUrl,
       parentKeys: parnetKeys,
       pageUrl,
       // id,
-      syscode: systemCode,
+      syscode: currentSysCode,
       children: newChildren,
+      isApp:isApp,
       routes: newChildren,
       hideChildrenInMenu: hiddenChild,
       hideInMenu: dataType === "FUNC",

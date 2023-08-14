@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, InputNumber, Input } from "antd";
+import { Form, InputNumber, Input,Space } from "antd";
 import {
   FormComponentProps,
   FormComponent,
@@ -47,7 +47,7 @@ const Volume: FormComponent<VolumeProps> = (props: any) => {
 
   return (
     <Form.Item noStyle>
-      <Input.Group compact>
+      <Space.Compact >
         <Form.Item
           name={volume?.length}
           rules={[{ required: true, message: "请输入长" }]}
@@ -68,7 +68,7 @@ const Volume: FormComponent<VolumeProps> = (props: any) => {
         >
           <InputNumber {...inputNumberProps} placeholder="高 mm"></InputNumber>
         </Form.Item>
-      </Input.Group>
+      </Space.Compact >
     </Form.Item>
   );
 };

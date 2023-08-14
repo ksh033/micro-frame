@@ -9,7 +9,7 @@ import styles from "./index.less";
 import logo from "../../assets/login/logo.png";
 import { chenkPwdStrength } from "./components/check";
 
-const Encrypt = require("../../assets/jsencrypt.min");
+const Encrypt = require("../../../publish/jsencrypt.min");
 
 const RetrievePassword: React.FC<any> = (props: any) => {
   const { location } = props;

@@ -1,20 +1,25 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useMemo } from "react";
-import { PageContainer as APageContainer } from "@scboson/sc-layout";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
+import { PageContainer as APageContainer, LayoutContext } from "@scboson/sc-layout";
 import type { PageContainerProps } from "@scboson/sc-layout";
 import AuthButton from "../../Auth/AuthButton";
 import "./index.less";
 import { HButtonType } from "@scboson/sc-schema/es/interface";
 import debounce from "lodash/debounce";
+import { useMount,useSize } from "ahooks";
 
 export type ScPageContainerProps = Omit<PageContainerProps, "footer"> & {
   footer?: HButtonType[];
 };
 
 const PageContainer: React.FC<ScPageContainerProps> = (props) => {
-  const { children, footer } = props;
+  const { children, footer,...restProps } = props;
 
-  const efooter = useMemo(() => {
+ const conRef=useRef<HTMLDivElement>();
+ //const ref = useRef(null);
+ const size = useSize(conRef);
+
+  const efooter:any = useMemo(() => {
     /** 表单顶部合并 以及通用方法引入 */
     let mergedFormButtons: React.ReactNode[] = [];
     if (Array.isArray(footer)) {
@@ -40,11 +45,39 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
     return mergedFormButtons;
   }, [footer]);
 
+
+  // const context=useContext(LayoutContext);
+
+  // useEffect(()=>{
+  //    if (context.setPageContainerHeight) {
+  //     if (size){
+  //       if (size.height!==context.pageContainerHeight)
+  //       context.setPageContainerHeight(size.height)
+  //       console.log("PageContainer Change",size)
+  //     }
+
+  //    }
+   
+  //   console.log("PageContainer",size)
+
+  // },[size?.height])
+  // useMount(()=>{
+
+  //   if (conRef.current){
+  //    if (context.setPageContainerHeight) {
+  //     context.setPageContainerHeight(conRef.current.getBoundingClientRect().height)
+
+  //    }
+   
+  //     console.log("PageContainer",conRef.current,  conRef.current.getBoundingClientRect(),   conRef.current.clientHeight)
+  //   }
+
+  // })
   return (
     //@ts-ignore
-    <div tabIndex={1} className="sc-page-container">
-      <APageContainer {...props} footer={efooter}>
-        {children}
+    <div tabIndex={1}  className="sc-page-container">
+      <APageContainer {...restProps} footer={efooter}>
+     {children}
       </APageContainer>
     </div>
   );
