@@ -23,7 +23,7 @@ function WithTable<P extends WithTableProps>(
   const Cmp = (p: P) => {
     const update = useUpdate();
     const page = useListPageContext();
-    const search = page.getSearch({});
+    const search = page.getSearch({ initialValues: p.initialValues });
     const pageTable = page.getTable();
     let props = p;
     if (extProps) {
