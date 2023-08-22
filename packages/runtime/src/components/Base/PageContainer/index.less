@@ -1,21 +1,7 @@
 .sc-page-container {
   outline: none;
   height: 100%;
-}
-.ant-pro-page-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  .ant-pro-grid-content {
-    flex: 1;
-    .ant-pro-page-container-children-content {
-      background: #fff;
-    }
-  }
-  .ant-page-header{
-
-    background: #fff;
-  }
+  overflow: hidden;
   .ant-pro-footer-bar-right {
     width: 100%;
     display: flex;
@@ -30,13 +16,36 @@
   .ant-pro-footer-bar-right .print-btn .ant-btn {
     margin-right: 0 !important;
   }
-
-  .ant-pro-card-col {
+  .ant-pro-page-container {
+    height: 100%;
     display: flex;
-    overflow: hidden;
-
-    .ant-pro-card-body {
-      padding: 8px;
+    flex-direction: column;
+    .ant-pro-grid-content {
+      flex: 1;
+      .ant-pro-page-container-children-content {
+        background: #fff;
+      }
+    }
+    .ant-page-header{
+  
+      background: #fff;
+    }
+    .ant-pro-page-container-children-container{
+      padding-block:inherit;
+      padding-inline:inherit;
+      margin-block:24px;
+      margin-inline: 24px;
+      background-color: #fff;
+    }
+  
+    .ant-pro-card-col {
+      display: flex;
+      overflow: hidden;
+  
+      .ant-pro-card-body {
+        padding: 8px;
+      }
     }
   }
 }
+

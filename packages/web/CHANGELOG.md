@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-beta.79](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.79) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.78](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.78) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.77](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.77) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.76](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.76) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.75](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.75) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.74](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.74) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
+## [1.0.1-beta.73](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.73) (2023-08-14)
+
+**Note:** Version bump only for package @micro-frame/sc-web
+
+
+
+
+
 ## [1.0.1-beta.72](https://github.com/ant-design/pro-components/compare/@micro-frame/sc-web@1.0.1-beta.69...@micro-frame/sc-web@1.0.1-beta.72) (2023-08-10)
 
 **Note:** Version bump only for package @micro-frame/sc-web

@@ -1,25 +1,25 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useContext, useEffect, useMemo, useRef } from "react";
-import { PageContainer as APageContainer, LayoutContext } from "@scboson/sc-layout";
+import { PageContainer as APageContainer, LayoutContext, RouteContext } from "@scboson/sc-layout";
 import type { PageContainerProps } from "@scboson/sc-layout";
+import {ScContext} from '@scboson/sc-element'
 import AuthButton from "../../Auth/AuthButton";
 import "./index.less";
 import { HButtonType } from "@scboson/sc-schema/es/interface";
 import debounce from "lodash/debounce";
-import { useMount,useSize } from "ahooks";
+import { useMount, useSize } from "ahooks";
 
 export type ScPageContainerProps = Omit<PageContainerProps, "footer"> & {
   footer?: HButtonType[];
 };
 
 const PageContainer: React.FC<ScPageContainerProps> = (props) => {
-  const { children, footer,...restProps } = props;
+  const { children, footer, ...restProps } = props;
 
- const conRef=useRef<HTMLDivElement>();
- //const ref = useRef(null);
- const size = useSize(conRef);
+  const conRef = useRef<HTMLDivElement>(null);
 
-  const efooter:any = useMemo(() => {
+
+  const efooter: any[] = useMemo(() => {
     /** 表单顶部合并 以及通用方法引入 */
     let mergedFormButtons: React.ReactNode[] = [];
     if (Array.isArray(footer)) {
@@ -46,7 +46,9 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   }, [footer]);
 
 
-  // const context=useContext(LayoutContext);
+ const context=useContext(RouteContext);
+
+ console.log("hasFooter",context.hasFooterToolbar)
 
   // useEffect(()=>{
   //    if (context.setPageContainerHeight) {
@@ -57,7 +59,7 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   //     }
 
   //    }
-   
+
   //   console.log("PageContainer",size)
 
   // },[size?.height])
@@ -68,17 +70,19 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   //     context.setPageContainerHeight(conRef.current.getBoundingClientRect().height)
 
   //    }
-   
+
   //     console.log("PageContainer",conRef.current,  conRef.current.getBoundingClientRect(),   conRef.current.clientHeight)
   //   }
 
   // })
   return (
     //@ts-ignore
-    <div tabIndex={1}  className="sc-page-container">
-      <APageContainer {...restProps} footer={efooter}>
-     {children}
+    <div tabIndex={1} className="sc-page-container" ref={conRef}>
+      <ScContext.ContainerContext.Provider value={{type:'page',domRef:conRef,extraHeight:context.hasFooterToolbar?84:0}}>
+      <APageContainer {...restProps}  fixedHeader footerToolBarProps={{portalDom:false}} footer={efooter.length > 0 ? efooter : undefined}>
+        {children}
       </APageContainer>
+      </ScContext.ContainerContext.Provider>
     </div>
   );
 };

@@ -1,26 +1,18 @@
 import { ScSearchBar } from "@scboson/sc-element";
-import ToolBar from "../ToolBar";
 
-import styles from "./index.less";
+import   "./index.less";
 
 const BsSearch = (props: any) => {
   const { customBtn, ...resProps } = props;
 
-  const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0;
+ // const hasToolBar = Array.isArray(toolbar) && toolbar.length > 0;
 
   return (
     <>
-      {/* {hasToolBar ? (
-        <div className={styles['bs-search-toolbar']}>
-          <ToolBar
-            buttons={toolbar}
-            className={styles['bs-table-toolbar-btn']}
-          ></ToolBar>
-        </div>
-      ) : null} */}
-      <div className={styles["bs-supplier-search"]}>
-        <ScSearchBar {...resProps} customBtn={customBtn}></ScSearchBar>
-      </div>
+     
+    
+        <ScSearchBar className={"bs-supplier-search"} {...resProps} customBtn={customBtn}></ScSearchBar>
+     
     </>
   );
 };

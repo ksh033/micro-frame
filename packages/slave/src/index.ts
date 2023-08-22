@@ -61,7 +61,7 @@ export const EVN_CONFIG = {
 //micro-basic
 let base = "/";
 if (packageName.indexOf("micro-") > -1) {
-  base = "/" + packageName.replace("micro-", "");
+  base =  packageName.replace("micro-", "");
 }
 
 const publicPath = NODE_ENV === "production" ? `/${packageName}/` : `/${base}/`;

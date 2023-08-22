@@ -25,6 +25,7 @@ import useWeightUnit from "../Dict/weightUnit";
 import RightContent from "./GlobalHeader/RightContent";
 import "./index.less";
 import menuFormat from "./menuFormat";
+import { ConfigProvider } from "antd";
 // 是否通知key
 const WhetherNoticeKey = "WHETHER-NOTICE-KEY";
 
@@ -161,7 +162,7 @@ export default (props: any) => {
     // console.log("routeContextRef", routeContextRef)
   });
 
-  const routeContextRef = useRef<RouteContextType&LayoutContextType>()
+  const routeContextRef = useRef<RouteContextType & LayoutContextType>()
 
 
 
@@ -173,6 +174,11 @@ export default (props: any) => {
         height: "100vh",
       }}
     >
+      <ConfigProvider
+        getTargetContainer={() => {
+          return document.getElementById('test-pro-layout') || document.body;
+        }}
+      >
       <MasterLayout
         ref={routeContextRef}
         logo={logo}
@@ -278,9 +284,10 @@ export default (props: any) => {
         navTheme="light"
       >
 
-        
+
         {children}
       </MasterLayout>
+      </ConfigProvider>
     </div>
   );
 };

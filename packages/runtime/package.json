@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-runtime",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.9",
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
@@ -8,6 +8,7 @@
   "files": [
     "lib",
     "public",
+    "publish",
     "src",
     "dist",
     "es"
@@ -29,9 +30,9 @@
     "@ant-design/icons": "^5.1.4",
     "@babel/runtime": "^7.18.0",
     "@scboson/client-plugin": "alpha",
-    "@scboson/sc-element": "alpha",
-    "@scboson/sc-layout": "alpha",
-    "@scboson/sc-schema": "alpha",
+    "@scboson/sc-element": "^2.1.0-alpha.3",
+    "@scboson/sc-layout": "^2.1.0-alpha.3",
+    "@scboson/sc-schema": "^2.1.0-alpha.3",
     "@scboson/sc-utils": "alpha",
     "axios": "^1.4.0",
     "lodash": "^4.17.21",
@@ -53,8 +54,8 @@
     "@ant-design/pro-layout": ">=7.15.2",
     "@ant-design/pro-provider": ">=2.10.5",
     "@ant-design/pro-utils": ">=2.12.1",
-    "@umijs/renderer-react": "4.x",
-    "@umijs/route-utils": ">=4.0.0",
+    "@umijs/renderer-react": ">4.0.0",
+    "@umijs/route-utils": ">4.0.0",
     "ahooks": ">3.7.7",
     "antd": ">=4.23.0 || >=5.6.0",
     "classnames": ">=2.3.2",
@@ -63,7 +64,7 @@
     "rc-util": ">=5.36.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
-    "umi": "4.x"
+    "umi": ">4.0.0"
   },
   "publishConfig": {
     "access": "public"

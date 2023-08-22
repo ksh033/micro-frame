@@ -8,10 +8,8 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "strict": true,
-
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "skipLibCheck": true,
     "paths": {

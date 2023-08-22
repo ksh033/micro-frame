@@ -545,10 +545,10 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
 
   return (
     <>
-      <div className={"bs-table-list"} style={{ width: "100%" }} ref={ref}>
-        <ScTable
+      <ScTable
           scroll={{ ...scroll }}
           size="small"
+          className="bs-table-list"
           onLoad={dataLoad}
           data={data}
           columns={newColumns}
@@ -566,7 +566,6 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
           {...defaultSummary}
           {...restProps}
         />
-      </div>
     </>
   );
 };

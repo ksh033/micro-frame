@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"],
+      "@publish/*": ["publish/*"],
       "@@service": ["src/services/api.ts"]
     }
   },

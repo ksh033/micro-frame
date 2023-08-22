@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.9](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.9) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.8](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.8) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.7](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.7) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.6](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.6) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.5](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.5) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.4](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.4) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+# [2.0.0-alpha.3](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.3) (2023-08-14)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
 # [2.0.0-alpha.2](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.2) (2023-08-10)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime

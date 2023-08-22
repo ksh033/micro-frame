@@ -72,35 +72,37 @@ const SlaveLayout = (componentProps: any) => {
         title,
         setHasPageContainer: routeContext.setHasPageContainer,
         hasPageContainer: routeContext.hasPageContainer,
+        setHasFooterToolbar: routeContext.setHasFooterToolbar,
+        hasFooter: routeContext.hasFooter,
         breadcrumb: { items: routeContext.breadcrumb.items, itemRender: defaultItemRender },
         //menuData: routeContext.menuData,
         hasFooterToolbar: true,
       }}
     >
-<ProConfigProvider token={{
+      <ProConfigProvider token={{
 
-layout:{
-  pageContainer:{
-    paddingInlinePageContainerContent:24
-  }
-}
-}}>
-      <ErrorBoundary>
+        layout: {
+          pageContainer: {
+            paddingInlinePageContainerContent: 24
+          }
+        }
+      }}>
+        <ErrorBoundary>
 
-        <Exception
-          route={matchedRoute}
+          <Exception
+            route={matchedRoute}
 
-        >
-         
+          >
+
             {children}
 
-   
 
-        </Exception>
 
-      </ErrorBoundary>
+          </Exception>
 
-</ProConfigProvider>
+        </ErrorBoundary>
+
+      </ProConfigProvider>
     </RouteContext.Provider >
 
   );

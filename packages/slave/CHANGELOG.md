@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2-alpha.9](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.9) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.8](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.8) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.7](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.7) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.6](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.6) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.5](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.5) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.4](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.4) (2023-08-15)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
+## [2.1.2-alpha.3](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.3) (2023-08-14)
+
+**Note:** Version bump only for package @micro-frame/sc-slave
+
+
+
+
+
 ## [2.1.2-alpha.2](https://bsgit28/bgtech-fe/micro-basic/compare/@micro-frame/sc-slave@1.0.14-beta.40...@micro-frame/sc-slave@2.1.2-alpha.2) (2023-08-10)
 
 **Note:** Version bump only for package @micro-frame/sc-slave

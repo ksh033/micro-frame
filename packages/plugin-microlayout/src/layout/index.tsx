@@ -1,22 +1,25 @@
 
 import React,{ useEffect, useState } from "react";
-//@ts-ignore
-import { history } from "@@/core/history";
+
+import { history } from "./history";
+
 //@ts-ignore
 import { setModelState } from "@@/plugin-qiankun-slave/qiankunModel";
 import { BsTable } from "@micro-frame/sc-runtime";
 import { SchemaContext } from "@scboson/sc-schema";
 const { Operation } = BsTable;
 //@ts-ignore
-import { Outlet, useLocation } from "umi";
+import { Outlet, useLocation,useParams } from "umi";
 
 import { Layout } from "@micro-frame/sc-runtime";
 
 export default function MicroApp(componentProps: any) {
 
 
-  const { localMenuData } = componentProps;
+  const { userConfig:{localMenuData} } = componentProps;
   const location = useLocation()
+
+  const params=useParams()
   const [globalState, setQiankunGlobalState] = useState({
     currentMenu: "null",
     localMenuData,
@@ -29,6 +32,7 @@ export default function MicroApp(componentProps: any) {
     });
   }, [globalState]);
 
+
   return (
     <SchemaContext.Provider
       value={{
@@ -38,7 +42,7 @@ export default function MicroApp(componentProps: any) {
     >
       <Layout {...componentProps}>
 
-          <Outlet context={{location}}></Outlet>
+          <Outlet context={{location,params}}></Outlet>
 
       </Layout>
     </SchemaContext.Provider>

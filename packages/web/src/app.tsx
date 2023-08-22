@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-
+import 'antd/dist/reset.css'
  
 import {
   Auth,

@@ -20,7 +20,7 @@ import createWxLoginQr from "../../wxConfig";
 
 const { TabPane } = Tabs;
 const { parse } = queryString;
-const Encrypt = require("../../../publish/jsencrypt.min.js");
+const Encrypt = require("@publish/jsencrypt.min.js");
 console.log(Encrypt)
 const Login: React.FC<any> = (props: any) => {
   const [activeKey, setActiveKey] = useState("wx");

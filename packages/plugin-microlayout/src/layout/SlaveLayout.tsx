@@ -1,7 +1,6 @@
 
 import React from "react";
-//@ts-ignore
-import { history } from "@@/core/history";
+import { history } from "./history";
 
 import { BsTable } from "@micro-frame/sc-runtime";
 import { SchemaContext } from "@scboson/sc-schema";
