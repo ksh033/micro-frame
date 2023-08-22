@@ -9,6 +9,7 @@ import type {
 import type { MutableRefObject } from "react";
 
 export type WithTableProps = {
+  initialValues?: any
   extraColumns?: ProColumn[];
   extraQueryColumns?: FormSearchItem[];
   selectionType?: "checkbox" | "radio";

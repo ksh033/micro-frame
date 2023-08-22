@@ -5,18 +5,17 @@ import { ListPage, useListPageContext } from "@scboson/sc-schema";
 import type {
   FormSearchItem,
   ProColumn,
-} from "@scboson/sc-schema/es/interface";
-import type SearchInfo from "@scboson/sc-schema/lib/page/SearchInfo";
-import type TableInfo from "@scboson/sc-schema/lib/page/TableInfo";
-import { useUpdate } from "ahooks";
-import { isFunction } from "lodash";
-import type { ComponentType } from "react";
-import React, { useMemo, useRef } from "react";
-import BsSearch from "../Base/BsSearch";
-import BsTable from "../Base/BsTable";
-import type { WithTableProps } from "./interface";
-
-export default function WithTable<P extends WithTableProps>(
+} from '@scboson/sc-schema/es/interface';
+import type SearchInfo from '@scboson/sc-schema/lib/page/SearchInfo';
+import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
+import { useUpdate } from 'ahooks';
+import isFunction from 'lodash/isFunction';
+import type { ComponentType } from 'react';
+import React, { useMemo, useRef } from 'react';
+import BsSearch from '../Base/BsSearch';
+import BsTable from '../Base/BsTable';
+import type { WithTableProps } from './interface';
+function WithTable<P extends WithTableProps>(
   Component: React.ComponentType<any>,
   pageConfig: PageConfig,
   extProps?: P | ((p: P, searchInfo: SearchInfo, pagetInfo: TableInfo) => P)
@@ -24,7 +23,7 @@ export default function WithTable<P extends WithTableProps>(
   const Cmp = (p: P) => {
     const update = useUpdate();
     const page = useListPageContext();
-    const search = page.getSearch({});
+    const search = page.getSearch({ initialValues: p.initialValues });
     const pageTable = page.getTable();
     let props = p;
     if (extProps) {
@@ -80,8 +79,8 @@ export default function WithTable<P extends WithTableProps>(
     };
     const tableParams = useMemo(() => {
       let newPrams = {
-        ...params,
         ...pageInfo.params,
+        ...params,
       };
       if (typeof formatPrams === "function") {
         newPrams = formatPrams(newPrams);
@@ -134,3 +133,5 @@ export default function WithTable<P extends WithTableProps>(
 
   return ListPage(Cmp, pageConfig);
 }
+
+export default WithTable

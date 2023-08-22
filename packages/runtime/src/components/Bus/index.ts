@@ -1,23 +1,24 @@
-import PageSchema from "@scboson/sc-schema";
-import Address from "./Address";
-import AreaSelect from "./Address/AreaSelect";
-import AreaSelectTree from "./Address/AreaSelectTree";
-import ChainManageComPanySelect from "./ChainManageComPanySelect";
-import CheckBoxDate from "./CheckBoxDate";
-import Enabled from "./Enabled";
-import ForEverDate from "./ForEverDate";
-import LocationAreaSelect from "./LocationAreaSelect";
-import LocationSearch from "./LocationSearch";
-import PageTitle from "./PageTitle";
-import RailMap from "./RailMap";
-import SelectCargo from "./SelectCargo/index";
-import CargoSelect from "./SelectCargo/select";
-import SelectCargoTable from "./SelectCargo/table";
-import SetCatalogRef from "./SetCatalogRef";
-import ShopTableSelect from "./ShopTableSelect";
-import SupplierTableSelect from "./SupplierTableSelect";
-import UserDept from "./UserDept";
-import OperationList from "./OperationList";
+import PageSchema from '@scboson/sc-schema';
+import Address from './Address';
+import AreaSelect from './Address/AreaSelect';
+import AreaSelectTree from './Address/AreaSelectTree';
+import ChainManageComPanySelect from './ChainManageComPanySelect';
+import CheckBoxDate from './CheckBoxDate';
+import Enabled from './Enabled';
+import ForEverDate from './ForEverDate';
+import LocationAreaSelect from './LocationAreaSelect';
+import LocationSearch from './LocationSearch';
+import PageTitle from './PageTitle';
+import RailMap from './RailMap';
+import SelectCargo from './SelectCargo/index';
+import CargoSelect from './SelectCargo/select';
+import SelectCargoTable from './SelectCargo/table';
+import SetCatalogRef from './SetCatalogRef';
+import ShopTableSelect from './ShopTableSelect';
+import SupplierTableSelect from './SupplierTableSelect';
+import UserDept from './UserDept';
+import OperationList from './OperationList';
+import StationMap from './StationMap';
 /**
  * 旧 商品组件
  *
@@ -67,20 +68,21 @@ regeditCmp("UserDept", UserDept);
 regeditCmp("LocationAreaSelect", LocationAreaSelect);
 regeditCmp("GoodsCatalogSelect", GoodsCatalogSelect);
 
-regeditCmp("GoodsCatalogSelect", GoodsCatalogTreeSelect);
-regeditCmp("ShowCatalogSelect", ShowCatalogSelect);
-regeditCmp("CooperateSupplierSelect", CooperateSupplierSelect);
-regeditCmp("WarehouseTableSelect", WarehouseTableSelect);
-regeditCmp("UserInfo", UserInfo);
-regeditCmp("OrgSelect", OrgSelect);
-regeditCmp("CatalogTreeSelect", CatalogTreeSelect);
-regeditCmp("Quantity", Quantity);
-regeditCmp("BrandSelect", BrandSelect);
-regeditCmp("BatchCopyAddModal", BatchCopyAddModal);
-regeditCmp("Invalid", Invalid);
-regeditCmp("ChainManageComPanySelect", ChainManageComPanySelect);
-regeditCmp("GoodsCatalogTreeSelect", GoodsCatalogTreeSelect);
-regeditCmp("OperationList", OperationList);
+regeditCmp('GoodsCatalogSelect', GoodsCatalogTreeSelect);
+regeditCmp('ShowCatalogSelect', ShowCatalogSelect);
+regeditCmp('CooperateSupplierSelect', CooperateSupplierSelect);
+regeditCmp('WarehouseTableSelect', WarehouseTableSelect);
+regeditCmp('UserInfo', UserInfo);
+regeditCmp('OrgSelect', OrgSelect);
+regeditCmp('CatalogTreeSelect', CatalogTreeSelect);
+regeditCmp('Quantity', Quantity);
+regeditCmp('BrandSelect', BrandSelect);
+regeditCmp('BatchCopyAddModal', BatchCopyAddModal);
+regeditCmp('Invalid', Invalid);
+regeditCmp('ChainManageComPanySelect', ChainManageComPanySelect);
+regeditCmp('GoodsCatalogTreeSelect', GoodsCatalogTreeSelect);
+regeditCmp('OperationList', OperationList);
+regeditCmp('StationMap', StationMap);
 
 export {
   CheckBoxDate,
@@ -124,4 +126,5 @@ export {
   LocationAreaSelect,
   PrintOptButton,
   OperationList,
+  StationMap,
 };

@@ -3,16 +3,16 @@ import {
   CloseCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
-} from "@ant-design/icons";
-import { CModal } from "@scboson/sc-element";
-import { useFullscreen, useMap, useSetState, useUpdateEffect } from "ahooks";
-import { Button, Input } from "antd";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Marker, PolyEditor, Polygon, PolygonPath } from "react-amap";
-import { colorRgba, getCenterOfGravityPoint } from "../../../utils/common";
-import compute from "../../../utils/compute";
-import ReactAmapMap from "../ReactAmapMap";
-import styles from "./index.less";
+} from '@ant-design/icons';
+import { CModal } from '@scboson/sc-element';
+import { useFullscreen, useMap, useSetState, useUpdateEffect } from 'ahooks';
+import { Button, Input } from 'antd';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
+import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
+import compute from '../../../utils/compute';
+import ReactAmapMap from '../ReactAmapMap';
+import styles from './index.less';
 
 const colorList = [
   "#096dd9",
@@ -283,10 +283,11 @@ export default (props: RailProps) => {
       },
     });
   }
-
+  console.log(overlays);
   // 地图内的多边形生成
-  const getPolyEditor = useCallback(() => {
+  const getPolyEditor = useMemo(() => {
     const polyEditors: React.ReactNode[] = [];
+    console.log(overlays);
     Array.from(overlays).forEach((item: any) => {
       const path = JSON.parse(JSON.stringify(item[1].path));
       const key = item[0];
@@ -310,7 +311,7 @@ export default (props: RailProps) => {
       );
     });
     return polyEditors;
-  }, [JSON.stringify(overlays), state.active]);
+  }, [overlays, state.active]);
   // 左上角浮层
   const getCardList = () => {
     const list: React.ReactNode[] = [];
@@ -326,8 +327,8 @@ export default (props: RailProps) => {
       }
       const mainStyle = active
         ? {
-            border: "1px solid #155bD4",
-          }
+          border: '1px solid #155bD4',
+        }
         : {};
       list.push(
         <div
@@ -372,7 +373,7 @@ export default (props: RailProps) => {
         zoom={13}
         plugins={mapPlugins}
       >
-        {getPolyEditor()}
+        {getPolyEditor}
         <Marker
           position={{
             longitude: initMarker.px,

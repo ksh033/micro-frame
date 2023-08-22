@@ -7,7 +7,7 @@ const pageConfig: PageConfig = {
       name: "goodsSearchKey",
       component: "Input",
       props: {
-        placeholder: "支持名称/简称/速记码/编码查询",
+        placeholder: '请输入商品名称/编码查询',
       },
     },
   ],

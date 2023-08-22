@@ -23,7 +23,9 @@ import GoodsCenterTable from "./GoodsCenterTable";
 export type GoodsTransferProps = WithSelectTableProps &
   WithTableProps & {
     extraColumns?: ProColumn[];
+    extraQueryColumns?: any;
     request?: (params: any) => Promise<any>; // 请求数据的远程方法
+    catalogRequest?: (params: any) => Promise<any>; // 请求数据的远程方法
     params?: any;
     rowKey?: string;
     onSubmitGoods?: (
@@ -47,8 +49,10 @@ const DlgContent = (porps: GoodsTransferProps) => {
   const {
     selectionType,
     extraColumns,
+    extraQueryColumns,
     request,
-    rowKey = "goodsId",
+    catalogRequest,
+    rowKey = 'goodsId',
     params,
     onTabelRow,
     header,
@@ -57,12 +61,13 @@ const DlgContent = (porps: GoodsTransferProps) => {
     getCheckboxProps,
     autoload = true,
     formatTableInfo,
+    columns
   } = porps;
   const [cacheCatalogId] = useSessionStorageState<string>(
     `${window.location.pathname}_selectedKeys`,
-    ""
+   {defaultValue:''}
   );
-  const [catalogId, setCatalogId] = useState<string>(cacheCatalogId);
+  const [catalogId, setCatalogId] = useState<string>(cacheCatalogId as string);
   const tableParams = useMemo(() => {
     let newPrams = {
       catalogId,
@@ -118,6 +123,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
             }}
             loadedKeys={[]}
             autoload={true}
+            request={catalogRequest}
           />
         </ScCard>
         <ScCard bodyStyle={{ padding: "0px" }} style={{ height: "100%" }}>
@@ -127,6 +133,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
             selectionType={selectionType}
             selectedRows={rightSelectedRows}
             extraColumns={extraColumns}
+            extraQueryColumns={extraQueryColumns}
             onTabelRow={(keys, rows) => {
               onTabelRow && onTabelRow(keys, rows);
               setRightSelectRows(rows);
@@ -137,6 +144,7 @@ const DlgContent = (porps: GoodsTransferProps) => {
             request={request}
             autoload={autoload}
             formatTableInfo={formatTableInfo}
+            columns={columns}
           ></GoodsCenterTable>
         </ScCard>
         <ScCard

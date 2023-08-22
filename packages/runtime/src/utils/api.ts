@@ -59,8 +59,14 @@ const services = {
     },
     //单据关联页面服务接口
     stockBusConfig: {
-      url: "/base/api/doc/page/ref/list",
+      url: '/base/api/doc/page/ref/list',
+
     },
+    getStationMapList: {
+      url: '/base/api/station/service/scope',
+      method: 'get',
+    },
+
   },
   user: {
     getPublicKey: {

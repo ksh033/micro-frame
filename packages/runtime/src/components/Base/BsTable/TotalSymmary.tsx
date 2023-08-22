@@ -4,7 +4,7 @@
  * @Autor: yangyuhang
  * @Date: 2023-01-05 10:01:22
  * @LastEditors: yangyuhang
- * @LastEditTime: 2023-03-28 10:36:35
+ * @LastEditTime: 2023-06-12 10:12:50
  */
 import defaultRender from "../../Dict/defaultRender";
 import { ScProColumn, ScProColumnType } from "@scboson/sc-element/es/sc-table";
