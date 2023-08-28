@@ -17,7 +17,7 @@ const GoodsCatalogTree: React.FC<
   const api = uesRequest('mall', 'showCatalogList');
   const loadDataPramsFormat = (item: any) => {
     return {
-      parentId: item.mallCatalogId,
+      parentId: item.classifyId,
     };
   };
 
