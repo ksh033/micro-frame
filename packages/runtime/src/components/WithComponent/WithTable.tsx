@@ -48,6 +48,7 @@ function WithTable<P extends WithTableProps>(
       formatPrams,
       rowKey,
       lightFilter = true,
+      autoSubmitFiled,
       className = 'cmp-dlg-container',
       alertFn,
       ...resProps
@@ -104,7 +105,7 @@ function WithTable<P extends WithTableProps>(
     return (
       <Component>
         <ScCard className={className}>
-          <BsSearch lightFilter={lightFilter} {...searchConfig} />
+          <BsSearch lightFilter={lightFilter} autoSubmitFiled={autoSubmitFiled} {...searchConfig} />
           {alertFn ? alertFn(ref.current.selectKeys || []) : null}
           {/* <Alert message={title} type="info" style={{ marginBottom: '12px' }} showIcon /> */}
           <BsTable
