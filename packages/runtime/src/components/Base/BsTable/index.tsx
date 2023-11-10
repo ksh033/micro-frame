@@ -122,7 +122,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const routerContext = useContext(RouteContext)
 
   if (JSON.stringify(listContext) !== '{}') {
-    restProps.sticky = { offsetHeader: routerContext.headerHeight }
+    restProps.sticky = { offsetHeader: routerContext.headerHeight || 48 }
   }
 
   // 默认的tab切换配置
