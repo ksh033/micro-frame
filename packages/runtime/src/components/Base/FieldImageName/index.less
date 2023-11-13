@@ -1,4 +1,5 @@
-@import "~antd/es/style/themes/default.less";
+@primary-color: #1a90ff;
+@primary-color-hover: rgb(26, 144, 255, 0.5);
 
 .bg-field-line {
   display: flex;
@@ -6,6 +7,7 @@
   width: 100%;
   min-width: 100px;
 }
+
 .bg-field-link {
   .bg-field-value {
     color: @primary-color;
@@ -16,10 +18,12 @@
     }
   }
 }
+
 .bg-field-image {
   width: 50px;
   height: 50px;
   margin-right: 4px;
+
   :global {
     .ant-image {
       width: 100%;
@@ -27,11 +31,13 @@
     }
   }
 }
+
 .bg-field-value {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
+
 .bg-field-desc {
   color: #969595;
 }

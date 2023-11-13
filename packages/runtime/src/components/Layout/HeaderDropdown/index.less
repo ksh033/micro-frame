@@ -1,6 +1,10 @@
-@import '~antd/es/style/themes/default.less';
+@component-background: #fff;
+@screen-xs: 480px;
+@shadow-1-down: 0 6px 16px -8px rgba(0, 0, 0, 0.08), 0 9px 28px 0 rgba(0, 0, 0, 0.05),
+  0 12px 48px 16px rgba(0, 0, 0, 0.03);
+@popover-bg: @component-background;
 
-.container > * {
+.container>* {
   background-color: @popover-bg;
   border-radius: 4px;
   box-shadow: @shadow-1-down;
@@ -10,7 +14,8 @@
   .container {
     width: 100% !important;
   }
-  .container > * {
+
+  .container>* {
     border-radius: 0 !important;
   }
 }

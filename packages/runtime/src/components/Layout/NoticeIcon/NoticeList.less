@@ -1,4 +1,13 @@
-@import '~antd/es/style/themes/default';
+@black: #000;
+@line-height-base: 1.5715;
+@component-background: #fff;
+@primary-color: #1890ff;
+@primary-1: color(~`colorPalette('@{primary-color}', 1) `);
+@text-color-secondary: fade(@black, 45%);
+@text-color: fade(@black, 85%);
+@border-color-split: hsv(0, 0, 94%);
+@border-radius-base: 2px;
+@primary-6: @primary-color;
 
 .list {
   max-height: 400px;
