@@ -225,12 +225,15 @@ const changeApp = (sysCode: string) => {
 
 const getUser = (): GetUser | null | undefined => {
   const currentUser: any = getStorage(User_Key);
-  const tuserApp = getStorage<CurrentDeptProps>(AppsUser_Key);
+  if (currentUser){
+    const tuserApp = getStorage<CurrentDeptProps>(AppsUser_Key);
 
-  if (tuserApp) {
-    currentUser.chooseDeptVO = tuserApp;
-    currentUser.userAppInfo = tuserApp;
+    if (tuserApp) {
+      currentUser.chooseDeptVO = tuserApp;
+      currentUser.userAppInfo = tuserApp;
+    }
   }
+
 
   return currentUser;
 };

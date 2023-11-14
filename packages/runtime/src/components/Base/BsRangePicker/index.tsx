@@ -7,7 +7,9 @@ import { RangePickerProps } from "antd/es/date-picker/index";
 import dayjs, { Dayjs, } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import utc from 'dayjs/plugin/utc'
+dayjs.extend(customParseFormat)
 dayjs.extend(weekday)
 dayjs.extend(weekOfYear)
 dayjs.extend(utc)
@@ -16,7 +18,6 @@ import {
   FormComponentProps,
   FormComponent,
 } from "@scboson/sc-element/es/c-form";
-import { RangeValue } from "rc-picker/es/interface";
 
 import RangePicker from "./RangePicker";
 function disabledDate(current: any) {
@@ -104,7 +105,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     presetType = "preset1",
     ...resProps
   } = props;
-
+  console.log("RangePicker",props["value"])
   const cformat = format || (showTime ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD");
   const [currentValue, setCurrentValue] = useState<any>();
 
@@ -157,7 +158,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
   }, [form?.getFieldValue(startTimeFiled)]);
 
   const handleChange = (
-    dates: RangeValue<Dayjs>,
+    dates: any,
     dateStrings: [string, string]
   ) => {
     const _dates: {

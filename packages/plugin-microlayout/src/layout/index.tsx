@@ -10,7 +10,7 @@ import { SchemaContext } from "@scboson/sc-schema";
 const { Operation } = BsTable;
 //@ts-ignore
 import { Outlet, useLocation,useParams } from "umi";
-
+import { dataflowProvider } from "@@/plugin-model/runtime";
 import { Layout } from "@micro-frame/sc-runtime";
 
 export default function MicroApp(componentProps: any) {
@@ -36,7 +36,9 @@ export default function MicroApp(componentProps: any) {
   return (
     <SchemaContext.Provider
       value={{
-        umi: { history },
+        umi: { history,renderProvider:(con)=>{
+          return dataflowProvider(con,{})
+        } },
         tableOpColCmp: Operation,
       }}
     >

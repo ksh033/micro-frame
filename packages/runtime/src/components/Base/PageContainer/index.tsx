@@ -78,7 +78,7 @@ const PageContainer: React.FC<ScPageContainerProps> = (props) => {
   return (
     //@ts-ignore
     <div tabIndex={1} className="sc-page-container" ref={conRef}>
-      <ScContext.ContainerContext.Provider value={{type:'page',domRef:conRef,extraHeight:context.hasFooterToolbar?84:0}}>
+      <ScContext.ContainerContext.Provider value={{type:'page',domRef:conRef,extraHeight:context.hasFooterToolbar?88:0}}>
       <APageContainer {...restProps}  fixedHeader footerToolBarProps={{portalDom:false}} footer={efooter.length > 0 ? efooter : undefined}>
         {children}
       </APageContainer>

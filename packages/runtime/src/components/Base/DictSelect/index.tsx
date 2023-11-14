@@ -101,6 +101,7 @@ const DictSelect: FormComponent<DictSelectProp> = (pros: DictSelectProp) => {
         <ScRadio
           textField="name"
           valueField="value"
+        
           data={data}
           {...radioProps}
         ></ScRadio>
