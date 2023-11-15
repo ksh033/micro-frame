@@ -67,6 +67,8 @@ export enum PrintTplType {
   distributiveOutOrder = '00000012',
   /** 退货出库单 */
   returnOrder = '00000013',
+  /** 电商发货单 */
+  sendOrder = '00000014',
   /** 收货单针式 */
   receiverOrderZhen = '000000041',
   /** 出库单针式 */
@@ -172,6 +174,13 @@ const printList: { [key: string]: PrintCfg } = {
     tplName: 'returnOrder.grf',
     dataUrl: '/purchase/api/stock/order/print',
     method: 'get',
+  },
+  '00000014': {
+    moduleId: '00000014',
+    moduleName: '发货单',
+    tplName: 'sendOrder.grf',
+    dataUrl: '/deliverysys/api/express/order/send',
+    method: 'post',
   },
   '000000041': {
     moduleId: '000000041',

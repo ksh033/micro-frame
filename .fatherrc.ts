@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: yangyuhang
+ * @Date: 2023-10-17 09:52:17
+ * @LastEditors: yangyuhang
+ * @LastEditTime: 2023-10-17 09:52:33
+ */
 import { readdirSync } from 'fs';
 import { join } from 'path';
 const { REACT_APP_ENV, NODE_ENV } = process.env;
@@ -15,24 +23,24 @@ export default {
     type: 'babel',
     importLibToEs: true,
   },
-  pkgs: ['element', 'editor-core', 'slave', 'runtime', 'plugin-microlayout'],
+  pkgs: ['slave', 'runtime', 'plugin-microlayout'],
   extraBabelPlugins: [
     [
       'babel-plugin-import',
       REACT_APP_ENV !== ''
         ? {
+          libraryName: '@scboson/sc-element',
+          libraryDirectory: 'es',
+          style: true,
+        }
+        : [
+          { libraryName: 'antd', libraryDirectory: 'es', style: true },
+          {
             libraryName: '@scboson/sc-element',
             libraryDirectory: 'es',
             style: true,
-          }
-        : [
-            { libraryName: 'antd', libraryDirectory: 'es', style: true },
-            {
-              libraryName: '@scboson/sc-element',
-              libraryDirectory: 'es',
-              style: true,
-            },
-          ],
+          },
+        ],
       'antd',
     ],
     [require('./scripts/replaceLib')],

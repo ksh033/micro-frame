@@ -1,8 +1,16 @@
+/*
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: yangyuhang
+ * @Date: 2023-02-16 15:28:26
+ * @LastEditors: yangyuhang
+ * @LastEditTime: 2023-07-20 16:17:17
+ */
 import { QuestionCircleFilled } from '@ant-design/icons';
 import type { PageConfig } from '@scboson/sc-schema';
-import type TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
 import { openWindow } from '../../../Auth';
 import { WithTable, WithTableProps } from '../../../WithComponent';
+
 import list from './list';
 const pageConfig: PageConfig = {
   service: {},
@@ -22,17 +30,14 @@ const GoodsCenterTable: React.FC<WithTableProps> = (props: any) => {
 GoodsCenterTable.displayName = 'GoodsCenterTable';
 
 /** 商品表格 */
+
 export default WithTable<
-  WithTableProps & {
-    viewUrl?: string;
-    help?: string;
-    formatTableInfo?: (tableInfo: TableInfo) => TableInfo;
-  }
+  any
 >(GoodsCenterTable, pageConfig, (props, searchInfo, pagetInfo) => {
-  const { viewUrl, help, formatTableInfo, ...restProps } = props;
+  const { viewUrl, help, formatTableInfo, columns, ...restProps } = props;
 
   pagetInfo.changeCol('saleModel', {
-    render: (value, record, index) => {
+    render: (value, record) => {
       const { saleUnit } = record;
       //if (params.)
       //const [value,record,index,dictText]=
@@ -63,18 +68,19 @@ export default WithTable<
   }
 
   searchInfo
-    .changeSearchItem('goodsSearchKey', {
-      width: 630,
-    })
+    // .changeSearchItem('goodsSearchKey', {
+    //   width: 630,
+    // })
     .toConfig();
   return {
     //request: defaultReq,
     rowKey: 'goodsId',
+    columns: columns || pagetInfo.tableInfo.columns,
     ...restProps,
     bordered: false,
     size: 'small',
     pageSize: 5,
     //pagination: { pageSize: 5, pageSizeOptions: [5, 10, 20], current: 1 },
-    scroll: { y: 500, x: 560 },
+    scroll: { y: 400, x: 560 },
   };
 });

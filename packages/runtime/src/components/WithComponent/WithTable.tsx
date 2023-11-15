@@ -15,8 +15,7 @@ import React, { useMemo, useRef } from 'react';
 import BsSearch from '../Base/BsSearch';
 import BsTable from '../Base/BsTable';
 import type { WithTableProps } from './interface';
-
-export default function WithTable<P extends WithTableProps>(
+function WithTable<P extends WithTableProps>(
   Component: React.ComponentType<any>,
   pageConfig: PageConfig,
   extProps?: P | ((p: P, searchInfo: SearchInfo, pagetInfo: TableInfo) => P)
@@ -24,7 +23,7 @@ export default function WithTable<P extends WithTableProps>(
   const Cmp = (p: P) => {
     const update = useUpdate();
     const page = useListPageContext();
-    const search = page.getSearch({});
+    const search = page.getSearch({ initialValues: p.initialValues });
     const pageTable = page.getTable();
     let props = p;
     if (extProps) {
@@ -49,6 +48,7 @@ export default function WithTable<P extends WithTableProps>(
       formatPrams,
       rowKey,
       lightFilter = true,
+      autoSubmitFiled,
       className = 'cmp-dlg-container',
       alertFn,
       ...resProps
@@ -80,8 +80,8 @@ export default function WithTable<P extends WithTableProps>(
     };
     const tableParams = useMemo(() => {
       let newPrams = {
-        ...params,
         ...pageInfo.params,
+        ...params,
       };
       if (typeof formatPrams === 'function') {
         newPrams = formatPrams(newPrams);
@@ -105,7 +105,7 @@ export default function WithTable<P extends WithTableProps>(
     return (
       <Component>
         <ScCard className={className}>
-          <BsSearch lightFilter={lightFilter} {...searchConfig} />
+          <BsSearch lightFilter={lightFilter} autoSubmitFiled={autoSubmitFiled} {...searchConfig} />
           {alertFn ? alertFn(ref.current.selectKeys || []) : null}
           {/* <Alert message={title} type="info" style={{ marginBottom: '12px' }} showIcon /> */}
           <BsTable
@@ -134,3 +134,5 @@ export default function WithTable<P extends WithTableProps>(
 
   return ListPage(Cmp, pageConfig);
 }
+
+export default WithTable

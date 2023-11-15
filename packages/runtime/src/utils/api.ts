@@ -61,8 +61,11 @@ const services = {
     stockBusConfig: {
       url: '/base/api/doc/page/ref/list',
 
-    }
-
+    },
+    getStationMapList: {
+      url: '/base/api/station/service/scope',
+      method: 'get',
+    },
 
   },
   user: {

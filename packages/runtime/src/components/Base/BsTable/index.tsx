@@ -3,7 +3,7 @@ import type { ScTableProps } from '@scboson/sc-element/es/sc-table';
 
 import { Badge, Table } from 'antd';
 import { isArray, isObject } from 'lodash';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Authority from '../../Auth/Authority';
 import defaultRenderText, { cacheRender } from '../../Dict/defaultRender';
 import userDictModel from '../../Dict/userDictModel';
@@ -15,10 +15,13 @@ import Operation from './Operation';
 import { setLocalSearchParams } from '@scboson/sc-schema/es/hooks/useListPage';
 // @ts-ignore
 import { history } from 'umi';
-import { useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import { useRequest, useSafeState, useUpdateEffect, useLocalStorageState } from 'ahooks';
 import { useSize } from 'ahooks';
 import TotalSymmary, { digColumns } from './TotalSymmary';
 import { ListToolBarProps, ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/typing';
+import { ListPageContext } from '@scboson/sc-schema';
+import { RouteContext } from '@scboson/sc-layout';
+import classNames from 'classnames';
 
 export type ExcelColumn = {
   text: string;
@@ -69,7 +72,7 @@ export type BsTableProps = Omit<ScTableProps<any>, 'toolbar' | 'request'> & {
   /** 是否需要统计栏 */
   needRecordSummary?: boolean;
   /** 统计然头部设定 */
-  TableSummaryFiexd?: boolean | 'top' | 'bottom';
+  tableSummaryFiexd?: boolean | 'top' | 'bottom';
 };
 export interface BsTableComponentProps {
   dataIndex?: string;
@@ -107,12 +110,20 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     saveRef,
     pagination,
     needRecordSummary = false,
-    TableSummaryFiexd = 'top',
+    tableSummaryFiexd = 'top',
     ...restProps
   } = props;
 
   const { getDistList, getDictText } = userDictModel();
   const ref = useRef(null);
+
+
+  const listContext = useContext(ListPageContext)
+  const routerContext = useContext(RouteContext)
+
+  if (JSON.stringify(listContext) !== '{}') {
+    restProps.sticky = { offsetHeader: routerContext.headerHeight || 48 }
+  }
 
   // 默认的tab切换配置
   const defaultLabelsProps = {
@@ -174,7 +185,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     {}
   );
   /** 统计栏数据 */
-  const [recordSummary, setRecordSummary] = useState<any[]>();
+  const [recordSummary, setRecordSummary] = useState<any>();
 
   useUpdateEffect(() => {
     if (groupLabelsProps && groupLabelsProps.active) {
@@ -519,7 +530,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
       return {
         sticky: true,
         summary: () => (
-          <Table.Summary fixed={TableSummaryFiexd}>
+          <Table.Summary fixed={tableSummaryFiexd}>
             <TotalSymmary
               recordSummary={recordSummary}
               columns={digColumns(columns, [])}
@@ -530,8 +541,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
     } else {
       return {};
     }
-  }, [needRecordSummary, recordSummary, TableSummaryFiexd]);
-
+  }, [needRecordSummary, recordSummary, tableSummaryFiexd]);
 
   return (
     <>

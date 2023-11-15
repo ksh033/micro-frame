@@ -72,8 +72,8 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   console.log(size);
 
   const scrollY = useMemo(() => {
-    return Number(size.height || 0) - 220 > 0
-      ? Number(size.height || 0) - 220
+    return Number(size.height || 0) - 260 > 0
+      ? Number(size.height || 0) - 260
       : 400;
   }, [size]);
 

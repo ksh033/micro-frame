@@ -16,71 +16,76 @@ const CatalogTree: React.FC<
   params,
   cache = true,
   selectedKeys,
+  request,
   ...restProps
 }) => {
-  const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
+    const { run, loading } = uesRequest('mallgoods_catalog', 'treeList');
 
-  const [expandedKeys, setExpandedKeys] = useSessionStorageState<React.Key[]>(
-    `${window.location.pathname}_expandedKeys`,
-    ['0']
-  );
-  const [catalogId, setCatalogId] = useSessionStorageState<string>(
-    `${window.location.pathname}_selectedKeys`,
-    ''
-  );
-  const [catalogNode, setCatalogNode] = useSessionStorageState<any>(
-    `${window.location.pathname}_selectedRows`,
-    ''
-  );
+    const [expandedKeys, setExpandedKeys] = useSessionStorageState<React.Key[]>(
+      `${window.location.pathname}_expandedKeys`,
+      ['0']
+    );
+    const [catalogId, setCatalogId] = useSessionStorageState<string>(
+      `${window.location.pathname}_selectedKeys`,
+      ''
+    );
+    const [catalogNode, setCatalogNode] = useSessionStorageState<any>(
+      `${window.location.pathname}_selectedRows`,
+      ''
+    );
 
-  if (selectKeysRef) {
-    selectKeysRef(catalogId);
-  }
+    if (selectKeysRef) {
+      selectKeysRef(catalogId);
+    }
 
-  return (
-    <ScTree
-      expandedKeys={expandedKeys}
-      root={{
-        catalogId: '0',
-        catalogName: '请选择品目',
-        isLeaf: false,
-        key: '0',
-      }}
-      selectedKeys={selectedKeys || [catalogId]}
-      onExpand={(expandedKeys) => {
-        setExpandedKeys(expandedKeys);
-      }}
-      onSelect={(selectedKeys: any, info) => {
-        let [key] = info.selectedNodes.map((node) => {
-          return node.key;
-        });
-        if (key) {
-          if (key == '0') {
-            key = '';
+    return (
+      <ScTree
+        expandedKeys={expandedKeys}
+        root={{
+          catalogId: '0',
+          catalogName: '请选择品目',
+          isLeaf: false,
+          key: '0',
+        }}
+        selectedKeys={selectedKeys || [catalogId]}
+        onExpand={(expandedKeys) => {
+          setExpandedKeys(expandedKeys);
+        }}
+        onSelect={(selectedKeys: any, info: any) => {
+          let [key] = info.selectedNodes.map((node) => {
+            return node.key;
+          });
+          if (key) {
+            if (key == '0') {
+              key = '';
+            } else {
+              key = key + '';
+            }
           } else {
-            key = key + '';
+            key = '';
           }
-        } else {
-          key = '';
-        }
-        if (cache) {
-          setCatalogId(key);
-          setCatalogNode(info.node);
-        }
+          if (cache) {
+            setCatalogId(key);
+            if (info.node.dataRef.catalogSource !== 'SUPPLY_CHAIN') {
+              setCatalogNode(info.node);
+            } else {
+              setCatalogNode({})
+            }
+          }
 
-        onSelect && onSelect(selectedKeys, info);
-      }}
-      autoload={true}
-      canSearch={false}
-      async={false}
-      params={{}}
-      placeholder={'search'}
-      request={run}
-      textField="catalogName"
-      valueField="catalogId"
-      {...restProps}
-    />
-  );
-};
+          onSelect && onSelect(selectedKeys, info);
+        }}
+        autoload={true}
+        canSearch={false}
+        async={false}
+        params={{}}
+        placeholder={'search'}
+        request={request || run}
+        textField="catalogName"
+        valueField="catalogId"
+        {...restProps}
+      />
+    );
+  };
 
 export default CatalogTree;

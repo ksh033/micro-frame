@@ -55,8 +55,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       if (
         bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
         bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-        bizDeptType === 'SUPPLY_SUBCOMPANY' ||
-        bizDeptType === 'WAREHOUSE'
+        bizDeptType === 'SUPPLY_SUBCOMPANY'
       ) {
         onChange?.(
           labelInValue
@@ -88,7 +87,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
       const {
         userAppInfo: { currentDept },
       } = user;
-      if (currentDept.bizDeptType !== 'COMPANY' && currentDept.bizDeptType !== 'SHOP') {
+      if (currentDept.bizDeptType !== 'COMPANY' && currentDept.bizDeptType !== 'SHOP' && currentDept.bizDeptType !== 'WAREHOUSE') {
         initValue(currentDept);
       } else {
         if (companyNeedInit && state.data.length > 0 && props.value == null) {
@@ -141,8 +140,7 @@ const UserDept: FormComponent<UserDeptProp> = (props) => {
         } else if (
           bizDeptType === 'CHAIN_MANAGE_COMPANY' ||
           bizDeptType === 'SUPPLY_CHAIN_COMPANY' ||
-          bizDeptType === 'SUPPLY_SUBCOMPANY' ||
-          bizDeptType === 'WAREHOUSE'
+          bizDeptType === 'SUPPLY_SUBCOMPANY'
         ) {
           deptList.current = [
             {

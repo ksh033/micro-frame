@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-new */
+import { uesRequest } from '../../../utils/api'
 import {
   CloseCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
 } from '@ant-design/icons';
 import { CModal } from '@scboson/sc-element';
-import { useFullscreen, useMap, useSetState, useUpdateEffect } from 'ahooks';
+import { useFullscreen, useMap, useSetState, useThrottle, useUpdateEffect } from 'ahooks';
 import { Button, Input } from 'antd';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Marker, PolyEditor, Polygon, PolygonPath, } from 'react-amap';
 import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
 import compute from '../../../utils/compute';
 import ReactAmapMap from '../ReactAmapMap';
@@ -40,6 +42,9 @@ interface RailProps {
   onChange?: (list: RailItemProps[]) => void;
   distance?: number; // 单位米
   initMarker?: { px: number; py: number }; // 初始化的点
+  cityCode?: any
+  rowKey?: any
+  params?: any
 }
 
 interface RailState {
@@ -59,9 +64,17 @@ export default (props: RailProps) => {
     distance = 3000,
     onChange,
     value,
+    cityCode,
+    rowKey = 'stationId',
+    params
   } = props;
+
+  const { run } = uesRequest('system', 'getStationMapList')
+  const [dataSource, setDataSource] = useState<any>([]);
+
   const mapPlugins: any[] = ['ToolBar', 'Scale'];
   const map = useRef<any>(null);
+
   const [overlays, overlaysMap] = useMap<
     string | number,
     {
@@ -69,8 +82,18 @@ export default (props: RailProps) => {
       color: string;
     }
   >([]);
-  const [editor, editorMap] = useMap<string | number, any>([]);
 
+  const [stations, stationsMap] = useMap<
+    string | number,
+    {
+      scopes: any[],
+      color: string,
+      px: any,
+      py: any,
+    }
+  >([]);
+
+  const [editor, editorMap] = useMap<string | number, any>([]);
   const [titleMap, titleMapFn] = useMap<string | number, string>([]);
   const [mapCenter, setMapCenter] = useState({
     longitude: 119.330221,
@@ -78,6 +101,27 @@ export default (props: RailProps) => {
   });
 
   const fullRef = useRef<any>();
+
+  const placeSearch = useRef<any>(null);
+  const [city, setCity] = useState<string>(cityCode || '350100');
+  const [inputVal, setInputVal] = useState<string>();
+  const throttledValue = useThrottle(inputVal, { wait: 500 });
+
+
+  useEffect(() => {
+    run(params).then((res: any) => {
+      if (res) {
+        setDataSource(res)
+      }
+    })
+  }, [])
+
+
+  useUpdateEffect(() => {
+    if (throttledValue && throttledValue !== '' && placeSearch.current) {
+      placeSearch.current.search(throttledValue);
+    }
+  }, [throttledValue]);
   const [isFullscreen, { toggleFull }] = useFullscreen(fullRef);
 
   const [state, setState] = useSetState<RailState>({
@@ -142,28 +186,40 @@ export default (props: RailProps) => {
   ]);
 
   useEffect(() => {
-    if (Array.isArray(value) && Array.from(overlays).length === 0) {
-      overlaysMap.reset();
+    if (Array.isArray(dataSource) && Array.from(stations).length === 0) {
+      stationsMap.reset();
       titleMapFn.reset();
       let activeKey = '';
-      value.forEach((item, index: number) => {
-        const key = GenNonDuplicateID(10);
-        if (index === 0) {
-          activeKey = key;
-        }
-        overlaysMap.set(key, {
-          path: formatLngLat(item.path),
+      dataSource.forEach((item, index: number) => {
+        const key = item[rowKey];
+        stationsMap.set(key, {
+          scopes: item.serviceScopes,
           color: colorList[index % 12],
+          px: item.px,
+          py: item.py,
         });
-        titleMapFn.set(key, item.title || '');
+        titleMapFn.set(key, item.stationName || '');
+
+        item.serviceScopes.forEach((it) => {
+          const layoutKey = GenNonDuplicateID(10)
+          if (index === 0) {
+            activeKey = layoutKey;
+          }
+          overlaysMap.set(layoutKey, {
+            path: formatLngLat(it.scopePts),
+            color: colorList[index % 12],
+          });
+        })
+
       });
 
       setState({
-        maxSize: value.length,
+        maxSize: dataSource.length,
         active: activeKey,
       });
     }
-  }, [JSON.stringify(value)]);
+  }, [JSON.stringify(dataSource)]);
+  console.log(overlays);
 
   const addPolygon = () => {
     const marker = initMarker;
@@ -208,10 +264,115 @@ export default (props: RailProps) => {
     }
   }, [JSON.stringify(initMarker)]);
 
+
+  const formatValue = (_value: any) => {
+    if (_value) {
+      const name = _value['name'] || '';
+      const cityName = _value['cityname'] || '';
+      const pname = _value['pname'] || '';
+      const adname = _value['adname'] || '';
+      const address = _value['address'] || '';
+
+      return pname + cityName + adname + address + name;
+    }
+    return '';
+  };
+
   const mapEvents = {
     created: (ins: any) => {
       map.current = ins;
-    },
+      if (window.AMap) {
+        console.log('window.AMap', window.AMap);
+        window.AMap.service(['AMap.PlaceSearch'], () => {
+          // 构造地点查询类
+          placeSearch.current = new window.AMap.PlaceSearch({
+            pageSize: 4, // 单页显示结果条数
+            pageIndex: 1, // 页码
+            city, // 兴趣点城市
+            citylimit: false, // 是否强制限制在设置的城市内搜索
+            map: ins, // 展现结果的地图实例
+            panel: 'panel', // 结果列表将在此容器中进行展示。
+            autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+          });
+          // 关键字查询
+          if (formatValue(inputVal) !== '') {
+            setInputVal(formatValue(inputVal));
+          }
+        });
+        if (cityCode) {
+          window.AMap.plugin('AMap.DistrictSearch', () => {
+            const districtSearch = new window.AMap.DistrictSearch({
+              // 关键字对应的行政区级别，country表示国家
+              level: 'city',
+              //  显示下级行政区级数，1表示返回下一级行政区
+              subdistrict: 0,
+              showbiz: false,
+              extensions: false,
+            });
+
+            // 搜索所有省/直辖市信息
+            districtSearch.search(cityCode, (status: string, result: any) => {
+              if (status === 'complete') {
+                if (
+                  Array.isArray(result.districtList) &&
+                  result.districtList.length > 0
+                ) {
+                  const cityItem = result.districtList[0];
+                  setCity(cityItem['citycode']);
+                  setMapCenter({
+                    longitude: cityItem.center['lng'],
+                    latitude: cityItem.center['lat'],
+                  });
+                }
+              } else {
+                setCity('350100');
+                setMapCenter({
+                  longitude: 119.330221107,
+                  latitude: 26.0471254966,
+                });
+              }
+              // 查询成功时，result即为对应的行政区信息
+            });
+          });
+        } else {
+          window.AMap.plugin('AMap.Geolocation', () => {
+            const geolocation = new window.AMap.Geolocation({
+              // 是否使用高精度定位，默认：true
+              enableHighAccuracy: true,
+              // 设置定位超时时间，默认：无穷大
+              timeout: 10000,
+              // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+              buttonOffset: new window.AMap.Pixel(10, 20),
+              //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+              zoomToAccuracy: true,
+              //  定位按钮的排放位置,  RB表示右下
+              buttonPosition: 'RB',
+            });
+
+            geolocation.getCurrentPosition();
+            window.AMap.event.addListener(geolocation, 'complete', onComplete);
+            window.AMap.event.addListener(geolocation, 'error', onError);
+
+            function onComplete(_data: any) {
+              setCity(_data['addressComponent']['citycode']);
+              setMapCenter({
+                longitude: _data.position['lng'] || '119.330221107',
+                latitude: _data.position['lat'] || '26.0471254966',
+              });
+              // data是具体的定位信息
+            }
+
+            function onError(_data: any) {
+              setCity('350100');
+              setMapCenter({
+                longitude: 119.330221107,
+                latitude: 26.0471254966,
+              });
+            }
+          });
+        }
+      }
+    }
   };
 
   const editorEvents = {
@@ -283,13 +444,12 @@ export default (props: RailProps) => {
       },
     });
   }
-  console.log(overlays);
+
   // 地图内的多边形生成
-  const getPolyEditor = useMemo(() => {
+  const getPolyEditor = useCallback(() => {
     const polyEditors: React.ReactNode[] = [];
-    console.log(overlays);
-    Array.from(overlays).forEach((item: any) => {
-      const path = JSON.parse(JSON.stringify(item[1].path));
+    Array.from(stations).forEach((item: any) => {
+      const overlays = item[1].scopes
       const key = item[0];
       const _color = item[1].color;
       const style = {
@@ -300,18 +460,47 @@ export default (props: RailProps) => {
         extData: key,
       };
       const active = state.active === key;
-      polyEditors.push(
-        <Polygon path={path} key={key} style={style} draggable events={event}>
-          <PolyEditor
-            key={`${key}_editor`}
-            events={editorEvents}
-            active={active}
-          />
-        </Polygon>
-      );
+      overlays.forEach((it: any, index: any) => {
+        const path = JSON.parse(JSON.stringify(formatLngLat(it.scopePts)));
+        polyEditors.push(
+          <Polygon path={path} key={`${key}_${index}`} style={style} events={event}>
+            {/* <PolyEditor
+              key={`${index}`}
+              events={editorEvents}
+              active={active}
+            /> */}
+          </Polygon>
+        );
+      })
     });
     return polyEditors;
-  }, [overlays, state.active]);
+  }, [JSON.stringify(stations), state.active]);
+
+  // 围栏内站点标记生成
+  const getMarker = useCallback(() => {
+    const Markers: React.ReactNode[] = [];
+    Array.from(stations).forEach((item: any) => {
+      const key = item[0];
+      if (window.AMap) {
+        const Icon = new window.AMap.Icon({
+          image: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
+          size: new window.AMap.Size(30, 30),
+          imageSize: new window.AMap.Size(30, 30)
+        })
+        Markers.push(
+          <Marker
+            icon={Icon}
+            label={{ content: titleMapFn.get(key), direction: 'bottom' }}
+            position={{
+              longitude: item[1].px,
+              latitude: item[1].py,
+            }}
+          />
+        );
+      }
+    });
+    return Markers;
+  }, [JSON.stringify(overlays), state.active]);
   // 左上角浮层
   const getCardList = () => {
     const list: React.ReactNode[] = [];
@@ -373,21 +562,23 @@ export default (props: RailProps) => {
         zoom={13}
         plugins={mapPlugins}
       >
-        {getPolyEditor}
-        <Marker
-          position={{
-            longitude: initMarker.px,
-            latitude: initMarker.py,
-          }}
-        />
+        {getPolyEditor()}
+        {getMarker()}
       </ReactAmapMap>
+      {inputVal ? <div id="panel" className={styles['map-panel']}></div> : null}
       <div className={styles['rail-content']}>
-        <div className={styles['rail-card-list']}>{getCardList()}</div>
+        <Input
+          placeholder="输入查询"
+          className={styles['map-input']}
+          onChange={(e) => setInputVal(e.target.value)}
+          value={inputVal}
+        />
+        {/* <div className={styles['rail-card-list']}>{getCardList()}</div>
         <div className={styles['rail-add']}>
           <Button block onClick={addPolygon}>
             添加配送区域
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className={styles['rail-fullbtn']} onClick={toggleFull}>
         {isFullscreen ? (

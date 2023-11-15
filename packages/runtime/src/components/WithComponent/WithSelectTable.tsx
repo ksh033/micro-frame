@@ -197,7 +197,7 @@ export default function WithSelectTable<
       const onClickSelect = () => {
         CModal.show({
           content: dlgcontent,
-
+          title: '选择',
           onOk: () => {
             if (ref.current.selectedRows) {
               let megData: any = ref.current.selectedRows;

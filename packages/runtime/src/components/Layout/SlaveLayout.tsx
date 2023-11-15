@@ -56,6 +56,7 @@ export default function SlaveLayout(componentProps: any) {
     if (!item || (item && !item['pageUrl'])) {
       url = '';
     }
+    //  @ts-ignore
     return url ? <Link to={url}>{breadcrumbName}</Link> : breadcrumbName;
   };
   // gen breadcrumbProps, parameter for pageHeader

@@ -158,10 +158,13 @@ export default (props: any) => {
           const { routerBase = '/' } = window;
           const url = path.replace(routerBase, '');
 
-          return (
-            url ? <Link href={path} to={url}>
+          return url ? (
+            //  @ts-ignore
+            <Link href={path} to={url}>
               {breadcrumbName}
-            </Link> : breadcrumbName
+            </Link>
+          ) : (
+            breadcrumbName
           );
         }}
         appSelectedKeys={[appSelectedKeys]}
@@ -175,7 +178,7 @@ export default (props: any) => {
           );
           return menus;
         }}
-        menuFooterRender={(_props: any) => { }}
+        menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
           const { path } = item;
 
@@ -183,6 +186,7 @@ export default (props: any) => {
             return <a>{dom}</a>;
           }
           return (
+            // @ts-ignore
             <Link
               onClick={() => {
                 sessionStorage.removeItem('SEARCH_PARAMS');
