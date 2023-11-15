@@ -1,6 +1,6 @@
-import { uesRequest } from "../../utils/api";
-import { useCallback, useMemo } from "react";
-import { useSessionStorageState } from "ahooks";
+import { uesRequest } from '../../utils/api';
+import { useCallback, useMemo } from 'react';
+import { useSessionStorageState } from 'ahooks';
 
 export type WeightDataItem = {
   convertedQuantity: number;
@@ -12,12 +12,14 @@ export type WeightDataItem = {
 export default function useWeightUnit() {
   const [weightUnit, setWeightUnit] = useSessionStorageState<
     Array<WeightDataItem>
-  >("CG-WEIGHT-UNIT", []);
+  >('CG-WEIGHT-UNIT', {
+    defaultValue: [],
+  });
 
-  const { run } = uesRequest("system", "getWeightUnit");
+  const { run } = uesRequest('system', 'getWeightUnit');
 
   const loadWeight = useCallback(async () => {
-    if (weightUnit == null || JSON.stringify(weightUnit) === "[]") {
+    if (weightUnit == null || JSON.stringify(weightUnit) === '[]') {
       const result = await run();
       if (Array.isArray(result)) {
         setWeightUnit(result);

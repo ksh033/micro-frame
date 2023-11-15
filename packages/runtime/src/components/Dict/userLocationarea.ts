@@ -1,5 +1,5 @@
-import { useSessionStorageState } from "ahooks";
-import { uesRequest } from "../../utils/api";
+import { useSessionStorageState } from 'ahooks';
+import { uesRequest } from '../../utils/api';
 
 export type LocationareaItem = {
   locationAreaName: string;
@@ -9,9 +9,11 @@ export type LocationareaItem = {
 export default function userLocation() {
   const [locationareaList, setLocationareaList] = useSessionStorageState<
     Array<LocationareaItem>
-  >("CG-LOCATIONAREA", []);
+  >('CG-LOCATIONAREA', {
+    defaultValue: [],
+  });
 
-  const { run } = uesRequest("system", "locationAreaList");
+  const { run } = uesRequest('system', 'locationAreaList');
 
   const loadLocationarae = async (params = {}) => {
     const result = await run(params);

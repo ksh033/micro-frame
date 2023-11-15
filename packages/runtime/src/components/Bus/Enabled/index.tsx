@@ -6,13 +6,13 @@
  * @LastEditors: yangyuhang
  * @LastEditTime: 2023-04-12 18:20:25
  */
-import React, { useState, useMemo, useEffect } from "react";
-import { Switch } from "antd";
-import { BsTableComponentProps } from "../../Base/BsTable";
-import { SwitchChangeEventHandler } from "antd/es/switch";
-import { useRequest } from "ahooks";
-import { CModal } from "@scboson/sc-element";
-import Authority from "../../Auth/Authority";
+import React, { useState, useMemo, useEffect } from 'react';
+import { Switch } from 'antd';
+import { BsTableComponentProps } from '../../Base/BsTable';
+import { SwitchChangeEventHandler } from 'antd/es/switch';
+import { useRequest } from 'ahooks';
+import { CModal } from '@scboson/sc-element';
+import Authority from '../../Auth/Authority';
 
 type EnabledProps = BsTableComponentProps & {
   request: (params: any) => Promise<any>; // 请求数据的远程方法
@@ -29,17 +29,17 @@ type EnabledProps = BsTableComponentProps & {
 const Enabled: React.FC<EnabledProps> = (props) => {
   const {
     request,
-    rowKeyName = "id",
+    rowKeyName = 'id',
     value,
     rowData,
-    warning = "您是否确定禁用?",
+    warning = '您是否确定禁用?',
     openWarning,
-    enabledName = "enabled",
+    enabledName = 'enabled',
     disabled,
     callback,
     disabledCallback,
   } = props;
-  const { loading, run } = useRequest(request, {
+  const { loading, runAsync } = useRequest(request, {
     manual: true,
   });
   const [state, setState] = useState<boolean>(!!value);
@@ -52,11 +52,11 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     if (checked === false) {
       CModal.confirm({
         title: `${warning}`,
-        okText: "确定",
-        okType: "danger",
-        cancelText: "取消",
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
         onOk: () => {
-          return run({
+          return runAsync({
             [rowKeyName]: rowData[rowKeyName],
             [enabledName]: checked,
           }).then((data) => {
@@ -71,10 +71,10 @@ const Enabled: React.FC<EnabledProps> = (props) => {
       if (openWarning) {
         CModal.confirm({
           title: `${openWarning}`,
-          okText: "确定",
-          cancelText: "取消",
+          okText: '确定',
+          cancelText: '取消',
           onOk: () => {
-            return run({
+            return runAsync({
               [rowKeyName]: rowData[rowKeyName],
               [enabledName]: checked,
             }).then((data) => {
@@ -86,7 +86,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
           },
         });
       } else {
-        run({
+        runAsync({
           [rowKeyName]: rowData[rowKeyName],
           [enabledName]: checked,
         }).then(() => {
@@ -103,7 +103,7 @@ const Enabled: React.FC<EnabledProps> = (props) => {
     if (disabled !== undefined && disabled !== null) {
       rbackDisabled = disabled;
     }
-    if (typeof disabledCallback === "function") {
+    if (typeof disabledCallback === 'function') {
       rbackDisabled = disabledCallback(rowData);
     }
 
@@ -124,4 +124,4 @@ const Enabled: React.FC<EnabledProps> = (props) => {
   );
 };
 
-export default Authority(Enabled, "Enabled");
+export default Authority(Enabled, 'Enabled');

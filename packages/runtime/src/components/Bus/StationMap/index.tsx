@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-new */
-import { uesRequest } from '../../../utils/api'
+import { uesRequest } from '../../../utils/api';
 import {
   CloseCircleOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
 } from '@ant-design/icons';
 import { CModal } from '@scboson/sc-element';
-import { useFullscreen, useMap, useSetState, useThrottle, useUpdateEffect } from 'ahooks';
+import {
+  useFullscreen,
+  useMap,
+  useSetState,
+  useThrottle,
+  useUpdateEffect,
+} from 'ahooks';
 import { Button, Input } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Marker, PolyEditor, Polygon, PolygonPath, } from 'react-amap';
+import { Marker, PolyEditor, Polygon, PolygonPath } from 'react-amap';
 import { colorRgba, getCenterOfGravityPoint } from '../../../utils/common';
 import compute from '../../../utils/compute';
 import ReactAmapMap from '../ReactAmapMap';
@@ -42,9 +48,9 @@ interface RailProps {
   onChange?: (list: RailItemProps[]) => void;
   distance?: number; // 单位米
   initMarker?: { px: number; py: number }; // 初始化的点
-  cityCode?: any
-  rowKey?: any
-  params?: any
+  cityCode?: any;
+  rowKey?: any;
+  params?: any;
 }
 
 interface RailState {
@@ -66,10 +72,10 @@ export default (props: RailProps) => {
     value,
     cityCode,
     rowKey = 'stationId',
-    params
+    params,
   } = props;
 
-  const { run } = uesRequest('system', 'getStationMapList')
+  const { run } = uesRequest('system', 'getStationMapList');
   const [dataSource, setDataSource] = useState<any>([]);
 
   const mapPlugins: any[] = ['ToolBar', 'Scale'];
@@ -86,10 +92,10 @@ export default (props: RailProps) => {
   const [stations, stationsMap] = useMap<
     string | number,
     {
-      scopes: any[],
-      color: string,
-      px: any,
-      py: any,
+      scopes: any[];
+      color: string;
+      px: any;
+      py: any;
     }
   >([]);
 
@@ -107,22 +113,20 @@ export default (props: RailProps) => {
   const [inputVal, setInputVal] = useState<string>();
   const throttledValue = useThrottle(inputVal, { wait: 500 });
 
-
   useEffect(() => {
     run(params).then((res: any) => {
       if (res) {
-        setDataSource(res)
+        setDataSource(res);
       }
-    })
-  }, [])
-
+    });
+  }, []);
 
   useUpdateEffect(() => {
     if (throttledValue && throttledValue !== '' && placeSearch.current) {
       placeSearch.current.search(throttledValue);
     }
   }, [throttledValue]);
-  const [isFullscreen, { toggleFull }] = useFullscreen(fullRef);
+  const [isFullscreen, { toggleFullscreen }] = useFullscreen(fullRef);
 
   const [state, setState] = useSetState<RailState>({
     maxSize: 0,
@@ -201,7 +205,7 @@ export default (props: RailProps) => {
         titleMapFn.set(key, item.stationName || '');
 
         item.serviceScopes.forEach((it) => {
-          const layoutKey = GenNonDuplicateID(10)
+          const layoutKey = GenNonDuplicateID(10);
           if (index === 0) {
             activeKey = layoutKey;
           }
@@ -209,8 +213,7 @@ export default (props: RailProps) => {
             path: formatLngLat(it.scopePts),
             color: colorList[index % 12],
           });
-        })
-
+        });
       });
 
       setState({
@@ -263,7 +266,6 @@ export default (props: RailProps) => {
       });
     }
   }, [JSON.stringify(initMarker)]);
-
 
   const formatValue = (_value: any) => {
     if (_value) {
@@ -372,7 +374,7 @@ export default (props: RailProps) => {
           });
         }
       }
-    }
+    },
   };
 
   const editorEvents = {
@@ -449,7 +451,7 @@ export default (props: RailProps) => {
   const getPolyEditor = useCallback(() => {
     const polyEditors: React.ReactNode[] = [];
     Array.from(stations).forEach((item: any) => {
-      const overlays = item[1].scopes
+      const overlays = item[1].scopes;
       const key = item[0];
       const _color = item[1].color;
       const style = {
@@ -463,7 +465,12 @@ export default (props: RailProps) => {
       overlays.forEach((it: any, index: any) => {
         const path = JSON.parse(JSON.stringify(formatLngLat(it.scopePts)));
         polyEditors.push(
-          <Polygon path={path} key={`${key}_${index}`} style={style} events={event}>
+          <Polygon
+            path={path}
+            key={`${key}_${index}`}
+            style={style}
+            events={event}
+          >
             {/* <PolyEditor
               key={`${index}`}
               events={editorEvents}
@@ -471,7 +478,7 @@ export default (props: RailProps) => {
             /> */}
           </Polygon>
         );
-      })
+      });
     });
     return polyEditors;
   }, [JSON.stringify(stations), state.active]);
@@ -483,10 +490,11 @@ export default (props: RailProps) => {
       const key = item[0];
       if (window.AMap) {
         const Icon = new window.AMap.Icon({
-          image: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
+          image:
+            'http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png',
           size: new window.AMap.Size(30, 30),
-          imageSize: new window.AMap.Size(30, 30)
-        })
+          imageSize: new window.AMap.Size(30, 30),
+        });
         Markers.push(
           <Marker
             icon={Icon}
@@ -516,8 +524,8 @@ export default (props: RailProps) => {
       }
       const mainStyle = active
         ? {
-          border: '1px solid #155bD4',
-        }
+            border: '1px solid #155bD4',
+          }
         : {};
       list.push(
         <div
@@ -580,7 +588,7 @@ export default (props: RailProps) => {
           </Button>
         </div> */}
       </div>
-      <div className={styles['rail-fullbtn']} onClick={toggleFull}>
+      <div className={styles['rail-fullbtn']} onClick={toggleFullscreen}>
         {isFullscreen ? (
           <FullscreenExitOutlined style={{ fontSize: '24px' }} />
         ) : (

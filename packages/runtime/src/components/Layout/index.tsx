@@ -1,15 +1,28 @@
-import { LayoutContextType, MasterLayout, ProSettings, RouteContext, RouteContextType } from "@scboson/sc-layout";
-import { useContext, useEffect, useLayoutEffect, useMemo, useState, useRef } from "react";
+import {
+  LayoutContextType,
+  MasterLayout,
+  ProSettings,
+  RouteContext,
+  RouteContextType,
+} from '@scboson/sc-layout';
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 // @ts-ignore
-import { CModal } from "@scboson/sc-element";
-import { useExternal, useMount } from "ahooks";
+import { CModal } from '@scboson/sc-element';
+import { useExternal, useMount } from 'ahooks';
 // @ts-ignore
-import { history, Link, useModel, useLocation, useAppData, Outlet } from "umi";
+import { history, Link, useModel, useLocation, useAppData, Outlet } from 'umi';
 
-import { filterRoutes, mapRoutes, useAccessMarkedRoutes } from './utils'
-import BsIcon from '../Base/BsIcon'
-import { useUpdate } from 'ahooks'
-import logo from "../../assets/logo.svg";
+import { filterRoutes, mapRoutes, useAccessMarkedRoutes } from './utils';
+import BsIcon from '../Base/BsIcon';
+import { useUpdate } from 'ahooks';
+import logo from '../../assets/logo.svg';
 import {
   changeApp,
   clearTimer,
@@ -18,26 +31,26 @@ import {
   getUserAppCode,
   initInner,
   initWarnTimer,
-} from "../Auth";
-import userDictModel from "../Dict/userDictModel";
-import userLocationarea from "../Dict/userLocationarea";
-import useWeightUnit from "../Dict/weightUnit";
-import RightContent from "./GlobalHeader/RightContent";
-import "./index.less";
-import menuFormat from "./menuFormat";
-import { ConfigProvider } from "antd";
+} from '../Auth';
+import userDictModel from '../Dict/userDictModel';
+import userLocationarea from '../Dict/userLocationarea';
+import useWeightUnit from '../Dict/weightUnit';
+import RightContent from './GlobalHeader/RightContent';
+import './index.less';
+import menuFormat from './menuFormat';
+import { ConfigProvider } from 'antd';
 // 是否通知key
-const WhetherNoticeKey = "WHETHER-NOTICE-KEY";
-
+const WhetherNoticeKey = 'WHETHER-NOTICE-KEY';
 
 export default (props: any) => {
-  useExternal("https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js", {
-    async: false,
+  useExternal('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', {
+    type: 'js',
+    js: { async: false },
   });
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
   });
-  const update = useUpdate()
+  const update = useUpdate();
   //isMaster 是否是主应用
   const { children, userConfig, isMaster, ...restProps } = props;
   const { menuData, appData, appSelected, localMenuData } = userConfig || {};
@@ -47,11 +60,20 @@ export default (props: any) => {
   const location = useLocation();
   const { clientRoutes, pluginManager } = useAppData();
   // 现在的 layout 及 wrapper 实现是通过父路由的形式实现的, 会导致路由数据多了冗余层级, proLayout 消费时, 无法正确展示菜单, 这里对冗余数据进行过滤操作
-  const newRoutes = filterRoutes(clientRoutes.filter(route => route.id === 'layout' || route.id == '@@/global-layout'), (route) => {
-    return (!!route.isLayout && (route.id !== 'layout' && route.id !== "@@/global-layout")) || !!route.isWrapper;
-  })
+  const newRoutes = filterRoutes(
+    clientRoutes.filter(
+      (route) => route.id === 'layout' || route.id == '@@/global-layout'
+    ),
+    (route) => {
+      return (
+        (!!route.isLayout &&
+          route.id !== 'layout' &&
+          route.id !== '@@/global-layout') ||
+        !!route.isWrapper
+      );
+    }
+  );
   const [route] = mapRoutes(newRoutes);
-
 
   const { loadDict } = userDictModel();
   const { loadWeight } = useWeightUnit();
@@ -60,32 +82,28 @@ export default (props: any) => {
   const whetherNotice = localStorage.getItem(WhetherNoticeKey);
 
   const { setQiankunGlobalState } =
-    useModel("@@qiankunStateForSlave") ||
-    useModel("@@qiankunStateFromMaster") ||
+    useModel('@@qiankunStateForSlave') ||
+    useModel('@@qiankunStateFromMaster') ||
     {};
   const currentSysRef = useRef<any>(getUserAppCode() || getAppCode());
-
 
   const mdata = useMemo(() => {
     let newMenuData: any[] | undefined = menuData;
     if (newMenuData == null) {
-
-
       newMenuData = userAppInfo?.currentDept.menus;
 
       newMenuData?.forEach((item) => {
-        const code = `sc-icon-${item.pageUrl}`
-        item.iconUrl = <BsIcon name={code} type={code}></BsIcon>
+        const code = `sc-icon-${item.pageUrl}`;
+        item.iconUrl = <BsIcon name={code} type={code}></BsIcon>;
         // item.key=item.pageUrl
-        item.systemCode = item.pageUrl
-        item.id = item.pageUrl
-        item.isApp = true
-      })
-
+        item.systemCode = item.pageUrl;
+        item.id = item.pageUrl;
+        item.isApp = true;
+      });
     } else {
       //处理本地单应用
       //const [app]=apps;
-      const [sys] = appData
+      const [sys] = appData;
 
       const newApp = {
         //  name: sys.systemName,
@@ -98,7 +116,7 @@ export default (props: any) => {
         systemCode: sys.systemCode,
         pageUrl: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
         path: sys.pageUrl ? `/${sys.pageUrl}` : `/${sys.systemCode}`,
-      }
+      };
 
       newMenuData = [{ ...newApp, children: newMenuData }];
     }
@@ -122,7 +140,7 @@ export default (props: any) => {
       console.log(appSelected);
       if (appSelected) {
         if (!changeApp(appSelected)) {
-          history.push("/");
+          history.push('/');
         }
       }
     }
@@ -138,17 +156,17 @@ export default (props: any) => {
       (whetherNotice === undefined || whetherNotice === null) &&
       user?.wechatUnionId === null
     ) {
-      localStorage.setItem(WhetherNoticeKey, "true");
+      localStorage.setItem(WhetherNoticeKey, 'true');
       // @ts-ignore
       CModal.confirm({
-        title: "绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全",
-        okText: "立即绑定",
-        cancelText: "暂不绑定",
+        title: '绑定您的个人微信号，下次可使用微信扫码登录，更加快速安全',
+        okText: '立即绑定',
+        cancelText: '暂不绑定',
         onOk: () => {
           history.push({
-            pathname: "/system/current",
+            pathname: '/system/current',
             query: {
-              currentKey: "binding",
+              currentKey: 'binding',
               autoOpen: true,
             },
           });
@@ -162,16 +180,13 @@ export default (props: any) => {
     // console.log("routeContextRef", routeContextRef)
   });
 
-  const routeContextRef = useRef<RouteContextType & LayoutContextType>()
-
-
-
+  const routeContextRef = useRef<RouteContextType & LayoutContextType>();
 
   return (
     <div
       id="test-pro-layout"
       style={{
-        height: "100vh",
+        height: '100vh',
       }}
     >
       <ConfigProvider
@@ -179,104 +194,98 @@ export default (props: any) => {
           return document.getElementById('test-pro-layout') || document.body;
         }}
       >
-      <MasterLayout
-        ref={routeContextRef}
-        logo={logo}
-        route={route}
-        location={location}
-        // apps={apps}
-        onPageChange={(location, menuItem) => {
-          if (menuItem && menuItem.key)
-            setQiankunGlobalState &&
-              setQiankunGlobalState({ currentMenu: menuItem, routeContext: routeContextRef.current });
-        }}
-        appMenuProps={{
-          // onSelect: async ({ selectedKeys }) => {
-
-
-          //   const keys = selectedKeys
-          //   if (keys && keys.length > 0) {
-          //     if (!changeApp(keys[0])) {
-          //       changeApp(keys[0]);
-          //     }
-          //    const item= mdata?.find(({id})=>{
-          //       return id=keys[0]
-          //     })
-          //     if (item){
-          //       update()
-          //      // history.push("/" + item.pageUrl);
-          //     }
-
-          //   }
-          // },
-        }}
-        itemRender={({ breadcrumbName, path }: any) => {
-          const { routerBase = "/" } = window;
-          const url = path.replace(routerBase, "");
-
-          return url ? (
-            //  @ts-ignore
-            <Link href={path} to={url}>
-              {breadcrumbName}
-            </Link>
-          ) : (
-            breadcrumbName
-          );
-        }}
-        appSelectedKeys={[currentSysRef.current]}
-        {...restProps}
-        menuDataRender={() => {
-          const menus = menuFormat.formatMenu(
-            mdata || [],
-            [],
-            "",
-            localMenuData
-          );
-          return menus;
-        }}
-        menuFooterRender={(_props: any) => {}}
-        menuItemRender={(item: any, dom) => {
-
-
-          const { path } = item;
-
-
-          if (item.isApp) {
-            return <a>{dom}</a>;
+        <MasterLayout
+          ref={routeContextRef}
+          logo={logo}
+          route={route}
+          location={location}
+          // apps={apps}
+          onPageChange={(location, menuItem) => {
+            if (menuItem && menuItem.key)
+              setQiankunGlobalState &&
+                setQiankunGlobalState({
+                  currentMenu: menuItem,
+                  routeContext: routeContextRef.current,
+                });
+          }}
+          appMenuProps={
+            {
+              // onSelect: async ({ selectedKeys }) => {
+              //   const keys = selectedKeys
+              //   if (keys && keys.length > 0) {
+              //     if (!changeApp(keys[0])) {
+              //       changeApp(keys[0]);
+              //     }
+              //    const item= mdata?.find(({id})=>{
+              //       return id=keys[0]
+              //     })
+              //     if (item){
+              //       update()
+              //      // history.push("/" + item.pageUrl);
+              //     }
+              //   }
+              // },
+            }
           }
-          return (
-            // @ts-ignore
-            <Link
-              onClick={() => {
-                console.log(item)
-                if (item.syscode !== currentSysRef.current) {
-                  currentSysRef.current = item.syscode
-                  changeApp(currentSysRef.current);
+          itemRender={({ breadcrumbName, path }: any) => {
+            const { routerBase = '/' } = window;
+            const url = path.replace(routerBase, '');
 
-                }
-                sessionStorage.removeItem("SEARCH_PARAMS");
-              }}
-              to={{
-                pathname: `${path}`,
-              }}
-            >
-              {dom}
-            </Link>
-          );
-        }}
-        rightContentRender={() => (
-          <RightContent currentUser={user} menu></RightContent>
-        )}
-        {...settings}
-        navTheme="light"
-      >
+            return url ? (
+              //  @ts-ignore
+              <Link href={path} to={url}>
+                {breadcrumbName}
+              </Link>
+            ) : (
+              breadcrumbName
+            );
+          }}
+          appSelectedKeys={[currentSysRef.current]}
+          {...restProps}
+          menuDataRender={() => {
+            const menus = menuFormat.formatMenu(
+              mdata || [],
+              [],
+              '',
+              localMenuData
+            );
+            return menus;
+          }}
+          menuFooterRender={(_props: any) => {}}
+          menuItemRender={(item: any, dom) => {
+            const { path } = item;
 
-
-        {children}
-      </MasterLayout>
+            if (item.isApp) {
+              return <a>{dom}</a>;
+            }
+            return (
+              // @ts-ignore
+              <Link
+                onClick={() => {
+                  console.log(item);
+                  if (item.syscode !== currentSysRef.current) {
+                    currentSysRef.current = item.syscode;
+                    changeApp(currentSysRef.current);
+                  }
+                  sessionStorage.removeItem('SEARCH_PARAMS');
+                }}
+                to={{
+                  pathname: `${path}`,
+                }}
+              >
+                {dom}
+              </Link>
+            );
+          }}
+          rightContentRender={() => (
+            <RightContent currentUser={user} menu></RightContent>
+          )}
+          {...settings}
+          navTheme="light"
+        >
+          {children}
+        </MasterLayout>
       </ConfigProvider>
     </div>
   );
 };
-
-

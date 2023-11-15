@@ -1,17 +1,17 @@
 /* eslint-disable max-len */
 
-import { CModal, ScSelect } from "@scboson/sc-element";
+import { CModal, ScSelect } from '@scboson/sc-element';
 import {
   FormComponent,
   FormComponentProps,
-} from "@scboson/sc-element/es/c-form";
-import type { ScSelectProps } from "@scboson/sc-element/es/sc-select";
-import { useUpdateEffect } from "ahooks";
-import { DefaultOptionType } from "antd/es/select";
-import { useEffect, useState } from "react";
-import { uesRequest } from "../../../utils/api";
-import { getUser } from "../../Auth";
-import userLocationarea from "../../Dict/userLocationarea";
+} from '@scboson/sc-element/es/c-form';
+import type { ScSelectProps } from '@scboson/sc-element/es/sc-select';
+import { useUpdateEffect } from 'ahooks';
+import { DefaultOptionType } from 'antd/es/select';
+import { useEffect, useState } from 'react';
+import { uesRequest } from '../../../utils/api';
+import { getUser } from '../../Auth';
+import userLocationarea from '../../Dict/userLocationarea';
 
 type LocationAreaSelectProps = FormComponentProps &
   ScSelectProps & {
@@ -27,7 +27,7 @@ type LocationAreaSelectProps = FormComponentProps &
   };
 
 const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
-  const { run } = uesRequest("system", "locationAreaList");
+  const { run } = uesRequest('system', 'locationAreaList');
   const { locationareaList } = userLocationarea();
   const {
     readonly,
@@ -49,13 +49,13 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
   } = props;
 
   const [dataSource, setDataSource] = useState<any[]>([]);
-  const record = props["data-row"] || props.rowData || initialValues || {};
+  const record = props['data-row'] || props.rowData || initialValues || {};
 
   const user = getUser();
   const bizDeptType = user?.userAppInfo?.currentDept.bizDeptType;
 
   const defaultWaringMsg = `切换${
-    bizDeptType === "SHOP" ? "档口" : "库区"
+    bizDeptType === 'SHOP' ? '档口' : '库区'
   }后,下方商品明细将被清空，是否确定切换`;
 
   const loadData = () => {
@@ -93,7 +93,7 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
 
   useEffect(() => {
     if (local) {
-      setDataSource(locationareaList);
+      setDataSource(Array.isArray(locationareaList) ? locationareaList : []);
     }
   }, [JSON.stringify(locationareaList)]);
 
@@ -110,8 +110,8 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
     if (needWarned) {
       CModal.confirm({
         title: changeWarngingMsg || defaultWaringMsg,
-        okText: "确定",
-        cancelText: "取消",
+        okText: '确定',
+        cancelText: '取消',
         onOk: () => {
           onChange?.(value, option);
         },
@@ -132,9 +132,11 @@ const LocationAreaSelect: FormComponent<LocationAreaSelectProps> = (props) => {
       return <div>{resProps.value}</div>;
     }
     const areaName = dataSource.find(
-      (it) => it.locationAreaId === resProps.value || it.locationAreaName === resProps.value
+      (it) =>
+        it.locationAreaId === resProps.value ||
+        it.locationAreaName === resProps.value
     );
-    return <div>{areaName ? areaName.locationAreaName : ""}</div>;
+    return <div>{areaName ? areaName.locationAreaName : ''}</div>;
   }
 
   return (

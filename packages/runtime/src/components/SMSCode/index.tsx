@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
-import { useInterval, useCounter, useUpdateEffect, useRequest } from "ahooks";
-import { Button } from "antd";
-import style from "./index.less";
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import { useInterval, useCounter, useUpdateEffect, useRequest } from 'ahooks';
+import { Button } from 'antd';
+import style from './index.less';
 
 const SMSCode: React.ForwardRefRenderFunction<
   {
@@ -15,7 +15,7 @@ const SMSCode: React.ForwardRefRenderFunction<
 
   const [started, setStarted] = useState<any>(false);
 
-  const { loading, run } = useRequest(
+  const { loading, runAsync } = useRequest(
     props.request ||
       new Promise((resolve) => {
         resolve(null);
@@ -46,7 +46,7 @@ const SMSCode: React.ForwardRefRenderFunction<
   }, [current]);
 
   const handleClick = () => {
-    run({
+    runAsync({
       phone: props?.phone,
     }).then(() => {
       setInterval(1000);
@@ -54,11 +54,11 @@ const SMSCode: React.ForwardRefRenderFunction<
     });
   };
 
-  const btndisabled = props?.phone == null || props?.phone === "";
+  const btndisabled = props?.phone == null || props?.phone === '';
 
   if (interval !== null) {
     return (
-      <Button type="link" disabled className={style["sms-code-size"]}>
+      <Button type="link" disabled className={style['sms-code-size']}>
         重新获取 {current} s
       </Button>
     );
@@ -68,7 +68,7 @@ const SMSCode: React.ForwardRefRenderFunction<
         type="link"
         onClick={handleClick}
         className={
-          btndisabled ? style["sms-code-size-disable"] : style["sms-code-size"]
+          btndisabled ? style['sms-code-size-disable'] : style['sms-code-size']
         }
         loading={loading}
         disabled={btndisabled}

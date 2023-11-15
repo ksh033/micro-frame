@@ -1,17 +1,17 @@
-import { ScTree } from "@scboson/sc-element";
-import { ListPage, PageConfig, useListPageContext } from "@scboson/sc-schema";
-import { FormSearchItem, ProColumn } from "@scboson/sc-schema/es/interface";
-import TableInfo from "@scboson/sc-schema/lib/page/TableInfo";
-import { useSize } from "ahooks";
-import { CheckboxProps } from "antd";
-import { RowSelectionType } from "antd/es/table/interface";
-import React, { Key, useMemo, useRef, useState } from "react";
-import { uesRequest } from "../../../utils/api";
-import BsSearch from "../../Base/BsSearch";
-import BsTable from "../../Base/BsTable";
-import BrandSelect from "../BrandSelect";
-import styles from "./index.less";
-import list from "./list";
+import { ScTree } from '@scboson/sc-element';
+import { ListPage, PageConfig, useListPageContext } from '@scboson/sc-schema';
+import { FormSearchItem, ProColumn } from '@scboson/sc-schema/es/interface';
+import TableInfo from '@scboson/sc-schema/lib/page/TableInfo';
+import { useSize } from 'ahooks';
+import { CheckboxProps } from 'antd';
+import { RowSelectionType } from 'antd/es/table/interface';
+import React, { Key, useMemo, useRef, useState } from 'react';
+import { uesRequest } from '../../../utils/api';
+import BsSearch from '../../Base/BsSearch';
+import BsTable from '../../Base/BsTable';
+import BrandSelect from '../BrandSelect';
+import styles from './index.less';
+import list from './list';
 
 const pagaConfig: PageConfig = {
   service: {},
@@ -34,7 +34,7 @@ export type SelectCargoTableProps = {
   formatPrams?: (params: any) => any;
   getCheckboxProps?: (
     record: any
-  ) => Partial<Omit<CheckboxProps, "defaultChecked" | "checked">>;
+  ) => Partial<Omit<CheckboxProps, 'defaultChecked' | 'checked'>>;
   formatTableInfo: (tableInfo: TableInfo) => TableInfo;
   waringFn?: () => React.ReactNode;
 };
@@ -47,7 +47,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     extraQueryColumns,
     request,
     params,
-    selectionType = "checkbox",
+    selectionType = 'checkbox',
     onTabelRow,
     selectedRowKeys,
     isNeedLeft = true,
@@ -56,15 +56,15 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
     onLoad,
     formatPrams,
     formatTableInfo,
-    rowKey = "cargoId",
+    rowKey = 'cargoId',
     waringFn,
     column,
   } = props;
-  const { run } = uesRequest("catalog", "treeData");
+  const { run } = uesRequest('catalog', 'treeData');
   const page = useListPageContext();
   const search = page.getSearch({
     initialValues: {
-      adjustTypes: ["ADD", "EDIT", "DELETE"],
+      adjustTypes: ['ADD', 'EDIT', 'DELETE'],
     },
   });
   const ref = useRef<any>();
@@ -72,20 +72,20 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   console.log(size);
 
   const scrollY = useMemo(() => {
-    return Number(size.height || 0) - 260 > 0
-      ? Number(size.height || 0) - 260
+    return Number(size?.height || 0) - 260 > 0
+      ? Number(size?.height || 0) - 260
       : 400;
   }, [size]);
 
   if (isNeddBrand) {
     search.addSearchItem({
-      label: "品牌",
-      name: "brandName",
+      label: '品牌',
+      name: 'brandName',
       component: BrandSelect,
       formItemProps: {},
       props: {
         allowClear: true,
-        placeholder: "请选择品牌",
+        placeholder: '请选择品牌',
       },
     });
   }
@@ -143,7 +143,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
       ...pageInfo.params,
       catalogId: selectedKeys[0] ? String(selectedKeys[0]) : null,
     };
-    if (typeof formatPrams === "function") {
+    if (typeof formatPrams === 'function') {
       newPrams = formatPrams(newPrams);
     }
     return newPrams;
@@ -168,14 +168,14 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
   return (
     <div className={styles.cell} ref={ref}>
       {isNeedLeft ? (
-        <div className={styles["cell-left"]}>
+        <div className={styles['cell-left']}>
           <div>
             <a onClick={handelClick}>全部商品</a>
           </div>
           <ScTree
             selectedKeys={selectedKeys}
             canSearch={false}
-            placeholder={"search"}
+            placeholder={'search'}
             async={true}
             showLine={true}
             loadDataPramsFormat={loadDataPramsFormat}
@@ -188,7 +188,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           />
         </div>
       ) : null}
-      <div className={styles["catalog-table"]}>
+      <div className={styles['catalog-table']}>
         <BsSearch {...searchConfig}></BsSearch>
         {waringFn ? waringFn() : null}
         <div>
@@ -212,7 +212,7 @@ const SelectCargoTable: React.FC<SelectCargoTableProps> = (
           request={request}
           onLoad={onLoad}
           scroll={{ y: scrollY }}
-          cardProps={{ bodyStyle: { padding: "0" } }}
+          cardProps={{ bodyStyle: { padding: '0' } }}
         ></BsTable>
       </div>
     </div>

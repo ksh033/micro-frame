@@ -1,10 +1,10 @@
-import { ScTree } from "@scboson/sc-element";
-import { useRequest, useSetState } from "ahooks";
-import { Button, Space, Spin } from "antd";
-import React, { Key, useEffect, useRef, useState } from "react";
-import ModalPageContainer from "../../../components/Base/Tpl/ModalPageTpl";
-import { uesRequest } from "../../../utils/api";
-import style from "./index.less";
+import { ScTree } from '@scboson/sc-element';
+import { useRequest, useSetState } from 'ahooks';
+import { Button, Space, Spin } from 'antd';
+import React, { Key, useEffect, useRef, useState } from 'react';
+import ModalPageContainer from '../../../components/Base/Tpl/ModalPageTpl';
+import { uesRequest } from '../../../utils/api';
+import style from './index.less';
 
 type EditCatalogRefProps = {
   close: () => void;
@@ -22,16 +22,23 @@ type EditCatalogRefState = {
   treeData: any[];
 };
 
-const defaultRequest = new Promise((resolve) => {
-  resolve(null);
-});
+const defaultRequest = () => {
+  return new Promise<any>((resolve) => {
+    resolve(null);
+  });
+};
 
 const defaultOptions = { manual: true };
 
 const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
-  const allCatalog = uesRequest("catalog", "allCatalog");
+  const allCatalog = uesRequest('catalog', 'allCatalog');
   const { pageProps, close } = props;
-  const { occupyRequest, params = {}, saveRequest, reload } = pageProps;
+  const {
+    occupyRequest = defaultRequest,
+    params = {},
+    saveRequest = defaultRequest,
+    reload,
+  } = pageProps;
 
   const occupyRequestRun = useRequest(
     occupyRequest || defaultRequest,
@@ -55,7 +62,7 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   const getAllKeys = (list: any[], selectKeys: Key[]) => {
     if (Array.isArray(list)) {
       list.forEach((item: any) => {
-        if (Object.prototype.toString.call(item) === "[object Object]") {
+        if (Object.prototype.toString.call(item) === '[object Object]') {
           if (Array.isArray(item.children) && item.children.length > 0) {
             getAllKeys(item.children, selectKeys);
           }
@@ -68,8 +75,8 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   };
 
   const init = async () => {
-    const allTreeRes = await allCatalog.run();
-    const res = await occupyRequestRun.run(params);
+    const allTreeRes = await allCatalog.runAsync();
+    const res = await occupyRequestRun.runAsync(params);
     let allTree: any[] = [];
     if (allTreeRes && Array.isArray(allTreeRes.children)) {
       const keys: Key[] = [];
@@ -162,17 +169,17 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   };
   const modalButtons = [
     {
-      text: "取消",
+      text: '取消',
       onClick() {
         close?.();
       },
     },
     {
-      text: "确定",
-      type: "primary",
+      text: '确定',
+      type: 'primary',
       onClick() {
         saveRequestRun
-          .run({
+          .runAsync({
             catalogIdList: selectedKeys,
             ...params,
           })
@@ -187,16 +194,16 @@ const EditCatalogRef: React.FC<EditCatalogRefProps> = (props) => {
   return (
     <Spin tip="Loading..." spinning={allCatalog.loading}>
       <ModalPageContainer title="修改关联品目" toolbar={modalButtons}>
-        <div className={style["bs-edit-catalog-ref"]}>
+        <div className={style['bs-edit-catalog-ref']}>
           <Space>
             <Button type="primary" onClick={handleClick}>
-              {state.expandAll ? "收起全部品目" : "展开全部品目"}
+              {state.expandAll ? '收起全部品目' : '展开全部品目'}
             </Button>
           </Space>
           <ScTree
             checkable
             canSearch={false}
-            placeholder={"search"}
+            placeholder={'search'}
             isLeafFormat={isLeafFormat}
             defaultExpandParent
             textField="catalogName"

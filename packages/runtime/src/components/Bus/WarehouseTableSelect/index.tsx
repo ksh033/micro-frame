@@ -1,21 +1,21 @@
 /* eslint-disable max-len */
 
-import React, { useRef } from "react";
-import { Input, Select, Button } from "antd";
-import { CModal } from "@scboson/sc-element";
-import TableModal from "./table";
+import React, { useRef } from 'react';
+import { Input, Select, Button, Space } from 'antd';
+import { CModal } from '@scboson/sc-element';
+import TableModal from './table';
 import {
   FormComponent,
   FormComponentProps,
-} from "@scboson/sc-element/es/c-form";
-import { TableRowSelection } from "antd/es/table/interface";
+} from '@scboson/sc-element/es/c-form';
+import { TableRowSelection } from 'antd/es/table/interface';
 
 interface TableSelectProps extends FormComponentProps {
   placeholder?: string;
   value?: any;
   title?: string;
   onChange?: (value: any) => void;
-  selectionType?: "checkbox" | "radio";
+  selectionType?: 'checkbox' | 'radio';
   textField?: any;
   disabled: boolean;
   valueField?: string;
@@ -29,15 +29,15 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
   props: TableSelectProps
 ) => {
   const {
-    placeholder = "请选择仓库",
-    title = "选择",
-    selectionType = "radio",
+    placeholder = '请选择仓库',
+    title = '选择',
+    selectionType = 'radio',
     rowSelection,
     onChange,
     value = [],
     disabled = false,
-    textField = "warehouseName",
-    valueField = "warehouseId",
+    textField = 'warehouseName',
+    valueField = 'warehouseId',
     readonly,
     form,
     needAll = true,
@@ -82,7 +82,7 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
   const handleClick = () => {
     CModal.show({
       title,
-      width: "1200px",
+      width: '1200px',
       content: TableModal,
       pageProps: {
         params,
@@ -128,23 +128,23 @@ const WarehouseTableSelect: FormComponent<TableSelectProps> = (
 
   const formatInputValue = (list: any[]) => {
     if (Array.isArray(list) && list.length === 1) {
-      const values = list[0][textField] || "";
+      const values = list[0][textField] || '';
       return values;
     }
-    return "";
+    return '';
   };
   if (readonly === true) {
     return <span>{formatInputValue(value)}</span>;
   }
 
-  if (selectionType === "checkbox") {
+  if (selectionType === 'checkbox') {
     return (
       <Space.Compact>
         <Select
           mode="multiple"
           placeholder={placeholder}
           value={formatSelectValue(value)}
-          style={{ width: "70%" }}
+          style={{ width: '70%' }}
           labelInValue
           open={false}
           onChange={handleChange}
