@@ -43,7 +43,7 @@ const SlaveLayout = (componentProps: any) => {
     if ("/" + path == window.routerBase) {
       url = "/"
     }
-
+    //  @ts-ignore
     return url ? <Link to={url}>{breadcrumbName}</Link> : breadcrumbName;
   };
   //   // 现在的 layout 及 wrapper 实现是通过父路由的形式实现的, 会导致路由数据多了冗余层级, proLayout 消费时, 无法正确展示菜单, 这里对冗余数据进行过滤操作

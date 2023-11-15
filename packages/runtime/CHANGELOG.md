@@ -3,7 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0-alpha.9](http://bsgit28:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@2.0.0-alpha.9) (2023-08-15)
+## [1.0.6-beta.111](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.110...@micro-frame/sc-runtime@1.0.6-beta.111) (2023-11-13)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.110](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.109...@micro-frame/sc-runtime@1.0.6-beta.110) (2023-11-10)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.109](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.108...@micro-frame/sc-runtime@1.0.6-beta.109) (2023-10-17)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.108](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.107...@micro-frame/sc-runtime@1.0.6-beta.108) (2023-09-11)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.107](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.106...@micro-frame/sc-runtime@1.0.6-beta.107) (2023-09-08)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.106](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.105...@micro-frame/sc-runtime@1.0.6-beta.106) (2023-08-30)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.105](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.104...@micro-frame/sc-runtime@1.0.6-beta.105) (2023-08-29)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.104](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.103...@micro-frame/sc-runtime@1.0.6-beta.104) (2023-08-28)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.103](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.102...@micro-frame/sc-runtime@1.0.6-beta.103) (2023-08-15)
 
 **Note:** Version bump only for package @micro-frame/sc-runtime
 
@@ -79,6 +143,108 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @micro-frame/sc-runtime
 
+
+
+
+
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.92](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.91...@micro-frame/sc-runtime@1.0.6-beta.92) (2023-06-28)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.91](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.90...@micro-frame/sc-runtime@1.0.6-beta.91) (2023-06-28)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.90](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.89...@micro-frame/sc-runtime@1.0.6-beta.90) (2023-06-13)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.89](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.88...@micro-frame/sc-runtime@1.0.6-beta.89) (2023-06-06)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.88](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.87...@micro-frame/sc-runtime@1.0.6-beta.88) (2023-06-05)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.87](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.86...@micro-frame/sc-runtime@1.0.6-beta.87) (2023-05-31)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.86](http://58.22.61.222:57949/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.85...@micro-frame/sc-runtime@1.0.6-beta.86) (2023-05-31)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.85](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.84...@micro-frame/sc-runtime@1.0.6-beta.85) (2023-05-18)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.84](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.83...@micro-frame/sc-runtime@1.0.6-beta.84) (2023-04-23)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.83](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.82...@micro-frame/sc-runtime@1.0.6-beta.83) (2023-04-23)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.82](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.81...@micro-frame/sc-runtime@1.0.6-beta.82) (2023-04-21)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
+
+
+
+
+
+## [1.0.6-beta.81](http://58.22.61.222:18001/bgtech-fe/micro-frame/compare/@micro-frame/sc-runtime@1.0.6-beta.80...@micro-frame/sc-runtime@1.0.6-beta.81) (2023-04-21)
+
+**Note:** Version bump only for package @micro-frame/sc-runtime
 
 
 

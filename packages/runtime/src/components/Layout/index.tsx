@@ -215,6 +215,7 @@ export default (props: any) => {
           const url = path.replace(routerBase, "");
 
           return url ? (
+            //  @ts-ignore
             <Link href={path} to={url}>
               {breadcrumbName}
             </Link>
@@ -233,22 +234,7 @@ export default (props: any) => {
           );
           return menus;
         }}
-        menuFooterRender={(_props: any) => { }}
-
-        // menuItemRender={(menuItemProps, defaultDom) => {
-        //   if (menuItemProps.isUrl || menuItemProps.children) {
-        //     return defaultDom;
-        //   }
-        //   if (menuItemProps.path && location.pathname !== menuItemProps.path) {
-        //     return (
-        //       // handle wildcard route path, for example /slave/* from qiankun
-        //       <Link to={menuItemProps.path.replace('/*', '')} target={menuItemProps.target}>
-        //         {defaultDom}
-        //       </Link>
-        //     );
-        //   }
-        //   return defaultDom;
-        // }}
+        menuFooterRender={(_props: any) => {}}
         menuItemRender={(item: any, dom) => {
 
 
@@ -259,6 +245,7 @@ export default (props: any) => {
             return <a>{dom}</a>;
           }
           return (
+            // @ts-ignore
             <Link
               onClick={() => {
                 console.log(item)
