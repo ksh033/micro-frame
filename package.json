@@ -98,8 +98,5 @@
     "umi": "^4.0.70"
   },
   "packageManager": "pnpm@8.2.0",
-  "name": "micro-frame",
-  "dependencies": {
-    "@scboson/sc-layout": "^2.1.0-alpha.3"
-  }
+  "name": "micro-frame"
 }
