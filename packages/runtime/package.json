@@ -1,6 +1,6 @@
 {
   "name": "@micro-frame/sc-runtime",
-  "version": "2.0.0-alpha.9",
+  "version": "2.0.0-alpha.10",
   "description": "@micro-frame/sc-runtime",
   "module": "es/index.js",
   "main": "lib/index.js",
