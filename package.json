@@ -10,7 +10,7 @@
     "build2": "pnpm --filter  @micro-frame/sc-slave build:dev",
     "build3": "pnpm --filter  @micro-frame/sc-runtime build:dev",
     "build4": "pnpm --filter  @micro-frame/plugin-microlayout build:dev",
-    "release": "node ./scripts/release.js --conventionalPrerelease=true --skip-git-status-check --skipBuild",
+    "release": "node ./scripts/release.js --conventionalPrerelease=true",
     "build:dev": "pnpm --filter  @micro-frame/sc-slave  --filter  @micro-frame/sc-runtime   --filter  @micro-frame/plugin-microlayout build:dev",
     "check-deps": "node ./scripts/checkDeps.js",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./ && npm run lint:prettier",
