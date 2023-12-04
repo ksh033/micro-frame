@@ -78,6 +78,7 @@ const BsUpload: FormComponent<BsUploadProps> = (props: BsUploadProps) => {
   } = props;
   const user = getUser();
   const headers: any = { 'version': '1.0' };
+  
   if (user) {
     headers.token = user.token;
     headers['sys-code'] = user.userAppInfo.currentSystem?.systemCode;
