@@ -60,7 +60,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
     readonly,
     initialValues,
     rulesRequire = false,
-    placeholder,
+   // placeholder,
     onChange,
     ranges,
     presetType = "preset1",
@@ -230,6 +230,7 @@ const BsRangePicker: FormComponent<RangePickerProps & BsRangePickerProps> = (
         >
           <RangePicker
             format={cformat}
+            
             onChange={handleChange}
             style={{ width: '100%' }}
             {...newProps}
