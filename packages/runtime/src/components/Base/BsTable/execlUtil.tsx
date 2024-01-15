@@ -1,7 +1,10 @@
 import { genColumnKey } from "@scboson/sc-element/es/sc-table/utils";
-import { ProColumn } from "@scboson/sc-schema/es/interface";
+
 
 import { ExportExeclConfig } from "./index";
+import { ProColumns } from "@scboson/sc-schema";
+
+
 
 const execlColumnsFormat = (
   list: any[],
@@ -9,12 +12,14 @@ const execlColumnsFormat = (
   exportExeclConfig: ExportExeclConfig
 ) => {
   const newList = list
-    .map((col: ProColumn, index: number) => {
+    .map((col, index: number) => {
+
+      const { dataIndex, children } = col as any
       //去除操作列
-      if (col.dataIndex === "_OperateKey") {
+      if (dataIndex === "_OperateKey") {
         return false;
       }
-      const columnKey = genColumnKey(col.dataIndex, index);
+      const columnKey = genColumnKey(dataIndex, index);
       const config = map[columnKey];
       if (col.exportConfig === false) {
         return false;
@@ -29,20 +34,20 @@ const execlColumnsFormat = (
       if (col.exportConfig) {
         if (typeof col.exportConfig === "boolean") {
           column = {
-            field: col.dataIndex,
+            field: dataIndex,
             text: col.title,
             width: col.width, //((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
           };
         } else {
           column = {
-            field: col.exportConfig.dataIndex || col.dataIndex,
+            field: col.exportConfig.dataIndex || dataIndex,
             text: col.exportConfig.name || col.title,
             width: col.width, //((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
           };
         }
       } else {
         column = {
-          field: col.dataIndex,
+          field: dataIndex,
           text: col.title,
           width: col.width, //((col.width && col.width !== "auto" ? col.width : 180) - 5) / 6
         };
@@ -92,9 +97,9 @@ const execlColumnsFormat = (
           column = Object.assign({}, column, item);
         }
       }
-      if (Array.isArray(col.children) && col.children.length > 0) {
+      if (Array.isArray(children) && children.length > 0) {
         column.children = execlColumnsFormat(
-          col.children,
+          children,
           map,
           exportExeclConfig
         );

@@ -4,7 +4,7 @@ import {
   FormComponentProps,
   FormComponent,
 } from "@scboson/sc-element/es/c-form";
-import moment from "moment";
+import moment from "dayjs";
 
 type BsTimePicker = Omit<TimePickerProps, "value" | "onChange" | "format"> &
   FormComponentProps & {
@@ -27,7 +27,7 @@ const BsTimePicker: FormComponent<BsTimePicker> = (props) => {
     ...resProps
   } = props;
 
-  const handleChange = (time: moment.Moment | null, timeString: string) => {
+  const handleChange = (time: moment.Dayjs | null, timeString: string) => {
     onChange?.(timeString);
   };
 

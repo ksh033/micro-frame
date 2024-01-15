@@ -13,8 +13,18 @@
     "declaration": true,
     "skipLibCheck": true,
     "paths": {
-      "@micro-frame/sc-runtime": ["./packages/runtime/src/index.ts"],
-      "@@/*": ["packages/web/src/.umi/*"]
+      "@micro-frame/sc-runtime": [
+        "./packages/runtime/src/index.ts"
+      ],
+      "@micro-frame/plugin-microlayout": [
+        "./packages/plugin-microlayout/src/index.ts"
+      ],
+      "@micro-frame/sc-slave": [
+        "./packages/slave/src/index.ts"
+      ],
+      "@@/*": [
+        "packages/web/src/.umi/*"
+      ]
     }
   },
   "typings": "./typings.d.ts",
@@ -27,6 +37,7 @@
     "tests",
     "jest.config.js",
     "**/fixtures",
-    "./tests/no-duplicated.ts"
-, "packages/runtime/publish/iconfont.js"  ]
+    "./tests/no-duplicated.ts",
+    "packages/runtime/publish/iconfont.js"
+  ]
 }

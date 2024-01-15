@@ -13,7 +13,7 @@ import {
   PageContainer,
 } from '@micro-frame/sc-runtime';
 
-import {useLocation} from 'umi';
+import { useLocation } from 'umi';
 import type { User } from '@micro-frame/sc-runtime/es/components/Auth';
 import { setUser } from '@micro-frame/sc-runtime/es/components/Auth';
 import { CModal } from '@scboson/sc-element';
@@ -30,12 +30,12 @@ interface SettingsState {
 
 const Page: FC<any> = (props) => {
   //const { location } = props;
-const location=useLocation()
-//console.log(searchParams)
- // const param=serializeFormQuery(useSearchParams())
-//  location.search
-  const pageParams:any = {};
-  const defaultKey:any = location.search || 'base';
+  const location = useLocation()
+  //console.log(searchParams)
+  // const param=serializeFormQuery(useSearchParams())
+  //  location.search
+  const pageParams: any = {};
+  const defaultKey: any = location.search || 'base';
 
   const bindwx = useServiceRequest('user', 'bindwx');
   const user = Auth.getUser();
@@ -145,9 +145,9 @@ const location=useLocation()
     return null;
   };
 
-  const menuItems=[{key:'base',label:'基础信息'},
-  {key:'password',label:'基础信息'},
-  {key:'binding',label:'基础信息'}
+  const menuItems = [{ key: 'base', label: '基础信息' },
+  { key: 'password', label: '基础信息' },
+  { key: 'binding', label: '基础信息' }
   ]
 
   return (

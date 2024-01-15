@@ -14,9 +14,9 @@ import Operation from './Operation';
 // @ts-ignore
 import { setLocalSearchParams } from "@scboson/sc-schema/es/hooks/useListPage";
 // @ts-ignore
-import { history } from 'umi';
-import { useRequest, useSafeState, useUpdateEffect, useLocalStorageState } from 'ahooks';
-import { useSize } from 'ahooks';
+import { history } from '@@/plugin-microlayout/umi';
+import { useRequest, useSafeState, useUpdateEffect, useLocalStorageState, useSize } from 'ahooks';
+
 import TotalSymmary, { digColumns } from './TotalSymmary';
 import { ListToolBarProps, ListToolBarMenuItem } from '@scboson/sc-element/es/sc-table/typing';
 import { ListPageContext } from '@scboson/sc-schema';
@@ -122,6 +122,7 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   const routerContext = useContext(RouteContext)
 
   if (JSON.stringify(listContext) !== '{}') {
+    //@ts-ignore
     restProps.sticky = { offsetHeader: routerContext.headerHeight || 48 }
   }
 
@@ -554,26 +555,26 @@ const BsTable: React.FC<BsTableProps> = (props: BsTableProps) => {
   return (
     <>
       <ScTable
-          scroll={{ ...scroll }}
-          size="small"
-          className="bs-table-list"
-          onLoad={dataLoad}
-          data={data}
-          columns={newColumns}
-          toolBarRender={newToolBarRender}
-          toolbar={getToolbarProps(activeKey, groupLabelsMap)}
-          options={options}
-          saveRef={(action: any) => {
-            if (saveRef) {
-              saveRef.current = action;
-            }
-            actionRef.current = action;
-          }}
-          params={newParams}
-          pagination={newPagination}
-          {...defaultSummary}
-          {...restProps}
-        />
+        scroll={{ ...scroll }}
+        size="small"
+        className="bs-table-list"
+        onLoad={dataLoad}
+        data={data}
+        columns={newColumns}
+        toolBarRender={newToolBarRender}
+        toolbar={getToolbarProps(activeKey, groupLabelsMap)}
+        options={options}
+        saveRef={(action: any) => {
+          if (saveRef) {
+            saveRef.current = action;
+          }
+          actionRef.current = action;
+        }}
+        params={newParams}
+        pagination={newPagination}
+        {...defaultSummary}
+        {...restProps}
+      />
     </>
   );
 };

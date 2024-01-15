@@ -225,7 +225,7 @@ const changeApp = (sysCode: string) => {
 
 const getUser = (): GetUser | null | undefined => {
   const currentUser: any = getStorage(User_Key);
-  if (currentUser){
+  if (currentUser) {
     const tuserApp = getStorage<CurrentDeptProps>(AppsUser_Key);
 
     if (tuserApp) {
@@ -403,7 +403,7 @@ const getDeptEnabled = (warnstr: string = "该仓库已被禁用，无法创建"
   const bizDeptType = user?.userAppInfo.currentDept?.bizDeptType;
   const enabled = user?.userAppInfo.currentDept?.enabled;
   if (bizDeptType === "WAREHOUSE" && enabled === false) {
-    message.warn(warnstr);
+    message.warning(warnstr);
     return false;
   }
 

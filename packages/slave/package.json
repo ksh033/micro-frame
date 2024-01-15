@@ -12,13 +12,12 @@
     "build:dev": "father dev",
     "build": "father build"
   },
-  
   "dependencies": {
     "@ant-design/compatible": "^5.1.1",
     "@micro-frame/plugin-microlayout": "alpha",
     "@micro-frame/sc-runtime": "alpha",
-    "@umijs/max": "^4.0.70",
-    "@umijs/preset-umi": "^4.0.70",
+    "@umijs/max": "^4.1.0",
+    "@umijs/preset-umi": "^4.1.0",
     "cross-env": "^7.0.3",
     "prettier": "^2.8.8",
     "puppeteer-core": "^8.0.0",
@@ -28,12 +27,11 @@
     "query-string": "^6.14.1",
     "antd": "^5.6.1"
   },
- 
   "devDependencies": {
     "@types/classnames": "^2.3.1",
     "@types/history": "^4.7.11",
     "@types/lodash": "^4.14.195",
-    "@types/react": "18.0.33",
+    "@types/react": "^18.0.33",
     "@types/react-dom": "^18.2.5",
     "@types/react-helmet": "^6.1.6",
     "babel-plugin-import": "^1.13.6"

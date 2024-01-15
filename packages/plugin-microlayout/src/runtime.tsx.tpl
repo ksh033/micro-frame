@@ -2,7 +2,9 @@
 {{#localLayout}}
 import React from 'react';
 import {SchemaContext} from '@scboson/sc-schema';
-import {AppStart,BsTable,Auth} from '@micro-frame/sc-runtime';
+import * as AppStart from '@micro-frame/sc-runtime/es/components/AppStart'
+import BsTable from '@micro-frame/sc-runtime/es/components/BsTable'
+import Auth from '@micro-frame/sc-runtime/es/components/Auth'
 import MasterApp from './layout/layout/MasterApp';
 import {createHistory,history} from "@@/core/history";
 import { getPluginManager } from "@@/core/plugin";

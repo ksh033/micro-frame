@@ -5,7 +5,7 @@ import RetrievePassword from "../Login/retrievepassword";
 import { getUser } from "../Auth";
 import NoFoundPage from "../Layout/404";
 // @ts-ignore
-import { history } from "umi";
+import { history  } from "@@/core/history";
 export function onRouteChange({ location }: any) {
   // if (matchedRoutes.length) {
   // document.title = matchedRoutes[matchedRoutes.length - 1].route.title || '';

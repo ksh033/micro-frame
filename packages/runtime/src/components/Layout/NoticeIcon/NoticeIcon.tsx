@@ -27,8 +27,8 @@ export type NoticeIconProps = {
   clearClose?: boolean;
   emptyImage?: string;
   children?:
-    | React.ReactElement<NoticeIconTabProps>[]
-    | React.ReactElement<NoticeIconTabProps>;
+  | React.ReactElement<NoticeIconTabProps>[]
+  | React.ReactElement<NoticeIconTabProps>;
 };
 
 const NoticeIcon: React.FC<NoticeIconProps> & {
@@ -143,7 +143,7 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
     onChange: props.onPopupVisibleChange,
   });
   const noticeButtonClass = classNames(className, styles.noticeButton);
-  const notificationBox:any = getNotificationBox();
+  const notificationBox: any = getNotificationBox();
   const NoticeBellIcon = bell || <BellOutlined className={styles.icon} />;
   const trigger = (
     <span className={classNames(noticeButtonClass, { opened: visible })}>
@@ -163,14 +163,19 @@ const NoticeIcon: React.FC<NoticeIconProps> & {
   return (
     <HeaderDropdown
       placement="bottomRight"
-      dropdownRender={()=>{
+      dropdownRender={() => {
         return notificationBox
       }}
-     // overlay={}
+      // overlay={}
       overlayClassName={styles.popover}
       trigger={["click"]}
       open={visible}
-      onOpenChange={setVisible}
+      onOpenChange={(open: boolean, info: {
+        source: 'trigger' | 'menu';
+      }) => {
+
+        setVisible(open)
+      }}
     >
       {trigger}
     </HeaderDropdown>

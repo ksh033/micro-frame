@@ -1,12 +1,12 @@
 import React, { useMemo, useRef, useState } from "react";
 //@ts-ignore
-import { history, Link, useLocation, useAppData, Outlet, matchRoutes, useModel } from "umi";
+import { Link, useLocation, useAppData, matchRoutes, useModel } from "umi";
 
-import { getAppCode, getUser, getUserAppCode } from "../Auth";
+import { getAppCode, getUserAppCode } from "../Auth";
 import BsTable from "../Base/BsTable";
 import "./index.less";
 
-import { RouteContext, LayoutContext, ErrorBoundary, MenuDataItem, getMenuData } from "@scboson/sc-layout";
+import { RouteContext, ErrorBoundary, MenuDataItem, getMenuData } from "@scboson/sc-layout";
 // @ts-ignore
 import { useMount } from "ahooks";
 

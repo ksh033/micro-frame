@@ -6,7 +6,8 @@ import { uesRequest } from "../../utils/api";
 import { setUser, clearUser } from "../Auth";
 //@ts-ignore
 import { history } from "@@/core/history";
-import { useLocation } from "@umijs/renderer-react";
+//@ts-ignore
+import { useLocation } from "umi";
 import queryString from "query-string";
 
 import styles from "./index.less";

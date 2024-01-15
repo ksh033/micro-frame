@@ -6,12 +6,11 @@
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap.js",
     "build": "pnpm --filter=!@micro-frame/sc-web build",
-  
+    "build:dev": "pnpm --parallel  --filter=!@micro-frame/sc-web build:dev",
     "build2": "pnpm --filter  @micro-frame/sc-slave build:dev",
     "build3": "pnpm --filter  @micro-frame/sc-runtime build:dev",
     "build4": "pnpm --filter  @micro-frame/plugin-microlayout build:dev",
     "release": "node ./scripts/release.js --conventionalPrerelease=true",
-    "build:dev": "pnpm --filter  @micro-frame/sc-slave  --filter  @micro-frame/sc-runtime   --filter  @micro-frame/plugin-microlayout build:dev",
     "check-deps": "node ./scripts/checkDeps.js",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./ && npm run lint:prettier",
     "lint:prettier": "npm run prettier &&  git diff && prettier --version && prettier --check \"packages/**/**.{js,jsx,tsx,ts,less,md,json}\" --end-of-line auto",
@@ -24,8 +23,8 @@
     "update:deps": "yarn upgrade"
   },
   "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "resolutions": {},
   "devDependencies": {
@@ -44,7 +43,7 @@
     "@types/jest": "^26.0.24",
     "@types/memoize-one": "^5.1.2",
     "@types/node": "^14.18.51",
-    "@types/react": "18.0.33",
+    "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.5",
     "@types/react-helmet": "^6.1.6",
     "@types/react-intl": "^3.0.0",
@@ -54,10 +53,10 @@
     "@types/warning": "^3.0.0",
     "@types/xhr-mock": "^2.0.0",
     "@umijs/fabric": "^4.0.1",
-    "@umijs/lint": "^4.0.70",
-    "@umijs/max": "^4.0.70",
-    "@umijs/preset-umi": "^4.0.70",
-    "@umijs/utils": "^4.0.70",
+    "@umijs/lint": "^4.1.0",
+    "@umijs/max": "^4.1.0",
+    "@umijs/preset-umi": "^4.1.0",
+    "@umijs/utils": "^4.1.0",
     "antd": "^5.6.1",
     "array-move": "^4.0.0",
     "babel-loader": "^9.1.2",
@@ -95,7 +94,7 @@
     "stylelint": "^13.13.1",
     "ts-node": "^10.9.1",
     "typescript": "~4.8.4",
-    "umi": "^4.0.70"
+    "umi": "^4.1.0"
   },
   "packageManager": "pnpm@8.2.0",
   "name": "micro-frame"

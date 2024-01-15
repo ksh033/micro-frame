@@ -24,6 +24,7 @@ const Operation: React.FC<PropsWithChildren<OperationProps>> = (props) => {
           const newProps = { key: `bt_${index}` };
           children.push(React.cloneElement(item, { ...newProps }));
         } else {
+          //@ts-ignore
           children.push(<BsTableButton {...item} key={`bt_${index}`} />);
         }
         if (index !== length - 1) {

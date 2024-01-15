@@ -4,7 +4,10 @@
     "baseUrl": "./",
     "target": "esnext",
     "moduleResolution": "Node",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -12,17 +15,22 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //"suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@publish/*": ["publish/*"],
-      "@@service": ["src/services/api.ts"]
+      "@/*": [
+        "src/*"
+      ],
+      "@publish/*": [
+        "publish/*"
+      ],
+      "@@service": [
+        "src/services/api.ts"
+      ]
     }
   },
   "typings": "./src/typings.d.ts",
-
   "exclude": [
     "src/global",
     "src/pages/**",
