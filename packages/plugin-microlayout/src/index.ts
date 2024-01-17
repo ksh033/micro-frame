@@ -56,7 +56,7 @@ export default (api: IApi) => {
       // locale: false,
       // showBreadcrumb: true,
       useRunTime: true,
-      useAccess:true,
+      useAccess: true,
       localMenuData: true,
       localLayout: true,
       ...(config.microlayout || {}),
@@ -69,23 +69,23 @@ export default (api: IApi) => {
       layoutOpts.localLayout = false;
     }
     //micro-basic
-    if ( NODE_ENV !== "production"){
+    if (NODE_ENV !== "production") {
       let base = "/";
-      if (!layoutOpts.localMenuData){
+      if (!layoutOpts.localMenuData) {
         if (packageName.indexOf("micro-") > -1) {
           base = "/" + packageName.replace("micro-", "");
         }
       }
-    
-      if (!layoutOpts.localLayout){
-        config.publicPath=base
-        config.publicPath=`/${packageName}/`
+
+      if (!layoutOpts.localLayout) {
+        config.publicPath = base
+        config.publicPath = `/${packageName}/`
       }
     }
-  
 
 
-    
+
+
   };
   initConfig(api.userConfig);
   // api.modifyConfig((memo, { paths }) => {
@@ -114,12 +114,12 @@ export default (api: IApi) => {
     }
   }
   //映射@@service
-  api.modifyTSConfig((memo:any)=>{
+  api.modifyTSConfig((memo: any) => {
 
     memo.compilerOptions.paths['@@service'] = ["src/services/index.ts"];
     return memo;
 
- 
+
   })
   api.modifyConfig((config) => {
     // @ts-ignore
@@ -194,7 +194,7 @@ export default (api: IApi) => {
     const currentLayoutComponentPath =
       layoutComponent[theme] || layoutComponent["PRO"];
     console.log(currentLayoutComponentPath);
- //   if (!layoutOpts.localLayout){
+    //   if (!layoutOpts.localLayout){
     api.writeTmpFile({
       path: "Layout.tsx",
       content: getLayoutContent(layoutOpts, "./layout/index.tsx"),
@@ -205,10 +205,10 @@ export default (api: IApi) => {
     });
 
     let rendereReactPath = "";
-   // const model = require("module");
-   // const projectM = model.createRequire(api.paths.cwd);
+    // const model = require("module");
+    // const projectM = model.createRequire(api.paths.cwd);
     try {
-      rendereReactPath=require.resolve("@umijs/renderer-react/package.json")
+      rendereReactPath = require.resolve("@umijs/renderer-react/package.json", { paths: [api.cwd] }) || require.resolve("@umijs/renderer-react/package.json")
       // const presetUmiPath = projectM.resolve("@umijs/preset-umi");
       // const presetUmi = model.createRequire(presetUmiPath);
       // rendereReactPath = presetUmi.resolve(
@@ -291,7 +291,7 @@ export default (api: IApi) => {
   });
 
   api.modifyAppData((memo) => {
-    memo.globalLoading=withTmpPath({ api, path: './layout/Loading.tsx' })
+    memo.globalLoading = withTmpPath({ api, path: './layout/Loading.tsx' })
     return memo;
   })
 
@@ -305,16 +305,16 @@ export default (api: IApi) => {
         route.path = route.path.replaceAll("[", ":").replaceAll("]", "");
       }
     });
-    if (!memo["404"]){
+    if (!memo["404"]) {
       //@ts-ignore
-      memo["404"]={
-        path:"*",
-        id:"404"
+      memo["404"] = {
+        path: "*",
+        id: "404"
       }
-    
+
     }
-    memo["404"].parentId="layout"
-    memo["404"].file=withTmpPath({ api, path: './layout/NoFoundPage.tsx' });
+    memo["404"].parentId = "layout"
+    memo["404"].file = withTmpPath({ api, path: './layout/NoFoundPage.tsx' });
     return memo;
   });
   if (layoutOpts.useRunTime) {
@@ -332,16 +332,16 @@ export default (api: IApi) => {
           },
         ];
       });
-    }else{
+    } else {
       const runtimePath = winPath(
         dirname(require.resolve('@micro-frame/sc-runtime')),
       );
-      
+
       // console.log("runtimePath",runtimePath)
       // const layoutPath = join(runtimePath.replace("/lib",""), './es/components/Layout/SlaveLayout');
       // console.log("layoutPath",layoutPath)
       api.addLayouts(() => {
-        
+
         return [
           {
             id: "layout",
@@ -357,7 +357,7 @@ export default (api: IApi) => {
           },
         ];
       });
-   
+
     }
   }
 };

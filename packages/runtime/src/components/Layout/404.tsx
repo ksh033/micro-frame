@@ -1,6 +1,6 @@
 
 //@ts-ignore
-import { history } from 'umi';
+import { history } from '@@/core/history';
 import { Button, Result } from 'antd';
 import React from 'react';
 

@@ -24,14 +24,14 @@
   "keywords": [],
   "authors": [],
   "license": "MIT",
-  "peerDependencies": {
+  "peerDependencies": {},
+  "devDependencies": {
     "umi": ">=4.1.0",
     "@umijs/renderer-react": "^4.1.0",
     "@umijs/bundler-utils": "^4.1.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.22.5",
-    "@micro-frame/sc-runtime": "workspace:*",
     "@scboson/sc-schema": "alpha"
   },
   "scripts": {

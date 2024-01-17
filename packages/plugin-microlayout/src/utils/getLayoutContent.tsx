@@ -3,8 +3,9 @@ export default (
   userConfig: LayoutConfig,
   path: string
 ) => `import React, { useState, useEffect } from "react";
-import { ApplyPluginsType, useModel,useAppData} from "umi";
-import 'antd/es/style/reset.css';
+import { useAppData} from "@@/plugin-microlayout/umi";
+import {  useModel} from "@@/plugin-model";
+
 import LayoutComponent from '${path}';
 import {Auth} from '@micro-frame/sc-runtime';
 
@@ -21,7 +22,7 @@ export default props => {
     const useRuntimeConfig =
     pluginManager.applyPlugins({
         key: "microlayout",
-        type: ApplyPluginsType.modify,
+        type: "modify",
         initialValue: initialInfo
       }) || {};
     if (useRuntimeConfig instanceof Promise) {

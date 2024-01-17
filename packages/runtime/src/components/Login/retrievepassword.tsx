@@ -4,7 +4,7 @@ import { urlSafeBase64Decode, urlSateBase64Encode } from "../../utils/common";
 import SMSCode from "../SMSCode";
 import { uesRequest } from "../../utils/api";
 //@ts-ignore
-import { history } from "umi";
+import { history } from "@@/plugin-microlayout/umi";
 import styles from "./index.less";
 import logo from "../../assets/login/logo.png";
 import { chenkPwdStrength } from "./components/check";
@@ -131,7 +131,7 @@ const RetrievePassword: React.FC<any> = (props: any) => {
                 name="pwd"
                 rules={[
                   { required: true, message: "请输入密码", min: 8 },
-                  ({}: any) => ({
+                  ({ }: any) => ({
                     validator(rule: any, value: any) {
                       if (chenkPwdStrength(value) >= 60) {
                         return Promise.resolve();

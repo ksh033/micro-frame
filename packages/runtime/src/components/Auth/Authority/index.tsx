@@ -1,6 +1,6 @@
 import React from "react";
 // @ts-ignore
-import { useModel } from "umi";
+import { useModel } from "@@/plugin-microlayout/umi"
 type AuthorityType = {
   buttons?: any[];
   funcode?: any;

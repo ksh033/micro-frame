@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 //@ts-ignore
-import { Link, useLocation, useAppData, matchRoutes, useModel } from "umi";
+import { Link, useLocation, useAppData, matchRoutes, useModel } from "@@/plugin-microlayout/umi";
 
 import { getAppCode, getUserAppCode } from "../Auth";
 import BsTable from "../Base/BsTable";

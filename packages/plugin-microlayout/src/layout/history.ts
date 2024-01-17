@@ -34,14 +34,14 @@ function patchTo(to: any) {
     }
 }
 
-let history:typeof h={
+let history: typeof h = {
     ...h,
     push(to, state) {
         h.push(patchTo(to), state);
-      },
-      replace(to, state) {
+    },
+    replace(to, state) {
         h.replace(patchTo(to), state);
-      },
+    },
 }
 
 export { history }

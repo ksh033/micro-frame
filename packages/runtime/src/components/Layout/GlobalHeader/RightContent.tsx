@@ -8,7 +8,7 @@ import Avatar from "./AvatarDropdown";
 import NoticeIconView from "../NoticeIcon";
 import "./index.less";
 // @ts-ignore
-import { history } from "umi";
+import { history } from "@@/plugin-microlayout/umi";
 import { Button, Space } from "antd";
 
 export type SiderTheme = "light" | "dark";

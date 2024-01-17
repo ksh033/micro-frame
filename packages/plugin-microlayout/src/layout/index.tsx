@@ -9,7 +9,7 @@ import { BsTable } from "@micro-frame/sc-runtime";
 import { SchemaContext } from "@scboson/sc-schema";
 const { Operation } = BsTable;
 //@ts-ignore
-import { Outlet, useLocation, useParams } from "umi";
+import { Outlet, useLocation, useParams } from "@@/plugin-microlayout/umi";
 import { dataflowProvider } from "@@/plugin-model/runtime";
 import { Layout } from "@micro-frame/sc-runtime";
 

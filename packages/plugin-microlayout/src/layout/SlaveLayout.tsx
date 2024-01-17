@@ -6,14 +6,10 @@ import { BsTable } from "@micro-frame/sc-runtime";
 import { SchemaContext } from "@scboson/sc-schema";
 const { Operation } = BsTable;
 //@ts-ignore
-import { Outlet, useLocation } from "umi";
-
+import { Outlet, useLocation } from "@@/plugin-microlayout/umi";
 import { SlaveLayout } from "@micro-frame/sc-runtime";
 
 export default function MicroApp(componentProps: any) {
-
-
-
   const location = useLocation()
 
   return (
@@ -25,7 +21,7 @@ export default function MicroApp(componentProps: any) {
     >
       <SlaveLayout {...componentProps}>
 
-          <Outlet context={{location}}></Outlet>
+        <Outlet context={{ location }}></Outlet>
 
       </SlaveLayout>
     </SchemaContext.Provider>

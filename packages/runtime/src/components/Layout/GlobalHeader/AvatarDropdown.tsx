@@ -11,7 +11,7 @@ import { GetUser } from "../../Auth";
 import HeaderDropdown from "../HeaderDropdown";
 import logo from "../../../assets/BiazfanxmamNRoxxVxka.png";
 // @ts-ignore
-import { history } from "umi";
+import { history } from "@@/plugin-microlayout/umi";
 import "./index.less";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 
@@ -53,23 +53,23 @@ class AvatarDropdown extends React.Component<
 
     if (menu) {
       items.push({
-        key:'settings',
-        icon:<UserOutlined />,
-        label:'个人设置'
+        key: 'settings',
+        icon: <UserOutlined />,
+        label: '个人设置'
       })
       items.push({
-        key:'downloadPlugIN',
-        icon:<DownloadOutlined />,
-        label:'下载打印插件'
+        key: 'downloadPlugIN',
+        icon: <DownloadOutlined />,
+        label: '下载打印插件'
       })
       items.push({
-       type:'divider'
+        type: 'divider'
       })
       items.push({
-        key:'logout',
-        icon:<LogoutOutlined />,
-        label:'退出登录'
-       })
+        key: 'logout',
+        icon: <LogoutOutlined />,
+        label: '退出登录'
+      })
       // items.push(<Menu.Item key="downloadPlugIN">
       //   <DownloadOutlined />
       //   <text className="menu-text">下载打印插件</text>
@@ -83,24 +83,24 @@ class AvatarDropdown extends React.Component<
       if (currentUser && currentUser.optionalDepts.length > 1) {
         items.unshift(
           {
-            key:'changeDept',
-            icon:<SettingOutlined />,
-            label:'切换机构'
-           }
-    )
+            key: 'changeDept',
+            icon: <SettingOutlined />,
+            label: '切换机构'
+          }
+        )
       }
 
     }
     const menuHeaderDropdown = (
       <Menu className="menu" selectedKeys={[]} items={items} onClick={this.onMenuClick}>
-        
+
       </Menu>
     );
     return currentUser && currentUser.realName ? (
       <HeaderDropdown menu={{
-        onClick:this.onMenuClick,
+        onClick: this.onMenuClick,
         items,
-        className:'menu'
+        className: 'menu'
       }} placement="bottom" >
         <span className="action account">
           <Avatar

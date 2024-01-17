@@ -8,7 +8,7 @@ import {
 } from '../Auth';
 import { uesRequest } from '../../utils/api';
 // @ts-ignore
-import { history } from 'umi';
+import { history } from '@@/core/history';
 import './index.less';
 import { message, Tooltip } from 'antd';
 import classnames from 'classnames';

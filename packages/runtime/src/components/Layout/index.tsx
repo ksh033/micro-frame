@@ -17,9 +17,9 @@ import {
 import { CModal } from '@scboson/sc-element';
 import { useExternal, useMount } from 'ahooks';
 // @ts-ignore
-import { history, Link, useModel, useLocation, useAppData, Outlet } from 'umi';
+import { history, Link, useModel, useLocation, useAppData } from '@@/plugin-microlayout/umi';
 
-import { filterRoutes, mapRoutes, useAccessMarkedRoutes } from './utils';
+import { filterRoutes, mapRoutes } from './utils';
 import BsIcon from '../Base/BsIcon';
 import { useUpdate } from 'ahooks';
 import logo from '../../assets/logo.svg';
@@ -251,7 +251,7 @@ export default (props: any) => {
             );
             return menus;
           }}
-          menuFooterRender={(_props: any) => {}}
+          menuFooterRender={(_props: any) => { }}
           menuItemRender={(item: any, dom) => {
             const { path } = item;
 

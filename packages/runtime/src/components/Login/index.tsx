@@ -7,7 +7,7 @@ import { setUser, clearUser } from "../Auth";
 //@ts-ignore
 import { history } from "@@/core/history";
 //@ts-ignore
-import { useLocation } from "umi";
+import { useLocation } from "@@/plugin-microlayout/umi";
 import queryString from "query-string";
 
 import styles from "./index.less";

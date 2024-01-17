@@ -1,6 +1,6 @@
 import { message, Modal } from "antd";
 // @ts-ignore
-import { history } from "umi";
+import { history } from "@@/plugin-microlayout/umi";
 
 /** "COMPANY" 集团 | "CHAIN_MANAGE_COMPANY" 连锁公司| "SHOP" 门店 */
 export type DeptType =
